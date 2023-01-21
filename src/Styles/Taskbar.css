@@ -1,0 +1,32 @@
+.taskbar-container
+{
+    background-image: linear-gradient(90deg, #3f3550, #523a54);
+    border-radius: 7px 7px 0px 0px;
+    width: fit-content;
+    padding: 10px 10px;
+}
+
+#taskbar-container
+{
+    display: grid;
+    grid-template-areas: "left mid right";
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    justify-content: center;
+    justify-items: end;
+}
+
+#background-apps
+{
+    grid-area: right;
+}
+
+.mid-grid-area
+{
+    grid-area: mid;
+}
+
+.center-grid
+{
+    justify-self: center;
+}

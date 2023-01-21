@@ -1,0 +1,9 @@
+#surface-background
+{
+    height: 100vh;
+    background-image: url("Imgs/background.png");
+    background-size: cover;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.95fr 0.05fr;
+}
