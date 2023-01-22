@@ -3,7 +3,8 @@
     background-image: linear-gradient(90deg, #3f3550, #523a54);
     border-radius: 7px 7px 0px 0px;
     width: fit-content;
-    padding: 10px 10px;
+    padding-inline: 3px;
+    padding-block: 3px 2px;
 }
 
 #taskbar-container
@@ -16,17 +17,14 @@
     justify-items: end;
 }
 
-#background-apps
+#taskbar-container > .taskbar-container
 {
-    grid-area: right;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
 }
 
-.mid-grid-area
-{
-    grid-area: mid;
-}
-
-.center-grid
-{
-    justify-self: center;
-}
+#background-apps {grid-area: right;}
+.mid-grid-area{grid-area: mid;}
+.center-grid{justify-self: center;}

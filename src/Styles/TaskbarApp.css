@@ -1,0 +1,59 @@
+.Taskbar-App > img.Taskbar-App-Main-Icon
+{
+    max-width: 25px;
+}
+
+.Taskbar-App {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    user-select: none;
+}
+
+.Taskbar-App::before
+{
+    content: "";
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    opacity: 0;
+    background-color: rgba(255, 255, 255, 0.05);
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid;
+    border-color: rgba(255, 255, 255, 0);
+    pointer-events: none;
+
+    transform: translate(-50%, -50%) scale(0.9);
+    transition: all 0.09s ease-in-out;
+    transition-property: opacity, transform, border-color;
+}
+
+.Taskbar-App:hover::before
+{
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    border-color:  rgba(255, 255, 255, 0.05);
+}
+
+.Open-Taskbar-App::after
+{
+    content: "";
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, -100%);
+    background-color: #93909f;
+    width: 4px;
+    height: 1.5px;
+    border-radius: 5px;
+    border: 1px solid;
+    border-color: rgba(255, 255, 255, 0);
+    pointer-events: none;
+}

@@ -5,5 +5,5 @@
     background-size: cover;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 0.95fr 0.05fr;
+    grid-template-rows: 1fr 0.05fr;
 }
