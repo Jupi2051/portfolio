@@ -1,6 +1,24 @@
+:root {
+    --accent-color: #d0b3d5;
+}
+
 .Taskbar-App > img.Taskbar-App-Main-Icon
 {
     max-width: 25px;
+    transition: none 0.09s ease;
+    transition-property: transform, filter, border-radius;
+}
+
+.Taskbar-App:active > img.Taskbar-App-Main-Icon
+{
+    transform: scale(0.85);
+}
+
+
+.Windows-Taskbar-Icon:active > img.Taskbar-App-Main-Icon
+{
+    border-radius: 1px;
+    filter: hue-rotate(20deg) brightness(80%) saturate(3.5);
 }
 
 .Taskbar-App {
@@ -38,10 +56,10 @@
 {
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
-    border-color:  rgba(255, 255, 255, 0.05);
+    border-color:rgba(255, 255, 255, 0.05);
 }
 
-.Open-Taskbar-App::after
+.Taskbar-App::after
 {
     content: "";
     display: block;
@@ -50,10 +68,26 @@
     left: 50%;
     transform: translate(-50%, -100%);
     background-color: #93909f;
-    width: 4px;
-    height: 1.5px;
+    width: 0px;
+    height: 0px;
     border-radius: 5px;
     border: 1px solid;
+    border-width: 0px;
     border-color: rgba(255, 255, 255, 0);
     pointer-events: none;
+    transition: none 0.3s ease;
+    transition-property: width, height, border-width;
+}
+
+.Open-Taskbar-App::after
+{
+    width: 4px;
+    height: 1.5px;
+    border-width: 1px;
+}
+
+.Focused-Taskbar-App::after
+{
+    background-color: var(--accent-color);
+    width: 16px;
 }

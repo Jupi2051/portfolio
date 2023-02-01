@@ -4,7 +4,7 @@ function OpenApps()
 {
     return(
         <div className="taskbar-container mid-grid-area center-grid">
-            <TaskBarApp Icon="/Imgs/Apps/Windows.png" />
+            <TaskBarApp Icon="/Imgs/Apps/Windows.png" HideStatusBar={true} isWindowsIcon={true}/>
             <TaskBarApp Icon="/Imgs/Apps/Explorer.png" />
             <TaskBarApp Icon="/Imgs/Apps/Edge.png" />
             <TaskBarApp Icon="/Imgs/Apps/TaskManager.png" />
