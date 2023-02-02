@@ -12,3 +12,8 @@
     font-family: "Segoe UI";
     src: local("Segoe UI"), url("/src/fonts/SEGOEUI.ttf") format("truetype");
 }
+
+@font-face {
+    font-family: "Segoe UI Light";
+    src: local("Segoe UI Light"), url("/src/fonts/SEGOEUI\ LIGHT.ttf") format("truetype");
+}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../Styles/Desktop-Icon.css";
+import "../Styles/DesktopIcon.css";
 
 type PropTypes = {
     ApplicationName: string
