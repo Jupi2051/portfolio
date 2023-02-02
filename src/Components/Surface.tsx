@@ -1,6 +1,7 @@
 import "../Styles/Surface.css";
 import Desktop from "./Desktop";
 import Taskbar from "./Taskbar";
+import "/src/fonts/SEGOEUI.ttf";
 
 type PropsTypes = {
     children: React.ReactNode;

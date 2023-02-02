@@ -1,10 +1,32 @@
 import "../Styles/Desktop.css"
+import DesktopIcon from "./DesktopIcon";
+
 
 function Desktop()
 {
     return (
         <div id="Desktop">
-            <h1>THIS IS DESKTOP</h1>
+            <DesktopIcon ApplicationName="Recycle Bin"/>
+            <DesktopIcon ApplicationName="Recycle Bin"/>
+            <DesktopIcon ApplicationName="Recycle Bin"/>
+            <DesktopIcon ApplicationName="Recycle Bin"/>
+            <DesktopIcon ApplicationName="Recycle Bin"/>
+            <DesktopIcon ApplicationName="Recycle Bin"/>
+            <DesktopIcon ApplicationName="Recycle Bin"/>
+            <DesktopIcon ApplicationName="Recycle Bin"/>
+            <DesktopIcon ApplicationName="Recycle Bin"/>
+            <DesktopIcon ApplicationName="Recycle Bin"/>
+            <DesktopIcon ApplicationName="Recycle Bin"/>
+            <DesktopIcon ApplicationName="Recycle Bin"/>
+            <DesktopIcon ApplicationName="Recycle Bin"/>
+            <DesktopIcon ApplicationName="Recycle Bin"/>
+            <DesktopIcon ApplicationName="Recycle Bin"/>
+            <DesktopIcon ApplicationName="Recycle Bin"/>
+            <DesktopIcon ApplicationName="Recycle Bin"/>
+            <DesktopIcon ApplicationName="Recycle Bin"/>
+            <DesktopIcon ApplicationName="Recycle Bin"/>
+            <DesktopIcon ApplicationName="Recycle Bin"/>
+            <DesktopIcon ApplicationName="Recycle Bin"/>
         </div>
     )
 }
