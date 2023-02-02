@@ -3,11 +3,7 @@ import Desktop from "./Desktop";
 import Taskbar from "./Taskbar";
 import "/src/fonts/SEGOEUI.ttf";
 
-type PropsTypes = {
-    children: React.ReactNode;
-}
-
-function Surface(props: any)
+function Surface()
 {
     return (
     <div id="surface-background">
