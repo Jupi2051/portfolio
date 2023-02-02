@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+
+div.Desktop-Time-Widget > h1
+{
+    font-family: 'Open Sans', sans-serif;
+    color: rgba(0, 0, 0, 0.486);
+}
+
+div.Desktop-Time-Widget
+{
+    width: fit-content;
+    position: absolute;
+    right: 5%;
+    top: 10%;
+    font-size: 2em;
+    font-weight: 100;
+}
