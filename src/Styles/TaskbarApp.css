@@ -17,7 +17,7 @@
 
 .Windows-Taskbar-Icon:active > img.Taskbar-App-Main-Icon
 {
-    border-radius: 1px;
+    border-radius: 4px;
     filter: hue-rotate(20deg) brightness(80%) saturate(3.5);
 }
 
