@@ -2,7 +2,8 @@ import { useState } from "react";
 import "../Styles/DesktopIcon.css";
 
 type PropTypes = {
-    ApplicationName: string
+    ApplicationName: string,
+    Icon: string
 }
 
 function DesktopIcon(Props: PropTypes)
@@ -22,7 +23,7 @@ function DesktopIcon(Props: PropTypes)
 
     return (
         <div className={ClassName} onClick={OnClickHandler}>
-            <img src="/Imgs/DesktopApps/RecycleBin.webp"/>
+            <img src={Props.Icon}/>
             <h1>{ApplicationName}</h1>
         </div>
     )

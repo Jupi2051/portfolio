@@ -1,0 +1,14 @@
+.date-time-container {
+    color: rgb(231, 231, 231);
+    font-family: "Segoe UI";
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.80em;
+    letter-spacing: -0.5px;
+    user-select: none;
+    font-weight: 100;
+}
+
+.date-time-container > p {
+    text-align: right;
+}

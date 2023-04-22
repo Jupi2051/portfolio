@@ -3,8 +3,8 @@
     background-image: linear-gradient(90deg, #3f3550, #523a54);
     border-radius: 7px 7px 0px 0px;
     width: fit-content;
-    padding-inline: 3px;
-    padding-block: 3px 2px;
+    padding-inline: 4px;
+    padding-block: 4px 2px;
 }
 
 #taskbar-container
@@ -22,7 +22,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 4px;
+    gap: 0px;
 }
 
 #background-apps {grid-area: right;}

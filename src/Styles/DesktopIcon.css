@@ -17,12 +17,15 @@ div.Desktop-Icon-Container > h1 {
     font-weight: 100;
     text-shadow: -1px -1px 1px #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     font-size: 0.78em;
+    margin-top: 6px;
     user-select: none;
+    pointer-events: none;
     filter: drop-shadow(0px 1px 2px #000);
 }
 
 div.Desktop-Icon-Container > img {
-    width: 80%;
+    width: 65%;
+    pointer-events: none;
 }
 
 div.Desktop-Icon-Container::after

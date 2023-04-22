@@ -1,0 +1,42 @@
+.background-apps-container {
+    display: flex;
+    flex-direction: row-reverse;
+    isolation: isolate;
+    gap: 10px !important;
+    overflow: hidden;
+    padding-inline: 20px;
+}
+
+.background-apps-container > * {
+    position: relative;
+    padding-block: 3px;
+}
+
+.background-apps-container > *::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* background-color: rgb(255, 0, 0); */
+    opacity: 0;
+    background-color: rgba(255, 255, 255, 0.05);
+    /* padding-block: 20px; */
+    border-radius: 5px;
+    border: 1px solid;
+    border-color: rgba(255, 255, 255, 0);
+    display: block;
+    width: 120%;
+    height: 40px;
+    z-index: -1;
+    
+    transform: translate(-50%, -50%) scale(0.9);
+    transition: all 0.09s ease-in-out;
+    transition-property: opacity, transform, border-color;
+}
+
+.background-apps-container > *:hover::before
+{
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    border-color:rgba(255, 255, 255, 0.05);
+}
