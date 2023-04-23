@@ -52,3 +52,12 @@ div.Selected-Desktop-Icon-Container::after
 {
     background-color: rgba(255, 255, 255, 0.2);
 }
+
+div.hollow-icon {
+    position: absolute;
+    pointer-events: none;
+    top: -40px;
+    left: -50px;
+    opacity: 0.6;
+    filter: blur(0.3px);
+}

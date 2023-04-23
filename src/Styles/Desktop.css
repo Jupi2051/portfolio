@@ -12,7 +12,10 @@
     grid-template-rows: repeat(auto-fill, minmax(max(var(--grid-item--min-width), var(--grid-item--max-width)), 1fr));
     grid-template-columns: repeat(auto-fill, minmax(max(var(--grid-item--min-width), var(--grid-item--max-width)), 1fr));
     grid-gap: var(--grid-layout-gap);
+
     column-gap: 3px;
+    row-gap: 3px;
+
     align-content: center;
     grid-auto-flow: column;
     grid-auto-columns: 100px;
