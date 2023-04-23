@@ -1,6 +1,5 @@
 import { useContext, useEffect, useMemo, useState } from "react";
 import "../Styles/DesktopIcon.css";
-import { DesktopContext } from "./Desktop";
 
 let Timer: number | undefined = undefined;
 
@@ -16,51 +15,20 @@ type PropTypes = {
     Style?: {
         gridRow?: number,
         gridColumn?: number
-    }
-    // ParentElement: HTMLDivElement | null
+    },
+    Selected: boolean
 }
 
 function DesktopIcon(Props: PropTypes)
 {
-    const ParentBox = useContext(DesktopContext);
     const [ApplicationName, SetAppName] = useState(Props.ApplicationName);
-    const [IsSelected, SetSelected] = useState(false);
-    const [isHoldClicked, SetHoldClick] = useState(false);
+    const IsSelected = Props.Selected;
     
-    useEffect(() => {
-        if (isHoldClicked)
-            Timer = setInterval(OnHoldClick, 10);
-        else
-            onMouseUp();
-    }, [isHoldClicked])
-
-    function OnClickHandler()
-    {
-        SetSelected(!IsSelected);
-    }
-
-    function OnHoldClick()
-    {
-        // console.log(Props.ParentElement?.getBoundingClientRect());
-    }
-
-    function onMouseDown()
-    {
-        SetHoldClick(true);
-        SetSelected(true);
-    }
-
-    function onMouseUp()
-    {
-        SetHoldClick(false);
-        clearInterval(Timer);
-    }
-
     let ClassName = "Desktop-Icon-Container";
     if (IsSelected) ClassName += " Selected-Desktop-Icon-Container";
 
     return (
-        <div style={{...Props.Style}} className={ClassName} onClick={OnClickHandler} onMouseDown={onMouseDown} onMouseUp={onMouseUp} data-id={Props.id}>
+        <div style={{...Props.Style}} className={ClassName} data-id={Props.id}>
             <img src={Props.Icon}/>
             <h1>{ApplicationName}</h1>
         </div>

@@ -1,4 +1,4 @@
-import { SyntheticEvent, createContext, useEffect, useRef, useState } from "react";
+import { SyntheticEvent, createContext, useEffect, useState } from "react";
 import "../Styles/Desktop.css"
 import DesktopIcon from "./DesktopIcon";
 import DesktopTimeWidget from "./Widgets/DesktopTimeWidget";
@@ -24,8 +24,6 @@ const DefaultDesktopSize = {
     height: 0,
 };
 
-export const DesktopContext = createContext<ContextData>(DefaultDesktopSize);
-
 type DesktopIconData = {
     id: number
     Name: string,
@@ -33,15 +31,16 @@ type DesktopIconData = {
     Style: {
         gridRow?: number,
         gridColumn?: number
-    }
+    },
+    Selected: boolean
 }
 
 let DesktopIcons: DesktopIconData[] = [
-    {id: 0, Name: "This PC", IconPath: "Imgs/DesktopApps/ThisPC.webp", Style: {}},
-    {id: 1, Name: "Recycle Bin", IconPath: "Imgs/DesktopApps/RecycleBin.webp", Style: {}},
-    {id: 2, Name: "This PC", IconPath: "Imgs/DesktopApps/ThisPC.webp", Style: {}},
-    {id: 3, Name: "Recycle Bin", IconPath: "Imgs/DesktopApps/RecycleBin.webp", Style: {}},
-    {id: 4, Name: "This PC", IconPath: "Imgs/DesktopApps/ThisPC.webp", Style: {}},
+    {id: 0, Name: "This PC", IconPath: "Imgs/DesktopApps/ThisPC.webp", Style: {}, Selected: false},
+    {id: 1, Name: "Recycle Bin", IconPath: "Imgs/DesktopApps/RecycleBin.webp", Style: {}, Selected: false},
+    {id: 2, Name: "This PC", IconPath: "Imgs/DesktopApps/ThisPC.webp", Style: {}, Selected: false},
+    {id: 3, Name: "Recycle Bin", IconPath: "Imgs/DesktopApps/RecycleBin.webp", Style: {}, Selected: false},
+    {id: 4, Name: "This PC", IconPath: "Imgs/DesktopApps/ThisPC.webp", Style: {}, Selected: false},
 ];
 
 let Timer: number;
@@ -55,7 +54,8 @@ function Desktop()
     const {ref, width = 1, height = 1} = useResizeObserver<HTMLDivElement>({box: "border-box"});
     const [HeldIconID, SetHeldIconId] = useState(-1); // -1 means no element is held atm.
     const [isMovingHeldIcon, SetMoveHeldIcon] = useState(false);
-    
+    const [ApplicationsArray, SetApplicationsArray] = useState(DesktopIcons);
+
     let DesktopSizingValue = {
         width,
         height,
@@ -67,18 +67,13 @@ function Desktop()
         if (isHoldClicked)
             Timer = setInterval(onHoldClick, 10);
         else
-            onMouseUp();
+            EndClick();
 
     }, [isHoldClicked])
 
     function OnClickDesktop(event: React.MouseEvent<HTMLInputElement>)
     {
-        const DesktopIconElement = event.target as Element;
-        if (DesktopIconElement.classList.contains("Desktop-Icon-Container"))
-        {
-            const ElementId = DesktopIconElement.getAttribute("data-id");
-            
-        }
+        
     }
 
     function onMouseMove(event: React.MouseEvent<HTMLDivElement, MouseEvent>)
@@ -101,6 +96,7 @@ function Desktop()
         if (isMovingHeldIcon) {
             const GridLocation = GetGridLocationFromMousePosition();
             UpdateElementGridLocation(HeldIconID, GridLocation);
+            SelectDesktopIcon(Number(HeldIconID), true);
         }
     }
 
@@ -112,6 +108,7 @@ function Desktop()
             else
                 return {...element};
         })
+        SetApplicationsArray(DesktopIcons);
     }
 
     function GetGridLocationFromMousePosition() : Point
@@ -134,6 +131,15 @@ function Desktop()
         };
     }
 
+    function SelectDesktopIcon(IconId: number, selected: boolean)
+    {
+        console.log(IconId, selected);
+        DesktopIcons = DesktopIcons.map((element) => {
+            return {...element, Selected: element.id === IconId};
+        });
+        SetApplicationsArray(DesktopIcons);
+    }
+
     function onDesktopResize(event: SyntheticEvent<HTMLDivElement, Event>)
     {
         console.log("resize");
@@ -152,13 +158,38 @@ function Desktop()
         }
     }
     
-    function onMouseUp()
+    function EndClick()
     {
         SetHoldClick(false);
         clearInterval(Timer);
         moveHeldElement();
         SetMoveHeldIcon(false);
         SetHeldIconId(-1);
+    }
+
+    function onMouseUp(event: React.MouseEvent<HTMLDivElement, MouseEvent>)
+    {
+        
+        const DesktopIconElement = event.target as Element;
+        if (DesktopIconElement.classList.contains("Desktop-Icon-Container"))
+        {
+            const ElementId = DesktopIconElement.getAttribute("data-id");
+            if (ElementId)
+            {
+                SelectDesktopIcon(Number(ElementId), true);
+            }
+        }
+        else
+        {
+            if (!isMovingHeldIcon)
+            {
+                DesktopIcons = DesktopIcons.map((e) => {return {...e, Selected: false}});
+                SetApplicationsArray(DesktopIcons);
+            }
+        }
+
+        EndClick();
+
     }
 
     function onHoldClick()
@@ -169,15 +200,17 @@ function Desktop()
 
     const MovingAppObject = DesktopIcons.find((e) => e.id === HeldIconID);
 
+    // console.log(DesktopIcons);
+
     return (
         <>
             <div id="Desktop" onClick={(e: React.MouseEvent<HTMLInputElement>) => {OnClickDesktop(e);}} ref={ref} onMouseMove={onMouseMove} onResize={onDesktopResize} onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
                 <div id="Desktop-Widgets">
                     <DesktopTimeWidget />
                 </div>
-                <DesktopContext.Provider value={DesktopSizingValue}>
-                    {DesktopIcons.map((desktopApp) => <DesktopIcon ApplicationName={desktopApp.Name} Icon={desktopApp.IconPath} id={desktopApp.id} Style={desktopApp.Style} key={desktopApp.id}/>)}
-                </DesktopContext.Provider>
+                {ApplicationsArray.map((desktopApp) =>
+                    <DesktopIcon ApplicationName={desktopApp.Name} Icon={desktopApp.IconPath} id={desktopApp.id} Style={desktopApp.Style} Selected={desktopApp.Selected} key={desktopApp.id}/>
+                )}
             </div>
             {isMovingHeldIcon? <MovingDesktopIcon MouseLocation={LocalMousePosition} ApplicationName={MovingAppObject?.Name} Icon={MovingAppObject?.IconPath} id={MovingAppObject?.id}/> : null}
         </>
