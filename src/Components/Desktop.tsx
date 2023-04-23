@@ -70,12 +70,7 @@ function Desktop()
             EndClick();
 
     }, [isHoldClicked])
-
-    function OnClickDesktop(event: React.MouseEvent<HTMLInputElement>)
-    {
-        
-    }
-
+    
     function onMouseMove(event: React.MouseEvent<HTMLDivElement, MouseEvent>)
     {
         const rect = event.currentTarget.getBoundingClientRect();
@@ -175,9 +170,7 @@ function Desktop()
         {
             const ElementId = DesktopIconElement.getAttribute("data-id");
             if (ElementId)
-            {
                 SelectDesktopIcon(Number(ElementId), true);
-            }
         }
         else
         {
@@ -189,7 +182,6 @@ function Desktop()
         }
 
         EndClick();
-
     }
 
     function onHoldClick()
@@ -200,11 +192,9 @@ function Desktop()
 
     const MovingAppObject = DesktopIcons.find((e) => e.id === HeldIconID);
 
-    // console.log(DesktopIcons);
-
     return (
         <>
-            <div id="Desktop" onClick={(e: React.MouseEvent<HTMLInputElement>) => {OnClickDesktop(e);}} ref={ref} onMouseMove={onMouseMove} onResize={onDesktopResize} onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
+            <div id="Desktop" ref={ref} onMouseMove={onMouseMove} onResize={onDesktopResize} onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
                 <div id="Desktop-Widgets">
                     <DesktopTimeWidget />
                 </div>
