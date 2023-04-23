@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: row-reverse;
     isolation: isolate;
-    gap: 10px !important;
+    gap: 15px !important;
     overflow: hidden;
     padding-inline: 20px;
 }
