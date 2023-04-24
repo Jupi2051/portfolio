@@ -1,13 +1,22 @@
-import { SyntheticEvent, createContext, useEffect, useState } from "react";
+import { ReactElement, SyntheticEvent, createContext, useEffect, useState } from "react";
 import "../Styles/Desktop.css"
-import DesktopIcon from "./DesktopIcon";
+import DesktopIcon, { DesktopAppsList } from "./DesktopIcon";
 import DesktopTimeWidget from "./Widgets/DesktopTimeWidget";
 import useResizeObserver from "use-resize-observer";
 import MovingDesktopIcon from "./MovingDesktopIcon";
+import AppWindow from "./AppWindow";
+import ApplicationsContainer from "./ApplicationsContainer";
+import DummyApp from "./Apps/DummyApp";
+import { AnimatePresence } from "framer-motion";
 
 type Point = {
     x: number,
     y: number
+}
+
+type OpenApplication = {
+    id: number,
+    App: ReactElement<{}>
 }
 
 type ContextData = {
@@ -32,8 +41,8 @@ type DesktopIconData = {
         gridRow?: number,
         gridColumn?: number
     },
-    Selected: boolean
-}
+    Selected: boolean,
+};
 
 let DesktopIcons: DesktopIconData[] = [
     {id: 0, Name: "This PC", IconPath: "Imgs/DesktopApps/ThisPC.webp", Style: {}, Selected: false},
@@ -43,7 +52,12 @@ let DesktopIcons: DesktopIconData[] = [
     {id: 4, Name: "This PC", IconPath: "Imgs/DesktopApps/ThisPC.webp", Style: {}, Selected: false},
 ];
 
+// let InitialOpenApplications =[
+    // {id: 1, App: <DummyApp CloseApp={() => CloseApp(1)} key={1}/>}
+// ]
+
 let Timer: number;
+
 const MaxDistanceBeforeMovementTrigger = 10;
 let LocalMousePosition: {x: number, y: number} = {x: 0, y: 0}
 
@@ -55,6 +69,9 @@ function Desktop()
     const [HeldIconID, SetHeldIconId] = useState(-1); // -1 means no element is held atm.
     const [isMovingHeldIcon, SetMoveHeldIcon] = useState(false);
     const [ApplicationsArray, SetApplicationsArray] = useState(DesktopIcons);
+    const [OpenApplications, SetOpenApplications] = useState([
+         {id: 1, App: <DummyApp CloseApp={() => CloseApp(1)} key={1}/>}
+    ]);
 
     let DesktopSizingValue = {
         width,
@@ -128,7 +145,6 @@ function Desktop()
 
     function SelectDesktopIcon(IconId: number, selected: boolean)
     {
-        console.log(IconId, selected);
         DesktopIcons = DesktopIcons.map((element) => {
             return {...element, Selected: element.id === IconId};
         });
@@ -164,7 +180,6 @@ function Desktop()
 
     function onMouseUp(event: React.MouseEvent<HTMLDivElement, MouseEvent>)
     {
-        
         const DesktopIconElement = event.target as Element;
         if (DesktopIconElement.classList.contains("Desktop-Icon-Container"))
         {
@@ -192,6 +207,17 @@ function Desktop()
 
     const MovingAppObject = DesktopIcons.find((e) => e.id === HeldIconID);
 
+    function CloseApp(id: number) : void
+    {
+        const UpdatedApps = OpenApplications.filter((element) => element.id !== id);
+        SetOpenApplications(UpdatedApps);
+    }
+
+    function OpenApp(something: OpenApplication) : void
+    {
+        SetOpenApplications([...OpenApplications, something]);
+    }
+
     return (
         <>
             <div id="Desktop" ref={ref} onMouseMove={onMouseMove} onResize={onDesktopResize} onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
@@ -199,8 +225,20 @@ function Desktop()
                     <DesktopTimeWidget />
                 </div>
                 {ApplicationsArray.map((desktopApp) =>
-                    <DesktopIcon ApplicationName={desktopApp.Name} Icon={desktopApp.IconPath} id={desktopApp.id} Style={desktopApp.Style} Selected={desktopApp.Selected} key={desktopApp.id}/>
+                    <DesktopIcon 
+                    ApplicationName={desktopApp.Name}
+                    Icon={desktopApp.IconPath} 
+                    id={desktopApp.id}
+                    Style={desktopApp.Style}
+                    Selected={desktopApp.Selected}
+                    key={desktopApp.id}
+                    OpenApp={OpenApp}
+                    CloseApp={CloseApp}
+                    AppName={DesktopAppsList.DummyApp} />
                 )}
+                <AnimatePresence>
+                    <ApplicationsContainer OpenApplications={OpenApplications} CloseApp={CloseApp} />
+                </AnimatePresence>
             </div>
             {isMovingHeldIcon? <MovingDesktopIcon MouseLocation={LocalMousePosition} ApplicationName={MovingAppObject?.Name} Icon={MovingAppObject?.IconPath} id={MovingAppObject?.id}/> : null}
         </>
