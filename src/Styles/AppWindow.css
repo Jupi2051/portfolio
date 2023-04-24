@@ -3,12 +3,12 @@
     width: 400px;
     height: 200px;
     top: 0%;
-    left: 20%;
+    left: 0%;
     border: 1px solid pink;
     margin-inline: auto;
     border-radius: 6px;
     overflow: hidden;
-    box-shadow: 0px 0px 32px 11px rgba(0,0,0,0.5);
+    box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.4);
 }
 
 .maximized-app-window {

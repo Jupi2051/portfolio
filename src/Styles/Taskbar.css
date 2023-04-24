@@ -5,6 +5,7 @@
     width: fit-content;
     padding-inline: 4px;
     padding-block: 4px 2px;
+    z-index: 2;
 }
 
 #taskbar-container
