@@ -14,9 +14,9 @@ type Point = {
     y: number
 }
 
-type OpenApplication = {
+export type OpenApplication = {
     id: number,
-    App: ReactElement<{}>
+    App: ReactElement<{}>,
 }
 
 type ContextData = {
@@ -69,9 +69,7 @@ function Desktop()
     const [HeldIconID, SetHeldIconId] = useState(-1); // -1 means no element is held atm.
     const [isMovingHeldIcon, SetMoveHeldIcon] = useState(false);
     const [ApplicationsArray, SetApplicationsArray] = useState(DesktopIcons);
-    const [OpenApplications, SetOpenApplications] = useState([
-         {id: 1, App: <DummyApp CloseApp={() => CloseApp(1)} key={1}/>}
-    ]);
+    const [OpenApplications, SetOpenApplications] = useState<OpenApplication[]>([]);
 
     let DesktopSizingValue = {
         width,
@@ -237,7 +235,7 @@ function Desktop()
                     AppName={DesktopAppsList.DummyApp} />
                 )}
                 <AnimatePresence>
-                    <ApplicationsContainer OpenApplications={OpenApplications} CloseApp={CloseApp} />
+                    <ApplicationsContainer OpenApplications={OpenApplications} />
                 </AnimatePresence>
             </div>
             {isMovingHeldIcon? <MovingDesktopIcon MouseLocation={LocalMousePosition} ApplicationName={MovingAppObject?.Name} Icon={MovingAppObject?.IconPath} id={MovingAppObject?.id}/> : null}

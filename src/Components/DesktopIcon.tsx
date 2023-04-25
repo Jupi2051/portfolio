@@ -1,19 +1,7 @@
 import { ReactElement, useContext, useEffect, useMemo, useState } from "react";
 import "../Styles/DesktopIcon.css";
 import DummyApp from "./Apps/DummyApp";
-
-let Timer: number | undefined = undefined;
-
-type Point = {
-    x: number,
-    y: number
-}
-
-type OpenApplication = {
-    id: number,
-    App: ReactElement<{}>
-}
-
+import { OpenApplication } from "./Desktop";
 
 type PropTypes = {
     ApplicationName: string,
@@ -46,11 +34,12 @@ function DesktopIcon(Props: PropTypes)
     function onClickApplication(event: React.MouseEvent<HTMLDivElement, MouseEvent>)
     {
         if (event.detail !== 2) return;
-        const id = Math.random();
+        const id = +new Date();
         switch(Props.AppName)
         {
             case DesktopAppsList.DummyApp: {
-                Props.OpenApp({id, App: <DummyApp CloseApp={() => Props.CloseApp(id)}/>})
+                Props.OpenApp({id,
+                    App: <DummyApp CloseApp={() => Props.CloseApp(id)} key={id}/>})
                 break;
             }
         }

@@ -8,13 +8,8 @@ type PropTypes = {
 type CloseAppFunction = () => void;
 
 const exitAndOpen = {
-    exit: {
-        opacity: 0,
-    },
-    init: {
-        opacity: 1,
-        scale: 1,
-    }
+    exit: {opacity: 0,},
+    init: {opacity: 1,scale: 1,}
 }
 
 function DummyApp(Props: PropTypes)

@@ -1,16 +1,9 @@
 import { AnimatePresence } from "framer-motion";
 import { ReactElement } from "react";
-
-type OpenApplication = {
-    id: number,
-    App: ReactElement<{}>
-}
-
-type CloseAppFunction = (id: number) => void;
+import { OpenApplication } from "./Desktop";
 
 type PropTypes = {
     OpenApplications: OpenApplication[],
-    CloseApp: CloseAppFunction,
 }
 
 function ApplicationsContainer(Props: PropTypes)
