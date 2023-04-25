@@ -4,13 +4,12 @@ import { AnimatePresence, Point, motion } from "framer-motion";
 import useMousePosition from "../Hooks/useMousePosition";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../Storage/Store";
-import { bringToFront, setZIndex, unhandleZIndex } from "../Storage/Slices/Main";
+import { bringToFront, closeApplication, setZIndex, unhandleZIndex } from "../Storage/Slices/Main";
 
 type CloseAppFunction = () => void;
 
 type PropType = {
     children?: ReactNode,
-    CloseApp?: CloseAppFunction,
     AppId: number
 }
 
@@ -33,7 +32,7 @@ function AppWindow(props: PropType)
     let FoundObject = WindowLocatorData.get(WindowId);
     if (!FoundObject)
     {
-        FoundObject = {Location: {x: 0, y: 0}};
+        FoundObject = {Location: {x: Math.floor((Math.random() * 200)), y: Math.floor((Math.random() * 200))}};
         WindowLocatorData.set(WindowId, FoundObject);
     }
     
@@ -44,7 +43,8 @@ function AppWindow(props: PropType)
 
     function CloseApplication()
     {
-        if (props.CloseApp) props.CloseApp();
+        dispatch(closeApplication(props.AppId));
+        // if (props.CloseApp) props.CloseApp();
     }
 
     let MaximizedClass = "";
@@ -102,9 +102,7 @@ function AppWindow(props: PropType)
 
     function onWindowClick()
     {
-        console.log(zIndexFrontData);
         dispatch(bringToFront(props.AppId))
-        // dispatch(bri({id: props.AppId, zindex: 3}));
     }
 
     return (

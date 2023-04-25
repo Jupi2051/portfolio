@@ -8,8 +8,9 @@ import AppWindow from "./AppWindow";
 import ApplicationsContainer from "./ApplicationsContainer";
 import DummyApp from "./Apps/DummyApp";
 import { AnimatePresence } from "framer-motion";
-import { useDispatch } from "react-redux";
-import { setZIndex, unhandleZIndex } from "../Storage/Slices/Main";
+import { useDispatch, useSelector } from "react-redux";
+import { openApplication, setZIndex, unhandleZIndex } from "../Storage/Slices/Main";
+import { RootState } from "../Storage/Store";
 
 type Point = {
     x: number,
@@ -54,10 +55,6 @@ let DesktopIcons: DesktopIconData[] = [
     {id: 4, Name: "This PC", IconPath: "Imgs/DesktopApps/ThisPC.webp", Style: {}, Selected: false},
 ];
 
-// let InitialOpenApplications =[
-    // {id: 1, App: <DummyApp CloseApp={() => CloseApp(1)} key={1}/>}
-// ]
-
 let Timer: number;
 
 const MaxDistanceBeforeMovementTrigger = 10;
@@ -72,7 +69,8 @@ function Desktop()
     const [HeldIconID, SetHeldIconId] = useState(-1); // -1 means no element is held atm.
     const [isMovingHeldIcon, SetMoveHeldIcon] = useState(false);
     const [ApplicationsArray, SetApplicationsArray] = useState(DesktopIcons);
-    const [OpenApplications, SetOpenApplications] = useState<OpenApplication[]>([]);
+
+    const OpenApplications = useSelector((x: RootState) => x.mainState.OpenApplications);
 
     let DesktopSizingValue = {
         width,
@@ -210,15 +208,13 @@ function Desktop()
 
     function CloseApp(id: number) : void
     {
-        const UpdatedApps = OpenApplications.filter((element) => element.id !== id);
         dispatch(unhandleZIndex(id));
-        SetOpenApplications(UpdatedApps);
     }
 
     function OpenApp(something: OpenApplication) : void
     {
         dispatch(setZIndex({id: something.id, zindex: 1}));
-        SetOpenApplications([...OpenApplications, something]);
+        dispatch(openApplication(something))
     }
 
     return (
@@ -236,7 +232,6 @@ function Desktop()
                     Selected={desktopApp.Selected}
                     key={desktopApp.id}
                     OpenApp={OpenApp}
-                    CloseApp={CloseApp}
                     AppName={DesktopAppsList.DummyApp} />
                 )}
                 <AnimatePresence>

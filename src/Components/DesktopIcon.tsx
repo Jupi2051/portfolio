@@ -13,7 +13,6 @@ type PropTypes = {
     },
     Selected: boolean,
     OpenApp: OpenApplicationFunction,
-    CloseApp: (id: number) => void,
     AppName: DesktopAppsList,
 }
 
@@ -39,7 +38,7 @@ function DesktopIcon(Props: PropTypes)
         {
             case DesktopAppsList.DummyApp: {
                 Props.OpenApp({id,
-                    App: <DummyApp CloseApp={() => Props.CloseApp(id)} AppId={id} key={id}/>})
+                    App: <DummyApp AppId={id} key={id}/>})
                 break;
             }
         }

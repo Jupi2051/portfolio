@@ -1,16 +1,19 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-type InitState = {
-    zIndicesMap: zIndexUnit[]
-}
+import { OpenApplication } from "../../Components/Desktop";
 
 type zIndexUnit = {
     id: number,
     zIndex: number
 }
 
+type InitState = {
+    zIndicesMap: zIndexUnit[],
+    OpenApplications: OpenApplication[]
+}
+
 const InitialState: InitState = {
     zIndicesMap: [],
+    OpenApplications: []
 };
 
 const mainStateReducer = createSlice({
@@ -32,9 +35,17 @@ const mainStateReducer = createSlice({
             state.zIndicesMap = state.zIndicesMap.filter((element) => element.id !== action.payload);
             return state;
         },
+        closeApplication: (state, action: PayloadAction<number>) => {
+            state.OpenApplications = state.OpenApplications.filter((element) => element.id !== action.payload);
+            return state;
+        },
+        openApplication: (state, action: PayloadAction<OpenApplication>) => {
+            state.OpenApplications = [...state.OpenApplications, action.payload]
+            return state;
+        },
     }
 });
 
-export const { setZIndex, bringToFront, unhandleZIndex } = mainStateReducer.actions;
+export const { setZIndex, bringToFront, unhandleZIndex, closeApplication, openApplication } = mainStateReducer.actions;
 
 export default mainStateReducer.reducer;
