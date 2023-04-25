@@ -5,6 +5,7 @@ import useMousePosition from "../Hooks/useMousePosition";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../Storage/Store";
 import { bringToFront, closeApplication, setZIndex, unhandleZIndex } from "../Storage/Slices/Main";
+import { closeTaskbarApplication } from "../Storage/Slices/Taskbar";
 
 type CloseAppFunction = () => void;
 
@@ -44,7 +45,7 @@ function AppWindow(props: PropType)
     function CloseApplication()
     {
         dispatch(closeApplication(props.AppId));
-        // if (props.CloseApp) props.CloseApp();
+        dispatch(closeTaskbarApplication(props.AppId));
     }
 
     let MaximizedClass = "";

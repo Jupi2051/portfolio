@@ -4,7 +4,8 @@ import "../Styles/TaskbarApp.css"
 type PropTypes = {
     Icon: string,
     HideStatusBar?: boolean,
-    isWindowsIcon?: boolean
+    isWindowsIcon?: boolean,
+    AppId?: number,
 }
 
 function TaskBarApp(Props: PropTypes)

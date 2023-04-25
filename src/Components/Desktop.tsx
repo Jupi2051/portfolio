@@ -11,6 +11,7 @@ import { AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { openApplication, setZIndex, unhandleZIndex } from "../Storage/Slices/Main";
 import { RootState } from "../Storage/Store";
+import { openTaskbarApplication } from "../Storage/Slices/Taskbar";
 
 type Point = {
     x: number,
