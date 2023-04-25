@@ -3,6 +3,7 @@ import AppWindow from "../AppWindow";
 
 type PropTypes = {
     CloseApp: CloseAppFunction,
+    AppId: number
 };
 
 type CloseAppFunction = () => void;
@@ -16,7 +17,7 @@ function DummyApp(Props: PropTypes)
 {
     return(
     <motion.div variants={exitAndOpen} exit="exit" transition={{duration: 0.1}} initial="init" animate="init" layout>
-        <AppWindow CloseApp={Props.CloseApp} key={Math.random()}>
+        <AppWindow CloseApp={Props.CloseApp} key={Math.random()} AppId={Props.AppId}>
             This is an example of a dummy app!
         </AppWindow>
     </motion.div>

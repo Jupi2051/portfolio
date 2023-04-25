@@ -2,19 +2,21 @@ import { ReactNode, useEffect, useMemo, useState } from "react";
 import "../Styles/AppWindow.css";
 import { AnimatePresence, Point, motion } from "framer-motion";
 import useMousePosition from "../Hooks/useMousePosition";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../Storage/Store";
+import { bringToFront, setZIndex, unhandleZIndex } from "../Storage/Slices/Main";
 
 type CloseAppFunction = () => void;
 
 type PropType = {
     children?: ReactNode,
-    CloseApp?: CloseAppFunction
+    CloseApp?: CloseAppFunction,
+    AppId: number
 }
 
 type WindowBorderBox = {
     Location: Point
 };
-
-// let WindowLocatorData: WindowBorderBox[] = [];
 
 let WindowLocatorData = new Map<number, WindowBorderBox>();
 
@@ -22,8 +24,10 @@ function AppWindow(props: PropType)
 {
     const [Maximized, SetMaximized] = useState(false);
     const [MoveWindow, SetMoveWindow] = useState(false);
-    const [zIndexFront, setZIndexFront] = useState(0);
+    const zIndexFrontData = useSelector((x: RootState) => x.mainState.zIndicesMap);
+    const dispatch = useDispatch();
     const CursorLocation = useMousePosition();
+    const zIndexFront = zIndexFrontData.find((element) => element.id === props.AppId)?.zIndex?? 69;
 
     const WindowId = useMemo(() => +new Date(), []);
     let FoundObject = WindowLocatorData.get(WindowId);
@@ -33,14 +37,6 @@ function AppWindow(props: PropType)
         WindowLocatorData.set(WindowId, FoundObject);
     }
     
-    useEffect(() => {
-        
-        return () => {
-            // console.log("deleted");
-            // WindowLocatorData.delete(WindowId);
-        }
-    }, []); 
-
     function MaximizeWindow()
     {
         SetMaximized(!Maximized);
@@ -106,27 +102,29 @@ function AppWindow(props: PropType)
 
     function onWindowClick()
     {
-        setZIndexFront(100);
+        console.log(zIndexFrontData);
+        dispatch(bringToFront(props.AppId))
+        // dispatch(bri({id: props.AppId, zindex: 3}));
     }
 
     return (
-        <motion.div className={`app-window${MaximizedClass}`}
-            variants={exitAndOpen}
-            initial="hidden"
-            animate="visible"
-            transition={{duration: 0.1, width: {duration: 0.125}, height: {duration: 0.125}, x: {duration: 0}, y: {duration: 0}}}
-            onMouseDown={onWindowClick}
-            >
-                <div className="window-header" onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
-                    <div className="window-controls">
-                        <span className="window-control-button window-close-button" onClick={CloseApplication}>✖</span>
-                        <span className="window-control-button" onClick={MaximizeWindow}><span id="square-button"></span></span>
-                        <span className="window-control-button"><span id="dismiss-button"/></span>
-                    </div>
+        <motion.div
+        className={`app-window${MaximizedClass}`}
+        variants={exitAndOpen}
+        initial="hidden"
+        animate="visible"
+        transition={{duration: 0.1, width: {duration: 0.125}, height: {duration: 0.125}, x: {duration: 0}, y: {duration: 0}}}
+        onMouseDown={onWindowClick}>
+            <div className="window-header" onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
+                <div className="window-controls">
+                    <span className="window-control-button window-close-button" onClick={CloseApplication}>✖</span>
+                    <span className="window-control-button" onClick={MaximizeWindow}><span id="square-button"></span></span>
+                    <span className="window-control-button"><span id="dismiss-button"/></span>
                 </div>
-                <div className="window-content">
-                    {props.children}
-                </div>
+            </div>
+            <div className="window-content">
+                {props.children}
+            </div>
         </motion.div>
     )
 }

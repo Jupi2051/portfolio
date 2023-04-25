@@ -39,7 +39,7 @@ function DesktopIcon(Props: PropTypes)
         {
             case DesktopAppsList.DummyApp: {
                 Props.OpenApp({id,
-                    App: <DummyApp CloseApp={() => Props.CloseApp(id)} key={id}/>})
+                    App: <DummyApp CloseApp={() => Props.CloseApp(id)} AppId={id} key={id}/>})
                 break;
             }
         }

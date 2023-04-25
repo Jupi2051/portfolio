@@ -8,6 +8,8 @@ import AppWindow from "./AppWindow";
 import ApplicationsContainer from "./ApplicationsContainer";
 import DummyApp from "./Apps/DummyApp";
 import { AnimatePresence } from "framer-motion";
+import { useDispatch } from "react-redux";
+import { setZIndex, unhandleZIndex } from "../Storage/Slices/Main";
 
 type Point = {
     x: number,
@@ -63,6 +65,7 @@ let LocalMousePosition: {x: number, y: number} = {x: 0, y: 0}
 
 function Desktop()
 {
+    const dispatch = useDispatch();
     const [isHoldClicked, SetHoldClick] = useState(false);
     const [HoldClickInitPosition, SetHoldClickInitPosition] = useState({x: 0, y: 0});
     const {ref, width = 1, height = 1} = useResizeObserver<HTMLDivElement>({box: "border-box"});
@@ -208,11 +211,13 @@ function Desktop()
     function CloseApp(id: number) : void
     {
         const UpdatedApps = OpenApplications.filter((element) => element.id !== id);
+        dispatch(unhandleZIndex(id));
         SetOpenApplications(UpdatedApps);
     }
 
     function OpenApp(something: OpenApplication) : void
     {
+        dispatch(setZIndex({id: something.id, zindex: 1}));
         SetOpenApplications([...OpenApplications, something]);
     }
 
