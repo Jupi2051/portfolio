@@ -7,12 +7,12 @@
     max-width: 25px;
     transition: none 0.09s ease;
     transition-property: transform, filter, border-radius;
+    pointer-events: none;
 }
 
 .Taskbar-App:active > img.Taskbar-App-Main-Icon
 {
     transform: scale(0.85);
-    pointer-events: none;
 }
 
 
