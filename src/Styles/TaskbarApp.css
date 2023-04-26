@@ -12,6 +12,7 @@
 .Taskbar-App:active > img.Taskbar-App-Main-Icon
 {
     transform: scale(0.85);
+    pointer-events: none;
 }
 
 

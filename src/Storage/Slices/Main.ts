@@ -8,7 +8,7 @@ type zIndexUnit = {
 
 type InitState = {
     zIndicesMap: zIndexUnit[],
-    OpenApplications: OpenApplication[]
+    OpenApplications: OpenApplication[] // Open Application uses React node as a type, its an unserializable
 }
 
 const InitialState: InitState = {

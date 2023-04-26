@@ -1,5 +1,6 @@
 .taskbar-container
 {
+    list-style: none;
     background-image: linear-gradient(90deg, #3f3550, #523a54);
     border-radius: 7px 7px 0px 0px;
     width: fit-content;

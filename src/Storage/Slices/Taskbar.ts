@@ -20,10 +20,14 @@ const TaskbarStateReducer = createSlice({
         closeTaskbarApplication: (state, action: PayloadAction<number>) => {
             state.TaskbarOpenApplications = state.TaskbarOpenApplications.filter((element) => element.id !== action.payload);
             return state;
+        },
+        setTaskbarApplications: (state, action: PayloadAction<TaskbarOpenApplication[]>) => {
+            state.TaskbarOpenApplications = action.payload;
+            return state;
         }
     }
 });
 
-export const { openTaskbarApplication, closeTaskbarApplication } = TaskbarStateReducer.actions;
+export const { openTaskbarApplication, closeTaskbarApplication, setTaskbarApplications } = TaskbarStateReducer.actions;
 
 export default TaskbarStateReducer.reducer;
