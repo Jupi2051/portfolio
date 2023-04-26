@@ -162,13 +162,15 @@ function Desktop()
     {
         SetHoldClickInitPosition({x: event.clientX, y: event.clientY});
         SetHoldClick(true);
-        const DesktopIconElement = event.target as Element;
-        if (DesktopIconElement.classList.contains("Desktop-Icon-Container"))
+        const DesktopClickedElement = event.target as Element;
+        if (DesktopClickedElement.classList.contains("Desktop-Icon-Container"))
         {
-            const ElementId = DesktopIconElement.getAttribute("data-id") === undefined?
-            -1 : Number(DesktopIconElement.getAttribute("data-id"));
+            const ElementId = DesktopClickedElement.getAttribute("data-id") === undefined?
+            -1 : Number(DesktopClickedElement.getAttribute("data-id"));
             SetHeldIconId(ElementId);
         }
+        else if (DesktopClickedElement.id === "Desktop")
+            dispatch(setFocusedApp(-1));
     }
     
     function EndClick()

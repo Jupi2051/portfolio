@@ -129,7 +129,7 @@ function AppWindow(props: PropType)
             id: props.AppId,
             state: true
         }));
-        console.log(isMinimized);
+        dispatch(setFocusedApp(-1));
     }
 
     const animateValue = 
