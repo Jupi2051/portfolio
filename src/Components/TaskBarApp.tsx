@@ -42,7 +42,10 @@ function TaskBarApp(Props: PropTypes)
                 id: Props.AppId,
                 state: MinimizedState
             }));
-            if (!MinimizedState) dispatch(setFocusedApp(Props.AppId));
+            if (!MinimizedState)
+                dispatch(setFocusedApp(Props.AppId));
+            else
+                dispatch(setFocusedApp(-1));
         }
     };
     
