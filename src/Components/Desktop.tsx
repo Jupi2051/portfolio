@@ -4,14 +4,11 @@ import DesktopIcon, { DesktopAppsList } from "./DesktopIcon";
 import DesktopTimeWidget from "./Widgets/DesktopTimeWidget";
 import useResizeObserver from "use-resize-observer";
 import MovingDesktopIcon from "./MovingDesktopIcon";
-import AppWindow from "./AppWindow";
 import ApplicationsContainer from "./ApplicationsContainer";
-import DummyApp from "./Apps/DummyApp";
 import { AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { openApplication, setZIndex, unhandleZIndex } from "../Storage/Slices/Main";
 import { RootState } from "../Storage/Store";
-import { openTaskbarApplication } from "../Storage/Slices/Taskbar";
 import { setFocusedApp } from "../Storage/Slices/Desktop";
 
 type Point = {
@@ -22,14 +19,9 @@ type Point = {
 export type OpenApplication = {
     id: number,
     App: DesktopAppsList,
+    processName: string,
+    processIcon: string
 }
-
-type ContextData = {
-    x: number,
-    y: number,
-    width: number,
-    height: number
-};
 
 const DefaultDesktopSize = {
     x: 0,

@@ -15,7 +15,7 @@ function ApplicationsContainer(Props: PropTypes)
                 switch (openApp.App)
                 {
                     case DesktopAppsList.DummyApp: {
-                        return <DummyApp AppId={openApp.id} key={openApp.id}/>
+                        return <DummyApp AppId={openApp.id} key={openApp.id} processIcon={openApp.processIcon} processName={openApp.processName}/>
                     }
                 }
             }

@@ -8,11 +8,11 @@ import { bringToFront, closeApplication, setZIndex, unhandleZIndex } from "../St
 import { closeTaskbarApplication } from "../Storage/Slices/Taskbar";
 import { setFocusedApp, setMinimizedState } from "../Storage/Slices/Desktop";
 
-type CloseAppFunction = () => void;
-
 type PropType = {
     children?: ReactNode,
-    AppId: number
+    AppId: number,
+    processName?: string,
+    processIcon?: string
 }
 
 type WindowBorderBox = {
@@ -147,6 +147,15 @@ function AppWindow(props: PropType)
         transition={{duration: 0.1, width: {duration: 0.125}, height: {duration: 0.125}, x: {duration: 0}, y: {duration: 0}}}
         onMouseDown={onWindowClick}>
             <div className="window-header" onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
+                {
+                    props.processName !== undefined || props.processIcon !== undefined? 
+                    <div className="process-data-container">
+                        <img src={props.processIcon} />
+                        <p>{props.processName}</p>
+                    </div>
+                    :
+                    null
+                }
                 <div className="window-controls">
                     <span className="window-control-button window-close-button" onClick={CloseApplication}>✖</span>
                     <span className="window-control-button" onClick={MaximizeWindow}><span id="square-button"></span></span>

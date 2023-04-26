@@ -2,7 +2,9 @@ import { motion } from "framer-motion";
 import AppWindow from "../AppWindow";
 
 type PropTypes = {
-    AppId: number
+    AppId: number,
+    processName: string,
+    processIcon: string
 };
 
 const exitAndOpen = {
@@ -14,7 +16,7 @@ function DummyApp(Props: PropTypes)
 {
     return(
     <motion.div variants={exitAndOpen} exit="exit" transition={{duration: 0.1}} initial="init" animate="init" layout>
-        <AppWindow AppId={Props.AppId}>
+        <AppWindow AppId={Props.AppId} processIcon={Props.processIcon} processName={Props.processName}>
             This is an example of a dummy app!
         </AppWindow>
     </motion.div>

@@ -37,8 +37,8 @@ function DesktopIcon(Props: PropTypes)
     {
         if (event.detail !== 2) return;
         const id = +new Date();
-        Props.OpenApp({id, App: Props.AppName});
-        dispatch(openTaskbarApplication({AppId: id, id: id, Icon: Props.Icon}));
+        Props.OpenApp({id, App: Props.AppName, processIcon: Props.Icon, processName: Props.ApplicationName});
+        dispatch(openTaskbarApplication({id, AppId: id, Icon: Props.Icon}));
     }
 
     return (
