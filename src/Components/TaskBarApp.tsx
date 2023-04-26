@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../Storage/Store";
 import { setRenderWindowsSettings } from "../Storage/Slices/Taskbar";
 import { setFocusedApp, setMinimizedState } from "../Storage/Slices/Desktop";
+import { bringToFront } from "../Storage/Slices/Main";
 
 type PropTypes = {
     Icon: string,
@@ -37,15 +38,24 @@ function TaskBarApp(Props: PropTypes)
 
         if (Props.AppId)
         {
-            const MinimizedState = !isMinimized;
-            dispatch(setMinimizedState({
-                id: Props.AppId,
-                state: MinimizedState
-            }));
-            if (!MinimizedState)
+            if (!!isMinimized === false && Focused === false)
+            {
+                dispatch(bringToFront(Props.AppId));
                 dispatch(setFocusedApp(Props.AppId));
+            }
             else
-                dispatch(setFocusedApp(-1));
+            {
+                const MinimizedState = !isMinimized;
+                dispatch(setMinimizedState({
+                    id: Props.AppId,
+                    state: MinimizedState
+                }));
+    
+                if (!MinimizedState)
+                    dispatch(setFocusedApp(Props.AppId));
+                else
+                    dispatch(setFocusedApp(-1));
+            }
         }
     };
     
