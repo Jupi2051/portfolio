@@ -2,11 +2,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { TaskbarOpenApplication } from "../../Components/OpenApps";
 
 type InitState = {
-    TaskbarOpenApplications: TaskbarOpenApplication[]
+    TaskbarOpenApplications: TaskbarOpenApplication[],
+    RenderWindowsSettings: boolean
 }
 
 const InitialState: InitState = {
-    TaskbarOpenApplications: []
+    TaskbarOpenApplications: [],
+    RenderWindowsSettings: false
 };
 
 const TaskbarStateReducer = createSlice({
@@ -24,10 +26,14 @@ const TaskbarStateReducer = createSlice({
         setTaskbarApplications: (state, action: PayloadAction<TaskbarOpenApplication[]>) => {
             state.TaskbarOpenApplications = action.payload;
             return state;
+        },
+        setRenderWindowsSettings: (state, action: PayloadAction<boolean>) => {
+            state.RenderWindowsSettings = action.payload;
+            return state;
         }
     }
 });
 
-export const { openTaskbarApplication, closeTaskbarApplication, setTaskbarApplications } = TaskbarStateReducer.actions;
+export const { openTaskbarApplication, closeTaskbarApplication, setTaskbarApplications, setRenderWindowsSettings } = TaskbarStateReducer.actions;
 
 export default TaskbarStateReducer.reducer;
