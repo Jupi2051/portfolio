@@ -4,11 +4,14 @@
     height: 200px;
     top: 0%;
     left: 0%;
-    border: 1px solid pink;
+    border: 1px solid black;
     margin-inline: auto;
     border-radius: 6px;
     overflow: hidden;
     box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.4);
+    user-select: none;
+    transition: none 0.2s ease;
+    transition-property: box-shadow, border;
 }
 
 .maximized-app-window {
@@ -91,8 +94,9 @@
     align-items: center;
     justify-content: center;
     margin-right: auto;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: sans-serif;
     font-size: 12px;
+    user-select: none;
 }
 
 .process-data-container > img {
@@ -101,7 +105,17 @@
 }
 
 .process-data-container > p {
-    font-weight: lighter;
+    font-weight: 100;
     margin-inline: 10px;
     color: white;
+}
+
+.focused-app-window {
+    user-select: auto;
+    border: 1px solid pink;
+    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.7);
+}
+
+.moving-app-window {
+    user-select: none;
 }

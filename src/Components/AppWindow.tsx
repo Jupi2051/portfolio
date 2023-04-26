@@ -27,6 +27,7 @@ function AppWindow(props: PropType)
     const [MoveWindow, SetMoveWindow] = useState(false);
     const zIndexFrontData = useSelector((x: RootState) => x.mainState.zIndicesMap);
     const MinimizedData = useSelector((x: RootState) => x.desktopState.minimizedStates);
+    const isFocused = useSelector((x: RootState) => x.desktopState.focusedAppId) === props.AppId;
     const dispatch = useDispatch();
     const CursorLocation = useMousePosition();
     const zIndexFront = zIndexFrontData.find((element) => element.id === props.AppId)?.zIndex?? 69;
@@ -51,9 +52,6 @@ function AppWindow(props: PropType)
         dispatch(closeApplication(props.AppId));
         dispatch(closeTaskbarApplication(props.AppId));
     }
-
-    let MaximizedClass = "";
-    if (Maximized) MaximizedClass = " maximized-app-window";
     
     function onMouseDown(event: React.MouseEvent<HTMLDivElement, MouseEvent>)
     {
@@ -138,9 +136,13 @@ function AppWindow(props: PropType)
         : 
         (isMinimized === true? "minimized" : "visible")
 
+    const MaximizedClass = Maximized? " maximized-app-window" : "";
+    const FocusedClass = isFocused? " focused-app-window" : ""; 
+    const MovingClass = MoveWindow? " moving-app-window" : "";
+    
     return (
         <motion.div 
-        className={`app-window${MaximizedClass}`}
+        className={`app-window${MaximizedClass}${FocusedClass}${MovingClass}`}
         variants={exitAndOpen}
         initial="hidden"
         animate={animateValue}
@@ -163,7 +165,7 @@ function AppWindow(props: PropType)
                 </div>
             </div>
             <div className="window-content">
-                {props.children}
+                {props.children} 
             </div>
         </motion.div>
     )
