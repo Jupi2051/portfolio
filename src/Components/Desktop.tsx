@@ -20,7 +20,7 @@ type Point = {
 
 export type OpenApplication = {
     id: number,
-    App: ReactElement<{}>,
+    App: DesktopAppsList,
 }
 
 type ContextData = {

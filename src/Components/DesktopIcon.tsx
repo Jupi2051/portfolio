@@ -40,12 +40,8 @@ function DesktopIcon(Props: PropTypes)
         switch(Props.AppName)
         {
             case DesktopAppsList.DummyApp: {
-                Props.OpenApp({id, App: <DummyApp AppId={id} key={id}/>});
-                dispatch(openTaskbarApplication({
-                    AppId: id,
-                    id: id,
-                    Icon: Props.Icon
-                }));
+                Props.OpenApp({id, App: DesktopAppsList.DummyApp});
+                dispatch(openTaskbarApplication({AppId: id, id: id, Icon: Props.Icon}));
                 break;
             }
         }
