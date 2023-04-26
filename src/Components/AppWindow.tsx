@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../Storage/Store";
 import { bringToFront, closeApplication, setZIndex, unhandleZIndex } from "../Storage/Slices/Main";
 import { closeTaskbarApplication } from "../Storage/Slices/Taskbar";
-import { setMinimizedState } from "../Storage/Slices/Desktop";
+import { setFocusedApp, setMinimizedState } from "../Storage/Slices/Desktop";
 
 type CloseAppFunction = () => void;
 
@@ -119,7 +119,8 @@ function AppWindow(props: PropType)
 
     function onWindowClick()
     {
-        dispatch(bringToFront(props.AppId))
+        dispatch(bringToFront(props.AppId));
+        dispatch(setFocusedApp(props.AppId));
     }
 
     function onDismissButton()

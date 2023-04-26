@@ -22,7 +22,7 @@ function TaskBarApp(Props: PropTypes)
 
     const MinimizedData = useSelector((x: RootState) => x.desktopState.minimizedStates);
     const isMinimized = MinimizedData.find((element) => element.id === Props.AppId)?.minimized?? undefined; // its not minimized by default
-
+    const Focused = useSelector((x: RootState) => x.desktopState.focusedAppId) === Props.AppId;
     const [Open, SetOpen] = useState(true);
     const RenderWindowsSettings = useSelector((x: RootState) => x.taskbarState.RenderWindowsSettings);
     const dispatch = useDispatch();
@@ -45,8 +45,6 @@ function TaskBarApp(Props: PropTypes)
             }));
         }
     };
-
-    const Focused = !isMinimized;
     
     let ClassListString = "Taskbar-App";
     if (!Props.HideStatusBar)

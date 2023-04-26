@@ -7,10 +7,12 @@ type MinimizedState = {
 
 type InitState = {
     minimizedStates: MinimizedState[],
+    focusedAppId: number,
 }
 
 const InitialState: InitState = {
-    minimizedStates: []
+    minimizedStates: [],
+    focusedAppId: -1,
 };
 
 const DesktopReducer = createSlice({
@@ -25,10 +27,14 @@ const DesktopReducer = createSlice({
         unsetMinimizedState: (state, action: PayloadAction<number>) => {
             state.minimizedStates = state.minimizedStates.filter((element) => element.id !== action.payload);
             return state;
-        }
+        },
+        setFocusedApp: (state, action: PayloadAction<number>) => {
+            state.focusedAppId = action.payload;
+            return state;
+        },
     }
 });
 
-export const { setMinimizedState, unsetMinimizedState } = DesktopReducer.actions;
+export const { setMinimizedState, unsetMinimizedState, setFocusedApp } = DesktopReducer.actions;
 
 export default DesktopReducer.reducer;

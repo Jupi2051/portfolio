@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { openApplication, setZIndex, unhandleZIndex } from "../Storage/Slices/Main";
 import { RootState } from "../Storage/Store";
 import { openTaskbarApplication } from "../Storage/Slices/Taskbar";
+import { setFocusedApp } from "../Storage/Slices/Desktop";
 
 type Point = {
     x: number,
@@ -211,12 +212,14 @@ function Desktop()
     function CloseApp(id: number) : void
     {
         dispatch(unhandleZIndex(id));
+        dispatch(setFocusedApp(-1)); // unfocus everything.
     }
 
     function OpenApp(something: OpenApplication) : void
     {
         dispatch(setZIndex({id: something.id, zindex: 1}));
-        dispatch(openApplication(something))
+        dispatch(openApplication(something));
+        dispatch(setFocusedApp(something.id));
     }
 
     return (
