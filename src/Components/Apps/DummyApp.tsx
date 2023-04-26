@@ -7,7 +7,7 @@ type PropTypes = {
 
 const exitAndOpen = {
     exit: {opacity: 0,},
-    init: {opacity: 1,scale: 1,}
+    init: {opacity: 1, scale: 1}
 }
 
 function DummyApp(Props: PropTypes)

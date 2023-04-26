@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../Storage/Store";
 import { bringToFront, closeApplication, setZIndex, unhandleZIndex } from "../Storage/Slices/Main";
 import { closeTaskbarApplication } from "../Storage/Slices/Taskbar";
+import { setMinimizedState } from "../Storage/Slices/Desktop";
 
 type CloseAppFunction = () => void;
 
@@ -25,9 +26,12 @@ function AppWindow(props: PropType)
     const [Maximized, SetMaximized] = useState(false);
     const [MoveWindow, SetMoveWindow] = useState(false);
     const zIndexFrontData = useSelector((x: RootState) => x.mainState.zIndicesMap);
+    const MinimizedData = useSelector((x: RootState) => x.desktopState.minimizedStates);
     const dispatch = useDispatch();
     const CursorLocation = useMousePosition();
     const zIndexFront = zIndexFrontData.find((element) => element.id === props.AppId)?.zIndex?? 69;
+
+    const isMinimized = MinimizedData.find((element) => element.id === props.AppId)?.minimized?? false; // its not minimized by default
 
     const WindowId = useMemo(() => +new Date(), []);
     let FoundObject = WindowLocatorData.get(WindowId);
@@ -99,6 +103,18 @@ function AppWindow(props: PropType)
             left: Maximized? "0" : undefined,
             top: Maximized? "0" : undefined,
         },
+        minimized: {
+            scale: 1,
+            filter: "blur(1px)",
+            x: "-50%",
+            y: "100%",
+            left: "50%",
+            top: "100%",
+            zIndex: Maximized? 200 : zIndexFront,
+            opacity: 1,
+            width: Maximized? "100%" : undefined,
+            height: Maximized? "100%" : undefined,
+        }
     }
 
     function onWindowClick()
@@ -106,19 +122,34 @@ function AppWindow(props: PropType)
         dispatch(bringToFront(props.AppId))
     }
 
+    function onDismissButton()
+    {
+        dispatch(setMinimizedState({
+            id: props.AppId,
+            state: true
+        }));
+        console.log(isMinimized);
+    }
+
+    const animateValue = 
+        isMinimized === undefined?
+        "visible"
+        : 
+        (isMinimized === true? "minimized" : "visible")
+
     return (
-        <motion.div
+        <motion.div 
         className={`app-window${MaximizedClass}`}
         variants={exitAndOpen}
         initial="hidden"
-        animate="visible"
+        animate={animateValue}
         transition={{duration: 0.1, width: {duration: 0.125}, height: {duration: 0.125}, x: {duration: 0}, y: {duration: 0}}}
         onMouseDown={onWindowClick}>
             <div className="window-header" onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
                 <div className="window-controls">
                     <span className="window-control-button window-close-button" onClick={CloseApplication}>✖</span>
                     <span className="window-control-button" onClick={MaximizeWindow}><span id="square-button"></span></span>
-                    <span className="window-control-button"><span id="dismiss-button"/></span>
+                    <span className="window-control-button" onClick={onDismissButton}><span id="dismiss-button"/></span>
                 </div>
             </div>
             <div className="window-content">

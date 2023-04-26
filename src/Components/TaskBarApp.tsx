@@ -6,6 +6,7 @@ import WindowsSettings from "./WindowsSettings";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../Storage/Store";
 import { setRenderWindowsSettings } from "../Storage/Slices/Taskbar";
+import { setMinimizedState } from "../Storage/Slices/Desktop";
 
 type PropTypes = {
     Icon: string,
@@ -14,17 +15,15 @@ type PropTypes = {
     AppId?: number,
 }
 
+const AnimationFrames = {init: {y: 50}, enterance: {y: 0}};
+
 function TaskBarApp(Props: PropTypes)
 {
-    const AnimationFrames = {
-        init: {
-            y: 50,
-        },
-        enterance: {
-            y: 0,
-        }
-    };
-    const [Open, SetOpen] = useState(false);
+
+    const MinimizedData = useSelector((x: RootState) => x.desktopState.minimizedStates);
+    const isMinimized = MinimizedData.find((element) => element.id === Props.AppId)?.minimized?? undefined; // its not minimized by default
+
+    const [Open, SetOpen] = useState(true);
     const [Focused, SetFocused] = useState(false);
     const RenderWindowsSettings = useSelector((x: RootState) => x.taskbarState.RenderWindowsSettings);
     const dispatch = useDispatch();
@@ -36,13 +35,15 @@ function TaskBarApp(Props: PropTypes)
         }
 
         event.preventDefault();
-        if (!Open)
+        SetFocused(!!isMinimized);
+
+        if (Props.AppId)
         {
-            SetOpen(true);
-            SetFocused(true);
+            dispatch(setMinimizedState({
+                id: Props.AppId,
+                state: !isMinimized
+            }));
         }
-        else
-            SetFocused(!Focused);
     };
 
     let ClassListString = "Taskbar-App";

@@ -8,12 +8,12 @@ type zIndexUnit = {
 
 type InitState = {
     zIndicesMap: zIndexUnit[],
-    OpenApplications: OpenApplication[] // Open Application uses React node as a type, its an unserializable
+    OpenApplications: OpenApplication[], // Open Application uses React node as a type, its an unserializable
 }
 
 const InitialState: InitState = {
     zIndicesMap: [],
-    OpenApplications: []
+    OpenApplications: [],
 };
 
 const mainStateReducer = createSlice({
@@ -46,6 +46,6 @@ const mainStateReducer = createSlice({
     }
 });
 
-export const { setZIndex, bringToFront, unhandleZIndex, closeApplication, openApplication } = mainStateReducer.actions;
+export const { setZIndex, bringToFront, unhandleZIndex, closeApplication, openApplication, } = mainStateReducer.actions;
 
 export default mainStateReducer.reducer;
