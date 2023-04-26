@@ -6,7 +6,7 @@ import WindowsSettings from "./WindowsSettings";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../Storage/Store";
 import { setRenderWindowsSettings } from "../Storage/Slices/Taskbar";
-import { setMinimizedState } from "../Storage/Slices/Desktop";
+import { setFocusedApp, setMinimizedState } from "../Storage/Slices/Desktop";
 
 type PropTypes = {
     Icon: string,
@@ -34,15 +34,15 @@ function TaskBarApp(Props: PropTypes)
         }
 
         event.preventDefault();
-        
-        
 
         if (Props.AppId)
         {
+            const MinimizedState = !isMinimized;
             dispatch(setMinimizedState({
                 id: Props.AppId,
-                state: !isMinimized
+                state: MinimizedState
             }));
+            if (!MinimizedState) dispatch(setFocusedApp(Props.AppId));
         }
     };
     
