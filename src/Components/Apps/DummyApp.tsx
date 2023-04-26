@@ -17,7 +17,7 @@ function DummyApp(Props: PropTypes)
     return(
     <motion.div variants={exitAndOpen} exit="exit" transition={{duration: 0.1}} initial="init" animate="init" layout>
         <AppWindow AppId={Props.AppId} processIcon={Props.processIcon} processName={Props.processName}>
-            This is an example of a dummy app!
+                <h1>koro hatasfasfasfaszu</h1>
         </AppWindow>
     </motion.div>
     )

@@ -96,8 +96,8 @@ function AppWindow(props: PropType)
             y: Maximized? 0 : NewLocation.y,
             zIndex: Maximized? 200 : zIndexFront,
             opacity: 1,
-            width: Maximized? "100%" : undefined,
-            height: Maximized? "100%" : undefined,
+            width: Maximized? "100%" : "auto",
+            height: Maximized? "100%" : "auto",
             left: Maximized? "0" : undefined,
             top: Maximized? "0" : undefined,
         },
@@ -110,8 +110,8 @@ function AppWindow(props: PropType)
             top: "100%",
             zIndex: Maximized? 200 : zIndexFront,
             opacity: 1,
-            width: Maximized? "100%" : undefined,
-            height: Maximized? "100%" : undefined,
+            width: Maximized? "100%" : "auto",
+            height: Maximized? "100%" : "auto",
         }
     }
 
@@ -164,7 +164,7 @@ function AppWindow(props: PropType)
                     <span className="window-control-button" onClick={onDismissButton}><span id="dismiss-button"/></span>
                 </div>
             </div>
-            <div className="window-content">
+            <div className="window-content" style={{width: Maximized? "100%" : "auto", height: Maximized? "100%" : "auto",}}>
                 {props.children} 
             </div>
         </motion.div>
