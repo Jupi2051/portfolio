@@ -1,9 +1,9 @@
 import { ReactElement, useContext, useEffect, useMemo, useState } from "react";
 import "../Styles/DesktopIcon.css";
-import DummyApp from "./Apps/DummyApp";
 import { OpenApplication } from "./Desktop";
 import { useDispatch } from "react-redux";
 import { openTaskbarApplication } from "../Storage/Slices/Taskbar";
+import { DesktopAppsList } from "./ApplicationsContainer";
 
 type PropTypes = {
     ApplicationName: string,
@@ -19,10 +19,6 @@ type PropTypes = {
 }
 
 type OpenApplicationFunction = (ApplicationObject: OpenApplication) => void;
-
-export enum DesktopAppsList {
-    DummyApp
-};
 
 function DesktopIcon(Props: PropTypes)
 {

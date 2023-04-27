@@ -14,11 +14,6 @@
     transition-property: box-shadow, border;
 }
 
-.maximized-app-window {
-    border: none;
-    border-radius: 0px;
-}
-
 .window-header {
     display: flex;
     text-align: center;
@@ -123,4 +118,9 @@
 
 .moving-app-window {
     user-select: none;
+}
+
+.maximized-app-window {
+    border: none;
+    border-radius: 0px;
 }

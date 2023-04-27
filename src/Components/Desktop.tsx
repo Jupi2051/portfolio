@@ -1,10 +1,10 @@
 import { ReactElement, SyntheticEvent, createContext, useEffect, useState } from "react";
 import "../Styles/Desktop.css"
-import DesktopIcon, { DesktopAppsList } from "./DesktopIcon";
+import DesktopIcon from "./DesktopIcon";
 import DesktopTimeWidget from "./Widgets/DesktopTimeWidget";
 import useResizeObserver from "use-resize-observer";
 import MovingDesktopIcon from "./MovingDesktopIcon";
-import ApplicationsContainer from "./ApplicationsContainer";
+import ApplicationsContainer, { DesktopAppsList } from "./ApplicationsContainer";
 import { AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { openApplication, setZIndex, unhandleZIndex } from "../Storage/Slices/Main";
@@ -39,15 +39,17 @@ type DesktopIconData = {
         gridColumn?: number
     },
     Selected: boolean,
+    AppComponent: DesktopAppsList
 };
 
 let DesktopIcons: DesktopIconData[] = [
-    {id: 0, Name: "This PC", IconPath: "Imgs/DesktopApps/ThisPC.webp", Style: {}, Selected: false},
-    {id: 1, Name: "Recycle Bin", IconPath: "Imgs/DesktopApps/RecycleBin.webp", Style: {}, Selected: false},
-    {id: 2, Name: "EIEN", IconPath: "Imgs/DesktopApps/EIEN.webp", Style: {}, Selected: false},
-    {id: 3, Name: "Oni", IconPath: "Imgs/DesktopApps/Oni.png", Style: {}, Selected: false},
-    {id: 4, Name: "Jenni", IconPath: "Imgs/DesktopApps/Jenni.png", Style: {}, Selected: false},
-    {id: 5, Name: "Galaxy Gym", IconPath: "Imgs/DesktopApps/Galaxygym.png", Style: {}, Selected: false},
+    {id: 0, Name: "This PC", IconPath: "Imgs/DesktopApps/ThisPC.webp", Style: {}, Selected: false, AppComponent: DesktopAppsList.Steam},
+    {id: 1, Name: "Recycle Bin", IconPath: "Imgs/DesktopApps/RecycleBin.webp", Style: {}, Selected: false, AppComponent: DesktopAppsList.DummyApp},
+    {id: 2, Name: "EIEN", IconPath: "Imgs/DesktopApps/EIEN.webp", Style: {}, Selected: false, AppComponent: DesktopAppsList.DummyApp},
+    {id: 3, Name: "Oni", IconPath: "Imgs/DesktopApps/Oni.png", Style: {}, Selected: false, AppComponent: DesktopAppsList.DummyApp},
+    {id: 4, Name: "Jenni", IconPath: "Imgs/DesktopApps/Jenni.png", Style: {}, Selected: false, AppComponent: DesktopAppsList.DummyApp},
+    {id: 5, Name: "Galaxy Gym", IconPath: "Imgs/DesktopApps/Galaxygym.png", Style: {}, Selected: false, AppComponent: DesktopAppsList.DummyApp},
+    {id: 6, Name: "Steam", IconPath: "Imgs/DesktopApps/Steam.png", Style: {}, Selected: false, AppComponent: DesktopAppsList.Steam},
 ];
 
 let Timer: number;
@@ -231,7 +233,7 @@ function Desktop()
                     Selected={desktopApp.Selected}
                     key={desktopApp.id}
                     OpenApp={OpenApp}
-                    AppName={DesktopAppsList.DummyApp} />
+                    AppName={desktopApp.AppComponent} />
                 )}
                 <AnimatePresence>
                     <ApplicationsContainer OpenApplications={OpenApplications} />
