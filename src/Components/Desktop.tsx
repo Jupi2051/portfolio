@@ -42,7 +42,7 @@ type DesktopIconData = {
     AppComponent: DesktopAppsList
 };
 
-let DesktopIcons: DesktopIconData[] = [
+export let DesktopIcons: DesktopIconData[] = [
     {id: 0, Name: "This PC", IconPath: "Imgs/DesktopApps/ThisPC.webp", Style: {}, Selected: false, AppComponent: DesktopAppsList.Steam},
     {id: 1, Name: "Recycle Bin", IconPath: "Imgs/DesktopApps/RecycleBin.webp", Style: {}, Selected: false, AppComponent: DesktopAppsList.DummyApp},
     {id: 2, Name: "EIEN", IconPath: "Imgs/DesktopApps/EIEN.webp", Style: {}, Selected: false, AppComponent: DesktopAppsList.DummyApp},
@@ -213,9 +213,7 @@ function Desktop()
 
     function OpenApp(something: OpenApplication) : void
     {
-        dispatch(setZIndex({id: something.id, zindex: 1}));
-        dispatch(openApplication(something));
-        dispatch(setFocusedApp(something.id));
+
     }
 
     return (
@@ -232,7 +230,6 @@ function Desktop()
                     Style={desktopApp.Style}
                     Selected={desktopApp.Selected}
                     key={desktopApp.id}
-                    OpenApp={OpenApp}
                     AppName={desktopApp.AppComponent} />
                 )}
                 <AnimatePresence>

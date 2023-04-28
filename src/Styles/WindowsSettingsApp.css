@@ -1,0 +1,23 @@
+.settings-app-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 75px;
+    height: 75px;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    user-select: none;
+    isolation: isolate;
+}
+
+.settings-app-container > img {
+    max-width: 60px;
+    min-height: 40px;
+}
+
+.settings-app-container > p {
+    font-family: sans-serif;
+    font-weight: 100;
+    text-align: center;
+}

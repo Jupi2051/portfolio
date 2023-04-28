@@ -18,9 +18,7 @@ function Steam(Props: PropTypes)
     return(
         <motion.div variants={exitAndOpen} exit="exit" transition={{duration: 0.1}} initial="init" animate="init" layout>
             <AppWindow AppId={Props.AppId} processIcon={Props.processIcon} processName={Props.processName}>
-                    <div>
-                        <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum fugiat ipsa aut asperiores adipisci aliquam quis. Ad voluptatibus dicta sequi accusantium neque sit quibusdam pariatur, ducimus rem tenetur molestiae illo!</h2>
-                    </div>
+                <iframe src="https://jennixdraws.com/" style={{width: "100%", height: "100%"}}></iframe>
             </AppWindow>
         </motion.div>
     )

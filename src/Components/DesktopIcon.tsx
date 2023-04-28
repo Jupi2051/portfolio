@@ -4,6 +4,8 @@ import { OpenApplication } from "./Desktop";
 import { useDispatch } from "react-redux";
 import { openTaskbarApplication } from "../Storage/Slices/Taskbar";
 import { DesktopAppsList } from "./ApplicationsContainer";
+import { openApplication, setZIndex } from "../Storage/Slices/Main";
+import { setFocusedApp } from "../Storage/Slices/Desktop";
 
 type PropTypes = {
     ApplicationName: string,
@@ -14,11 +16,8 @@ type PropTypes = {
         gridColumn?: number
     },
     Selected: boolean,
-    OpenApp: OpenApplicationFunction,
     AppName: DesktopAppsList,
 }
-
-type OpenApplicationFunction = (ApplicationObject: OpenApplication) => void;
 
 function DesktopIcon(Props: PropTypes)
 {
@@ -33,7 +32,13 @@ function DesktopIcon(Props: PropTypes)
     {
         if (event.detail !== 2) return;
         const id = +new Date();
-        Props.OpenApp({id, App: Props.AppName, processIcon: Props.Icon, processName: Props.ApplicationName});
+
+        const ApplicationObject = {id, App: Props.AppName, processIcon: Props.Icon, processName: Props.ApplicationName};
+
+        dispatch(setZIndex({id: ApplicationObject.id, zindex: 1}));
+        dispatch(openApplication(ApplicationObject));
+        dispatch(setFocusedApp(ApplicationObject.id));
+
         dispatch(openTaskbarApplication({id, AppId: id, Icon: Props.Icon}));
     }
 
