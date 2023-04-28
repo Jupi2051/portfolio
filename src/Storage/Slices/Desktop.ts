@@ -1,18 +1,25 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { bindActionCreators, createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+type Point2D = {
+    x: number,
+    y: number
+}
 
 type MinimizedState = {
     id: number,
-    minimized: boolean
+    minimized: boolean,
 }
 
 type InitState = {
     minimizedStates: MinimizedState[],
     focusedAppId: number,
+    mouseMovementOffset: Point2D
 }
 
 const InitialState: InitState = {
     minimizedStates: [],
     focusedAppId: -1,
+    mouseMovementOffset: {x: 0, y: 0},
 };
 
 const DesktopReducer = createSlice({
@@ -32,9 +39,13 @@ const DesktopReducer = createSlice({
             state.focusedAppId = action.payload;
             return state;
         },
+        setMouseMovementOffset: (state, action: PayloadAction<Point2D>) => {
+            state.mouseMovementOffset = action.payload;
+            return state;
+        },
     }
 });
 
-export const { setMinimizedState, unsetMinimizedState, setFocusedApp } = DesktopReducer.actions;
+export const { setMinimizedState, unsetMinimizedState, setFocusedApp, setMouseMovementOffset } = DesktopReducer.actions;
 
 export default DesktopReducer.reducer;

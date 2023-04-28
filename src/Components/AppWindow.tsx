@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../Storage/Store";
 import { bringToFront, closeApplication, setZIndex, unhandleZIndex } from "../Storage/Slices/Main";
 import { closeTaskbarApplication } from "../Storage/Slices/Taskbar";
-import { setFocusedApp, setMinimizedState } from "../Storage/Slices/Desktop";
+import { setFocusedApp, setMinimizedState, setMouseMovementOffset } from "../Storage/Slices/Desktop";
 
 type PropType = {
     children?: ReactNode,
@@ -31,10 +31,10 @@ function AppWindow(props: PropType)
     const dispatch = useDispatch();
     const CursorLocation = useMousePosition();
     const zIndexFront = zIndexFrontData.find((element) => element.id === props.AppId)?.zIndex?? 69;
-
     const isMinimized = MinimizedData.find((element) => element.id === props.AppId)?.minimized?? false; // its not minimized by default
-
     const WindowId = useMemo(() => +new Date(), []);
+    const CursorOffset = useSelector((x: RootState) => x.desktopState.mouseMovementOffset);
+
     let FoundObject = WindowLocatorData.get(WindowId);
     if (!FoundObject)
     {
@@ -57,8 +57,13 @@ function AppWindow(props: PropType)
     {
         const ClickedElement = event.target as HTMLDivElement;
         if (ClickedElement)
+        {
             if (ClickedElement.classList.contains("window-header"))
+            {
+                dispatch(setMouseMovementOffset({x: NewLocation.x - (CursorLocation.x?? 0), y: NewLocation.y - (CursorLocation.y?? 0)}));
                 SetMoveWindow(true);
+            }
+        }
     }
 
     function onMouseUp()
@@ -74,10 +79,10 @@ function AppWindow(props: PropType)
     let NewLocation: Point = {x: FoundObject.Location.x, y: FoundObject.Location.y};
 
     if (MoveWindow)
-    {        
+    {
         NewLocation = {
-            x: CursorLocation.x === null? 0 : CursorLocation.x - 150,
-            y: CursorLocation.y === null? 0 : CursorLocation.y - 10 
+            x: CursorLocation.x === null? 0 : CursorLocation.x + CursorOffset.x,
+            y: CursorLocation.y === null? 0 : CursorLocation.y + CursorOffset.y
         };
         WindowLocatorData.delete(WindowId);
         WindowLocatorData.set(WindowId, {Location: NewLocation});
@@ -130,12 +135,7 @@ function AppWindow(props: PropType)
         dispatch(setFocusedApp(-1));
     }
 
-    const animateValue = 
-        isMinimized === undefined?
-        "visible"
-        : 
-        (isMinimized === true? "minimized" : "visible")
-
+    const animateValue = isMinimized === undefined? "visible" : (isMinimized === true? "minimized" : "visible");
     const MaximizedClass = Maximized? " maximized-app-window" : "";
     const FocusedClass = isFocused? " focused-app-window" : ""; 
     const MovingClass = MoveWindow? " moving-app-window" : "";

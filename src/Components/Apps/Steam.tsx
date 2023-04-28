@@ -15,20 +15,11 @@ const exitAndOpen = {
 
 function Steam(Props: PropTypes)
 {
-    useEffect(() => {
-        const SteamPage = fetch("https://steamcommunity.com/id/iJup/", 
-        {
-            mode: "no-cors",
-        }).then((response) => {
-            console.log(response);
-        })
-    }, []);
-
     return(
         <motion.div variants={exitAndOpen} exit="exit" transition={{duration: 0.1}} initial="init" animate="init" layout>
             <AppWindow AppId={Props.AppId} processIcon={Props.processIcon} processName={Props.processName}>
                     <div>
-                        
+                        <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum fugiat ipsa aut asperiores adipisci aliquam quis. Ad voluptatibus dicta sequi accusantium neque sit quibusdam pariatur, ducimus rem tenetur molestiae illo!</h2>
                     </div>
             </AppWindow>
         </motion.div>
