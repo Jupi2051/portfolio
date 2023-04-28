@@ -159,13 +159,13 @@ function AppWindow(props: PropType)
                     null
                 }
                 <div className="window-controls">
-                    <span className="window-control-button window-close-button" onClick={CloseApplication}>✖</span>
+                    <span className="window-control-button window-close-button" onClick={CloseApplication}>✕</span>
                     <span className="window-control-button" onClick={MaximizeWindow}><span id="square-button"></span></span>
                     <span className="window-control-button" onClick={onDismissButton}><span id="dismiss-button"/></span>
                 </div>
             </div>
-            <div className="window-content" style={{width: Maximized? "100%" : "auto", height: Maximized? "100%" : "auto",}}>
-                {props.children} 
+            <div className="window-content" style={{width: Maximized? "100%" : "auto", height: Maximized? "100%" : "auto"}}>
+                {props.children}
             </div>
         </motion.div>
     )

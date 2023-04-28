@@ -18,7 +18,7 @@
     display: flex;
     text-align: center;
     justify-content: flex-end;
-    height: 35px;
+    height: 30px;
     color: white;
     background-image: linear-gradient(90deg, #3f3550, #523a54);
 }
@@ -45,15 +45,15 @@
 #square-button {
     display: block;
     aspect-ratio: 1 / 1;
-    width: 13px;
+    width: 10px;
     border: 1px solid;
 }
 
 #dismiss-button {
     display: block;
     aspect-ratio: 1 / 2;
-    width: 15px;
-    height: 2px;
+    width: 10px;
+    height: 1px;
     background-color: white;
 }
 
