@@ -11,6 +11,7 @@ type PropTypes = {
     ApplicationName: string,
     Icon: string,
     id: number,
+    customTaskbarIcon?: string,
     Style?: {
         gridRow?: number,
         gridColumn?: number
@@ -39,7 +40,7 @@ function DesktopIcon(Props: PropTypes)
         dispatch(openApplication(ApplicationObject));
         dispatch(setFocusedApp(ApplicationObject.id));
 
-        dispatch(openTaskbarApplication({id, AppId: id, Icon: Props.Icon}));
+        dispatch(openTaskbarApplication({id, AppId: id, Icon: Props.Icon, CustomTaskbarIcon: Props.customTaskbarIcon}));
     }
 
     return (

@@ -69,11 +69,9 @@ function TaskBarApp(Props: PropTypes)
         ClassListString = ClassListString + " Windows-Taskbar-Icon";
 
     return (
-        <>
-            <div className={ClassListString} onClick={OnClickHandler}>
-                <motion.img variants={AnimationFrames} initial="init" animate="enterance" src={Props.Icon} className="Taskbar-App-Main-Icon" />
-            </div>
-        </>
+        <div className={ClassListString} onClick={OnClickHandler}>
+            <motion.img variants={AnimationFrames} initial="init" animate="enterance" src={Props.Icon} className="Taskbar-App-Main-Icon" />
+        </div>
     )
 }
 

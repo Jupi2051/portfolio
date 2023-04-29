@@ -8,7 +8,8 @@ import { setFocusedApp } from "../Storage/Slices/Desktop";
 type PropTypes = {
     Icon: string,
     ApplicationName: string,
-    App: DesktopAppsList
+    App: DesktopAppsList,
+    customTaskbarIcon?: string
 }
 
 function WindowsSettingsApp(Props: PropTypes)
@@ -26,7 +27,7 @@ function WindowsSettingsApp(Props: PropTypes)
         dispatch(openApplication(appObject));
         dispatch(setFocusedApp(appObject.id));
 
-        dispatch(openTaskbarApplication({id, AppId: id, Icon: Props.Icon}));
+        dispatch(openTaskbarApplication({id, AppId: id, Icon: Props.Icon, CustomTaskbarIcon: Props.customTaskbarIcon}));
     }
 
     return (

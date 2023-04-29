@@ -11,12 +11,24 @@ const InitialState: InitState = {
     RenderWindowsSettings: false
 };
 
+type OpenTaskbarAppPayload = {
+    AppId: number,
+    id: number,
+    Icon: string,
+    CustomTaskbarIcon?: string
+}
+
 const TaskbarStateReducer = createSlice({
     name: "TaskbarState",
     initialState: InitialState,
     reducers: {
-        openTaskbarApplication: (state, action: PayloadAction<TaskbarOpenApplication>) => {
-            state.TaskbarOpenApplications = [...state.TaskbarOpenApplications, action.payload]
+        openTaskbarApplication: (state, action: PayloadAction<OpenTaskbarAppPayload>) => {
+            const processedApp: TaskbarOpenApplication = {
+                AppId: action.payload.AppId,
+                id: action.payload.id,
+                Icon: action.payload.CustomTaskbarIcon?? action.payload.Icon,
+            };
+            state.TaskbarOpenApplications = [...state.TaskbarOpenApplications, processedApp]
             return state;
         },
         closeTaskbarApplication: (state, action: PayloadAction<number>) => {

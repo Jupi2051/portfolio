@@ -20,7 +20,9 @@ export type OpenApplication = {
     id: number,
     App: DesktopAppsList,
     processName: string,
-    processIcon: string
+    processIcon: string,
+    taskbarIcon?: string,
+    processProps?: Object
 }
 
 const DefaultDesktopSize = {
@@ -39,7 +41,8 @@ type DesktopIconData = {
         gridColumn?: number
     },
     Selected: boolean,
-    AppComponent: DesktopAppsList
+    AppComponent: DesktopAppsList,
+    customTaskbarIcon?: string,
 };
 
 export let DesktopIcons: DesktopIconData[] = [
@@ -50,6 +53,7 @@ export let DesktopIcons: DesktopIconData[] = [
     {id: 4, Name: "Jenni", IconPath: "Imgs/DesktopApps/Jenni.png", Style: {}, Selected: false, AppComponent: DesktopAppsList.DummyApp},
     {id: 5, Name: "Galaxy Gym", IconPath: "Imgs/DesktopApps/Galaxygym.png", Style: {}, Selected: false, AppComponent: DesktopAppsList.DummyApp},
     {id: 6, Name: "Steam", IconPath: "Imgs/DesktopApps/Steam.png", Style: {}, Selected: false, AppComponent: DesktopAppsList.Steam},
+    {id: 7, Name: "Chloe", IconPath: "Imgs/Images/Chloe.png", Style: {}, Selected: false, AppComponent: DesktopAppsList.DummyApp, customTaskbarIcon: "Imgs/Apps/Photos.jpg"}
 ];
 
 let Timer: number;
@@ -211,11 +215,6 @@ function Desktop()
         dispatch(setFocusedApp(-1)); // unfocus everything.
     }
 
-    function OpenApp(something: OpenApplication) : void
-    {
-
-    }
-
     return (
         <>
             <div id="Desktop" ref={ref} onMouseMove={onMouseMove} onResize={onDesktopResize} onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
@@ -229,6 +228,7 @@ function Desktop()
                     id={desktopApp.id}
                     Style={desktopApp.Style}
                     Selected={desktopApp.Selected}
+                    customTaskbarIcon={desktopApp.customTaskbarIcon}
                     key={desktopApp.id}
                     AppName={desktopApp.AppComponent} />
                 )}
