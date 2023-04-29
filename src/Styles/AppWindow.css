@@ -35,7 +35,7 @@
     resize: both;
     overflow: hidden;
     /* min-width: 600px; */
-    max-height: 800px;
+    /* max-height: 800px; */
     width: 600px;
     height: 500px;
 }

@@ -120,7 +120,7 @@ function AppWindow(props: PropType)
         }
     }
 
-    function onWindowClick()
+    function onWindowMouseDown()
     {
         dispatch(bringToFront(props.AppId));
         dispatch(setFocusedApp(props.AppId));
@@ -135,6 +135,12 @@ function AppWindow(props: PropType)
         dispatch(setFocusedApp(-1));
     }
 
+    function onWindowClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>)
+    {
+        if (event.detail !== 2) return;
+        SetMaximized(!Maximized);
+    }
+
     const animateValue = isMinimized === undefined? "visible" : (isMinimized === true? "minimized" : "visible");
     const MaximizedClass = Maximized? " maximized-app-window" : "";
     const FocusedClass = isFocused? " focused-app-window" : ""; 
@@ -147,7 +153,8 @@ function AppWindow(props: PropType)
         initial="hidden"
         animate={animateValue}
         transition={{duration: 0.1, width: {duration: 0.125}, height: {duration: 0.125}, x: {duration: 0}, y: {duration: 0}}}
-        onMouseDown={onWindowClick}>
+        onMouseDown={onWindowMouseDown}
+        onClick={onWindowClick}>
             <div className="window-header" onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
                 {
                     props.processName !== undefined || props.processIcon !== undefined? 
