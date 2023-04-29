@@ -30,7 +30,7 @@ function WindowsSettings()
             <div className="windows-settings-apps-container">
                 {
                     DesktopIcons.map((element) =>
-                        <WindowsSettingsApp App={element.AppComponent} ApplicationName={element.Name} Icon={element.IconPath} customTaskbarIcon={element.customTaskbarIcon} key={element.id}/>
+                        <WindowsSettingsApp App={element.AppComponent} ApplicationName={element.Name} Icon={element.IconPath} customTaskbarIcon={element.customTaskbarIcon} processProps={element.processData} key={element.id}/>
                     )
                 }
             </div>

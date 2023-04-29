@@ -43,6 +43,7 @@ type DesktopIconData = {
     Selected: boolean,
     AppComponent: DesktopAppsList,
     customTaskbarIcon?: string,
+    processData?: any,
 };
 
 export let DesktopIcons: DesktopIconData[] = [
@@ -53,7 +54,7 @@ export let DesktopIcons: DesktopIconData[] = [
     {id: 4, Name: "Jenni", IconPath: "Imgs/DesktopApps/Jenni.png", Style: {}, Selected: false, AppComponent: DesktopAppsList.DummyApp},
     {id: 5, Name: "Galaxy Gym", IconPath: "Imgs/DesktopApps/Galaxygym.png", Style: {}, Selected: false, AppComponent: DesktopAppsList.DummyApp},
     {id: 6, Name: "Steam", IconPath: "Imgs/DesktopApps/Steam.png", Style: {}, Selected: false, AppComponent: DesktopAppsList.Steam},
-    {id: 7, Name: "Chloe", IconPath: "Imgs/Images/Chloe.png", Style: {}, Selected: false, AppComponent: DesktopAppsList.DummyApp, customTaskbarIcon: "Imgs/Apps/Photos.jpg"}
+    {id: 7, Name: "Chloe", IconPath: "Imgs/Images/Chloe.png", Style: {}, Selected: false, AppComponent: DesktopAppsList.Photos, customTaskbarIcon: "Imgs/Apps/Photos.jpg", processData: {openedImage: "Imgs/Images/Chloe.png"}}
 ];
 
 let Timer: number;
@@ -230,7 +231,8 @@ function Desktop()
                     Selected={desktopApp.Selected}
                     customTaskbarIcon={desktopApp.customTaskbarIcon}
                     key={desktopApp.id}
-                    AppName={desktopApp.AppComponent} />
+                    AppName={desktopApp.AppComponent}
+                    processProps={desktopApp.processData}/>
                 )}
                 <AnimatePresence>
                     <ApplicationsContainer OpenApplications={OpenApplications} />

@@ -4,12 +4,14 @@ import { useDispatch } from "react-redux";
 import { openTaskbarApplication, setRenderWindowsSettings } from "../Storage/Slices/Taskbar";
 import { openApplication, setZIndex } from "../Storage/Slices/Main";
 import { setFocusedApp } from "../Storage/Slices/Desktop";
+import { OpenApplication } from "./Desktop";
 
 type PropTypes = {
     Icon: string,
     ApplicationName: string,
     App: DesktopAppsList,
-    customTaskbarIcon?: string
+    customTaskbarIcon?: string,
+    processProps: Object
 }
 
 function WindowsSettingsApp(Props: PropTypes)
@@ -19,7 +21,7 @@ function WindowsSettingsApp(Props: PropTypes)
     function onClickApplication()
     {
         const id = +new Date();
-        const appObject = {id, App: Props.App, processIcon: Props.Icon, processName: Props.ApplicationName};
+        const appObject: OpenApplication = {id, App: Props.App, processIcon: Props.Icon, processName: Props.ApplicationName, processProps: Props.processProps};
 
         dispatch(setRenderWindowsSettings(false)); //
         
