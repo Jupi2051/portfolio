@@ -13,7 +13,7 @@ const exitAndOpen = {
     init: {opacity: 1, scale: 1}
 }
 
-function Steam(Props: PropTypes)
+function Jenni(Props: PropTypes)
 {
     return(
         <motion.div variants={exitAndOpen} exit="exit" transition={{duration: 0.1}} initial="init" animate="init" layout>
@@ -24,4 +24,4 @@ function Steam(Props: PropTypes)
     )
 }
 
-export default Steam;
+export default Jenni;

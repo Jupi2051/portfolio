@@ -2,7 +2,7 @@ import { AnimatePresence } from "framer-motion";
 import { ReactElement } from "react";
 import { OpenApplication } from "./Desktop";
 import DummyApp from "./Apps/DummyApp";
-import Steam from "./Apps/Steam";
+import Jenni from "./Apps/Jenni";
 import Photos from "./Apps/Photos";
 
 type PropTypes = {
@@ -11,7 +11,7 @@ type PropTypes = {
 
 export enum DesktopAppsList {
     DummyApp,
-    Steam,
+    Jenni,
     Photos
 };
 
@@ -23,7 +23,7 @@ function ApplicationsContainer(Props: PropTypes)
                 switch (openApp.App)
                 {
                     case DesktopAppsList.DummyApp: return <DummyApp AppId={openApp.id} key={openApp.id} processIcon={openApp.processIcon} processName={openApp.processName}/>
-                    case DesktopAppsList.Steam: return <Steam AppId={openApp.id} key={openApp.id} processIcon={openApp.processIcon} processName={openApp.processName}/>
+                    case DesktopAppsList.Jenni: return <Jenni AppId={openApp.id} key={openApp.id} processIcon={openApp.processIcon} processName={openApp.processName}/>
                     case DesktopAppsList.Photos: return <Photos AppId={openApp.id} key={openApp.id} processIcon={openApp.processIcon} processName={openApp.processName} processData={{...openApp.processProps?? {}}} />
                 }
             }

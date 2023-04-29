@@ -98,8 +98,9 @@
 }
 
 .process-data-container > img {
-    max-height: 60%;
-    max-height: 60%;
+    max-width: 17px;
+    /* max-height: 20px; */
+    /* max-height: 60%; */
 }
 
 .process-data-container > p {
