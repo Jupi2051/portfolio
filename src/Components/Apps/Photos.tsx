@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import AppWindow from "../AppWindow";
+import "../../Styles/Apps/Photos.css";
 
 type PropTypes = {
     AppId: number,
@@ -20,7 +21,9 @@ function Photos(Props: PropTypes)
     return(
         <motion.div variants={exitAndOpen} exit="exit" transition={{duration: 0.1}} initial="init" animate="init" layout>
             <AppWindow AppId={Props.AppId} processIcon={Props.processIcon} processName={Props.processName}>
-                <img src={PassedData.openedImage} />
+                <div className="main-container">
+                    <img src={PassedData.openedImage} />
+                </div>
             </AppWindow>
         </motion.div>
         )
