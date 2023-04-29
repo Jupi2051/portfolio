@@ -42,9 +42,23 @@
 }
 
 .windows-settings-apps-container {
-    display: flex;
+    align-self: center;
+    width: 100%;
+    align-items: center;
+    justify-items: center;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 25px 20px;
     justify-content: space-between;
     flex-wrap: wrap;
+}
+
+.pinned-apps-main {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-self: center;
 }
 
 .windows-settings-social-container {

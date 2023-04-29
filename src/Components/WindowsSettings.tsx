@@ -25,7 +25,7 @@ function WindowsSettings()
 {
     return <motion.div className="windows-settings-container" variants={BottomAnimationVariants} initial="hidden" animate="visible" exit="exit">
         <input type="text" placeholder="Search for apps, settings and documents." title="Search" className="search-bar"/>
-        <div>
+        <div className="pinned-apps-main">
             <p>Pinned</p>
             <div className="windows-settings-apps-container">
                 {
