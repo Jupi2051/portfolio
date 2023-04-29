@@ -35,7 +35,7 @@ function DesktopIcon(Props: PropTypes)
         if (event.detail !== 2) return;
         const id = +new Date();
 
-        const ApplicationObject: OpenApplication = {id, App: Props.AppName, processIcon: Props.Icon, processName: Props.ApplicationName, processProps: Props.processProps};
+        const ApplicationObject: OpenApplication = {id, App: Props.AppName, processIcon: Props.customTaskbarIcon?? Props.Icon, processName: Props.ApplicationName, processProps: Props.processProps};
 
         dispatch(setZIndex({id: ApplicationObject.id, zindex: 1}));
         dispatch(openApplication(ApplicationObject));

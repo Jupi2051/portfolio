@@ -21,7 +21,7 @@ function WindowsSettingsApp(Props: PropTypes)
     function onClickApplication()
     {
         const id = +new Date();
-        const appObject: OpenApplication = {id, App: Props.App, processIcon: Props.Icon, processName: Props.ApplicationName, processProps: Props.processProps};
+        const appObject: OpenApplication = {id, App: Props.App, processIcon: Props.customTaskbarIcon?? Props.Icon, processName: Props.ApplicationName, processProps: Props.processProps};
 
         dispatch(setRenderWindowsSettings(false)); //
         
