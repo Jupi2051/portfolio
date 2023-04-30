@@ -18,7 +18,7 @@ function Jenni(Props: PropTypes)
     return(
         <motion.div variants={exitAndOpen} exit="exit" transition={{duration: 0.1}} initial="init" animate="init" layout>
             <AppWindow AppId={Props.AppId} processIcon={Props.processIcon} processName={Props.processName}>
-                <iframe src="https://www.jennixdraws.com/" style={{width: "100%", height: "100%"}}></iframe>
+                <iframe src="https://www.jennixdraws.com/" style={{width: "100%", height: "100%", border: "none"}}></iframe>
             </AppWindow>
         </motion.div>
     )
