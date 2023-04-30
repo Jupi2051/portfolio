@@ -52,7 +52,7 @@ export let DesktopIcons: DesktopIconData[] = [
     {id: 2, Name: "EIEN", IconPath: "Imgs/DesktopApps/EIEN.webp", Style: {}, Selected: false, AppComponent: DesktopAppsList.EIEN},
     {id: 3, Name: "Oni", IconPath: "Imgs/DesktopApps/Oni.png", Style: {}, Selected: false, AppComponent: DesktopAppsList.DummyApp},
     {id: 4, Name: "Jenni", IconPath: "Imgs/DesktopApps/Jenni.png", Style: {}, Selected: false, AppComponent: DesktopAppsList.Jenni},
-    {id: 5, Name: "Galaxy Gym", IconPath: "Imgs/DesktopApps/Galaxygym.png", Style: {}, Selected: false, AppComponent: DesktopAppsList.DummyApp},
+    {id: 5, Name: "Galaxy Gym", IconPath: "Imgs/DesktopApps/Galaxygym.png", Style: {}, Selected: false, AppComponent: DesktopAppsList.GalaxyGym},
     {id: 6, Name: "Steam", IconPath: "Imgs/DesktopApps/Steam.png", Style: {}, Selected: false, AppComponent: DesktopAppsList.DummyApp},
     {id: 7, Name: "Chloe", IconPath: "Imgs/Images/Chloe.png", Style: {}, Selected: false, AppComponent: DesktopAppsList.Photos, customTaskbarIcon: "Imgs/Apps/Photos.jpg", processData: {openedImage: "Imgs/Images/Chloe.png"}},
     {id: 8, Name: "So True", IconPath: "https://cdn.discordapp.com/attachments/854012967820460102/1101837385131638864/Fotji3MWAAE-XkO.jpg", Style: {}, Selected: false, AppComponent: DesktopAppsList.Photos, customTaskbarIcon: "Imgs/Apps/Photos.jpg", processData: {openedImage: "https://cdn.discordapp.com/attachments/854012967820460102/1101837385131638864/Fotji3MWAAE-XkO.jpg"}}
