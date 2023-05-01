@@ -2,10 +2,16 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    /* justify-content: space-between; */
     /* size: 0px; */
     /* height: 50px; */
     /* max-height: 50px; */
+    height: 100%;
+    width: 100%;
     max-width: 50px;
+    
+    /* max-height: 70px; */
+    /* justify-content: space-between; */
     align-items: center;
     justify-content: center;
     color: white;
@@ -17,13 +23,19 @@
 .settings-app-container > img {
     max-width: 100%;
     transition: transform 0.15s ease;
+    margin-bottom: 20px;
 }
 
 .settings-app-container > p {
+    position: absolute;
+    bottom: 0px;
+    white-space: nowrap;
     font-family: 'Segoe UI Light';
     font-weight: 100;
     font-size: 1.3em;
     text-align: center;
+    /* margin-top: auto;
+     */
 }
 
 .settings-app-container::before {
