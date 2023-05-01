@@ -1,0 +1,37 @@
+.stack-tools-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 7.5px;
+}
+
+.tool-container {
+    font-size: 10px;
+    display: flex;
+    width: fit-content;
+    padding: 2px 10px;
+    border-radius: 20px;
+    --gap-value: 5px;
+    gap: var(--gap-value);
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(61, 61, 61);
+    border: 0.2px solid rgb(88, 88, 88);
+    overflow: hidden;
+    user-select: none;
+    cursor: pointer;
+}
+
+.tool-container > img {
+    max-width: 15px;
+    max-height: 15px;
+}
+
+.tool-container > h1 {
+    font-family: "Rubik Bold";
+    text-transform: uppercase;
+    font-size: 1em;
+    overflow: hidden;
+}
