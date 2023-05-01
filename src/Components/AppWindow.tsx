@@ -41,7 +41,7 @@ function AppWindow(props: PropType)
     const WindowId = useMemo(() => +new Date(), []);
     const CursorOffset = useSelector((x: RootState) => x.desktopState.mouseMovementOffset);
     const { width, height, ref } = useResizeDetector();
-    const [MinimizedDimensions, SetMinmizedDimensions] = useState<Dimensions2D>({width, height})
+    const [MinimizedDimensions, SetMinmizedDimensions] = useState<Dimensions2D>({width: 500, height: 500})
 
     let FoundObject = WindowLocatorData.get(WindowId);
     if (!FoundObject)
