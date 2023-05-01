@@ -34,4 +34,6 @@
     text-transform: uppercase;
     font-size: 1em;
     overflow: hidden;
+    color: white;
+    white-space: nowrap;
 }
