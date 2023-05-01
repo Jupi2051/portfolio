@@ -29,7 +29,8 @@ export enum StackTool {
     WooCommerce,
     Wordpress,
     Bootstrap,
-    Twitter
+    Twitter,
+    JSON
 };
 
 type PropTypes = {
@@ -69,6 +70,7 @@ StackDataContainer.set(StackTool.WooCommerce, {Name: "WooCommerce", IconName: "W
 StackDataContainer.set(StackTool.Wordpress, {Name: "Wordpress", IconName: "Wordpress.svg"});
 StackDataContainer.set(StackTool.Bootstrap, {Name: "Bootstrap", IconName: "Bootstrap.svg"});
 StackDataContainer.set(StackTool.Twitter, {Name: "Twitter", IconName: "Twitter.svg"});
+StackDataContainer.set(StackTool.JSON, {Name: "JSON", IconName: "JSON.svg"});
 
 function Stack(props: PropTypes)
 {
