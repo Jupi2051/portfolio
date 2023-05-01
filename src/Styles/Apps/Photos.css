@@ -11,6 +11,5 @@
 .main-container > img {
     max-width: 85%;
     max-height: 85%;
-    border-radius: 10px;
     user-select: none;
 }
