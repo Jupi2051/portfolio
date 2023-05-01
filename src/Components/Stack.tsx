@@ -66,7 +66,7 @@ StackDataContainer.set(StackTool.VisualStudio, {Name: "Visual Studio", IconName:
 StackDataContainer.set(StackTool.VsCode, {Name: "Visual Studio Code", IconName: "VsCode.svg"});
 StackDataContainer.set(StackTool.WooCommerce, {Name: "WooCommerce", IconName: "WooCommerce.svg"});
 StackDataContainer.set(StackTool.Wordpress, {Name: "Wordpress", IconName: "Wordpress.svg"});
-StackDataContainer.set(StackTool.Wordpress, {Name: "Bootstrap", IconName: "Bootstrap.svg"});
+StackDataContainer.set(StackTool.Bootstrap, {Name: "Bootstrap", IconName: "Bootstrap.svg"});
 
 function Stack(props: PropTypes)
 {
