@@ -55,7 +55,7 @@ export let DesktopIcons: DesktopIconData[] = [
     {id: 5, Name: "Galaxy Gym", IconPath: "Imgs/DesktopApps/Galaxygym.png", Style: {}, Selected: false, AppComponent: DesktopAppsList.GalaxyGym},
     {id: 6, Name: "Steam", IconPath: "Imgs/DesktopApps/Steam.png", Style: {}, Selected: false, AppComponent: DesktopAppsList.DummyApp},
     {id: 7, Name: "Chloe", IconPath: "Imgs/Images/Chloe.png", Style: {}, Selected: false, AppComponent: DesktopAppsList.Photos, customTaskbarIcon: "Imgs/Apps/Photos.jpg", processData: {openedImage: "Imgs/Images/Chloe.png"}},
-    {id: 8, Name: "So True", IconPath: "https://cdn.discordapp.com/attachments/854012967820460102/1101837385131638864/Fotji3MWAAE-XkO.jpg", Style: {}, Selected: false, AppComponent: DesktopAppsList.Photos, customTaskbarIcon: "Imgs/Apps/Photos.jpg", processData: {openedImage: "https://cdn.discordapp.com/attachments/854012967820460102/1101837385131638864/Fotji3MWAAE-XkO.jpg"}}
+    {id: 8, Name: "So True", IconPath: "https://cdn.discordapp.com/attachments/839866706679955517/1102616094730096661/1500x500.jpg", Style: {}, Selected: false, AppComponent: DesktopAppsList.Photos, customTaskbarIcon: "Imgs/Apps/Photos.jpg", processData: {openedImage: "https://cdn.discordapp.com/attachments/839866706679955517/1102616094730096661/1500x500.jpg"}}
 ];
 
 let Timer: number;
