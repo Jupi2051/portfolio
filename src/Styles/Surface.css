@@ -20,3 +20,13 @@
     font-family: "Segoe UI Light";
     src: local("Segoe UI Light"), url("/src/fonts/SEGOEUI\ LIGHT.ttf") format("truetype");
 }
+
+@font-face {
+    font-family: "Rubik Bold";
+    src: local("Rubik Bold"), url("/src/fonts/RUBIK\ BOLD.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Mukta";
+    src: local("Mukta SemiBold"), url("/src/fonts/MUKTA\ SEMIBOLD.ttf") format("truetype");
+}
