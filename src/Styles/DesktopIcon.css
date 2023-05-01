@@ -5,6 +5,8 @@ div.Desktop-Icon-Container
     flex-direction: column;
     width: 100px;
     height: 100px;
+    padding-bottom: 20px;
+    /* padding-top: 20px; */
     align-items: center;
     justify-content: center;
     color: white;
@@ -13,6 +15,8 @@ div.Desktop-Icon-Container
 }
 
 div.Desktop-Icon-Container > h1 {
+    position: absolute;
+    bottom: 5px;
     font-family: "Segoe UI Light";
     font-weight: 100;
     text-shadow: -1px -1px 1px #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
@@ -24,7 +28,7 @@ div.Desktop-Icon-Container > h1 {
 }
 
 div.Desktop-Icon-Container > img {
-    width: 65%;
+    width: 60%;
     pointer-events: none;
 }
 
