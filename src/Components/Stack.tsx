@@ -45,7 +45,7 @@ type StackToolInformation = {
 export let StackDataContainer: Map<StackTool, StackToolInformation> = new Map<StackTool, StackToolInformation>();
 
 StackDataContainer.set(StackTool.Blender, {Name: "Blender", IconName: "Blender.svg"});
-StackDataContainer.set(StackTool.CSharp, {Name: "C#", IconName: "C#.svg"});
+StackDataContainer.set(StackTool.CSharp, {Name: "C#", IconName: "CSharp.svg"});
 StackDataContainer.set(StackTool.CSS, {Name: "CSS", IconName: "CSS.svg"});
 StackDataContainer.set(StackTool.Discord, {Name: "Discord", IconName: "Discord.svg"});
 StackDataContainer.set(StackTool.Express, {Name: "ExpressJS", IconName: "Express.svg"});
