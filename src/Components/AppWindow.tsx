@@ -166,9 +166,8 @@ function AppWindow(props: PropType)
         initial="hidden"
         animate={animateValue}
         transition={{duration: 0.1, width: {duration: 0.125}, height: {duration: 0.125}, x: {duration: 0}, y: {duration: 0}}}
-        onMouseDown={onWindowMouseDown}
-        onClick={onWindowClick}>
-            <div className="window-header" onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
+        onMouseDown={onWindowMouseDown}>
+            <div className="window-header" onMouseDown={onMouseDown} onMouseUp={onMouseUp} onClick={onWindowClick}>
                 {
                     props.processName !== undefined || props.processIcon !== undefined? 
                     <div className="process-data-container">
