@@ -7,6 +7,7 @@ import { RootState } from "../Storage/Store";
 import { bringToFront, closeApplication, setZIndex, unhandleZIndex } from "../Storage/Slices/Main";
 import { closeTaskbarApplication } from "../Storage/Slices/Taskbar";
 import { setFocusedApp, setMinimizedState, setMouseMovementOffset } from "../Storage/Slices/Desktop";
+import { useResizeDetector } from "react-resize-detector";
 
 type PropType = {
     children?: ReactNode,
@@ -17,6 +18,11 @@ type PropType = {
 
 type WindowBorderBox = {
     Location: Point
+};
+
+type Dimensions2D = {
+    width?: number,
+    height?: number
 };
 
 let WindowLocatorData = new Map<number, WindowBorderBox>();
@@ -34,6 +40,8 @@ function AppWindow(props: PropType)
     const isMinimized = MinimizedData.find((element) => element.id === props.AppId)?.minimized?? false; // its not minimized by default
     const WindowId = useMemo(() => +new Date(), []);
     const CursorOffset = useSelector((x: RootState) => x.desktopState.mouseMovementOffset);
+    const { width, height, ref } = useResizeDetector();
+    const [MinimizedDimensions, SetMinmizedDimensions] = useState<Dimensions2D>({width, height})
 
     let FoundObject = WindowLocatorData.get(WindowId);
     if (!FoundObject)
@@ -44,7 +52,12 @@ function AppWindow(props: PropType)
     
     function MaximizeWindow()
     {
-        SetMaximized(!Maximized);
+        const maximizationNewState = !Maximized;
+
+        if (maximizationNewState)
+            SetMinmizedDimensions({width: width?? 0, height: height?? 0});
+
+        SetMaximized(maximizationNewState);
     }
 
     function CloseApplication()
@@ -171,7 +184,7 @@ function AppWindow(props: PropType)
                     <span className="window-control-button" onClick={onDismissButton}><span id="dismiss-button"/></span>
                 </div>
             </div>
-            <div className="window-content" style={{width: Maximized? "100%" : "auto", height: Maximized? "100%" : "auto"}}>
+            <div className="window-content" style={{width: Maximized? "100%" : MinimizedDimensions.width?? "auto", height: Maximized? "100%" : MinimizedDimensions.height?? "auto"}} ref={ref}>
                 {props.children}
             </div>
         </motion.div>
