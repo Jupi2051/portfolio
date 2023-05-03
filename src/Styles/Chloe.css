@@ -1,0 +1,52 @@
+.chloe-container {
+    position: absolute;
+    /* pointer-events: none; */
+    /* z-index: -1; */
+    max-width: 500px;
+    bottom: -5px;
+    right: 0;
+}
+
+.chloe-image {
+    width: 100px;
+}
+
+.text-container {
+    position: absolute;
+    /* display: none; */
+    bottom: 100%;
+    right: 40%;
+    isolation: isolate;
+}
+
+.speech-bubble {
+    display: flex;
+    flex-direction: column;
+    padding-inline: 20px 10px;
+    padding-block: 20px;
+    align-items: center;
+    justify-content: center;
+    bottom: 70px;
+    right: 0px;
+    aspect-ratio: 18/14;
+    width: 200px;
+    color: black;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1;
+    letter-spacing: -1px;
+}
+
+
+.speech-bubble::before {
+    content: "";
+    position: absolute;
+    width: 110%;
+    height: 110%;
+    left: -8%;
+    top: 0px;
+    background-image: url('/Imgs/Images/Speech.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: visible;
+    z-index: -1;
+}
