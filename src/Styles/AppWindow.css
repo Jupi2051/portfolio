@@ -4,12 +4,12 @@
     left: 0%;
     width: 100%;
     height: 100%;
+    pointer-events: none;
 }
 
 .app-window {
+    pointer-events: initial;
     position: absolute;
-    /* width: auto; */
-    /* height: fit-content; */
     border: 1px solid black;
     margin-inline: auto;
     border-radius: 6px;
@@ -107,8 +107,6 @@
 
 .process-data-container > img {
     max-width: 17px;
-    /* max-height: 20px; */
-    /* max-height: 60%; */
 }
 
 .process-data-container > p {
