@@ -16,6 +16,8 @@
     /* display: none; */
     bottom: 100%;
     right: 40%;
+    width: 200px;
+    height: 155px;
     isolation: isolate;
 }
 
@@ -34,10 +36,10 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1;
     letter-spacing: -1px;
+    user-select: none;
 }
 
-
-.speech-bubble::before {
+.text-container::before {
     content: "";
     position: absolute;
     width: 110%;
@@ -50,3 +52,11 @@
     overflow: visible;
     z-index: -1;
 }
+
+.absolute-position-text {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+}
+
+/* .absolute-position-text::before {display: none;} */
