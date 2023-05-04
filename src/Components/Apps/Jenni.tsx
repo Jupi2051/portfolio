@@ -19,7 +19,7 @@ const exitAndOpen = {
 function Jenni(Props: PropTypes)
 {
     return(
-        <motion.div variants={exitAndOpen} exit="exit" transition={{duration: 0.1}} initial="init" animate="init" layout>
+        <motion.div variants={exitAndOpen} exit="exit" transition={{duration: 0.1}} initial="init" animate="init" className="main-app-container">
             <AppWindow AppId={Props.AppId} processIcon={Props.processIcon} processName={Props.processName}>
                 <div style={{width: "100%", height: "100%", border: "none", overflowY: "scroll"}} className="showcase-app-main-container">
                     <div>

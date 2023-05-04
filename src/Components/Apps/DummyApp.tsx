@@ -16,7 +16,7 @@ const exitAndOpen = {
 const ChloeExplanation: ChloeConversation[] = [
     {
         ChloeSpeechUnits: [
-            {emotion: ChloeEmotion.Excited, Message: "first co"},
+            {emotion: ChloeEmotion.Excited, Message: "so true bestie"},
             {emotion: ChloeEmotion.Excited, Message: "is going"},
             {emotion: ChloeEmotion.Excited, Message: "very"},
             {emotion: ChloeEmotion.Excited, Message: "bestie"}
@@ -43,10 +43,10 @@ const ChloeExplanation: ChloeConversation[] = [
 function DummyApp(Props: PropTypes)
 {
     return(
-    <motion.div variants={exitAndOpen} exit="exit" transition={{duration: 0.1}} initial="init" animate="init" layout>
+    <motion.div variants={exitAndOpen} exit="exit" transition={{duration: 0.1}} initial="init" animate="init" className="main-app-container">
         <AppWindow AppId={Props.AppId} processIcon={Props.processIcon} processName={Props.processName}>
                 <h1>So True Bestie!</h1>
-                <Chloe ConversationIndex={1} Conversations={ChloeExplanation}/>
+                <Chloe ConversationIndex={0} Conversations={ChloeExplanation}/>
         </AppWindow>
     </motion.div>
     )

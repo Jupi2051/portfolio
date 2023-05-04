@@ -17,7 +17,7 @@ const exitAndOpen = {
 function GalaxyGym(Props: PropTypes)
 {
     return(
-        <motion.div variants={exitAndOpen} exit="exit" transition={{duration: 0.1}} initial="init" animate="init" layout>
+        <motion.div variants={exitAndOpen} exit="exit" transition={{duration: 0.1}} initial="init" animate="init" className="main-app-container">
             <AppWindow AppId={Props.AppId} processIcon={Props.processIcon} processName={Props.processName}>
                 <Stack StackTools={[StackTool.HTML, StackTool.CSS, StackTool.Express, StackTool.Nginx, StackTool.React, StackTool.Redux, StackTool.PostgreSQL, StackTool.VsCode, StackTool.Typescript, StackTool.Ubuntu, StackTool.NodeJS]} />
                 <iframe src="https://www.galaxygym.eu/" style={{width: "100%", height: "100%", border: "none"}}></iframe>
