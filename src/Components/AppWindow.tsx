@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useMemo, useState } from "react";
 import "../Styles/AppWindow.css";
-import { AnimatePresence, Point, motion } from "framer-motion";
+import { AnimatePresence, Point, Variants, motion } from "framer-motion";
 import useMousePosition from "../Hooks/useMousePosition";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../Storage/Store";
@@ -101,7 +101,7 @@ function AppWindow(props: PropType)
         WindowLocatorData.set(WindowId, {Location: NewLocation});
     }
 
-    const exitAndOpen = {
+    const exitAndOpen: Variants = {
         hidden: {
             scale: 0.9,
             filter: "blur(1px)",
@@ -110,26 +110,26 @@ function AppWindow(props: PropType)
         visible: {
             scale: 1,
             filter: "blur(0px)",
+            opacity: 1,
             x: Maximized? 0 : NewLocation.x,
             y: Maximized? 0 : NewLocation.y,
             zIndex: Maximized? 200 : zIndexFront,
-            opacity: 1,
             width: Maximized? "100%" : "auto",
             height: Maximized? "100%" : "auto",
             left: Maximized? "0" : undefined,
-            top: Maximized? "0" : undefined,
+            top: Maximized? "0" : undefined
         },
         minimized: {
-            scale: 1,
             filter: "blur(1px)",
-            x: "-50%",
-            y: "100%",
-            left: "50%",
+            x: Maximized? 0 : NewLocation.x,
+            y: Maximized? 0 : NewLocation.y,
+            left: "0%",
             top: "100%",
-            zIndex: Maximized? 200 : zIndexFront,
-            opacity: 1,
+            scale: 0,
+            opacity: 0,
             width: Maximized? "100%" : "auto",
             height: Maximized? "100%" : "auto",
+            zIndex: Maximized? 200 : zIndexFront
         }
     }
 
