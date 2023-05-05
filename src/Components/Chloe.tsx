@@ -25,12 +25,10 @@ const SpeechVariant: Variants = {
 
 export enum ChloeEmotion {
     Proud,
-    Sad,
     Exhausted,
     Frustrated,
     Thinking,
-    Nerdy,
-    Satisfied,
+    ConfidentSmile,
     Excited,
     Yay
 };
