@@ -8,12 +8,28 @@
 }
 
 .chloe-image {
-    width: 100px;
+    max-width: 150px;
+    /* height: 100px; */
+}
+
+.absolute-position-chloe {
+    position: absolute;
+    bottom: 0px;
+    right: 0;
+    display: block;
+}
+
+.expression-container {
+    width: 150px;
+    height: 230px;
+}
+
+.expression-container > img {
+    position: absolute;
 }
 
 .text-container {
     position: absolute;
-    /* display: none; */
     bottom: 100%;
     right: 40%;
     width: 200px;
@@ -58,5 +74,3 @@
     top: 0%;
     left: 0%;
 }
-
-/* .absolute-position-text::before {display: none;} */
