@@ -22,23 +22,13 @@
 }
 
 @font-face {
-    font-family: "Rubik Bold";
-    src: local("Rubik Bold"), url("/src/fonts/RUBIK\ BOLD.ttf") format("truetype");
-}
-
-@font-face {
     font-family: "Mukta";
     src: local("Mukta SemiBold"), url("/src/fonts/MUKTA\ SEMIBOLD.ttf") format("truetype");
 }
 
 @font-face {
-    font-family: "DaddysGirl";
-    src: local("DaddysGirl"), url("/src/fonts/DaddysGirl.ttf") format("truetype");
-}
-
-@font-face {
-    font-family: "PatrickHand";
-    src: local("Patrick Hand"), url("/src/fonts/PatrickHand.ttf") format("truetype");
+    font-family: "JockeyOne";
+    src: local("Jockey One"), url("/src/fonts/JockeyOne.ttf") format("truetype");
 }
 
 @font-face {

@@ -11,13 +11,12 @@
 }
 
 .showcase-app-header-title {
-    font-family: 'Mukta', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "JockeyOne";
     font-size: 3em;
     line-height: 1;
-    margin-top: 10px;
+    margin-block: 10px;
     letter-spacing: 2px;
     color: inherit;
-    text-transform: uppercase;
 }
 
 .text-align-center {text-align: center;}
