@@ -35,3 +35,13 @@
     font-family: "DaddysGirl";
     src: local("DaddysGirl"), url("/src/fonts/DaddysGirl.ttf") format("truetype");
 }
+
+@font-face {
+    font-family: "PatrickHand";
+    src: local("Patrick Hand"), url("/src/fonts/PatrickHand.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Capirola";
+    src: local("Capirola"), url("/src/fonts/Capirola.ttf") format("truetype");
+}
