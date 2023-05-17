@@ -30,3 +30,8 @@
     font-family: "Mukta";
     src: local("Mukta SemiBold"), url("/src/fonts/MUKTA\ SEMIBOLD.ttf") format("truetype");
 }
+
+@font-face {
+    font-family: "DaddysGirl";
+    src: local("DaddysGirl"), url("/src/fonts/DaddysGirl.ttf") format("truetype");
+}
