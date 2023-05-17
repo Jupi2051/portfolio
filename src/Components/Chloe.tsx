@@ -9,7 +9,7 @@ const animationVariants: Variants = {
 
 const BubbleVariants: Variants = {
     initial: {scale: 0, x: "30%", y: "70%"},
-    enter: {scale: 1, x: "0%", y: "0%"}
+    enter: {scale: 1, x: "0%", y: "0%"},
 }
 
 const ChloeVariants: Variants = {
@@ -97,7 +97,7 @@ function Chloe(props: PropTypes)
     }
     
     return(
-        <motion.div className="chloe-container" variants={animationVariants} initial="initial" animate="enter" onClick={onClickChloe}>
+        <motion.div className="chloe-container" variants={animationVariants} initial="initial" animate="enter" exit="exit" onClick={onClickChloe}>
             <motion.div className="expression-container" variants={CharacterMovement} initial="initial" exit="exit" animate="enter">
                 <AnimatePresence>
                 {

@@ -17,9 +17,11 @@ const ChloeExplanation: ChloeConversation[] = [
     {
         ChloeSpeechUnits: [
             {emotion: ChloeEmotion.Excited, Message: "so true bestie"},
-            {emotion: ChloeEmotion.Excited, Message: "is going"},
-            {emotion: ChloeEmotion.Excited, Message: "very"},
-            {emotion: ChloeEmotion.Excited, Message: "bestie"}
+            {emotion: ChloeEmotion.Excited, Message: "I'M SO HAPPY WITH THE FACT U GETTING A CAR"},
+            {emotion: ChloeEmotion.Neutral, Message: "very"},
+            {emotion: ChloeEmotion.Frustrated, Message: "So True Bestie"},
+            {emotion: ChloeEmotion.Excited, Message: "well this is a little glitchy"},
+            {emotion: ChloeEmotion.Excited, Message: "I CAN DO IT THO!"},
         ]
     },
     {
