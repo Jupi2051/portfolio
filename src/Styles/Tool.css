@@ -32,7 +32,8 @@
 }
 
 .tool-container > h1 {
-    font-family: "Rubik Bold";
+    font-family: "Capirola";
+    font-weight: lighter;
     text-transform: uppercase;
     font-size: 1em;
     overflow: hidden;
