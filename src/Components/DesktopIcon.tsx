@@ -4,7 +4,7 @@ import { OpenApplication } from "./Desktop";
 import { useDispatch } from "react-redux";
 import { openTaskbarApplication } from "../Storage/Slices/Taskbar";
 import { DesktopAppsList } from "./ApplicationsContainer";
-import { openApplication, setZIndex } from "../Storage/Slices/Main";
+import { bringToFront, openApplication, setZIndex } from "../Storage/Slices/Main";
 import { setFocusedApp } from "../Storage/Slices/Desktop";
 
 type PropTypes = {
@@ -37,10 +37,10 @@ function DesktopIcon(Props: PropTypes)
 
         const ApplicationObject: OpenApplication = {id, App: Props.AppName, processIcon: Props.customTaskbarIcon?? Props.Icon, processName: Props.ApplicationName, processProps: Props.processProps};
 
-        dispatch(setZIndex({id: ApplicationObject.id, zindex: 1}));
         dispatch(openApplication(ApplicationObject));
         dispatch(setFocusedApp(ApplicationObject.id));
         dispatch(openTaskbarApplication({id, AppId: id, Icon: Props.Icon, CustomTaskbarIcon: Props.customTaskbarIcon}));
+        dispatch(bringToFront(id));
     }
 
     return (
