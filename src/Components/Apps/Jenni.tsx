@@ -26,7 +26,6 @@ function Jenni(Props: PropTypes)
                         <h1 className="showcase-app-header-title text-align-left">Where as a common understanding and freedoms</h1>
                         <Stack StackTools={[StackTool.HTML, StackTool.CSS, StackTool.JS, StackTool.Express, StackTool.Discord, StackTool.NodeJS, StackTool.Ubuntu, StackTool.Nginx, StackTool.JSON]} />
                     </div>
-
                 </div>
             </AppWindow>
         </motion.div>

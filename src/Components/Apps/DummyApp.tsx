@@ -1,6 +1,8 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import AppWindow from "../AppWindow";
 import Chloe, { ChloeConversation, ChloeEmotion } from "../Chloe";
+import ChloeInfoButton from "../ChloeInfoButton";
+import { useState } from "react";
 
 type PropTypes = {
     AppId: number,
@@ -44,13 +46,37 @@ const ChloeExplanation: ChloeConversation[] = [
 
 function DummyApp(Props: PropTypes)
 {
+    const [renderChloe, setRenderChloe] = useState(false);
+    const [conversationIndex, setConversationIndex] = useState(0);
+
     return(
-    <motion.div variants={exitAndOpen} exit="exit" transition={{duration: 0.1}} initial="init" animate="init" className="main-app-container">
-        <AppWindow AppId={Props.AppId} processIcon={Props.processIcon} processName={Props.processName}>
-                <h1>So True Bestie!</h1>
-                <Chloe ConversationIndex={0} Conversations={ChloeExplanation}/>
-        </AppWindow>
-    </motion.div>
+        <motion.div variants={exitAndOpen} exit="exit" transition={{duration: 0.1}} initial="init" animate="init" className="main-app-container">
+            <AppWindow AppId={Props.AppId} processIcon={Props.processIcon} processName={Props.processName}>
+                <div style={{width: "100%", height: "100%", border: "none", overflowY: "scroll"}}>
+                    <ChloeInfoButton conversationIndex={2} setConversationIndex={setConversationIndex} setRenderChloe={setRenderChloe} />
+                    <h1>So True Bestie!</h1>
+                    <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae non nulla, possimus voluptates cum aut doloremque repellat pariatur consectetur placeat nam sunt molestias doloribus dicta ea debitis voluptas. Perspiciatis, quis!</h1>
+                    <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae non nulla, possimus voluptates cum aut doloremque repellat pariatur consectetur placeat nam sunt molestias doloribus dicta ea debitis voluptas. Perspiciatis, quis!</h1>
+                    <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae non nulla, possimus voluptates cum aut doloremque repellat pariatur consectetur placeat nam sunt molestias doloribus dicta ea debitis voluptas. Perspiciatis, quis!</h1>
+                    <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae non nulla, possimus voluptates cum aut doloremque repellat pariatur consectetur placeat nam sunt molestias doloribus dicta ea debitis voluptas. Perspiciatis, quis!</h1>
+                    <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae non nulla, possimus voluptates cum aut doloremque repellat pariatur consectetur placeat nam sunt molestias doloribus dicta ea debitis voluptas. Perspiciatis, quis!</h1>
+                    <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae non nulla, possimus voluptates cum aut doloremque repellat pariatur consectetur placeat nam sunt molestias doloribus dicta ea debitis voluptas. Perspiciatis, quis!</h1>
+                    <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae non nulla, possimus voluptates cum aut doloremque repellat pariatur consectetur placeat nam sunt molestias doloribus dicta ea debitis voluptas. Perspiciatis, quis!</h1>
+                    <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae non nulla, possimus voluptates cum aut doloremque repellat pariatur consectetur placeat nam sunt molestias doloribus dicta ea debitis voluptas. Perspiciatis, quis!</h1>
+                    <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae non nulla, possimus voluptates cum aut doloremque repellat pariatur consectetur placeat nam sunt molestias doloribus dicta ea debitis voluptas. Perspiciatis, quis!</h1>
+                    <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae non nulla, possimus voluptates cum aut doloremque repellat pariatur consectetur placeat nam sunt molestias doloribus dicta ea debitis voluptas. Perspiciatis, quis!</h1>
+                    <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae non nulla, possimus voluptates cum aut doloremque repellat pariatur consectetur placeat nam sunt molestias doloribus dicta ea debitis voluptas. Perspiciatis, quis!</h1>
+                    <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae non nulla, possimus voluptates cum aut doloremque repellat pariatur consectetur placeat nam sunt molestias doloribus dicta ea debitis voluptas. Perspiciatis, quis!</h1>
+                    <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae non nulla, possimus voluptates cum aut doloremque repellat pariatur consectetur placeat nam sunt molestias doloribus dicta ea debitis voluptas. Perspiciatis, quis!</h1>
+                </div>
+                {
+                    renderChloe?
+                        <Chloe unrenderFunction={setRenderChloe} ConversationIndex={conversationIndex} Conversations={ChloeExplanation}/>
+                    :
+                        null
+                }
+            </AppWindow>
+        </motion.div>
     )
 }
 

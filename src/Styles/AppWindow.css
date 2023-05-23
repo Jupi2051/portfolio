@@ -1,3 +1,22 @@
+* {
+    scrollbar-width: auto;
+    scrollbar-color: #111 #111;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    width: 6px;
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #111;
+    border-radius: 15px;
+}
+
 .main-app-container {
     position: absolute;
     top: 0%;

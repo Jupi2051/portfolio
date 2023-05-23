@@ -1,0 +1,53 @@
+.chloe-button-container {
+    position: relative;
+    border: 0.4em solid white;
+    /* background-color: ; */
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    padding: 5px 5px;
+    background: linear-gradient(45deg, rgb(199, 92, 199) 0%, rgb(120, 97, 148) 100%);
+    aspect-ratio: 1 / 1;
+    isolation: isolate;
+    overflow: hidden;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.1s ease;
+}
+
+.chloe-button-container:hover {
+    transform: scale(1.02);
+}
+
+.chloe-button-container:hover:active {
+    transform: scale(0.99);
+}
+
+.chloe-logo {
+    display: inline;
+    width: 80%;
+}
+
+.sparkles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    z-index: -1;
+    color: white;
+    animation: uwu_sparkles_rotate 10s linear 0s infinite forwards;
+    animation-play-state: paused;
+}
+
+.chloe-button-container:hover >  .sparkles {
+    animation-play-state: running;
+}
+
+@keyframes uwu_sparkles_rotate {
+    0% {transform: rotate(0deg) scale(1.1);}
+    50% {transform: rotate(180deg) scale(1.2);}
+    100% {transform: rotate(360deg) scale(1.1);}
+}

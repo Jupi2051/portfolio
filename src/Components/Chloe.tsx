@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 const animationVariants: Variants = {
     initial: {y: 70},
     enter: {y: 70, transition: {staggerChildren: 0.5, delayChildren: 0.5}},
+    exit: {y: 200}
 }
 
 const BubbleVariants: Variants = {
@@ -53,6 +54,7 @@ export type ChloeConversation = {
 type PropTypes = {
     ConversationIndex: number,
     Conversations: ChloeConversation[],
+    unrenderFunction?: (render: boolean) => void,
 }
 
 type EmoteMapper = {
@@ -91,34 +93,43 @@ function Chloe(props: PropTypes)
     
     function onClickChloe()
     {
+        if (currentMessage === CurrentConversation.ChloeSpeechUnits.length -1) {
+            if (props.unrenderFunction)
+            {
+                props.unrenderFunction(false);
+                return;
+            }
+        }
         const currentSpeechUnit = CurrentConversation.ChloeSpeechUnits[currentMessage];
         setPastMessage(currentSpeechUnit.Message);
         setCurrentMessage(currentMessage === CurrentConversation.ChloeSpeechUnits.length - 1? 0 : currentMessage+1);
     }
     
     return(
-        <motion.div className="chloe-container" variants={animationVariants} initial="initial" animate="enter" exit="exit" onClick={onClickChloe}>
-            <motion.div className="expression-container" variants={CharacterMovement} initial="initial" exit="exit" animate="enter">
-                <AnimatePresence>
-                {
-                    EmotionsImagesMap.map((element) => element.ChloeEmote === currentSpeechUnit.emotion?
-                    <motion.img className="chloe-image" src={element.ImageLink} variants={ChloeVariants} key={element.ChloeEmote}/> 
-                    :
-                    null)
-                }
-                </AnimatePresence>
-            </motion.div>
-            <motion.div variants={BubbleVariants} className="text-container">
-                <AnimatePresence>
+        <AnimatePresence>
+            <motion.div className="chloe-container" variants={animationVariants} initial="initial" animate="enter" exit="exit" onClick={onClickChloe}>
+                <motion.div className="expression-container" variants={CharacterMovement} initial="initial" exit="exit" animate="enter">
+                    <AnimatePresence>
                     {
-                        currentMessage % 2 === 0?
-                        <motion.p className="speech-bubble" variants={SpeechVariant} initial="initial" exit="exit" animate="enter" key={1}>{FirstParagraphMessage}</motion.p>
+                        EmotionsImagesMap.map((element) => element.ChloeEmote === currentSpeechUnit.emotion?
+                        <motion.img className="chloe-image" src={element.ImageLink} variants={ChloeVariants} key={element.ChloeEmote}/> 
                         :
-                        <motion.p className="speech-bubble absolute-position-text" variants={SpeechVariant} initial="initial" exit="exit" animate="enter" key={2}>{SecondParagraphMessage}</motion.p>
+                        null)
                     }
-                </AnimatePresence>
+                    </AnimatePresence>
+                </motion.div>
+                <motion.div variants={BubbleVariants} className="text-container">
+                    <AnimatePresence>
+                        {
+                            currentMessage % 2 === 0?
+                            <motion.p className="speech-bubble" variants={SpeechVariant} initial="initial" exit="exit" animate="enter" key={1}>{FirstParagraphMessage}</motion.p>
+                            :
+                            <motion.p className="speech-bubble absolute-position-text" variants={SpeechVariant} initial="initial" exit="exit" animate="enter" key={2}>{SecondParagraphMessage}</motion.p>
+                        }
+                    </AnimatePresence>
+                </motion.div>
             </motion.div>
-        </motion.div>
+        </AnimatePresence>
     )
 }
 
