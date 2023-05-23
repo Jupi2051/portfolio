@@ -14,7 +14,9 @@
     overflow: hidden;
     cursor: pointer;
     user-select: none;
-    transition: transform 0.1s ease;
+    transition: none 0.1s ease;
+    transition-property: transform, filter;
+    width: 100px;
 }
 
 .chloe-button-container:hover {
@@ -23,6 +25,7 @@
 
 .chloe-button-container:hover:active {
     transform: scale(0.99);
+    filter: brightness(80%);
 }
 
 .chloe-logo {
