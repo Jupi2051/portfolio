@@ -40,7 +40,6 @@ function DesktopIcon(Props: PropTypes)
         dispatch(setZIndex({id: ApplicationObject.id, zindex: 1}));
         dispatch(openApplication(ApplicationObject));
         dispatch(setFocusedApp(ApplicationObject.id));
-
         dispatch(openTaskbarApplication({id, AppId: id, Icon: Props.Icon, CustomTaskbarIcon: Props.customTaskbarIcon}));
     }
 

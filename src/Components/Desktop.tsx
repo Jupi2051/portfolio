@@ -74,13 +74,6 @@ function Desktop()
     const [ApplicationsArray, SetApplicationsArray] = useState(DesktopIcons);
 
     const OpenApplications = useSelector((x: RootState) => x.mainState.OpenApplications);
-
-    let DesktopSizingValue = {
-        width,
-        height,
-        x: DefaultDesktopSize.x,
-        y: DefaultDesktopSize.y
-    };
     
     useEffect(() => {
         if (isHoldClicked)

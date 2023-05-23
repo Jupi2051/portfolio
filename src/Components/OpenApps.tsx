@@ -30,11 +30,6 @@ function OpenApps()
                     </Reorder.Item>
                 )
             }
-            {/* <TaskBarApp Icon="/Imgs/Apps/Explorer.png" />
-            <TaskBarApp Icon="/Imgs/Apps/Edge.png" />
-            <TaskBarApp Icon="/Imgs/Apps/TaskManager.png" />
-            <TaskBarApp Icon="/Imgs/Apps/Steam.png" />
-            <TaskBarApp Icon="/Imgs/Apps/VSC.png" /> */}
         </Reorder.Group>
     )
 }
