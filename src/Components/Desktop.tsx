@@ -1,4 +1,4 @@
-import { ReactElement, SyntheticEvent, createContext, useEffect, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import "../Styles/Desktop.css"
 import DesktopIcon from "./DesktopIcon";
 import DesktopTimeWidget from "./Widgets/DesktopTimeWidget";
@@ -7,7 +7,7 @@ import MovingDesktopIcon from "./MovingDesktopIcon";
 import ApplicationsContainer, { DesktopAppsList } from "./ApplicationsContainer";
 import { AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
-import { openApplication, setZIndex, unhandleZIndex } from "../Storage/Slices/Main";
+import { unhandleZIndex } from "../Storage/Slices/Main";
 import { RootState } from "../Storage/Store";
 import { setFocusedApp } from "../Storage/Slices/Desktop";
 
@@ -24,13 +24,6 @@ export type OpenApplication = {
     taskbarIcon?: string,
     processProps?: Object
 }
-
-const DefaultDesktopSize = {
-    x: 0,
-    y: 0,
-    width: 0,
-    height: 0,
-};
 
 type DesktopIconData = {
     id: number
