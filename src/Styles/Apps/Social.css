@@ -1,0 +1,54 @@
+.messages-board-container {
+    display: flex;
+    flex-direction: column;
+    /* border: 1px solid red; */
+    height: 100%;
+    width: 100%;
+    overflow-y: hidden;
+}
+
+.messages-board-container > :nth-child(1) {
+    flex-grow: 1;
+}
+
+.messages-board-container > :nth-child(2) {
+    height: 80px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: auto;
+}
+
+.message-form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.message-payload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.board-message-container {
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    gap: 7.5px;
+    font-size: 10px;
+    color: white;
+    font-family: "Capirola";
+}
+
+.board-message-name {
+    font-size: 2em;
+}
+
+.board-message-content {
+    font-size: 2em;
+}

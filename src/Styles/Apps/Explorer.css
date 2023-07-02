@@ -1,12 +1,10 @@
 .folders-layout {
     display: flex;
     flex-direction: row;
-    border: 1px solid red;
     height: 100%;
 }
 
 .quick-access {
-    border: 1px solid blue;
     color: white;
     font-family: sans-serif;
 }
@@ -39,6 +37,4 @@
     position: relative;
     overflow: hidden scroll;
     z-index: 1;
-
-    border: 1px solid green;
 }

@@ -8,6 +8,7 @@ import EIEN from "./Apps/EIEN";
 import GalaxyGym from "./Apps/GalaxyGym";
 import Oni from "./Apps/Oni";
 import Explorer from "./Apps/Explorer";
+import Social from "./Apps/Social";
 
 type PropTypes = {
     OpenApplications: OpenApplication[],
@@ -20,7 +21,8 @@ export enum DesktopAppsList {
     EIEN,
     GalaxyGym,
     Photos,
-    Explorer
+    Explorer,
+    Social
 };
 
 function ApplicationsContainer(Props: PropTypes)
@@ -37,6 +39,7 @@ function ApplicationsContainer(Props: PropTypes)
                     case DesktopAppsList.GalaxyGym: return <GalaxyGym AppId={openApp.id} key={openApp.id} processIcon={openApp.processIcon} processName={openApp.processName}/>
                     case DesktopAppsList.Photos: return <Photos AppId={openApp.id} key={openApp.id} processIcon={openApp.processIcon} processName={openApp.processName} processData={{...openApp.processProps?? {}}} />
                     case DesktopAppsList.Explorer: return <Explorer AppId={openApp.id} key={openApp.id} processIcon={openApp.processIcon} processName={openApp.processName} processData={{...openApp.processProps?? {}}}/>
+                    case DesktopAppsList.Social: return <Social AppId={openApp.id} key={openApp.id} processIcon={openApp.processIcon} processName={openApp.processName} />
                 }
             }
         )}
