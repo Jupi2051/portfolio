@@ -27,7 +27,10 @@ const mainStateReducer = createSlice({
         },
         bringToFront: (state, action: PayloadAction<number>) => {
             state.zIndicesMap = state.zIndicesMap.map((element) => {
-                return {id: element.id, zIndex: action.payload === element.id? 10 : 1};
+                return {
+                    id: element.id,
+                    zIndex: action.payload === element.id? 10 : 1
+                };
             });
             return state;
         },
@@ -37,10 +40,13 @@ const mainStateReducer = createSlice({
         },
         closeApplication: (state, action: PayloadAction<number>) => {
             state.OpenApplications = state.OpenApplications.filter((element) => element.id !== action.payload);
+            state.zIndicesMap = state.zIndicesMap.filter((element) => element.id !== action.payload);
             return state;
         },
         openApplication: (state, action: PayloadAction<OpenApplication>) => {
-            state.OpenApplications = [...state.OpenApplications, action.payload]
+            state.OpenApplications = [...state.OpenApplications, action.payload];
+            state.zIndicesMap = state.zIndicesMap.filter((element) => element.id !== action.payload.id);
+            state.zIndicesMap = [...state.zIndicesMap, {id: action.payload.id, zIndex: 999}];
             return state;
         },
     }

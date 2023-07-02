@@ -135,8 +135,8 @@ function AppWindow(props: PropType)
 
     function onWindowMouseDown()
     {
-        dispatch(bringToFront(props.AppId));
         dispatch(setFocusedApp(props.AppId));
+        dispatch(bringToFront(props.AppId));
     }
 
     function onDismissButton()
@@ -145,7 +145,6 @@ function AppWindow(props: PropType)
             id: props.AppId,
             state: true
         }));
-        dispatch(setFocusedApp(-1));
     }
 
     function onWindowClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>)

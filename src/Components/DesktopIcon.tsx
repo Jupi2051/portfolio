@@ -1,10 +1,10 @@
-import { ReactElement, useContext, useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import "../Styles/DesktopIcon.css";
 import { OpenApplication } from "./Desktop";
 import { useDispatch } from "react-redux";
 import { openTaskbarApplication } from "../Storage/Slices/Taskbar";
 import { DesktopAppsList } from "./ApplicationsContainer";
-import { bringToFront, openApplication, setZIndex } from "../Storage/Slices/Main";
+import { bringToFront, openApplication } from "../Storage/Slices/Main";
 import { setFocusedApp } from "../Storage/Slices/Desktop";
 
 type PropTypes = {
