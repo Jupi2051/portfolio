@@ -133,18 +133,21 @@ function AppWindow(props: PropType)
         }
     }
 
-    function onWindowMouseDown()
+    function onWindowMouseDown(event: React.MouseEvent<HTMLDivElement, MouseEvent>)
     {
-        dispatch(setFocusedApp(props.AppId));
         dispatch(bringToFront(props.AppId));
+        const ClickedElement = event.target as HTMLDivElement;
+        if (ClickedElement) 
+            if (ClickedElement.classList.contains("window-dismiss-button")) 
+                return; // don't set as focus if clicking on dismiss
+        
+        dispatch(setFocusedApp(props.AppId));
     }
 
     function onDismissButton()
     {
-        dispatch(setMinimizedState({
-            id: props.AppId,
-            state: true
-        }));
+        dispatch(setMinimizedState({id: props.AppId,state: true}));
+        dispatch(setFocusedApp(-1));
     }
 
     function onWindowClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>)
@@ -178,8 +181,8 @@ function AppWindow(props: PropType)
                 }
                 <div className="window-controls">
                     <span className="window-control-button window-close-button" onClick={CloseApplication}>✕</span>
-                    <span className="window-control-button" onClick={MaximizeWindow}><span id="square-button"></span></span>
-                    <span className="window-control-button" onClick={onDismissButton}><span id="dismiss-button"/></span>
+                    <span className="window-control-button window-maximize-button" onClick={MaximizeWindow}><span id="square-button"></span></span>
+                    <span className="window-control-button window-dismiss-button" onClick={onDismissButton}><span id="dismiss-button"/></span>
                 </div>
             </div>
             <div className="window-content" style={{width: Maximized? "100%" : MinimizedDimensions.width?? "auto", height: Maximized? "100%" : MinimizedDimensions.height?? "auto"}} ref={ref}>
