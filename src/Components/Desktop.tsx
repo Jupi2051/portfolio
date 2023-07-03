@@ -72,7 +72,7 @@ export let DesktopIcons: DesktopIconData[] = [
     {id: 8, Name: "Friends", IconPath: "Imgs/Images/Friends.webp", Style: {}, Selected: false, AppComponent: DesktopAppsList.Photos, customTaskbarIcon: "Imgs/Apps/Photos.jpg", processData: {openedImage: "Imgs/Images/Friends.webp"}},
     {id: 9, Name: "Desktop Folder", IconPath: "Imgs/DesktopApps/Folder.webp", Style: {}, Selected: false, AppComponent: DesktopAppsList.Explorer, processData: {items: DesktopData}},
     {id: 10, Name: "Projects", IconPath: "Imgs/DesktopApps/Folder.webp", Style: {}, Selected: false, AppComponent: DesktopAppsList.Explorer, processData: {items: ProjectsFolder}},
-    {id: 11, Name: "Social", IconPath: "Imgs/DesktopApps/Folder.webp", Style: {}, Selected: false, AppComponent: DesktopAppsList.Social},
+    {id: 11, Name: "Pinboard", IconPath: "Imgs/DesktopApps/Pinboard.png", Style: {}, Selected: false, AppComponent: DesktopAppsList.Social},
 ];
 
 let Timer: number;
