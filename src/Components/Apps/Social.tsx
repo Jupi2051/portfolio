@@ -13,20 +13,6 @@ type PropTypes = {
     processIcon: string
 };
 
-const TitleContainerAnimate: Variants = {
-    visible: {
-        transition: {
-            duration: 1,
-            staggerChildren: 0.08
-        }
-    }
-}
-
-const LetterVariants: Variants = {
-    hidden: {opacity: 0},
-    visible: {opacity: 1}
-}
-
 const exitAndOpen = {
     exit: {opacity: 0,},
     init: {opacity: 1, scale: 1}
@@ -42,7 +28,11 @@ function Social(Props: PropTypes)
 {
     const [content, setContent] = useState("");
     const [name, setName] = useState("");
-    const [messages, setMessages] = useState<Messages[]>([]);
+    const [messages, setMessages] = useState<Messages[]>([
+        {id: 0, name: "Jpuppuio", content: "lorem ips ymaio fmasofj asp'f jasof joas'pfjo afj 'aejf aeo fjae fjofsjaklfj alfjlaks f"},
+        {id: 1, name: "Jenni", content: "aCOPKVOCK OPASKF OPASKF OPASK FOPASK FAOSFN LAUIO BAIUBSF AY BA79EWF BA7FS B9AS "},
+        {id: 2, name: "Amir", content: "Profane guy 404"}
+    ]);
     const [backgroundScroll, setBackgroundScroll] = useState<number>(0);
 
     useEffect(() => {
@@ -93,9 +83,9 @@ function Social(Props: PropTypes)
                                 <div>
                                     <h3 className="message-board-title">Jupi's Pinboard</h3>
                                 </div>
-                                <motion.div className="message-writing-container">
+                                <div className="message-writing-container">
                                     {messages.map((element) => <BoardMessage content={element.content} name={element.name} key={element.id}/>)}
-                                </motion.div>
+                                </div>
                                 <img className="cute-drawing" src="/Imgs/Chloe/Excited.webp" />
                             </div>
                         </div>
