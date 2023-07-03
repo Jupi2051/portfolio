@@ -42,12 +42,7 @@ function Social(Props: PropTypes)
 {
     const [content, setContent] = useState("");
     const [name, setName] = useState("");
-    const [messages, setMessages] = useState<Messages[]>([
-        {id: 1, content: "burger king", name: "akata"},
-        {id: 2, content: "lorem ipsum dolor isum", name:"Dashie"},
-        {id: 3, content: "ee'e'ee'eee'e", name: "Killian"},
-        {id: 4, content: "if you gotta pee then pee, if you don't then dont", name:"Daddy Syren"},
-    ]);
+    const [messages, setMessages] = useState<Messages[]>([]);
     const [backgroundScroll, setBackgroundScroll] = useState<number>(0);
 
     useEffect(() => {
@@ -65,6 +60,7 @@ function Social(Props: PropTypes)
         {
             event.preventDefault();
             const MessageSend = await sendMessage(name, content);
+            if (!MessageSend) return;
             setMessages(MessageSend.messages);
             setName("");
             setContent("");

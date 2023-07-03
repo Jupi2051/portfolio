@@ -7,7 +7,7 @@ export async function sendMessage(name: string, content: string)
             mode: "cors",
             cache: "no-cache",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({name, content})
+            body: JSON.stringify({name: name, content: content})
         });
         const JSONResponse = await serverResponse.json();
         return JSONResponse;
