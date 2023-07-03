@@ -35,3 +35,13 @@
     font-family: "Capirola";
     src: local("Capirola"), url("/src/fonts/Capirola.ttf") format("truetype");
 }
+
+@font-face {
+    font-family: "IndieFlower";
+    src: local("Indie Flower"), url("/src/fonts/IndieFlower.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Caveat";
+    src: local("Caveat"), url("/src/fonts/Caveat.ttf") format("truetype");
+}

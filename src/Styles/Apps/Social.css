@@ -1,15 +1,21 @@
 .messages-board-container {
     display: flex;
     flex-direction: column;
-    /* border: 1px solid red; */
-    height: 100%;
-    width: 100%;
+    height: 80%;
+    max-width: 850px;
+    width: 95%;
+    border-radius: 20px;
+    margin-inline: auto;
     overflow-y: hidden;
+    background-size: contain;
+    background-repeat: repeat;
+    background-size: 100% 20px;
+    background-color: #fff;
+    overflow: hidden scroll;
+    background-image: linear-gradient(to bottom, #fff, #fff 95%, #fca4d1 95%, #fca4d1);
 }
 
-.messages-board-container > :nth-child(1) {
-    flex-grow: 1;
-}
+.messages-board-container > :nth-child(1) {flex-grow: 1;}
 
 .messages-board-container > :nth-child(2) {
     height: 80px;
@@ -20,10 +26,52 @@
     margin-top: auto;
 }
 
+.message-board-title {
+    font-weight: bolder;
+    font-family: "IndieFlower", "Capirola";
+    color: white;
+    text-align: center;
+    background: linear-gradient(60deg, rgb(255, 159, 250) 0%, rgb(150, 100, 215) 100%);
+    width: fit-content;
+    margin-inline: auto;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-block: 0px 13px;
+    font-size: 4em;
+    white-space: break-spaces;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.messages-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 20px;
+    font-size: 10px;
+}
+
+.paper-container {
+    height: 100%;
+    margin-inline: auto;
+    background-color: #d1c0fa;
+    padding: 80px 40px;
+    padding-bottom: 0px;
+    width: 100%;
+}
+
 .message-form {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    height: fit-content;
+    margin-inline: auto;
+    padding: 10px 5px;
+    max-width: 850px;
+    width: 95%;
+    font-size: 10px;
+    gap: 20px;
 }
 
 .message-payload {
@@ -31,24 +79,87 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    width: 80%;
+    font-size: 10px;
+    gap: 1em;
+}
+
+.submit-message {
+    font-family: "Capirola";
+    padding: 7px 15px;
+    background: none;
+    border: 0.2em solid rgb(145, 140, 240);
+    background: transparent;
+    color: white;
+    border-radius: 0.5em;
+    font-size: 2em;
+    transition: all 0.3s ease;
+}
+
+.submit-message:hover {
+    cursor: pointer;
+    background-color: rgb(150, 145, 255);
+    border-radius: 0px 30% 0px 30%;
+    transform: scale(1.1);
+}
+
+.text-input {
+    width: 100%;
+    border: 0.15em solid;
+    background-color: rgb(150, 145, 255);
+    color: white;
+    font-family: "Capirola";
+    padding: 10px 5px;
+    font-size: 1.8em;
+    border-radius: 10px;
+}
+
+.text-input::placeholder {
+    color: white;
+    opacity: 0.8;
+}
+
+.text-input:focus {
+    outline: none;
 }
 
 .board-message-container {
-    padding: 5px 10px;
-    display: flex;
-    align-items: center;
-    width: fit-content;
-    gap: 7.5px;
     font-size: 10px;
-    color: white;
-    font-family: "Capirola";
+    color: rgb(113, 94, 171);
+    font-family: "Caveat", "Capirola";
+    border-radius: 10px;
 }
 
 .board-message-name {
-    font-size: 2em;
+    display: inline;
+    font-size: 2.5em;
+    /* width: max-content; */
+    flex-grow: 0.2;
 }
 
 .board-message-content {
-    font-size: 2em;
+    display: inline;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    font-size: 2.5em;
+    line-height: 1;
+    width: 100%;
+    flex-grow: 0.8;
+}
+
+.board-message-notation {
+    font-size: 2.5em;
+    color: inherit;
+    margin-inline: 5px 10px;
+}
+
+.cute-drawing {
+    position: absolute;
+    display: none;
+    right: 0;
+    bottom: 0;
+    max-width: 120px;
+    background-color: white;
+    border: solid 10px white;
+    border-bottom: none;
 }
