@@ -28,11 +28,7 @@ function Social(Props: PropTypes)
 {
     const [content, setContent] = useState("");
     const [name, setName] = useState("");
-    const [messages, setMessages] = useState<Messages[]>([
-        {id: 0, name: "Jpuppuio", content: "lorem ips ymaio fmasofj asp'f jasof joas'pfjo afj 'aejf aeo fjae fjofsjaklfj alfjlaks f"},
-        {id: 1, name: "Jenni", content: "aCOPKVOCK OPASKF OPASKF OPASK FOPASK FAOSFN LAUIO BAIUBSF AY BA79EWF BA7FS B9AS "},
-        {id: 2, name: "Amir", content: "Profane guy 404"}
-    ]);
+    const [messages, setMessages] = useState<Messages[]>([]);
     const [backgroundScroll, setBackgroundScroll] = useState<number>(0);
 
     useEffect(() => {

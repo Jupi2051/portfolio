@@ -27,7 +27,7 @@ function BoardMessage(props: Props)
         }
     };
     
-    return <motion.div className="board-message-container" variants={{viewed: {transition:{staggerChildren: 0.5, duration: 1}}}} initial="viewed">
+    return <motion.div className="board-message-container">
         <motion.h1 className="board-message-name" variants={ParentMessageAnimation} animate="viewed" initial="invisible">
         {
             nameLetters.map((letter, index) => {
