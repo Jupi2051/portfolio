@@ -13,7 +13,8 @@ type PropType = {
     children?: ReactNode,
     AppId: number,
     processName?: string,
-    processIcon?: string
+    processIcon?: string,
+    maximized?: boolean
 }
 
 type WindowBorderBox = {
@@ -29,7 +30,7 @@ let WindowLocatorData = new Map<number, WindowBorderBox>();
 
 function AppWindow(props: PropType)
 {
-    const [Maximized, SetMaximized] = useState(false);
+    const [Maximized, SetMaximized] = useState(props.maximized?? true);
     const [MoveWindow, SetMoveWindow] = useState(false);
     const zIndexFrontData = useSelector((x: RootState) => x.mainState.zIndicesMap);
     const MinimizedData = useSelector((x: RootState) => x.desktopState.minimizedStates);
@@ -185,7 +186,7 @@ function AppWindow(props: PropType)
                     <span className="window-control-button window-dismiss-button" onClick={onDismissButton}><span id="dismiss-button"/></span>
                 </div>
             </div>
-            <div className="window-content" style={{width: Maximized? "100%" : MinimizedDimensions.width?? "auto", height: Maximized? "100%" : MinimizedDimensions.height?? "auto"}} ref={ref}>
+            <div className="window-content" style={{width: Maximized? "100%" : MinimizedDimensions.width?? "auto", height: Maximized? "100%" : MinimizedDimensions.height?? "auto", resize: Maximized? "none" : "both"}} ref={ref}>
                 {props.children}
             </div>
         </motion.div>

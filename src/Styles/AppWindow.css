@@ -3,7 +3,6 @@
     scrollbar-color: #111 #111;
 }
 
-/* Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
     width: 6px;
 }
@@ -27,6 +26,7 @@
 }
 
 .app-window {
+    position: relative;
     pointer-events: initial;
     position: absolute;
     border: 1px solid black;
@@ -64,8 +64,7 @@
     resize: both;
     overflow: hidden;
     z-index: -1;
-    width: 600px;
-    height: 500px;
+    max-height: calc(100% - 30px);
 }
 
 #square-button {
