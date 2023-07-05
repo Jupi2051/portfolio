@@ -43,7 +43,7 @@ function AppWindow(props: PropType)
     const CursorOffset = useSelector((x: RootState) => x.desktopState.mouseMovementOffset);
     const { width, height, ref } = useResizeDetector();
     const [MinimizedDimensions, SetMinmizedDimensions] = useState<Dimensions2D>({width: 500, height: 500})
-
+    
     let FoundObject = WindowLocatorData.get(WindowId);
     if (!FoundObject)
     {
@@ -114,7 +114,8 @@ function AppWindow(props: PropType)
             opacity: 1,
             x: Maximized? 0 : NewLocation.x,
             y: Maximized? 0 : NewLocation.y,
-            zIndex: Maximized? 200 : zIndexFront,
+            // zIndex: Maximized? zIndexFront : zIndexFront,
+            zIndex: zIndexFront,
             width: Maximized? "100%" : "auto",
             height: Maximized? "100%" : "auto",
             left: Maximized? "0" : undefined,
@@ -130,7 +131,8 @@ function AppWindow(props: PropType)
             opacity: 0,
             width: Maximized? "100%" : "auto",
             height: Maximized? "100%" : "auto",
-            zIndex: Maximized? 200 : zIndexFront
+            zIndex: zIndexFront,
+            // zIndex: Maximized? zIndexFront : zIndexFront
         }
     }
 
