@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import BoardMessage from "./AppsItems/BoardMessage";
 import "../../Styles/Apps/Social.css";
 import { getMessages, sendMessage } from "../../API/MessagesBoard";
+import Stack, { StackTool } from "../Stack";
 
 type PropTypes = {
     AppId: number,
@@ -72,7 +73,8 @@ function Social(Props: PropTypes)
     return(
         <motion.div variants={exitAndOpen} exit="exit" transition={{duration: 0.1}} initial="init" animate="init" className="main-app-container">
             <AppWindow AppId={Props.AppId} processIcon={Props.processIcon} processName={Props.processName}>
-                <div style={{width: "100%", height: "100%", border: "none"}}>
+                <div style={{width: "100%", height: "100%", border: "none"}} className="mother-container">
+                    <Stack StackTools={[StackTool.Blender]} />
                     <div className="paper-container">
                         <div className="messages-board-container" onScroll={onScrollDown} style={{backgroundPositionY: -backgroundScroll+"px"}}>
                             <div className="messages-container">

@@ -1,7 +1,12 @@
+.mother-container {
+    display: flex;
+    flex-direction: column;
+}
+
 .messages-board-container {
     display: flex;
     flex-direction: column;
-    height: 80%;
+    /* height: 80%; */
     max-width: 850px;
     width: 95%;
     border-radius: 20px;
@@ -13,6 +18,7 @@
     background-color: #fff;
     overflow: hidden scroll;
     background-image: linear-gradient(to bottom, #fff, #fff 95%, #fca4d1 95%, #fca4d1);
+    min-height: 300px;
 }
 
 .messages-board-container > :nth-child(1) {flex-grow: 1;}
@@ -59,6 +65,8 @@
     padding: 80px 40px;
     padding-bottom: 0px;
     width: 100%;
+    display: grid;
+    grid-template-rows: 1fr 0.1fr;
 }
 
 .message-form {
