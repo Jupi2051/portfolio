@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import AppWindow from "../AppWindow";
 import { useState } from "react";
+import Julogo from "./AppsItems/Julogo";
 
 type PropTypes = {
     AppId: number,
@@ -20,6 +21,9 @@ function AboutMe(Props: PropTypes)
             <AppWindow AppId={Props.AppId} processIcon={Props.processIcon} processName={Props.processName}>
                 <h1>Hi im jupi!</h1>
                 and this is still WIP
+                <div>
+                <Julogo />
+                </div>
             </AppWindow>
         </motion.div>
     )
