@@ -1,9 +1,8 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import AppWindow from "../AppWindow";
 import "../../Styles/Apps/Explorer.css";
 import ExplorerItem from "./AppsItems/ExplorerItem";
 import { DesktopAppsList } from "../ApplicationsContainer";
-import { DesktopIconData } from "../Desktop";
 
 type PropTypes = {
     AppId: number,
@@ -47,21 +46,25 @@ function Explorer(Props: PropTypes)
     return(
         <motion.div variants={exitAndOpen} exit="exit" transition={{duration: 0.1}} initial="init" animate="init" className="main-app-container">
             <AppWindow AppId={Props.AppId} processIcon={Props.processIcon} processName={Props.processName}>
-                <div style={{width: "100%", height: "100%", border: "none", overflowY: "hidden"}}>
+                <div style={{width: "100%", height: "100%", border: "none", overflowY: "hidden"}} className="explorer-background-container">
+                    <div style={
+                        {
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            width: "100%",
+
+                        }}>
+                        <input type="text" placeholder="Search for apps, settings and documents." title="Search" className="search-bar-explorer"/>
+                    </div>
                     <div className="folders-layout">
-                        <div className="quick-access">
-                            <ul>
-                                <li>Desktop</li>
-                                <li>This PC</li>
-                            </ul>
-                        </div>
                         <div className="item-listing">
-                            {
-                                processData.items.map
-                                ((element) =>
-                                    <ExplorerItem AppName={element.AppComponent} ApplicationName={element.Name} Icon={element.IconPath} id={element.id} key={element.id} processProps={element.processData} customTaskbarIcon={element.customTaskbarIcon} />
-                                )
-                            }
+                        {
+                            processData.items.map
+                            ((element) =>
+                                <ExplorerItem AppName={element.AppComponent} ApplicationName={element.Name} Icon={element.IconPath} id={element.id} key={element.id} processProps={element.processData} customTaskbarIcon={element.customTaskbarIcon} />
+                            )
+                        }
                         </div>
                     </div>
                 </div>

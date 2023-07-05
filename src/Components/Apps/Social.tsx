@@ -73,28 +73,25 @@ function Social(Props: PropTypes)
     return(
         <motion.div variants={exitAndOpen} exit="exit" transition={{duration: 0.1}} initial="init" animate="init" className="main-app-container">
             <AppWindow AppId={Props.AppId} processIcon={Props.processIcon} processName={Props.processName}>
-                <div className="mother-container">
-                    <Stack StackTools={[StackTool.Blender]} />
-                    <div className="paper-container">
-                        <div className="messages-board-container" onScroll={onScrollDown} style={{backgroundPositionY: -backgroundScroll+"px"}}>
-                            <div className="messages-container">
-                                <div>
-                                    <h3 className="message-board-title">Jupi's Pinboard</h3>
-                                </div>
-                                <div className="message-writing-container">
-                                    {messages.map((element) => <BoardMessage content={element.content} name={element.name} key={element.id}/>)}
-                                </div>
-                                <img className="cute-drawing" src="/Imgs/Chloe/Excited.webp" />
+                <div className="paper-container">
+                    <div className="messages-board-container" onScroll={onScrollDown} style={{backgroundPositionY: -backgroundScroll+"px"}}>
+                        <div className="messages-container">
+                            <div>
+                                <h3 className="message-board-title">Jupi's Pinboard</h3>
                             </div>
+                            <div className="message-writing-container">
+                                {messages.map((element) => <BoardMessage content={element.content} name={element.name} key={element.id}/>)}
+                            </div>
+                            <img className="cute-drawing" src="/Imgs/Chloe/Excited.webp" />
                         </div>
-                        <form className="message-form">
-                            <div className="message-payload">
-                                <input className="text-input" type="text" name="Username" placeholder="Your name ..." onChange={onNameChange} value={name} maxLength={20}/>
-                                <input className="text-input" type="text" name="Message" placeholder="Your Message ..." onChange={onContentChange} value={content} maxLength={205}/>
-                            </div>
-                            <button type="submit" onClick={onSendMessage} className="submit-message">Pin</button>
-                        </form>
                     </div>
+                    <form className="message-form">
+                        <div className="message-payload">
+                            <input className="text-input" type="text" name="Username" placeholder="Your name ..." onChange={onNameChange} value={name} maxLength={20}/>
+                            <input className="text-input" type="text" name="Message" placeholder="Your Message ..." onChange={onContentChange} value={content} maxLength={205}/>
+                        </div>
+                        <button type="submit" onClick={onSendMessage} className="submit-message">Pin</button>
+                    </form>
                 </div>
             </AppWindow>
         </motion.div>

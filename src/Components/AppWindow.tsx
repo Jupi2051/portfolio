@@ -187,7 +187,9 @@ function AppWindow(props: PropType)
                 </div>
             </div>
             <div className="window-content" style={{width: Maximized? "100%" : MinimizedDimensions.width?? "auto", height: Maximized? "100%" : MinimizedDimensions.height?? "auto", resize: Maximized? "none" : "both"}} ref={ref}>
-                {props.children}
+                <div className="mother-window-container">
+                    {props.children}
+                </div>
             </div>
         </motion.div>
     )
