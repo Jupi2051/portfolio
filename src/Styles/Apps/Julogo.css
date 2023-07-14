@@ -5,8 +5,8 @@
     aspect-ratio:  1 / 1;
     border-radius: 100%;
     transform: scale(0);
-    animation: expandAnimation ease forwards 1 3s;
-    animation-delay: .5s;
+    animation: expandAnimation ease forwards 1 2s;
+    animation-delay: 0s;
 }
 
 .first-line

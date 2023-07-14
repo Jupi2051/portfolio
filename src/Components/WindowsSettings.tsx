@@ -38,12 +38,9 @@ function WindowsSettings()
         <div>
             <p>Socials</p>
             <div className="windows-settings-social-container">
-                <SocialMedia SocialMedia={SocialMediaTypes.Twitter} />
-                <SocialMedia SocialMedia={SocialMediaTypes.YouTube} />
-                <SocialMedia SocialMedia={SocialMediaTypes.GitHub} />
-                <SocialMedia SocialMedia={SocialMediaTypes.Twitter} />
-                <SocialMedia SocialMedia={SocialMediaTypes.YouTube} />
-                <SocialMedia SocialMedia={SocialMediaTypes.GitHub} />
+                <SocialMedia SocialMedia={SocialMediaTypes.Twitter} Link="https://twitter.com/Jupi205"/>
+                <SocialMedia SocialMedia={SocialMediaTypes.YouTube} Link="https://www.youtube.com/@Jupi205"/>
+                <SocialMedia SocialMedia={SocialMediaTypes.GitHub} Link="https://github.com/Jupi2051"/>
             </div>
         </div>
         <div className="windows-settings-user-container">
