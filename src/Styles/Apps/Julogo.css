@@ -2,11 +2,11 @@
 {
     overflow: hidden;
     background: white;
-    max-width: 350px;
     aspect-ratio:  1 / 1;
     border-radius: 100%;
-    transform: scale(1);
-    animation: expandAnimation ease running 1 3s;
+    transform: scale(0);
+    animation: expandAnimation ease forwards 1 3s;
+    animation-delay: .5s;
 }
 
 .first-line
@@ -106,4 +106,10 @@
 {
     0% {transform: rotate(-32.5deg) translateX(-50%);}
     100% {transform: rotate(-32.5deg) translateX(20%);}
+}
+
+@keyframes expandAnimation
+{
+    0% {transform: scale(0); opacity: 0;}
+    100% {transform: scale(100%); opacity: 1;}
 }

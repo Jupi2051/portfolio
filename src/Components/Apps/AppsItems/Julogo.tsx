@@ -1,8 +1,8 @@
 import "../../../Styles/Apps/Julogo.css";
 
-function Julogo()
+function Julogo({Size} : {Size: number})
 {
-    return <div className="logo">
+    return <div className="logo" style={{maxWidth: Size+"px"}}>
         <div className="first-line">
             <div className="cloud-tall"></div>
             <div className="cloud-organizer">
