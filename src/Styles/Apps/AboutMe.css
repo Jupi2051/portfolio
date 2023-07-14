@@ -1,0 +1,48 @@
+.about-me-container {
+    color: white;
+    font-family: "Segoe UI";
+    height: 100%;
+    background: black;
+    font-size: 10px;
+    overflow-y: scroll;
+    padding-block: 3em;
+}
+
+.sections-container {
+    border: 1px solid red;
+}
+
+.about-me-heading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+}
+
+h1.about-me-header {
+    font-size: 3rem;
+    text-align: center;
+}
+
+.about-me-paragraphs {
+    position: relative;
+}
+
+.about-me-paragraphs > p {
+    position: relative;
+    font-size: 3em;
+    margin-block: 2em;
+    padding-inline: 20%;
+    text-align: center;
+}
+
+.about-me-paragraphs > p:nth-child(1) {margin-top: 0;}
+.about-me-paragraphs > p:last-child {margin-bottom: 0;}
+
+.about-me-section {
+    margin-block: 100px;
+}
+
+h2.about-me-mini-header {
+    font-size: 2rem;
+}
