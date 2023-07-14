@@ -10,7 +10,8 @@ export const enum SocialMediaTypes {
 }
 
 type PropTypes = {
-    SocialMedia: SocialMediaTypes
+    SocialMedia: SocialMediaTypes,
+    Link: string
 };
 
 const SocialMediaData = {
@@ -33,10 +34,10 @@ function SocialMedia(Props: PropTypes)
     const icon = SocialMediaData[Props.SocialMedia].icon;
     const name = SocialMediaData[Props.SocialMedia].name;
 
-    return <div className="social-media-container">
+    return <a className="social-media-container" href={Props.Link} target="_blank">
         <FontAwesomeIcon className="social-media-icon" icon={icon} />
         <p className="social-media-name">{name}</p>
-    </div>
+    </a>
 }
 
 export default SocialMedia;
