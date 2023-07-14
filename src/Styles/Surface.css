@@ -22,11 +22,6 @@
 }
 
 @font-face {
-    font-family: "Mukta";
-    src: local("Mukta SemiBold"), url("/src/fonts/MUKTA\ SEMIBOLD.ttf") format("truetype");
-}
-
-@font-face {
     font-family: "JockeyOne";
     src: local("Jockey One"), url("/src/fonts/JockeyOne.ttf") format("truetype");
 }
