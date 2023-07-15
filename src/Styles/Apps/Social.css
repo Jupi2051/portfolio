@@ -1,7 +1,6 @@
 .messages-board-container {
     display: flex;
     flex-direction: column;
-    /* height: 80%; */
     max-width: 850px;
     width: 95%;
     border-radius: 20px;
@@ -9,10 +8,11 @@
     overflow-y: hidden;
     background-size: contain;
     background-repeat: repeat;
-    background-size: 100% 20px;
+    background-size: 100px 350px;
     background-color: #fff;
+    background-attachment: local;
     overflow: hidden scroll;
-    background-image: linear-gradient(to bottom, #fff, #fff 95%, #fca4d1 95%, #fca4d1);
+    background-image: url("/Imgs/Apps/Backgrounds/PaperLines.webp");
     min-height: 300px;
 }
 

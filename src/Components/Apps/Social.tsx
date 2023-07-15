@@ -30,8 +30,7 @@ function Social(Props: PropTypes)
     const [content, setContent] = useState("");
     const [name, setName] = useState("");
     const [messages, setMessages] = useState<Messages[]>([]);
-    const [backgroundScroll, setBackgroundScroll] = useState<number>(0);
-
+    
     useEffect(() => {
         getMessages()
         .then((response) => {
@@ -65,16 +64,12 @@ function Social(Props: PropTypes)
     {
         setContent(event.currentTarget.value);
     }
-    
-    function onScrollDown(event: React.UIEvent<HTMLDivElement, UIEvent>) {
-        setBackgroundScroll(event.currentTarget.scrollTop);
-    }
 
     return(
         <motion.div variants={exitAndOpen} exit="exit" transition={{duration: 0.1}} initial="init" animate="init" className="main-app-container">
             <AppWindow AppId={Props.AppId} processIcon={Props.processIcon} processName={Props.processName}>
                 <div className="paper-container">
-                    <div className="messages-board-container" onScroll={onScrollDown} style={{backgroundPositionY: -backgroundScroll+"px"}}>
+                    <div className="messages-board-container">
                         <div className="messages-container">
                             <div>
                                 <h3 className="message-board-title">Jupi's Pinboard</h3>

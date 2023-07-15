@@ -2,7 +2,7 @@ export async function sendMessage(name: string, content: string)
 {
     try
     {
-        const serverResponse = await fetch("/data/messages", {
+        const serverResponse = await fetch("https://jupi.dev/data/messages", {
             method: "POST",
             mode: "cors",
             cache: "no-cache",
@@ -21,7 +21,7 @@ export async function sendMessage(name: string, content: string)
 export async function getMessages() {
     try
     {
-        const serverResponse = await fetch("/data/messages");
+        const serverResponse = await fetch("https://jupi.dev/data/messages");
         const messages = await serverResponse.json();
         return messages;
     } catch (error) {
