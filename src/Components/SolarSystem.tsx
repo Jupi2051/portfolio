@@ -25,16 +25,24 @@ function SolarSystem()
 {
     return <div className="solar-container">
         <div className="solar-moon io-moon">
-            <motion.img variants={planetsPopUp} initial="hidden" animate="visible" className="moon-image" src="/Imgs/Apps/Solar/Io.webp" />
+            <div className="solar-moon-container">
+                <motion.img variants={planetsPopUp} initial="hidden" animate="visible" className="moon-image" src="/Imgs/Apps/Solar/Io.webp" />
+            </div>
         </div>
         <div className="solar-moon europa-moon">
-            <motion.img variants={planetsPopUp} initial="hidden" animate="visible" className="moon-image" src="/Imgs/Apps/Solar/Europa.webp" />
+            <div className="solar-moon-container">
+                <motion.img variants={planetsPopUp} initial="hidden" animate="visible" className="moon-image" src="/Imgs/Apps/Solar/Europa.webp" />
+            </div>
         </div>
         <div className="solar-moon gany-moom">
-            <motion.img variants={planetsPopUp} initial="hidden" animate="visible" className="moon-image" src="/Imgs/Apps/Solar/Gany.webp" />
+            <div className="solar-moon-container">
+                <motion.img variants={planetsPopUp} initial="hidden" animate="visible" className="moon-image" src="/Imgs/Apps/Solar/Gany.webp" />
+            </div>
         </div>
         <div className="solar-moon callisto-moon">
-            <motion.img variants={planetsPopUp} initial="hidden" animate="visible" className="moon-image" src="/Imgs/Apps/Solar/Callisto.webp" />
+            <div className="solar-moon-container">
+                <motion.img variants={planetsPopUp} initial="hidden" animate="visible" className="moon-image" src="/Imgs/Apps/Solar/Callisto.webp" />
+            </div>
         </div>
         <div className="jupiter">
             <Julogo className="jupiter-logo" Size={210}/>

@@ -24,6 +24,7 @@
 .solar-container > div:nth-child(4) {--orbit-duration: 50s;}
 
 .solar-moon {
+    position: relative;
     user-select: none;
     position: relative;
     max-width: 100%;
@@ -31,7 +32,21 @@
     animation: var(--orbit-duration) linear -60s infinite moonOrbit;
 }
 
-.solar-moon > img {
+.solar-moon-container::after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 45%;
+    left: 50%;
+    z-index: -1;
+    transform: translate(-50%, -50%);
+    background-color: rgba(207, 207, 207, 0.637);
+    filter: blur(10px);
+}
+
+.solar-moon-container {
     max-width: 30px;
     min-width: 30px;
     position: absolute;
@@ -39,15 +54,21 @@
     filter: brightness(70%);
 }
 
+.solar-moon-container > img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
 .io-moon {width: 29.3%;}
 .europa-moon {width: 36%;}
 .gany-moom {width: 43.9%;}
 .callisto-moon {width: 50.9%;}
 
-.io-moon > img {width: 35%; left: 0%; top: 0%; width: 15px;}
-.europa-moon > img {width: 50%; left: 0%; top: 0%; width: 25px;}
-.gany-moom > img {width: 65%; left: 0%; top: 0%; width: 50px;}
-.callisto-moon > img {width: 80%; left: 0%; top: 0%; width: 40px;}
+.io-moon > .solar-moon-container {width: 35%; left: 0%; top: 0%; width: 15px;}
+.europa-moon > .solar-moon-container {width: 50%; left: 0%; top: 0%; width: 25px;}
+.gany-moom > .solar-moon-container {width: 65%; left: 0%; top: 0%; width: 50px;}
+.callisto-moon > .solar-moon-container {width: 80%; left: 0%; top: 0%; width: 40px;}
 
 .jupiter {width: 25%;}
 
