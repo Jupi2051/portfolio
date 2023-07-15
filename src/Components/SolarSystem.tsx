@@ -21,26 +21,35 @@ const planetsPopUp: Variants = {
     visible: {opacity: 1, transition: {delay: 2.8, duration: 1}}
 }
 
+const planetsVisual: Variants = {
+    hidden: {opacity: 1, filter: "blur(100px)"},
+    visible: {opacity: 1, filter: "blur(10px)", transition: {delay: 2.8, duration: 1.5}}
+}
+
 function SolarSystem()
 {
     return <div className="solar-container">
         <div className="solar-moon io-moon">
             <div className="solar-moon-container">
+                <motion.div variants={planetsVisual} initial="hidden" animate="visible" className="planet-glow"></motion.div>
                 <motion.img variants={planetsPopUp} initial="hidden" animate="visible" className="moon-image" src="/Imgs/Apps/Solar/Io.webp" />
             </div>
         </div>
         <div className="solar-moon europa-moon">
             <div className="solar-moon-container">
+                <motion.div variants={planetsVisual} initial="hidden" animate="visible" className="planet-glow"></motion.div>
                 <motion.img variants={planetsPopUp} initial="hidden" animate="visible" className="moon-image" src="/Imgs/Apps/Solar/Europa.webp" />
             </div>
         </div>
         <div className="solar-moon gany-moom">
             <div className="solar-moon-container">
+                <motion.div variants={planetsVisual} initial="hidden" animate="visible" className="planet-glow"></motion.div>
                 <motion.img variants={planetsPopUp} initial="hidden" animate="visible" className="moon-image" src="/Imgs/Apps/Solar/Gany.webp" />
             </div>
         </div>
         <div className="solar-moon callisto-moon">
             <div className="solar-moon-container">
+                <motion.div variants={planetsVisual} initial="hidden" animate="visible" className="planet-glow"></motion.div>
                 <motion.img variants={planetsPopUp} initial="hidden" animate="visible" className="moon-image" src="/Imgs/Apps/Solar/Callisto.webp" />
             </div>
         </div>

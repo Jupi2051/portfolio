@@ -32,7 +32,7 @@
     animation: var(--orbit-duration) linear -60s infinite moonOrbit;
 }
 
-.solar-moon-container::after {
+.planet-glow {
     content: "";
     display: block;
     position: absolute;
@@ -43,7 +43,6 @@
     z-index: -1;
     transform: translate(-50%, -50%);
     background-color: rgba(207, 207, 207, 0.637);
-    filter: blur(10px);
 }
 
 .solar-moon-container {
