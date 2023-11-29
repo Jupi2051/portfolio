@@ -1,0 +1,26 @@
+.item-loading-bar {
+    background-color: rgba(36, 36, 36, 1);
+    border: 2px solid rgb(56, 56, 56);
+    overflow: hidden;
+    position: relative;
+    border-radius: 0.5rem;
+    max-width: 100%;
+}
+
+.item-loading-bar::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20%;
+    rotate: 0deg;
+    height: 150%;
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 60%, rgba(255,255,255,0) 100%);
+    scale: 3 1;
+    animation: loadingItemShine 1s ease-in 0s infinite forwards;
+}
+
+@keyframes loadingItemShine {
+    0% {transform: translateX(-100%);}
+    100% {transform: translateX(400%);}
+}
