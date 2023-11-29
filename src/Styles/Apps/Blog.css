@@ -1,0 +1,30 @@
+.blog-browser-layout {
+    display: flex;
+    border: 1px solid red;
+    width: 100%;
+    color: white;
+    font-family: sans-serif;
+    font-size: 16px;
+}
+
+.blogs-articles-list {
+    border: 1px solid purple;
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.blogs-article-reader {
+    border: 1px solid green;
+    width: 100%;
+}
+
+.article-link-container {
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.article-link-title {
+    font-size: 2em;
+}
