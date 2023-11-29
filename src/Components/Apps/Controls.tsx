@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../Storage/Store";
 import { stateControlsUpdatePassword } from "../../Storage/Slices/Controls";
 import "../../Styles/Apps/Controls.css";
+import { attemptControlLogin } from "../../API/Auth";
 
 const SettingsComponent = lazy(() => import("./AppsItems/ControlsSettings").then(module => {
     return {default: module.default}
@@ -36,13 +37,21 @@ function Controls(Props: PropTypes)
     function onSubmitPassword(event: React.MouseEvent<HTMLButtonElement, MouseEvent>)
     {
         event.preventDefault();
-        dispatch(stateControlsUpdatePassword(writtenPassword));
+        authPassword(writtenPassword);
     }
 
     function onFormSubmit(event: React.FormEvent<HTMLFormElement>)
     {
         event.preventDefault();
-        dispatch(stateControlsUpdatePassword(writtenPassword));
+        authPassword(writtenPassword);
+    }
+
+    async function authPassword(password: string)
+    {
+        const result = await attemptControlLogin(password);
+        if (result)
+            dispatch(stateControlsUpdatePassword(writtenPassword));
+
     }
 
     return(
