@@ -1,8 +1,10 @@
+const API_URL = import.meta.env.VITE_API_URL;
+
 export async function sendMessage(name: string, content: string)
 {
     try
     {
-        const serverResponse = await fetch("https://jupi.dev/data/messages", {
+        const serverResponse = await fetch(`${API_URL}/data/messages`, {
             method: "POST",
             mode: "cors",
             cache: "no-cache",
@@ -21,7 +23,7 @@ export async function sendMessage(name: string, content: string)
 export async function getMessages() {
     try
     {
-        const serverResponse = await fetch("https://jupi.dev/data/messages");
+        const serverResponse = await fetch(`${API_URL}/data/messages`);
         const messages = await serverResponse.json();
         return messages;
     } catch (error) {
