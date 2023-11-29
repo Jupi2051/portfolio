@@ -10,6 +10,8 @@ import Oni from "./Apps/Oni";
 import Explorer from "./Apps/Explorer";
 import Social from "./Apps/Social";
 import AboutMe from "./Apps/AboutMe";
+import Blog from "./Apps/Blog";
+import Controls from "./Apps/Controls";
 
 type PropTypes = {
     OpenApplications: OpenApplication[],
@@ -24,7 +26,9 @@ export enum DesktopAppsList {
     Photos,
     Explorer,
     Social,
-    AboutMe
+    AboutMe,
+    Blog,
+    Controls
 };
 
 function ApplicationsContainer(Props: PropTypes)
@@ -43,6 +47,8 @@ function ApplicationsContainer(Props: PropTypes)
                     case DesktopAppsList.Explorer: return <Explorer AppId={openApp.id} key={openApp.id} processIcon={openApp.processIcon} processName={openApp.processName} processData={{...openApp.processProps?? {}}}/>
                     case DesktopAppsList.Social: return <Social AppId={openApp.id} key={openApp.id} processIcon={openApp.processIcon} processName={openApp.processName} />
                     case DesktopAppsList.AboutMe: return <AboutMe AppId={openApp.id} key={openApp.id} processIcon={openApp.processIcon} processName={openApp.processName} />
+                    case DesktopAppsList.Blog: return <Blog AppId={openApp.id} key={openApp.id} processIcon={openApp.processIcon} processName={openApp.processName} />
+                    case DesktopAppsList.Controls: return <Controls AppId={openApp.id} key={openApp.id} processIcon={openApp.processIcon} processName={openApp.processName} />
                 }
             }
         )}

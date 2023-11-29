@@ -73,8 +73,9 @@ export let DesktopIcons: DesktopIconData[] = [
     {id: 9, Name: "Desktop Folder", IconPath: "Imgs/DesktopApps/Folder.webp", Style: {}, Selected: false, AppComponent: DesktopAppsList.Explorer, processData: {items: DesktopData}},
     {id: 10, Name: "Projects", IconPath: "Imgs/DesktopApps/Folder.webp", Style: {}, Selected: false, AppComponent: DesktopAppsList.Explorer, processData: {items: ProjectsFolder}},
     {id: 11, Name: "Pinboard", IconPath: "Imgs/DesktopApps/Pinboard.png", Style: {}, Selected: false, AppComponent: DesktopAppsList.Social},
-    {id: 12, Name: "About Me", IconPath: "Imgs/DesktopApps/Notepad.webp", Style: {}, Selected: false, AppComponent: DesktopAppsList.AboutMe},
-
+    {id: 12, Name: "About Me", IconPath: "Imgs/DesktopApps/User.webp", Style: {}, Selected: false, AppComponent: DesktopAppsList.AboutMe},
+    {id: 13, Name: "Blog", IconPath: "Imgs/DesktopApps/Notepad.webp", Style: {}, Selected: false, AppComponent: DesktopAppsList.Blog},
+    {id: 14, Name: "Controls", IconPath: "Imgs/DesktopApps/Controls.webp", Style: {}, Selected: false, AppComponent: DesktopAppsList.Controls},
 ];
 
 let Timer: number;
