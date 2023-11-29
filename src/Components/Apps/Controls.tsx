@@ -50,8 +50,9 @@ function Controls(Props: PropTypes)
     {
         const result = await attemptControlLogin(password);
         if (result)
+        {
             dispatch(stateControlsUpdatePassword(writtenPassword));
-
+        }
     }
 
     return(

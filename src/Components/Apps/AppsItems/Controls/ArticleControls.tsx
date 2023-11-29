@@ -30,7 +30,7 @@ function ArticleControls()
         const description = descriptionContent;
         const content = articleTextContent;
         const password = ControlsState.password;
-        await createArticle(title, description, content, password);
+        const response = await createArticle(title, description, content, password);
         // post here
     }
 

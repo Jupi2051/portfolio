@@ -50,9 +50,9 @@ export async function createArticle(articleTitle: string, articleDescription: st
             },
             body: JSON.stringify({title: articleTitle, description: articleDescription, content: articleContent})
         });
-        const response = await serverResponse.json();
-        return response;
+        return serverResponse.status === 200;
     } catch (error) {
-        console.log(error)
+        console.log(error);
+        return false;
     }
 }
