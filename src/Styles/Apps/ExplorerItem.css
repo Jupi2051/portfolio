@@ -10,7 +10,7 @@
 }
 
 .list-item-container > * {
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
 
 .list-item-image {

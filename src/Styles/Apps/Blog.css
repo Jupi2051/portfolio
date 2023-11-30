@@ -1,6 +1,5 @@
 .blog-browser-layout {
     display: flex;
-    border: 1px solid red;
     width: 100%;
     color: white;
     font-family: sans-serif;
@@ -8,7 +7,6 @@
 }
 
 .blogs-articles-list {
-    border: 1px solid purple;
     width: 20%;
     display: flex;
     flex-direction: column;
@@ -16,7 +14,6 @@
 }
 
 .blogs-article-reader {
-    border: 1px solid green;
     width: 100%;
 }
 

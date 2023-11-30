@@ -58,7 +58,6 @@ function Blog(Props: PropTypes)
             fetchArticle(currentlyReadingId).then((data) => {
                 if (data !== null) {
                     setCachedArticles([...cachedArticles, data]);   
-                    console.log("cached article");
                 }
             }).catch((error) => {
                 console.log("Failed to load article");
@@ -72,12 +71,12 @@ function Blog(Props: PropTypes)
         <motion.div variants={exitAndOpen} exit="exit" transition={{duration: 0.1}} initial="init" animate="init" className="main-app-container">
             <AppWindow AppId={Props.AppId} processIcon={Props.processIcon} processName={Props.processName}>
                 <div style={{width: "100%", height: "100%", border: "none", overflowY: "scroll"}}>
-                    <div style={{widows: "100%", height: "100%", background: "black"}}>
+                    <div style={{width: "100%", height: "100%", background: "black"}}>
                         <div className="blog-browser-layout">
                             <div className="blogs-articles-list">
                                 {
                                     isLoadingLinks === false?
-                                    articlesList.map((article) => <BlogArticleLink key={article.title} id={article.id} title={article.title} description={article.description} dateTime={article.dateTime} idAssignFunction={setCurrentlyReadingId}/>)
+                                    articlesList.map((article) => <BlogArticleLink key={article.id} id={article.id} title={article.title} description={article.description} dateTime={article.dateTime} idAssignFunction={setCurrentlyReadingId}/>)
                                     :
                                     <>
                                         <ArticleLinkLoader />

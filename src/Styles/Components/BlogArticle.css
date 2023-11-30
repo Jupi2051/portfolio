@@ -1,0 +1,19 @@
+.blog-reader-content {
+    --sorted-list-left-margin: 1rem;
+}
+
+.blog-reader-content > ol {
+    list-style-position: inside;
+    margin-inline: var(--sorted-list-left-margin);
+}
+
+.blog-reader-content > ul {
+    list-style-position: inside;
+    margin-inline: var(--sorted-list-left-margin);
+}
+
+.blog-reader-content > pre {
+    background-color: rgb(27, 26, 26);
+    padding: 0.5rem 0.5rem;
+    width: 90%;
+}
