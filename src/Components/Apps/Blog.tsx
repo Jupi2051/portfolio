@@ -33,6 +33,7 @@ function Blog(Props: PropTypes)
     const [cachedArticles, setCachedArticles] = useState<BlogArticleType[]>([]);
     const [isLoadingArticle, setIsLoadingArticle] = useState<boolean>(false);    
     const [isLoadingLinks, setIsLoadingLinks] = useState<boolean>(true);
+    const [listExpanded, setListExpanded] = useState<boolean>(false);
 
     useEffect(() => {
         setIsLoadingLinks(true);
@@ -48,6 +49,7 @@ function Blog(Props: PropTypes)
     }, [])
 
     useEffect(() => {
+        setListExpanded(false);
         if (currentlyReadingId)
         {
             const isCached = cachedArticles.find((article) => article.id === currentlyReadingId);
@@ -65,18 +67,44 @@ function Blog(Props: PropTypes)
         }
     }, [currentlyReadingId])
 
-    const foundArticle = cachedArticles.find((article) => article.id === currentlyReadingId);
+    function onExpandList()
+    {
+        setListExpanded(!listExpanded);
+    }
 
+    function onArticleClick()
+    {
+        if (listExpanded) {
+            setListExpanded(false);
+        }
+    }
+
+    const foundArticle = cachedArticles.find((article) => article.id === currentlyReadingId);
+    
     return(
         <motion.div variants={exitAndOpen} exit="exit" transition={{duration: 0.1}} initial="init" animate="init" className="main-app-container">
             <AppWindow AppId={Props.AppId} processIcon={Props.processIcon} processName={Props.processName}>
-                <div style={{width: "100%", height: "100%", border: "none", overflowY: "scroll"}}>
+                <div style={{width: "100%", height: "100%", border: "none"}}>
                     <div style={{width: "100%", height: "100%", background: "black"}}>
                         <div className="blog-browser-layout">
-                            <div className="blogs-articles-list">
+                            <motion.div className={`blogs-articles-list ${listExpanded? "" : "list-hidden"}`}>
                                 {
                                     isLoadingLinks === false?
-                                    articlesList.map((article) => <BlogArticleLink key={article.id} id={article.id} title={article.title} description={article.description} dateTime={article.dateTime} idAssignFunction={setCurrentlyReadingId}/>)
+                                        articlesList.length === 0?
+                                        <>
+                                            <h2>No articles posted yet!</h2>
+                                        </>
+                                        :
+                                        <>
+                                            <h1 className="blog-list-title">Articles</h1>
+                                            {
+                                            articlesList.sort((a, b) => {
+                                                const date1 = new Date(a.dateTime);
+                                                const date2 = new Date(b.dateTime);
+                                                return date2.getTime() - date1.getTime();
+                                            })
+                                            .map((article) => <BlogArticleLink key={article.id} id={article.id} title={article.title} description={article.description} dateTime={article.dateTime} idAssignFunction={setCurrentlyReadingId}/>)}
+                                        </>
                                     :
                                     <>
                                         <ArticleLinkLoader />
@@ -86,8 +114,11 @@ function Blog(Props: PropTypes)
                                         <ArticleLinkLoader />
                                     </>
                                 }
-                            </div>
-                            <div className="blogs-article-reader">
+                            </motion.div>
+                            <div className="blogs-article-reader" onClick={onArticleClick}>
+                                <button className="blog-expand-button" onClick={onExpandList} aria-label="expand-list">
+                                        <div><div></div><div></div><div></div></div>
+                                </button>
                                 {
                                     isLoadingArticle?
                                         <ArticleReadLoader />

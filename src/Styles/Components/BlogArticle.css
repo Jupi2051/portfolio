@@ -1,5 +1,31 @@
+.blog-reader-main-container {
+    display: flex;
+    flex-direction: column;
+}
+
 .blog-reader-content {
     --sorted-list-left-margin: 1rem;
+    font-size: 16px;
+}
+
+.blog-reader-header-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-bottom: 0.1rem solid white;
+}
+
+.blog-header-meta-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.blog-header-description {
+    width: 80%;
+}
+
+.blog-header-time {
+    align-self: flex-end;
 }
 
 .blog-reader-content > ol {
@@ -16,4 +42,47 @@
     background-color: rgb(27, 26, 26);
     padding: 0.5rem 0.5rem;
     width: 90%;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+}
+
+.blog-reader-content > h1 {
+    font-size: 1.5em;
+}
+
+.blog-reader-content > h2 {
+    font-size: 1.25em;
+}
+
+@container appwindow (max-width: 1000px) {
+
+    .blog-header-title {
+        width: 80%;
+    }
+
+    .blog-reader-header-container {
+        margin-top: 2rem;
+    }
+
+    .blog-reader-content > pre {
+        width: 100%;
+    }
+}
+
+@container appwindow (max-width: 600px) {
+    .blog-header-meta-container {
+        flex-direction: column;
+    }
+
+    .blogs-articles-list {
+        padding: 1rem 0rem;
+    }
+
+    .blog-header-description {
+        width: 100%;
+    }
 }

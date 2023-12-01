@@ -8,9 +8,17 @@ function BlogArticleLink(props: articleLinkItem & {idAssignFunction: (id: string
         props.idAssignFunction(props.id);
     }
 
+    const dateTime = new Date(props.dateTime);
+
+    const formattedDate = dateTime.toLocaleString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: '2-digit',
+    });
+
     return <div className="article-link-container" onClick={onOpenArticle}>
         <h1 className="article-link-title">{props.title}</h1>
-        <time dateTime="">{props.dateTime}</time>
+        <time dateTime="">{formattedDate}</time>
         <p>{props.description}</p>
     </div>
 }

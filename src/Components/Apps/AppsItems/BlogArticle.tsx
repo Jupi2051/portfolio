@@ -3,8 +3,22 @@ import "../../../Styles/Components/BlogArticle.css";
 import "../../../../node_modules/highlight.js/styles/atom-one-dark.css";
 import hljs from "highlight.js/lib/core";
 import javascript from 'highlight.js/lib/languages/javascript';
+import typescript from "highlight.js/lib/languages/typescript";
+import go from "highlight.js/lib/languages/go";
+import json from "highlight.js/lib/languages/json";
+import css from "highlight.js/lib/languages/css";
+import csharp from "highlight.js/lib/languages/csharp";
+import html from "highlight.js/lib/languages/xml";
+import bash from "highlight.js/lib/languages/bash";
 
 hljs.registerLanguage('javascript', javascript);
+hljs.registerLanguage('typescript', typescript);
+hljs.registerLanguage('go', go);
+hljs.registerLanguage('json', json);
+hljs.registerLanguage('css', css);
+hljs.registerLanguage('csharp', csharp);
+hljs.registerLanguage('xml', html);
+hljs.registerLanguage('bash', bash)
 
 export type BlogArticleType = {
     id: string,
@@ -28,7 +42,7 @@ function replaceHtmlEntities(text: string): string {
       const regex = new RegExp(entity, 'g');
       return acc.replace(regex, entityMap[entity]);
     }, text);
-  }
+}
 
 function BlogArticle(props: BlogArticleType)
 {
@@ -61,12 +75,24 @@ function BlogArticle(props: BlogArticleType)
     const parsedContent = parse(htmlString);
     
 
-    return <div>
-        <h1>{props.title}</h1>
-        <time dateTime={props.dateTime}>{props.dateTime}</time>
-        <div className="blog-reader-content">
-            {parsedContent}
+    const dateTime = new Date(props.dateTime);
+    const formattedDate = dateTime.toLocaleString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: '2-digit',
+  });
+  
+    return <div className="blog-reader-main-container">
+      <div className="blog-reader-header-container">
+        <h1 className="blog-header-title">{props.title}</h1>
+        <div className="blog-header-meta-container">
+          <p className="blog-header-description">{props.description}</p>
+          <time className="blog-header-time" dateTime={props.dateTime}>{formattedDate}</time>
         </div>
+      </div>
+      <div className="blog-reader-content">
+          {parsedContent}
+      </div>
     </div>;
 }
 
