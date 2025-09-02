@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import "../Styles/WindowsSettings.css";
 import { DesktopIcons } from "./Desktop";
 import WindowsSettingsApp from "./WindowsSettingsApp";
 import SocialMedia, { SocialMediaTypes } from "./SocialMedia";
