@@ -1,5 +1,4 @@
 import { DesktopAppsList } from "./ApplicationsContainer";
-import "../Styles/WindowsSettingsApp.css";
 import { useDispatch } from "react-redux";
 import {
   openTaskbarApplication,
