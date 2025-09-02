@@ -1,6 +1,50 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap");
 @import "tailwindcss";
 @import "@catppuccin/tailwindcss/mocha.css";
 
 * {
   box-sizing: border-box;
+}
+
+@font-face {
+  font-family: "Segoe UI";
+  src: local("Segoe UI"), url("/src/fonts/SEGOEUI.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Segoe UI Light";
+  src: local("Segoe UI Light"),
+    url("/src/fonts/SEGOEUI\ LIGHT.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "JockeyOne";
+  src: local("Jockey One"), url("/src/fonts/JockeyOne.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Capirola";
+  src: local("Capirola"), url("/src/fonts/Capirola.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "IndieFlower";
+  src: local("Indie Flower"),
+    url("/src/fonts/IndieFlower.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Caveat";
+  src: local("Caveat"), url("/src/fonts/Caveat.ttf") format("truetype");
+}
+
+@theme {
+  --font-open-sans: "Open Sans", sans-serif;
+  --font-segoe-ui: "Segoe UI", sans-serif;
+  --font-segoe-ui-light: "Segoe UI Light", sans-serif;
+  --font-jockey-one: "Jockey One", sans-serif;
+  --font-capirola: "Capirola", sans-serif;
+  --font-indie-flower: "Indie Flower", sans-serif;
+  --font-caveat: "Caveat", sans-serif;
+  --text-xss: 0.625rem;
 }

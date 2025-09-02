@@ -424,7 +424,7 @@ function Desktop() {
         onMouseDown={onMouseDown}
         onMouseUp={onMouseUp}
       >
-        <div id="Desktop-Widgets">
+        <div className="absolute w-full h-full pointer-events-none">
           <DesktopTimeWidget />
         </div>
         {ApplicationsArray.map((desktopApp) => (

@@ -1,80 +1,74 @@
 .chloe-container {
-    position: absolute;
-    /* pointer-events: none; */
-    /* z-index: -1; */
-    max-width: 500px;
-    bottom: -5px;
-    right: 0;
+  position: absolute;
+  /* pointer-events: none; */
+  /* z-index: -1; */
+  max-width: 500px;
+  bottom: -5px;
+  right: 0;
 }
 
 .chloe-image {
-    max-width: 150px;
-    /* height: 100px; */
+  max-width: 150px;
+  /* height: 100px; */
 }
 
 .absolute-position-chloe {
-    position: absolute;
-    bottom: 0px;
-    right: 0;
-    display: block;
+  position: absolute;
+  bottom: 0px;
+  right: 0;
+  display: block;
 }
 
 .expression-container {
-    width: 150px;
-    height: 230px;
+  width: 150px;
+  height: 230px;
 }
 
 .expression-container > img {
-    position: absolute;
+  position: absolute;
 }
 
 .text-container {
-    position: absolute;
-    bottom: 100%;
-    right: 40%;
-    width: 200px;
-    height: 155px;
-    isolation: isolate;
+  position: absolute;
+  bottom: 100%;
+  right: 40%;
+  width: 200px;
+  height: 155px;
+  isolation: isolate;
 }
 
 .speech-bubble {
-    display: flex;
-    flex-direction: column;
-    padding-inline: 3px 3px;
-    padding-block: 20px;
-    align-items: center;
-    justify-content: center;
-    bottom: 70px;
-    right: 0px;
-    aspect-ratio: 18/14;
-    width: 200px;
-    color: rgb(215, 142, 255);
-    font-weight: 100;
-    font-size: 1em;
-    font-family: "Capirola";
-    line-height: 1;
-    letter-spacing: -1px;
-    user-select: none;
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  padding-inline: 3px 3px;
+  padding-block: 20px;
+  align-items: center;
+  justify-content: center;
+  bottom: 70px;
+  right: 0px;
+  aspect-ratio: 18/14;
+  width: 200px;
+  color: rgb(215, 142, 255);
+  font-weight: 100;
+  font-size: 1em;
+  font-family: "Capirola";
+  line-height: 1;
+  letter-spacing: -1px;
+  user-select: none;
+  text-align: center;
 }
 
 .text-container::before {
-    content: "";
-    position: absolute;
-    width: 110%;
-    height: 110%;
-    left: -5%;
-    top: 0px;
-    background-image: url('/Imgs/Images/Speech.svg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    overflow: visible;
-    z-index: -1;
-    filter: drop-shadow(5px 0px 15px #0f0f0f);
-}
-
-.absolute-position-text {
-    position: absolute;
-    top: 0%;
-    left: 0%;
+  content: "";
+  position: absolute;
+  width: 110%;
+  height: 110%;
+  left: -5%;
+  top: 0px;
+  background-image: url("/Imgs/Images/Speech.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: visible;
+  z-index: -1;
+  filter: drop-shadow(5px 0px 15px #0f0f0f);
 }

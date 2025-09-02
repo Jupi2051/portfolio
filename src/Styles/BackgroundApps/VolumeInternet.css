@@ -1,9 +1,0 @@
-.volume-internet-icon {
-    color: white;
-}
-
-.volume-internet-container {
-    display: flex;
-    flex-direction: row-reverse;
-    gap: 7.5px;
-}

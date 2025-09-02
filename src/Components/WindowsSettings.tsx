@@ -7,51 +7,83 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPowerOff } from "@fortawesome/free-solid-svg-icons";
 
 export const BottomAnimationVariants = {
-    hidden: {
-        y: "100vh",
-        x: "-50%"
-    },
-    visible: {
-        y: -60,
-        x: "-50%"
-    },
-    exit: {
-        y: "100vh",
-        x: "-50%"
-    }
-}
+  hidden: {
+    y: "100vh",
+    x: "-50%",
+  },
+  visible: {
+    y: -60,
+    x: "-50%",
+  },
+  exit: {
+    y: "100vh",
+    x: "-50%",
+  },
+};
 
-function WindowsSettings()
-{
-    return <motion.div className="windows-settings-container" variants={BottomAnimationVariants} initial="hidden" animate="visible" exit="exit">
-        <input type="text" placeholder="Search for apps, settings and documents." title="Search" className="search-bar"/>
-        <div className="pinned-apps-main">
-            <p>Pinned</p>
-            <div className="windows-settings-apps-container">
-                {
-                    DesktopIcons.map((element) =>
-                        <WindowsSettingsApp App={element.AppComponent} ApplicationName={element.Name} Icon={element.IconPath} customTaskbarIcon={element.customTaskbarIcon} processProps={element.processData} key={element.id}/>
-                    )
-                }
-            </div>
+function WindowsSettings() {
+  return (
+    <motion.div
+      className="absolute grid bottom-0 rounded-md px-9 pt-8 pb-5 z-10 font-sans text-gray-200 font-light overflow-hidden grid-cols-1 grid-rows-3 left-1/2 min-h-[700px] w-[600px] bg-gradient-to-r from-[#3f3550d6] to-[#3f3550d6] shadow-[0px_0px_15px_0px_rgba(0,0,0,0.4)] backdrop-blur-[50px] grid-rows-[0.1fr_1.7fr_1fr]"
+      variants={BottomAnimationVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+    >
+      <input
+        type="text"
+        placeholder="Search for apps, settings and documents."
+        title="Search"
+        className="rounded-3xl text-sm px-9 h-7 border border-gray-600 text-ctp-lavender-500 bg-gray-700 focus:border-transparent focus:outline-transparent focus:outline-none"
+      />
+      <div className="flex flex-col gap-5 self-center">
+        <p>Pinned</p>
+        <div className="grid w-full grid-cols-6 grid-rows-3 gap-x-6 gap-y-5 self-center items-center justify-items-center justify-between">
+          {DesktopIcons.map((element) => (
+            <WindowsSettingsApp
+              App={element.AppComponent}
+              ApplicationName={element.Name}
+              Icon={element.IconPath}
+              customTaskbarIcon={element.customTaskbarIcon}
+              processProps={element.processData}
+              key={element.id}
+            />
+          ))}
         </div>
-        <div>
-            <p>Socials</p>
-            <div className="windows-settings-social-container">
-                <SocialMedia SocialMedia={SocialMediaTypes.Twitter} Link="https://twitter.com/Jupi205"/>
-                <SocialMedia SocialMedia={SocialMediaTypes.YouTube} Link="https://www.youtube.com/@Jupi205"/>
-                <SocialMedia SocialMedia={SocialMediaTypes.GitHub} Link="https://github.com/Jupi2051"/>
-            </div>
+      </div>
+      <div>
+        <p>Socials</p>
+        <div className="grid h-1/2 gap-x-2.5 grid-cols-2 items-center justify-items-start w-4/5 mx-auto">
+          <SocialMedia
+            SocialMedia={SocialMediaTypes.Twitter}
+            Link="https://twitter.com/Jupi205"
+          />
+          <SocialMedia
+            SocialMedia={SocialMediaTypes.YouTube}
+            Link="https://www.youtube.com/@Jupi205"
+          />
+          <SocialMedia
+            SocialMedia={SocialMediaTypes.GitHub}
+            Link="https://github.com/Jupi2051"
+          />
         </div>
-        <div className="windows-settings-user-container">
-            <div className="user-data-container">
-                <div>
-                    <img src="https://cdn.discordapp.com/attachments/854012967820460102/1101491813560365126/avatar.png" />
-                    <p>Jupi</p>
-                </div>
-                <FontAwesomeIcon className="power-off-icon" icon={faPowerOff} />
-            </div>
+      </div>
+      <div
+        className="absolute w-full h-full left-0 bg-[#3f3550d6] top-[var(--user-container-inner)]"
+        style={{ "--user-container-inner": "90%" } as React.CSSProperties}
+      >
+        <div className="flex items-center justify-between px-12 h-[calc(100%-var(--user-container-inner))]">
+          <div className="flex items-center justify-center gap-5 text-xss">
+            <img
+              src="https://i.postimg.cc/kX5cqZgP/Birthday-Festival-BD-artwork-2.png"
+              className="w-9 h-9 object-cover rounded-full"
+            />
+            <p className="text-xs">Jupi</p>
+          </div>
+          <FontAwesomeIcon className="text-xl" icon={faPowerOff} />
         </div>
+      </div>
     </motion.div>
+  );
 }
 export default WindowsSettings;

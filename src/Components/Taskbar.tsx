@@ -1,4 +1,3 @@
-import "../Styles/Taskbar.css";
 import BackgroundApps from "./BackgroundApps";
 import OpenApps from "./OpenApps";
 
