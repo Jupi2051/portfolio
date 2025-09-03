@@ -91,112 +91,101 @@ function AnimatedLettersHeader(props: {
 
 function AboutMe(Props: PropTypes) {
   return (
-    <motion.div
-      variants={exitAndOpen}
-      exit="exit"
-      transition={{ duration: 0.1 }}
-      initial="init"
-      animate="init"
-      className="main-app-container"
+    <AppWindow
+      AppId={Props.AppId}
+      processIcon={Props.processIcon}
+      processName={Props.processName}
     >
-      <AppWindow
-        AppId={Props.AppId}
-        processIcon={Props.processIcon}
-        processName={Props.processName}
-      >
-        <Provider>
-          <div className="text-white font-segoe-ui h-full bg-black text-xss overflow-y-scroll overflow-x-hidden py-12">
-            <div className="h-full">
-              <div className="flex items-center justify-center gap-4">
+      <Provider>
+        <div className="text-white font-segoe-ui h-full bg-black text-xss overflow-y-scroll overflow-x-hidden py-12">
+          <div className="h-full">
+            <div className="flex items-center justify-center gap-4">
+              <AnimatedLettersHeader
+                text="About Me"
+                elementType="h1"
+                className="text-5xl text-center"
+              />
+            </div>
+
+            <SolarSystem />
+
+            <section className="my-28">
+              <div className="about-me-heading">
                 <AnimatedLettersHeader
-                  text="About Me"
-                  elementType="h1"
-                  className="text-5xl text-center"
+                  text="Who am I?"
+                  elementType="h2"
+                  className="text-4xl"
                 />
               </div>
-
-              <SolarSystem />
-
-              <section className="my-28">
-                <div className="about-me-heading">
-                  <AnimatedLettersHeader
-                    text="Who am I?"
-                    elementType="h2"
-                    className="text-4xl"
-                  />
-                </div>
-                <div className="relative">
-                  {/* <motion.p variants={paragraphAnimation} initial="hidden" whileInView="visible" animate="hidden" viewport={{...ParagraphViewport}}>
+              <div className="relative">
+                {/* <motion.p variants={paragraphAnimation} initial="hidden" whileInView="visible" animate="hidden" viewport={{...ParagraphViewport}}>
                                         Hello, You can call me Jupi, I am a software developer with around 5 years of programming expeirence,
                                         I've stepped in so many different fields in programming such as Scripting, Game Development, and Web Development.<br />
                                         Oh and I really like working on big projects.
                                     </motion.p> */}
-                  <motion.p
-                    variants={paragraphAnimation}
-                    initial="hidden"
-                    whileInView="visible"
-                    animate="hidden"
-                    viewport={{ ...ParagraphViewport }}
-                  >
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Cumque consequatur esse hic dolor vero, laborum autem
-                    quisquam debitis expedita dicta. Dolores nihil aliquid
-                    expedita eius perferendis aspernatur ducimus fugit iste?
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Soluta totam eum reprehenderit voluptatum odio hic fuga, rem
-                    sapiente? Fugiat qui ipsa et at vitae sed placeat amet?
-                    Vitae, nihil dolorum!
-                  </motion.p>
-                </div>
-              </section>
+                <motion.p
+                  variants={paragraphAnimation}
+                  initial="hidden"
+                  whileInView="visible"
+                  animate="hidden"
+                  viewport={{ ...ParagraphViewport }}
+                >
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  Cumque consequatur esse hic dolor vero, laborum autem quisquam
+                  debitis expedita dicta. Dolores nihil aliquid expedita eius
+                  perferendis aspernatur ducimus fugit iste? Lorem ipsum dolor
+                  sit amet consectetur adipisicing elit. Soluta totam eum
+                  reprehenderit voluptatum odio hic fuga, rem sapiente? Fugiat
+                  qui ipsa et at vitae sed placeat amet? Vitae, nihil dolorum!
+                </motion.p>
+              </div>
+            </section>
 
-              <section className="about-me-section">
-                <div className="about-me-heading">
-                  <AnimatedLettersHeader
-                    text="How it all started?"
-                    elementType="h2"
-                    className="about-me-mini-header"
-                  />
-                </div>
-                <div className="about-me-paragraphs">
-                  <motion.p
-                    variants={paragraphAnimation}
-                    initial="hidden"
-                    whileInView="visible"
-                    animate="hidden"
-                    className="relative text-5xl my-8 text-center max-w-7xl mx-auto"
-                    viewport={{ ...ParagraphViewport }}
-                  >
-                    Hello, You can call me Jupi, I am a software developer with
-                    around 5 years of programming expeirence, I've stepped in so
-                    many different fields in programming such as Scripting, Game
-                    Development, and Web Development.
-                    <br />
-                    Oh and I really like working on big projects.
-                  </motion.p>
-                  <motion.p
-                    variants={paragraphAnimation}
-                    initial="hidden"
-                    whileInView="visible"
-                    animate="hidden"
-                    viewport={{ ...ParagraphViewport }}
-                  >
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Cumque consequatur esse hic dolor vero, laborum autem
-                    quisquam debitis expedita dicta. Dolores nihil aliquid
-                    expedita eius perferendis aspernatur ducimus fugit iste?
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Soluta totam eum reprehenderit voluptatum odio hic fuga, rem
-                    sapiente? Fugiat qui ipsa et at vitae sed placeat amet?
-                    Vitae, nihil dolorum!
-                  </motion.p>
-                </div>
-              </section>
-            </div>
+            <section className="about-me-section">
+              <div className="about-me-heading">
+                <AnimatedLettersHeader
+                  text="How it all started?"
+                  elementType="h2"
+                  className="about-me-mini-header"
+                />
+              </div>
+              <div className="about-me-paragraphs">
+                <motion.p
+                  variants={paragraphAnimation}
+                  initial="hidden"
+                  whileInView="visible"
+                  animate="hidden"
+                  className="relative text-5xl my-8 text-center max-w-7xl mx-auto"
+                  viewport={{ ...ParagraphViewport }}
+                >
+                  Hello, You can call me Jupi, I am a software developer with
+                  around 5 years of programming expeirence, I've stepped in so
+                  many different fields in programming such as Scripting, Game
+                  Development, and Web Development.
+                  <br />
+                  Oh and I really like working on big projects.
+                </motion.p>
+                <motion.p
+                  variants={paragraphAnimation}
+                  initial="hidden"
+                  whileInView="visible"
+                  animate="hidden"
+                  viewport={{ ...ParagraphViewport }}
+                >
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  Cumque consequatur esse hic dolor vero, laborum autem quisquam
+                  debitis expedita dicta. Dolores nihil aliquid expedita eius
+                  perferendis aspernatur ducimus fugit iste? Lorem ipsum dolor
+                  sit amet consectetur adipisicing elit. Soluta totam eum
+                  reprehenderit voluptatum odio hic fuga, rem sapiente? Fugiat
+                  qui ipsa et at vitae sed placeat amet? Vitae, nihil dolorum!
+                </motion.p>
+              </div>
+            </section>
           </div>
-        </Provider>
-      </AppWindow>
-    </motion.div>
+        </div>
+      </Provider>
+    </AppWindow>
   );
 }
 

@@ -5,26 +5,25 @@ import ExplorerItem from "./AppsItems/ExplorerItem";
 import { DesktopAppsList } from "../ApplicationsContainer";
 
 type PropTypes = {
-    AppId: number,
-    processName: string,
-    processIcon: string,
-    processData: Object // so we can pass in the desktop array too so we have it mapped to desktop as well as individual folders
+  AppId: number;
+  processName: string;
+  processIcon: string;
+  processData: Object; // so we can pass in the desktop array too so we have it mapped to desktop as well as individual folders
 };
 
 const exitAndOpen = {
-    exit: {opacity: 0,},
-    init: {opacity: 1, scale: 1}
-}
+  exit: { opacity: 0 },
+  init: { opacity: 1, scale: 1 },
+};
 
 export type FolderItem = {
-    id: number,
-    Name: string,
-    IconPath: string,
-    AppComponent: DesktopAppsList,
-    processData?: Object,
-    customTaskbarIcon?: string,
-}
-
+  id: number;
+  Name: string;
+  IconPath: string;
+  AppComponent: DesktopAppsList;
+  processData?: Object;
+  customTaskbarIcon?: string;
+};
 
 // export let DesktopIcons: DesktopIconData[] = [
 //     {id: 0, Name: "This PC", IconPath: "Imgs/DesktopApps/ThisPC.webp", Style: {}, Selected: false, AppComponent: DesktopAppsList.DummyApp},
@@ -39,38 +38,57 @@ export type FolderItem = {
 //     {id: 9, Name: "Files", IconPath: "Imgs/DesktopApps/Folder.webp", Style: {}, Selected: false, AppComponent: DesktopAppsList.Explorer},
 // ];
 
-function Explorer(Props: PropTypes)
-{
-    const processData = Props.processData as {items: FolderItem[]};
+function Explorer(Props: PropTypes) {
+  const processData = Props.processData as { items: FolderItem[] };
 
-    return(
-        <motion.div variants={exitAndOpen} exit="exit" transition={{duration: 0.1}} initial="init" animate="init" className="main-app-container">
-            <AppWindow AppId={Props.AppId} processIcon={Props.processIcon} processName={Props.processName}>
-                <div style={{width: "100%", height: "100%", border: "none", overflowY: "hidden"}} className="explorer-background-container">
-                    <div style={
-                        {
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            width: "100%",
-
-                        }}>
-                        <input type="text" placeholder="Search for apps, settings and documents." title="Search" className="search-bar-explorer"/>
-                    </div>
-                    <div className="folders-layout">
-                        <div className="item-listing">
-                        {
-                            processData.items.map
-                            ((element) =>
-                                <ExplorerItem AppName={element.AppComponent} ApplicationName={element.Name} Icon={element.IconPath} id={element.id} key={element.id} processProps={element.processData} customTaskbarIcon={element.customTaskbarIcon} />
-                            )
-                        }
-                        </div>
-                    </div>
-                </div>
-            </AppWindow>
-        </motion.div>
-    )
+  return (
+    <AppWindow
+      AppId={Props.AppId}
+      processIcon={Props.processIcon}
+      processName={Props.processName}
+    >
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          border: "none",
+          overflowY: "hidden",
+        }}
+        className="explorer-background-container"
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100%",
+          }}
+        >
+          <input
+            type="text"
+            placeholder="Search for apps, settings and documents."
+            title="Search"
+            className="search-bar-explorer"
+          />
+        </div>
+        <div className="folders-layout">
+          <div className="item-listing">
+            {processData.items.map((element) => (
+              <ExplorerItem
+                AppName={element.AppComponent}
+                ApplicationName={element.Name}
+                Icon={element.IconPath}
+                id={element.id}
+                key={element.id}
+                processProps={element.processData}
+                customTaskbarIcon={element.customTaskbarIcon}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </AppWindow>
+  );
 }
 
 export default Explorer;

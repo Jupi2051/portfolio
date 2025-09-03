@@ -31,6 +31,11 @@ type Dimensions2D = {
   height?: number;
 };
 
+const exitAndOpenMainContainer: Variants = {
+  exit: { opacity: 0 },
+  init: { opacity: 1, scale: 1 },
+};
+
 let WindowLocatorData = new Map<number, WindowBorderBox>();
 
 function AppWindow(props: PropType) {
@@ -187,73 +192,83 @@ function AppWindow(props: PropType) {
 
   return (
     <motion.div
-      className={cn(
-        `absolute border border-black border-solid mx-auto rounded-md overflow-hidden box-shadow-[0px_0px_15px_0px_rgba(0,0,0,0.4)] user-select-none transition-[box-shadow,border] duration-200 isolate ease-in-out pointer-events-auto`,
-        {
-          "!border-none !rounded-none": Maximized,
-          "select-auto border border-pink-200 shadow-[0px_0px_20px_0px_rgba(0,0,0,0.7)]":
-            isFocused,
-          "user-select-none": MoveWindow,
-        }
-      )}
-      variants={exitAndOpen}
-      initial="hidden"
-      animate={animateValue}
-      transition={{
-        duration: 0.1,
-        width: { duration: 0.125 },
-        height: { duration: 0.125 },
-        x: { duration: 0 },
-        y: { duration: 0 },
-      }}
-      onMouseDown={onWindowMouseDown}
+      variants={exitAndOpenMainContainer}
+      exit="exit"
+      transition={{ duration: 0.1 }}
+      initial="init"
+      animate="init"
+      className="absolute top-0 left-0 w-full h-full pointer-events-none"
     >
-      <div
-        className="window-header flex text-center justify-end h-[30px] text-white bg-gradient-to-r from-[#3f3550] to-[#523a54]"
-        onMouseDown={onMouseDown}
-        onMouseUp={onMouseUp}
-        onClick={onWindowClick}
-      >
-        {props.processName !== undefined || props.processIcon !== undefined ? (
-          <div className="h-full pointer-events-none px-2.5 flex items-center justify-center mr-auto font-segoe-ui-light text-xs select-none">
-            <img src={props.processIcon} className="max-w-4" />
-            <p className="mx-2.5 text-white font-thin">{props.processName}</p>
-          </div>
-        ) : null}
-        <div className="w-fit flex flex-row-reverse items-center p-0 h-full">
-          <span
-            className="window-control-button window-close-button"
-            onClick={CloseApplication}
-          >
-            ✕
-          </span>
-          <span
-            className="window-control-button window-maximize-button"
-            onClick={MaximizeWindow}
-          >
-            <span className="block aspect-square w-2.5 border border-solid"></span>
-          </span>
-          <span
-            className="window-control-button window-dismiss-button"
-            onClick={onDismissButton}
-          >
-            <span className="block aspect-square w-2.5 h-px bg-white" />
-          </span>
-        </div>
-      </div>
-      <div
-        className="relative bg-gradient-to-b from-[#1d1d1d] to-[#3d3d3d] resize-both overflow-hidden z-[-1] max-h-[calc(100%-30px)]"
-        style={{
-          width: Maximized ? "100%" : MinimizedDimensions.width ?? "auto",
-          height: Maximized ? "100%" : MinimizedDimensions.height ?? "auto",
-          resize: Maximized ? "none" : "both",
+      <motion.div
+        className={cn(
+          `absolute border border-black border-solid mx-auto rounded-md overflow-hidden box-shadow-[0px_0px_15px_0px_rgba(0,0,0,0.4)] user-select-none transition-[box-shadow,border] duration-200 isolate ease-in-out pointer-events-auto`,
+          {
+            "!border-none !rounded-none": Maximized,
+            "select-auto border border-pink-200 shadow-[0px_0px_20px_0px_rgba(0,0,0,0.7)]":
+              isFocused,
+            "user-select-none": MoveWindow,
+          }
+        )}
+        variants={exitAndOpen}
+        initial="hidden"
+        animate={animateValue}
+        transition={{
+          duration: 0.1,
+          width: { duration: 0.125 },
+          height: { duration: 0.125 },
+          x: { duration: 0 },
+          y: { duration: 0 },
         }}
-        ref={ref}
+        onMouseDown={onWindowMouseDown}
       >
-        <div className="flex flex-col w-full h-full @appwindow border-none">
-          {props.children}
+        <div
+          className="window-header flex text-center justify-end h-[30px] text-white bg-gradient-to-r from-[#3f3550] to-[#523a54]"
+          onMouseDown={onMouseDown}
+          onMouseUp={onMouseUp}
+          onClick={onWindowClick}
+        >
+          {props.processName !== undefined ||
+          props.processIcon !== undefined ? (
+            <div className="h-full pointer-events-none px-2.5 flex items-center justify-center mr-auto font-segoe-ui-light text-xs select-none">
+              <img src={props.processIcon} className="max-w-4" />
+              <p className="mx-2.5 text-white font-thin">{props.processName}</p>
+            </div>
+          ) : null}
+          <div className="w-fit flex flex-row-reverse items-center p-0 h-full">
+            <span
+              className="window-control-button window-close-button"
+              onClick={CloseApplication}
+            >
+              ✕
+            </span>
+            <span
+              className="window-control-button window-maximize-button"
+              onClick={MaximizeWindow}
+            >
+              <span className="block aspect-square w-2.5 border border-solid"></span>
+            </span>
+            <span
+              className="window-control-button window-dismiss-button"
+              onClick={onDismissButton}
+            >
+              <span className="block aspect-square w-2.5 h-px bg-white" />
+            </span>
+          </div>
         </div>
-      </div>
+        <div
+          className="relative bg-gradient-to-b from-[#1d1d1d] to-[#3d3d3d] resize-both overflow-hidden z-[-1] max-h-[calc(100%-30px)]"
+          style={{
+            width: Maximized ? "100%" : MinimizedDimensions.width ?? "auto",
+            height: Maximized ? "100%" : MinimizedDimensions.height ?? "auto",
+            resize: Maximized ? "none" : "both",
+          }}
+          ref={ref}
+        >
+          <div className="flex flex-col w-full h-full @appwindow border-none">
+            {props.children}
+          </div>
+        </div>
+      </motion.div>
     </motion.div>
   );
 }

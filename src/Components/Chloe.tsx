@@ -1,5 +1,4 @@
-import { AnimatePresence, Variants, animate, motion } from "framer-motion";
-import "../Styles/Chloe.css";
+import { AnimatePresence, Variants, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const animationVariants: Variants = {
@@ -122,7 +121,7 @@ function Chloe(props: PropTypes) {
   return (
     <AnimatePresence>
       <motion.div
-        className="chloe-container"
+        className="absolute max-w-lg -bottom-1.5 right-0"
         variants={animationVariants}
         initial="initial"
         animate="enter"
@@ -130,7 +129,7 @@ function Chloe(props: PropTypes) {
         onClick={onClickChloe}
       >
         <motion.div
-          className="expression-container"
+          className="w-40 h-60"
           variants={CharacterMovement}
           initial="initial"
           exit="exit"
@@ -140,7 +139,7 @@ function Chloe(props: PropTypes) {
             {EmotionsImagesMap.map((element) =>
               element.ChloeEmote === currentSpeechUnit.emotion ? (
                 <motion.img
-                  className="chloe-image"
+                  className="absolute"
                   src={element.ImageLink}
                   variants={ChloeVariants}
                   key={element.ChloeEmote}
@@ -149,7 +148,10 @@ function Chloe(props: PropTypes) {
             )}
           </AnimatePresence>
         </motion.div>
-        <motion.div variants={BubbleVariants} className="text-container">
+        <motion.div
+          variants={BubbleVariants}
+          className="absolute bottom-full right-2/5 w-52 h-40 before:content-[''] before:absolute before:w-[110%] before:h-[110%] before:left-[-5%] before:top-0 before:bg-image-url before:bg-no-repeat before:bg-cover before:bg-center before:overflow-visible -z-10 filter-[drop-shadow(5px_0px_15px_#0f0f0f)] bg-[url('/Imgs/Images/Speech.svg')] bg-cover bg-center bg-no-repeat"
+        >
           <AnimatePresence>
             {currentMessage % 2 === 0 ? (
               <motion.p

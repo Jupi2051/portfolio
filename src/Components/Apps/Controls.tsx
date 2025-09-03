@@ -53,56 +53,47 @@ function Controls(Props: PropTypes) {
   }
 
   return (
-    <motion.div
-      variants={exitAndOpen}
-      exit="exit"
-      transition={{ duration: 0.1 }}
-      initial="init"
-      animate="init"
-      className="main-app-container"
+    <AppWindow
+      AppId={Props.AppId}
+      processIcon={Props.processIcon}
+      processName={Props.processName}
     >
-      <AppWindow
-        AppId={Props.AppId}
-        processIcon={Props.processIcon}
-        processName={Props.processName}
-      >
-        <div style={{ width: "100%", height: "100%", border: "none" }}>
-          <div
-            style={{
-              widows: "100%",
-              height: "100%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            {password === "sonic2000" ? (
-              <Suspense fallback={<h1>DAMN ITS LOADING RN BOYS ITS LADING</h1>}>
-                <SettingsComponent />
-              </Suspense>
-            ) : (
-              <div className="w-full h-full flex items-center justify-center bg-black">
-                <form onSubmit={onFormSubmit} className="flex flex-col gap-2.5">
-                  <input
-                    className="h-20 rounded-xl w-96 text-3xl py-2 px-1 bg-gray-950 border-2 border-solid border-gray-900 text-white"
-                    type="password"
-                    onChange={onChangeText}
-                    placeholder="Password...."
-                  />
-                  <button
-                    className="create-article-button"
-                    type="submit"
-                    onClick={onSubmitPassword}
-                  >
-                    Log In
-                  </button>
-                </form>
-              </div>
-            )}
-          </div>
+      <div style={{ width: "100%", height: "100%", border: "none" }}>
+        <div
+          style={{
+            widows: "100%",
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {password === "sonic2000" ? (
+            <Suspense fallback={<h1>DAMN ITS LOADING RN BOYS ITS LADING</h1>}>
+              <SettingsComponent />
+            </Suspense>
+          ) : (
+            <div className="w-full h-full flex items-center justify-center bg-black">
+              <form onSubmit={onFormSubmit} className="flex flex-col gap-2.5">
+                <input
+                  className="h-20 rounded-xl w-96 text-3xl py-2 px-1 bg-gray-950 border-2 border-solid border-gray-900 text-white"
+                  type="password"
+                  onChange={onChangeText}
+                  placeholder="Password...."
+                />
+                <button
+                  className="create-article-button"
+                  type="submit"
+                  onClick={onSubmitPassword}
+                >
+                  Log In
+                </button>
+              </form>
+            </div>
+          )}
         </div>
-      </AppWindow>
-    </motion.div>
+      </div>
+    </AppWindow>
   );
 }
 
