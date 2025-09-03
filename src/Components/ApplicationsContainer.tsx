@@ -11,7 +11,7 @@ import Explorer from "@/Components/Apps/Explorer";
 import Social from "@/Components/Apps/Social";
 import AboutMe from "@/Components/Apps/AboutMe";
 import Blog from "@/Components/Apps/Blog";
-import Controls from "@/Components/Apps/Controls";
+import Controls from "@/Components/Apps/controls/Controls";
 
 type PropTypes = {
   OpenApplications: OpenApplication[];

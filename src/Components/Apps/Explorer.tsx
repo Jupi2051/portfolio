@@ -11,11 +11,6 @@ type PropTypes = {
   processData: Object; // so we can pass in the desktop array too so we have it mapped to desktop as well as individual folders
 };
 
-const exitAndOpen = {
-  exit: { opacity: 0 },
-  init: { opacity: 1, scale: 1 },
-};
-
 export type FolderItem = {
   id: number;
   Name: string;

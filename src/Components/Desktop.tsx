@@ -290,7 +290,8 @@ function Desktop() {
   );
 
   useEffect(() => {
-    if (isHoldClicked) Timer = setInterval(onHoldClick, 10);
+    if (isHoldClicked)
+      Timer = setInterval(onHoldClick, 10) as unknown as number;
     else EndClick();
   }, [isHoldClicked]);
 

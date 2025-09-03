@@ -16,11 +16,6 @@ type PropTypes = {
   processIcon: string;
 };
 
-const exitAndOpen = {
-  exit: { opacity: 0 },
-  init: { opacity: 1, scale: 1 },
-};
-
 export type articleLinkItem = {
   id: string;
   title: string;

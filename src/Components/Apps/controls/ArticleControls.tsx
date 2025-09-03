@@ -2,13 +2,11 @@ import TextEditor from "@/Components/Apps/AppsItems/TextEditor";
 import { useState } from "react";
 import { createArticle } from "@/API/BlogList";
 import { useSelector } from "react-redux";
-import { RootState } from "@/Storage/Store";
 
-function ArticleControls() {
+function ArticleControls({ password }: { password: string }) {
   const [articleTextContent, setArticleTextContent] = useState<string>("");
   const [titleContent, setTitleContent] = useState<string>("");
   const [descriptionContent, setDescriptionContent] = useState<string>("");
-  const ControlsState = useSelector((x: RootState) => x.controlsState);
 
   function onTitleChange(event: React.ChangeEvent<HTMLInputElement>) {
     event.preventDefault();
@@ -24,7 +22,6 @@ function ArticleControls() {
     const title = titleContent;
     const description = descriptionContent;
     const content = articleTextContent;
-    const password = ControlsState.password;
     const response = await createArticle(title, description, content, password);
     // post here
   }

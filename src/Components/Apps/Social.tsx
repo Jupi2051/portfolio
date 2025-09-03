@@ -14,11 +14,6 @@ type PropTypes = {
   processIcon: string;
 };
 
-const exitAndOpen = {
-  exit: { opacity: 0 },
-  init: { opacity: 1, scale: 1 },
-};
-
 type Messages = {
   content: string;
   name: string;

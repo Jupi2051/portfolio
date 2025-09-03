@@ -3,11 +3,10 @@ import AppWindow from "@/Components/AppWindow";
 import { useState, lazy, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/Storage/Store";
-import { stateControlsUpdatePassword } from "@/Storage/Slices/Controls";
 import { attemptControlLogin } from "@/API/Auth";
 
 const SettingsComponent = lazy(() =>
-  import("./AppsItems/ControlsSettings").then((module) => {
+  import("./ArticleControls").then((module) => {
     return { default: module.default };
   })
 );
@@ -18,15 +17,9 @@ type PropTypes = {
   processIcon: string;
 };
 
-const exitAndOpen = {
-  exit: { opacity: 0 },
-  init: { opacity: 1, scale: 1 },
-};
-
 function Controls(Props: PropTypes) {
-  const dispatch = useDispatch();
   const [writtenPassword, setWrittenPassword] = useState<string>("");
-  const password = useSelector((x: RootState) => x.controlsState.password);
+  const [password, setPassword] = useState<string>("");
 
   function onChangeText(event: React.ChangeEvent<HTMLInputElement>) {
     setWrittenPassword(event.target.value);
@@ -48,7 +41,7 @@ function Controls(Props: PropTypes) {
   async function authPassword(password: string) {
     const result = await attemptControlLogin(password);
     if (result) {
-      dispatch(stateControlsUpdatePassword(writtenPassword));
+      setPassword(writtenPassword);
     }
   }
 
@@ -70,7 +63,7 @@ function Controls(Props: PropTypes) {
         >
           {password === "sonic2000" ? (
             <Suspense fallback={<h1>DAMN ITS LOADING RN BOYS ITS LADING</h1>}>
-              <SettingsComponent />
+              <SettingsComponent password={password} />
             </Suspense>
           ) : (
             <div className="w-full h-full flex items-center justify-center bg-black">
