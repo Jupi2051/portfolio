@@ -4,163 +4,58 @@
     - which in turn can create an overflow issue.
 */
 
-.mother-window-container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    border: none;
-    container-type: inline-size;
-    container-name: appwindow;
-}
-
 * {
-    scrollbar-width: auto;
-    scrollbar-color: #111 #111;
+  scrollbar-width: auto;
+  scrollbar-color: #111 #111;
 }
 
 *::-webkit-scrollbar {
-    width: 6px;
+  width: 6px;
 }
 
 *::-webkit-scrollbar-track {
-    background: transparent;
+  background: transparent;
 }
 
 *::-webkit-scrollbar-thumb {
-    background-color: #111;
-    border-radius: 15px;
+  background-color: #111;
+  border-radius: 15px;
 }
 
 .main-app-container {
-    position: absolute;
-    top: 0%;
-    left: 0%;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-}
-
-.app-window {
-    position: relative;
-    pointer-events: initial;
-    position: absolute;
-    border: 1px solid black;
-    margin-inline: auto;
-    border-radius: 6px;
-    overflow: hidden;
-    box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.4);
-    user-select: none;
-    transition: none 0.2s ease;
-    transition-property: box-shadow, border;
-    isolation: isolate;
-}
-
-.window-header {
-    display: flex;
-    text-align: center;
-    justify-content: flex-end;
-    height: 30px;
-    color: white;
-    background-image: linear-gradient(90deg, #3f3550, #523a54);
-}
-
-.window-controls {
-    width: fit-content;
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
-    padding: 0;
-    height: 100%;
-}
-
-.window-content {
-    position: relative;
-    background-image: linear-gradient(45deg, #1d1d1d, #3d3d3d);
-    resize: both;
-    overflow: hidden;
-    z-index: -1;
-    max-height: calc(100% - 30px);
-}
-
-#square-button {
-    display: block;
-    aspect-ratio: 1 / 1;
-    width: 10px;
-    border: 1px solid;
-}
-
-#dismiss-button {
-    display: block;
-    aspect-ratio: 1 / 2;
-    width: 10px;
-    height: 1px;
-    background-color: white;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 
 .window-control-button {
-    padding: 15px 20px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    cursor: default;
-    background-color: transparent;
-    transition: all 0.2s ease;
-    border-color: white;
-    --hover-color: rgba(255, 255, 255, 0.1);
-    --click-color: rgba(255, 255, 255, 0.2);;
-    height: 100%;
-    user-select: none;
+  padding: 15px 20px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  cursor: default;
+  background-color: transparent;
+  transition: all 0.2s ease;
+  border-color: white;
+  --hover-color: rgba(255, 255, 255, 0.1);
+  --click-color: rgba(255, 255, 255, 0.2);
+  height: 100%;
+  user-select: none;
 }
 
 .window-close-button {
-    --hover-color: rgb(210, 0, 0);
-    --click-color: rgb(150, 0, 0);
+  --hover-color: rgb(210, 0, 0);
+  --click-color: rgb(150, 0, 0);
 }
 
 .window-control-button:hover {
-    background-color: var(--hover-color);
+  background-color: var(--hover-color);
 }
 
 .window-control-button:hover:active {
-    transition: none 0.3s ease;
-    background-color: var(--click-color);
-}
-
-.process-data-container {
-    height: 100%;
-    pointer-events: none;
-    padding-inline: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: auto;
-    font-family: "Segoe UI Light";
-    font-size: 12px;
-    user-select: none;
-}
-
-.process-data-container > img {
-    max-width: 17px;
-}
-
-.process-data-container > p {
-    font-weight: 100;
-    margin-inline: 10px;
-    color: white;
-}
-
-.focused-app-window {
-    user-select: auto;
-    border: 1px solid pink;
-    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.7);
-}
-
-.moving-app-window {
-    user-select: none;
-}
-
-.maximized-app-window {
-    border: none;
-    border-radius: 0px;
+  transition: none 0.3s ease;
+  background-color: var(--click-color);
 }

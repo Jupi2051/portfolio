@@ -1,7 +1,5 @@
 import { Variants, motion } from "framer-motion";
 import AppWindow from "../AppWindow";
-import Julogo from "./AppsItems/Julogo";
-import "../../Styles/Apps/AboutMe.css";
 import { CSSProperties, ReactNode } from "react";
 import { Provider } from "react-wrap-balancer";
 import SolarSystem from "../SolarSystem";
@@ -107,27 +105,27 @@ function AboutMe(Props: PropTypes) {
         processName={Props.processName}
       >
         <Provider>
-          <div className="about-me-container">
-            <div className="sections-container">
-              <div className="about-me-heading" style={{ display: "flex" }}>
+          <div className="text-white font-segoe-ui h-full bg-black text-xss overflow-y-scroll overflow-x-hidden py-12">
+            <div className="h-full">
+              <div className="flex items-center justify-center gap-4">
                 <AnimatedLettersHeader
                   text="About Me"
                   elementType="h1"
-                  className="about-me-header"
+                  className="text-5xl text-center"
                 />
               </div>
 
               <SolarSystem />
 
-              <section className="about-me-section">
+              <section className="my-28">
                 <div className="about-me-heading">
                   <AnimatedLettersHeader
                     text="Who am I?"
                     elementType="h2"
-                    className="about-me-mini-header"
+                    className="text-4xl"
                   />
                 </div>
-                <div className="about-me-paragraphs">
+                <div className="relative">
                   {/* <motion.p variants={paragraphAnimation} initial="hidden" whileInView="visible" animate="hidden" viewport={{...ParagraphViewport}}>
                                         Hello, You can call me Jupi, I am a software developer with around 5 years of programming expeirence,
                                         I've stepped in so many different fields in programming such as Scripting, Game Development, and Web Development.<br />
@@ -166,6 +164,7 @@ function AboutMe(Props: PropTypes) {
                     initial="hidden"
                     whileInView="visible"
                     animate="hidden"
+                    className="relative text-5xl my-8 text-center max-w-7xl mx-auto"
                     viewport={{ ...ParagraphViewport }}
                   >
                     Hello, You can call me Jupi, I am a software developer with
