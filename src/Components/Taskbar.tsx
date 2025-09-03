@@ -1,5 +1,5 @@
-import BackgroundApps from "./BackgroundApps";
-import OpenApps from "./OpenApps";
+import BackgroundApps from "@/Components/BackgroundApps";
+import OpenApps from "@/Components/OpenApps";
 
 function Taskbar() {
   return (

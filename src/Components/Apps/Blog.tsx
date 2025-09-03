@@ -1,12 +1,14 @@
 import { AnimatePresence, motion } from "framer-motion";
-import AppWindow from "../AppWindow";
+import AppWindow from "@/Components/AppWindow";
 import { useEffect, useState } from "react";
 import "../../Styles/Apps/Blog.css";
-import BlogArticleLink from "./AppsItems/BlogArticleLink";
-import BlogArticle, { BlogArticleType } from "./AppsItems/BlogArticle";
-import { fetchArticle, fetchArticlesLinks } from "../../API/BlogList";
-import ArticleReadLoader from "./Loaders/ArticleReadLoader";
-import ArticleLinkLoader from "./Loaders/ArticleLinkLoader";
+import BlogArticleLink from "@/Components/Apps/AppsItems/BlogArticleLink";
+import BlogArticle, {
+  BlogArticleType,
+} from "@/Components/Apps/AppsItems/BlogArticle";
+import { fetchArticle, fetchArticlesLinks } from "@/API/BlogList";
+import ArticleReadLoader from "@/Components/Apps/Loaders/ArticleReadLoader";
+import ArticleLinkLoader from "@/Components/Apps/Loaders/ArticleLinkLoader";
 
 type PropTypes = {
   AppId: number;

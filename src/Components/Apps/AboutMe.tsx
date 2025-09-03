@@ -1,8 +1,8 @@
 import { Variants, motion } from "framer-motion";
-import AppWindow from "../AppWindow";
+import AppWindow from "@/Components/AppWindow";
 import { CSSProperties, ReactNode } from "react";
 import { Provider } from "react-wrap-balancer";
-import SolarSystem from "../SolarSystem";
+import SolarSystem from "@/Components/SolarSystem";
 
 type PropTypes = {
   AppId: number;

@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
-import AppWindow from "../AppWindow";
-import Chloe, { ChloeConversation, ChloeEmotion } from "../Chloe";
-import ChloeInfoButton from "../ChloeInfoButton";
+import AppWindow from "@/Components/AppWindow";
+import Chloe, { ChloeConversation, ChloeEmotion } from "@/Components/Chloe";
+import ChloeInfoButton from "@/Components/ChloeInfoButton";
 import { useState } from "react";
 
 type PropTypes = {
@@ -74,6 +74,12 @@ function DummyApp(Props: PropTypes) {
           setRenderChloe={setRenderChloe}
         />
         <h1>So True Bestie!</h1>
+        <h1>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae non
+          nulla, possimus voluptates cum aut doloremque repellat pariatur
+          consectetur placeat nam sunt molestias doloribus dicta ea debitis
+          voluptas. Perspiciatis, quis!
+        </h1>
         <h1>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae non
           nulla, possimus voluptates cum aut doloremque repellat pariatur

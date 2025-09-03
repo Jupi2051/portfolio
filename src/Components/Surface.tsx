@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import Desktop from "./Desktop";
 import Taskbar from "./Taskbar";
 import "/src/fonts/SEGOEUI.ttf";
-import { RootState } from "../Storage/Store";
+import { RootState } from "@/Storage/Store";
 import WindowsSettings from "./WindowsSettings";
 import { AnimatePresence } from "framer-motion";
 

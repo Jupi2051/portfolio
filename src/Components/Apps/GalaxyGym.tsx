@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
-import AppWindow from "../AppWindow";
-import { useEffect } from "react";
-import Stack, { StackTool } from "../Stack";
+import AppWindow from "@/Components/AppWindow";
+import Stack, { StackTool } from "@/Components/Stack";
 
 type PropTypes = {
   AppId: number;

@@ -1,4 +1,4 @@
-import useMousePosition from "../Hooks/useMousePosition";
+import useMousePosition from "@/Hooks/useMousePosition";
 import cn from "classnames";
 
 type Point = {

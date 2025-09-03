@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../Storage/Store";
-import { setRenderWindowsSettings } from "../Storage/Slices/Taskbar";
-import { setFocusedApp, setMinimizedState } from "../Storage/Slices/Desktop";
-import { bringToFront } from "../Storage/Slices/Main";
+import { RootState } from "@/Storage/Store";
+import { setRenderWindowsSettings } from "@/Storage/Slices/Taskbar";
+import { setFocusedApp, setMinimizedState } from "@/Storage/Slices/Desktop";
+import { bringToFront } from "@/Storage/Slices/Main";
 import cn from "classnames";
 
 type PropTypes = {

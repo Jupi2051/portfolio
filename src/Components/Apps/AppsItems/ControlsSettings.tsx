@@ -1,4 +1,4 @@
-import ArticleControls from "./Controls/ArticleControls";
+import ArticleControls from "@/Components/Apps/AppsItems/Controls/ArticleControls";
 
 function ControlsSettings() {
   return (

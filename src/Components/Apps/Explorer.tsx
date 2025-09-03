@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
-import AppWindow from "../AppWindow";
+import AppWindow from "@/Components/AppWindow";
 import "../../Styles/Apps/Explorer.css";
-import ExplorerItem from "./AppsItems/ExplorerItem";
-import { DesktopAppsList } from "../ApplicationsContainer";
+import ExplorerItem from "@/Components/Apps/AppsItems/ExplorerItem";
+import { DesktopAppsList } from "@/Components/ApplicationsContainer";
 
 type PropTypes = {
   AppId: number;

@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { OpenApplication } from "./Desktop";
+import { OpenApplication } from "@/Components/Desktop";
 import { useDispatch } from "react-redux";
-import { openTaskbarApplication } from "../Storage/Slices/Taskbar";
-import { DesktopAppsList } from "./ApplicationsContainer";
-import { bringToFront, openApplication } from "../Storage/Slices/Main";
-import { setFocusedApp } from "../Storage/Slices/Desktop";
+import { openTaskbarApplication } from "@/Storage/Slices/Taskbar";
+import { DesktopAppsList } from "@/Components/ApplicationsContainer";
+import { bringToFront, openApplication } from "@/Storage/Slices/Main";
+import { setFocusedApp } from "@/Storage/Slices/Desktop";
 import cn from "classnames";
 
 type PropTypes = {

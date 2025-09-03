@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import AppWindow from "../AppWindow";
+import AppWindow from "@/Components/AppWindow";
 
 type PropTypes = {
   AppId: number;

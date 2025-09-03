@@ -1,4 +1,4 @@
-import { articleLinkItem } from "../Blog";
+import { articleLinkItem } from "@/Components/Apps/Blog";
 
 
 function BlogArticleLink(props: articleLinkItem & {idAssignFunction: (id: string | null) => void})

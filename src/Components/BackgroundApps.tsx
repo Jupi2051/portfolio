@@ -1,5 +1,5 @@
-import DateTime from "./BackgroundApps/DateTime";
-import VolumeInternet from "./BackgroundApps/VolumeInternet";
+import DateTime from "@/Components/BackgroundApps/DateTime";
+import VolumeInternet from "@/Components/BackgroundApps/VolumeInternet";
 import cn from "classnames";
 
 function BackgroundAppWrapper(Props: { children: React.ReactNode }) {

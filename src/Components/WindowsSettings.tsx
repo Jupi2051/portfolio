@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
-import { DesktopIcons } from "./Desktop";
-import WindowsSettingsApp from "./WindowsSettingsApp";
-import SocialMedia, { SocialMediaTypes } from "./SocialMedia";
+import { DesktopIcons } from "@/Components/Desktop";
+import WindowsSettingsApp from "@/Components/WindowsSettingsApp";
+import SocialMedia, { SocialMediaTypes } from "@/Components/SocialMedia";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPowerOff } from "@fortawesome/free-solid-svg-icons";
 

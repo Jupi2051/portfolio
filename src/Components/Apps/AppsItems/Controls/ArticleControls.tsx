@@ -1,8 +1,8 @@
-import TextEditor from "../TextEditor";
+import TextEditor from "@/Components/Apps/AppsItems/TextEditor";
 import { useState } from "react";
-import { createArticle } from "../../../../API/BlogList";
+import { createArticle } from "@/API/BlogList";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../Storage/Store";
+import { RootState } from "@/Storage/Store";
 
 function ArticleControls() {
   const [articleTextContent, setArticleTextContent] = useState<string>("");

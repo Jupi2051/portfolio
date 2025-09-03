@@ -1,16 +1,16 @@
 import { ReactNode, useEffect, useMemo, useState } from "react";
 import "../Styles/AppWindow.css";
 import { AnimatePresence, Point, Variants, motion } from "framer-motion";
-import useMousePosition from "../Hooks/useMousePosition";
+import useMousePosition from "@/Hooks/useMousePosition";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../Storage/Store";
-import { bringToFront, closeApplication } from "../Storage/Slices/Main";
-import { closeTaskbarApplication } from "../Storage/Slices/Taskbar";
+import { RootState } from "@/Storage/Store";
+import { bringToFront, closeApplication } from "@/Storage/Slices/Main";
+import { closeTaskbarApplication } from "@/Storage/Slices/Taskbar";
 import {
   setFocusedApp,
   setMinimizedState,
   setMouseMovementOffset,
-} from "../Storage/Slices/Desktop";
+} from "@/Storage/Slices/Desktop";
 import { useResizeDetector } from "react-resize-detector";
 import cn from "classnames";
 

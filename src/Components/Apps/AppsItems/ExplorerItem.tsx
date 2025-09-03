@@ -1,10 +1,10 @@
 import { useDispatch } from "react-redux";
-import { DesktopAppsList } from "../../ApplicationsContainer";
-import { bringToFront, openApplication } from "../../../Storage/Slices/Main";
-import { setFocusedApp } from "../../../Storage/Slices/Desktop";
-import { openTaskbarApplication } from "../../../Storage/Slices/Taskbar";
+import { DesktopAppsList } from "@/Components/ApplicationsContainer";
+import { bringToFront, openApplication } from "@/Storage/Slices/Main";
+import { setFocusedApp } from "@/Storage/Slices/Desktop";
+import { openTaskbarApplication } from "@/Storage/Slices/Taskbar";
 import cn from "classnames";
-import { OpenApplication } from "../../Desktop";
+import { OpenApplication } from "@/Components/Desktop";
 export interface ExplorerItemData {
   ApplicationName: string;
   Icon: string;

@@ -1,4 +1,4 @@
-import Tool from "./Tool";
+import Tool from "@/Components/Tool";
 
 export enum StackTool {
   Blender,

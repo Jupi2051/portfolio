@@ -1,12 +1,12 @@
 import { AnimatePresence, Variants, motion } from "framer-motion";
-import AppWindow from "../AppWindow";
-import Chloe, { ChloeConversation, ChloeEmotion } from "../Chloe";
-import ChloeInfoButton from "../ChloeInfoButton";
+import AppWindow from "@/Components/AppWindow";
+import Chloe, { ChloeConversation, ChloeEmotion } from "@/Components/Chloe";
+import ChloeInfoButton from "@/Components/ChloeInfoButton";
 import { useEffect, useState } from "react";
-import BoardMessage from "./AppsItems/BoardMessage";
+import BoardMessage from "@/Components/Apps/AppsItems/BoardMessage";
 import "../../Styles/Apps/Social.css";
-import { getMessages, sendMessage } from "../../API/MessagesBoard";
-import Stack, { StackTool } from "../Stack";
+import { getMessages, sendMessage } from "@/API/MessagesBoard";
+import Stack, { StackTool } from "@/Components/Stack";
 
 type PropTypes = {
   AppId: number;

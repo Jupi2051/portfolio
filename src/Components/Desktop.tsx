@@ -1,18 +1,18 @@
 import { SyntheticEvent, useEffect, useState } from "react";
 import "../Styles/Desktop.css";
-import DesktopIcon from "./DesktopIcon";
-import DesktopTimeWidget from "./Widgets/DesktopTimeWidget";
+import DesktopIcon from "@/Components/DesktopIcon";
+import DesktopTimeWidget from "@/Components/Widgets/DesktopTimeWidget";
 import useResizeObserver from "use-resize-observer";
-import MovingDesktopIcon from "./MovingDesktopIcon";
+import MovingDesktopIcon from "@/Components/MovingDesktopIcon";
 import ApplicationsContainer, {
   DesktopAppsList,
-} from "./ApplicationsContainer";
+} from "@/Components/ApplicationsContainer";
 import { AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
-import { unhandleZIndex } from "../Storage/Slices/Main";
-import { RootState } from "../Storage/Store";
-import { setFocusedApp } from "../Storage/Slices/Desktop";
-import { FolderItem } from "./Apps/Explorer";
+import { unhandleZIndex } from "@/Storage/Slices/Main";
+import { RootState } from "@/Storage/Store";
+import { setFocusedApp } from "@/Storage/Slices/Desktop";
+import { FolderItem } from "@/Components/Apps/Explorer";
 
 type Point = {
   x: number;

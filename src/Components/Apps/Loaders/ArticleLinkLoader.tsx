@@ -1,4 +1,4 @@
-import LoadingItemContainer from "../../LoadingItemContainer";
+import LoadingItemContainer from "@/Components/LoadingItemContainer";
 
 function ArticleLinkLoader()
 {

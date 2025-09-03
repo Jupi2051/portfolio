@@ -1,10 +1,10 @@
 import { AnimatePresence, motion } from "framer-motion";
-import AppWindow from "../AppWindow";
+import AppWindow from "@/Components/AppWindow";
 import { useState, lazy, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../Storage/Store";
-import { stateControlsUpdatePassword } from "../../Storage/Slices/Controls";
-import { attemptControlLogin } from "../../API/Auth";
+import { RootState } from "@/Storage/Store";
+import { stateControlsUpdatePassword } from "@/Storage/Slices/Controls";
+import { attemptControlLogin } from "@/API/Auth";
 
 const SettingsComponent = lazy(() =>
   import("./AppsItems/ControlsSettings").then((module) => {
