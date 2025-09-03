@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import "../Styles/TaskbarApp.css";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../Storage/Store";
 import { setRenderWindowsSettings } from "../Storage/Slices/Taskbar";
 import { setFocusedApp, setMinimizedState } from "../Storage/Slices/Desktop";
 import { bringToFront } from "../Storage/Slices/Main";
+import cn from "classnames";
 
 type PropTypes = {
   Icon: string;
@@ -60,23 +60,29 @@ function TaskBarApp(Props: PropTypes) {
     }
   };
 
-  let ClassListString = "Taskbar-App";
-  if (!Props.HideStatusBar) {
-    if (Open) ClassListString = ClassListString + " Open-Taskbar-App";
-    if (Open && Focused)
-      ClassListString = ClassListString + " Focused-Taskbar-App";
-  }
-  if (Props.isWindowsIcon)
-    ClassListString = ClassListString + " Windows-Taskbar-Icon";
-
   return (
-    <div className={ClassListString} onClick={OnClickHandler}>
+    <div
+      className={cn(
+        "w-10 h-10 flex items-center justify-center relative select-none",
+        "before:content-[''] before:block before:absolute before:top-1/2 before:left-1/2 before:opacity-0 before:bg-white/5 before:w-10 before:h-10 before:rounded-md before:border-transparent before:border before:pointer-events-none transition-all before:-translate-1/2 before:scale-90 hover:before:scale-100 hover:before:opacity-100 before:transition-all before:duration-100 before:ease-in-out hover:before:border-white/5",
+        "after:content-[''] after:block after:absolute after:top-full after:left-1/2 after:-translate-x-1/2 after:-translate-y-full after:bg-[#93909f] after:rounded-md after:h-[3.34px] after:-mt-px after:border-transparent after:pointer-events-none after:ease-in after:transition-all",
+        {
+          "after:w-1": !Props.HideStatusBar && Open,
+          "after:bg-[#d0b3d5] after:w-[18px]":
+            !Props.HideStatusBar && Open && Focused,
+          "active:rounded-sm active:filter-[hue-rotate(20deg)_brightness(80%)_saturate(3.5)]":
+            Props.isWindowsIcon,
+          "after:border-0": Props.HideStatusBar,
+        }
+      )}
+      onClick={OnClickHandler}
+    >
       <motion.img
         variants={AnimationFrames}
         initial="init"
         animate="enterance"
         src={Props.Icon}
-        className="Taskbar-App-Main-Icon"
+        className="max-w-[25px] duration-100 transition-all pointer-events-none ease-in-out active:scale-85"
       />
     </div>
   );
