@@ -170,7 +170,7 @@ function AppWindow(props: PropType) {
         onMouseDown={onWindowMouseDown}
       >
         <div
-          className="relative bg-gradient-to-b from-[#1d1d1d] to-[#3d3d3d] resize-both overflow-hidden z-[-1] max-h-[calc(100%-30px)] @container/appwindow"
+          className="relative bg-gradient-to-b from-[#1d1d1d] to-[#3d3d3d] resize-both overflow-hidden z-[-1] @container/appwindow"
           style={{
             width: Maximized ? "100%" : MinimizedDimensions.width ?? "auto",
             height: Maximized ? "100%" : MinimizedDimensions.height ?? "auto",
