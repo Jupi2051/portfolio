@@ -29,7 +29,8 @@
     "react-redux": "^9.2.0",
     "react-resize-detector": "^12.1.0",
     "react-wrap-balancer": "^1.1.1",
-    "tailwindcss": "^4.1.12"
+    "tailwindcss": "^4.1.12",
+    "usehooks-ts": "^3.1.1"
   },
   "devDependencies": {
     "@catppuccin/tailwindcss": "^1.0.0",
