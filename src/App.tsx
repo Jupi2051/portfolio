@@ -1,6 +1,6 @@
-import Surface from "@/Components/Surface";
+import Surface from "@/components/surface";
 
-function App() {
+function app() {
   return (
     <div className="App">
       <Surface />
@@ -8,4 +8,4 @@ function App() {
   );
 }
 
-export default App;
+export default app;

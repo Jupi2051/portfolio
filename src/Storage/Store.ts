@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import mainState from "@/Storage/Slices/Main";
-import TaskbarState from "@/Storage/Slices/Taskbar";
-import DesktopState from "@/Storage/Slices/Desktop";
+import mainState from "@/storage/slices/main";
+import TaskbarState from "@/storage/slices/taskbar";
+import DesktopState from "@/storage/slices/desktop";
 
 const store = configureStore({
   reducer: {

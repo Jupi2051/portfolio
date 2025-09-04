@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { OpenApplication } from "@/Components/Desktop";
+import { OpenApplication } from "@/components/windows/desktop";
 
 type zIndexUnit = {
   id: number;

@@ -1,9 +1,8 @@
 import { useSelector } from "react-redux";
-import Desktop from "./Desktop";
-import Taskbar from "./Taskbar";
-import "/src/fonts/SEGOEUI.ttf";
-import { RootState } from "@/Storage/Store";
-import WindowsSettings from "./WindowsSettings";
+import Desktop from "./windows/desktop";
+import Taskbar from "./windows/taskbar";
+import { RootState } from "@/storage/store";
+import WindowsSettings from "./windows/start-menu";
 import { AnimatePresence } from "framer-motion";
 
 function Surface() {
