@@ -169,20 +169,8 @@ function AppWindow(props: PropType) {
         }}
         onMouseDown={onWindowMouseDown}
       >
-        <AppWindowHeader
-          processName={props.processName}
-          processIcon={props.processIcon}
-          setMaximized={SetMaximized}
-          SetMinmizedDimensions={SetMinmizedDimensions}
-          maximized={Maximized}
-          setMoveWindow={SetMoveWindow}
-          AppId={props.AppId}
-          windowWidth={width ?? 0}
-          windowHeight={height ?? 0}
-          NewLocation={NewLocation}
-        />
         <div
-          className="relative bg-gradient-to-b from-[#1d1d1d] to-[#3d3d3d] resize-both overflow-hidden z-[-1] max-h-[calc(100%-30px)]"
+          className="relative bg-gradient-to-b from-[#1d1d1d] to-[#3d3d3d] resize-both overflow-hidden z-[-1] max-h-[calc(100%-30px)] border-8 border-amber-600 border-none @container"
           style={{
             width: Maximized ? "100%" : MinimizedDimensions.width ?? "auto",
             height: Maximized ? "100%" : MinimizedDimensions.height ?? "auto",
@@ -190,7 +178,19 @@ function AppWindow(props: PropType) {
           }}
           ref={ref}
         >
-          <div className="flex flex-col w-full h-full @appwindow border-none">
+          <AppWindowHeader
+            processName={props.processName}
+            processIcon={props.processIcon}
+            setMaximized={SetMaximized}
+            SetMinmizedDimensions={SetMinmizedDimensions}
+            maximized={Maximized}
+            setMoveWindow={SetMoveWindow}
+            AppId={props.AppId}
+            windowWidth={width ?? 0}
+            windowHeight={height ?? 0}
+            NewLocation={NewLocation}
+          />
+          <div className="flex flex-col w-full h-full border-none">
             {props.children}
           </div>
         </div>

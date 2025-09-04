@@ -4,7 +4,7 @@ const AppWindowHeaderButton = ({
   children,
   onClick,
   className,
-  type,
+  type = "normal",
 }: {
   children?: React.ReactNode;
   onClick?: () => void;
@@ -14,7 +14,7 @@ const AppWindowHeaderButton = ({
   return (
     <span
       className={cn(
-        "px-4 py-5 text-center flex items-center cursor-default bg-transparent transition-all duration-200 ease-in-out border-white h-full select-none",
+        "px-4 text-center flex items-center cursor-default bg-transparent transition-all duration-200 ease-in-out border-white h-full select-none",
         {
           "hover:bg-white/10 hover:active:bg-white/20 hover:active:transition-none":
             type === "normal",

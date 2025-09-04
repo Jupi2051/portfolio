@@ -89,34 +89,25 @@ const AppWindowHeader = ({
 
   return (
     <div
-      className="window-header flex text-center justify-end h-[30px] text-white bg-gradient-to-r from-[#3f3550] to-[#523a54]"
+      className="window-header flex text-center justify-end h-[30px] text-white bg-gradient-to-r from-[#3f3550] min-w-max"
       onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
       onClick={onWindowClick}
     >
       {processName !== undefined || processIcon !== undefined ? (
-        <div className="h-full pointer-events-none px-2.5 flex items-center justify-center mr-auto font-segoe-ui-light text-xs select-none">
+        <div className="h-full pointer-events-none px-2.5 flex items-center justify-center mr-auto font-segoe-ui-light text-xs select-none min-w-fit">
           <img src={processIcon} className="max-w-4" />
           <p className="mx-2.5 text-white font-thin">{processName}</p>
         </div>
       ) : null}
       <div className="w-fit flex flex-row-reverse items-center p-0 h-full">
-        <AppWindowHeaderButton
-          className="window-control-button window-close-button"
-          onClick={CloseApplication}
-        >
+        <AppWindowHeaderButton onClick={CloseApplication} type="danger">
           ✕
         </AppWindowHeaderButton>
-        <AppWindowHeaderButton
-          className="window-control-button window-maximize-button"
-          onClick={MaximizeWindow}
-        >
+        <AppWindowHeaderButton onClick={MaximizeWindow}>
           <span className="block aspect-square w-2.5 border border-solid"></span>
         </AppWindowHeaderButton>
-        <AppWindowHeaderButton
-          className="window-control-button window-dismiss-button"
-          onClick={onDismissButton}
-        >
+        <AppWindowHeaderButton onClick={onDismissButton}>
           <span className="block aspect-square w-2.5 h-px bg-white" />
         </AppWindowHeaderButton>
       </div>
