@@ -1,5 +1,5 @@
 import parse from "html-react-parser";
-import "@/Styles/components/BlogArticle.css";
+import "@/Styles/BlogArticle.css";
 import "../../../../node_modules/highlight.js/styles/atom-one-dark.css";
 import hljs from "highlight.js/lib/core";
 import javascript from "highlight.js/lib/languages/javascript";
