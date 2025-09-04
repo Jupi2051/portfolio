@@ -2,7 +2,7 @@ import AppWindow from "@/components/windows/app-window";
 import { useEffect, useState } from "react";
 import BoardMessage from "@/components/apps/social/board-message";
 import "@/Styles/Apps/Social.css";
-import { getMessages, sendMessage } from "@/API/MessagesBoard";
+import { getMessages, sendMessage } from "@/api/MessagesBoard";
 
 type PropTypes = {
   AppId: number;

@@ -6,7 +6,7 @@ import BlogArticleLink from "@/components/apps/blog/blog-article-link";
 import BlogArticle, {
   BlogArticleType,
 } from "@/components/apps/blog/blog-article";
-import { fetchArticle, fetchArticlesLinks } from "@/API/BlogList";
+import { fetchArticle, fetchArticlesLinks } from "@/api/BlogList";
 import ArticleReadLoader from "@/components/ui/loaders/article-read-loader";
 import ArticleLinkLoader from "@/components/ui/loaders/article-link-loader";
 

@@ -1,6 +1,6 @@
 import TextEditor from "@/components/apps/controls/text-editor";
 import { useState } from "react";
-import { createArticle } from "@/API/BlogList";
+import { createArticle } from "@/api/BlogList";
 import { useSelector } from "react-redux";
 
 function ArticleControls({ password }: { password: string }) {

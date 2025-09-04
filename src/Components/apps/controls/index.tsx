@@ -3,7 +3,7 @@ import AppWindow from "@/components/windows/app-window";
 import { useState, lazy, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/storage/store";
-import { attemptControlLogin } from "@/API/Auth";
+import { attemptControlLogin } from "@/api/Auth";
 
 const SettingsComponent = lazy(() =>
   import("./article-controls").then((module) => {
