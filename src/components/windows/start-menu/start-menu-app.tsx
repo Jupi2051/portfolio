@@ -9,6 +9,7 @@ import { setFocusedApp } from "@/storage/slices/desktop";
 import { OpenApplication } from "@/components/windows/desktop";
 import cn from "classnames";
 import useStartMenu from "@/hooks/use-start-menu";
+import useGlobalWindowsControls from "@/hooks/use-global-windows-controls";
 
 type PropTypes = {
   Icon: string;
@@ -20,12 +21,11 @@ type PropTypes = {
 
 function StartMenuApp(Props: PropTypes) {
   const { setRenderStartMenu } = useStartMenu();
+  const { openNewApplication } = useGlobalWindowsControls();
   const dispatch = useDispatch();
 
   function onClickApplication() {
-    const id = +new Date();
-    const appObject: OpenApplication = {
-      id,
+    const appObject = {
       App: Props.App,
       processIcon: Props.customTaskbarIcon ?? Props.Icon,
       processName: Props.ApplicationName,
@@ -33,17 +33,18 @@ function StartMenuApp(Props: PropTypes) {
     };
 
     setRenderStartMenu(false);
-    dispatch(openApplication(appObject));
-    dispatch(setFocusedApp(appObject.id));
+    const { focusWindow, bringWindowToFront, app } =
+      openNewApplication(appObject);
+    focusWindow();
     dispatch(
       openTaskbarApplication({
-        id,
-        AppId: id,
+        id: app.id,
+        AppId: app.id,
         Icon: Props.Icon,
         CustomTaskbarIcon: Props.customTaskbarIcon,
       })
     );
-    dispatch(bringToFront(id));
+    bringWindowToFront();
   }
 
   return (

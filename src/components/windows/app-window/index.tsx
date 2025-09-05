@@ -1,10 +1,8 @@
 import { ReactNode, useMemo, useState } from "react";
-import { setFocusedApp } from "@/storage/slices/desktop";
 import { Point, Variants, motion } from "framer-motion";
 import useMousePosition from "@/hooks/use-mouse-position";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "@/storage/store";
-import { bringToFront } from "@/storage/slices/main";
 import { useResizeDetector } from "react-resize-detector";
 import cn from "classnames";
 import AppWindowHeader from "./app-window-header";
@@ -38,10 +36,15 @@ function AppWindow(props: PropType) {
   const [Maximized, SetMaximized] = useState(props.maximized ?? true);
   const [MoveWindow, SetMoveWindow] = useState(false);
 
-  const dispatch = useDispatch();
   const CursorLocation = useMousePosition();
 
-  const { isMinimized, zIndexFront, isFocused } = useAppWindowData(props.AppId);
+  const {
+    isMinimized,
+    zIndexFront,
+    isFocused,
+    focusWindow,
+    bringWindowToFront,
+  } = useAppWindowData(props.AppId);
   const WindowId = useMemo(() => +new Date(), []);
   const CursorOffset = useSelector(
     (x: RootState) => x.desktopState.mouseMovementOffset
@@ -112,12 +115,12 @@ function AppWindow(props: PropType) {
   function onWindowMouseDown(
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) {
-    dispatch(bringToFront(props.AppId));
+    bringWindowToFront();
     const ClickedElement = event.target as HTMLDivElement;
     if (ClickedElement)
       if (ClickedElement.classList.contains("window-dismiss-button")) return; // don't set as focus if clicking on dismiss
 
-    dispatch(setFocusedApp(props.AppId));
+    focusWindow();
   }
 
   const animateValue =

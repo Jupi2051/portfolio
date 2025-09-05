@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { motion, Variants } from "framer-motion";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/storage/store";
-import { setRenderStartMenu } from "@/storage/slices/taskbar";
-import { setFocusedApp, setMinimizedState } from "@/storage/slices/desktop";
-import { bringToFront } from "@/storage/slices/main";
+import { useDispatch } from "react-redux";
+import { setMinimizedState } from "@/storage/slices/desktop";
 import cn from "classnames";
 import useAppWindowData from "@/hooks/use-app-window-data";
 import useStartMenu from "@/hooks/use-start-menu";
+import useGlobalWindowsControls from "@/hooks/use-global-windows-controls";
 
 type PropTypes = {
   Icon: string;
@@ -38,11 +36,9 @@ const AnimationFrames: Variants = {
 };
 
 function TaskBarApp(Props: PropTypes) {
-  const MinimizedData = useSelector(
-    (x: RootState) => x.desktopState.minimizedStates
-  );
-
-  const { isMinimized, isFocused } = useAppWindowData(Props.AppId);
+  const { isMinimized, isFocused, focusWindow, bringWindowToFront } =
+    useAppWindowData(Props.AppId);
+  const { unFocusAllWindows } = useGlobalWindowsControls();
   const [isOpening, setIsOpening] = useState<boolean>();
   const { isRendered, setRenderStartMenu } = useStartMenu();
   const dispatch = useDispatch();
@@ -57,8 +53,8 @@ function TaskBarApp(Props: PropTypes) {
 
     if (Props.AppId) {
       if (isMinimized === false && isFocused === false) {
-        dispatch(bringToFront(Props.AppId));
-        dispatch(setFocusedApp(Props.AppId));
+        bringWindowToFront();
+        focusWindow();
         setIsOpening(true);
       } else {
         const MinimizedState = !isMinimized;
@@ -70,9 +66,9 @@ function TaskBarApp(Props: PropTypes) {
         );
 
         if (!MinimizedState) {
-          dispatch(setFocusedApp(Props.AppId));
-          dispatch(bringToFront(Props.AppId));
-        } else dispatch(setFocusedApp(-1));
+          focusWindow();
+          bringWindowToFront();
+        } else unFocusAllWindows();
 
         setIsOpening(!MinimizedState);
       }

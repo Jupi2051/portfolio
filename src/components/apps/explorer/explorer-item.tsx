@@ -1,10 +1,8 @@
 import { useDispatch } from "react-redux";
 import { DesktopAppsList } from "@/components/windows/desktop/apps-list";
-import { bringToFront, openApplication } from "@/storage/slices/main";
-import { setFocusedApp } from "@/storage/slices/desktop";
 import { openTaskbarApplication } from "@/storage/slices/taskbar";
 import cn from "classnames";
-import { OpenApplication } from "@/components/windows/desktop";
+import useGlobalWindowsControls from "@/hooks/use-global-windows-controls";
 export interface ExplorerItemData {
   ApplicationName: string;
   Icon: string;
@@ -17,32 +15,33 @@ export interface ExplorerItemData {
 
 function ExplorerItem(Props: ExplorerItemData) {
   const dispatch = useDispatch();
+  const { openNewApplication } = useGlobalWindowsControls();
 
   function onClickApplication(
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) {
     if (event.detail !== 2) return;
-    const id = +new Date();
 
-    const ApplicationObject: OpenApplication = {
-      id,
+    const ApplicationObject = {
       App: Props.AppName,
       processIcon: Props.customTaskbarIcon ?? Props.Icon,
       processName: Props.ApplicationName,
       processData: Props.processData,
     };
 
-    dispatch(openApplication(ApplicationObject));
-    dispatch(setFocusedApp(ApplicationObject.id));
+    const { focusWindow, bringWindowToFront, app } =
+      openNewApplication(ApplicationObject);
+
+    focusWindow();
     dispatch(
       openTaskbarApplication({
-        id,
-        AppId: id,
+        id: app.id,
+        AppId: app.id,
         Icon: Props.Icon,
         CustomTaskbarIcon: Props.customTaskbarIcon,
       })
     );
-    dispatch(bringToFront(id));
+    bringWindowToFront();
   }
 
   return (

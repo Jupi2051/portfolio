@@ -4,13 +4,6 @@ import ExplorerItem from "@/components/apps/explorer/explorer-item";
 import { DesktopAppsList } from "@/components/windows/desktop/apps-list";
 import { useApplicationData } from "@/context/app-context";
 
-type PropTypes = {
-  AppId: number;
-  processName: string;
-  processIcon: string;
-  processData: Object; // so we can pass in the desktop array too so we have it mapped to desktop as well as individual folders
-};
-
 export type FolderItem = {
   id: number;
   Name: string;
