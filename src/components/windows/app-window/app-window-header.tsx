@@ -10,6 +10,7 @@ import { Dimensions2D } from ".";
 import useMousePosition from "@/hooks/use-mouse-position";
 import { Point } from "framer-motion";
 import AppWindowHeaderButton from "./app-window-header-button";
+import { useEventListener } from "usehooks-ts";
 
 interface AppWindowHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   processName?: string;
@@ -56,9 +57,7 @@ const AppWindowHeader = ({
     dispatch(closeTaskbarApplication(AppId));
   };
 
-  const onMouseUp = () => {
-    setMoveWindow(false);
-  };
+  useEventListener("mouseup", () => setMoveWindow(false));
 
   function onMouseDown(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     const ClickedElement = event.target as HTMLDivElement;
@@ -91,7 +90,6 @@ const AppWindowHeader = ({
     <div
       className="window-header flex text-center justify-end h-[30px] text-white bg-gradient-to-r from-[#3f3550] min-w-max"
       onMouseDown={onMouseDown}
-      onMouseUp={onMouseUp}
       onClick={onWindowClick}
     >
       {processName !== undefined || processIcon !== undefined ? (
