@@ -6,6 +6,7 @@ import { DesktopAppsList } from "@/components/windows/desktop/applications-conta
 import { bringToFront, openApplication } from "@/storage/slices/main";
 import { setFocusedApp } from "@/storage/slices/desktop";
 import cn from "classnames";
+import { motion } from "framer-motion";
 
 type PropTypes = {
   ApplicationName: string;
@@ -19,6 +20,7 @@ type PropTypes = {
   Selected: boolean;
   AppName: DesktopAppsList;
   processProps?: Object;
+  index?: number;
 };
 
 function DesktopIcon(Props: PropTypes) {
@@ -53,7 +55,7 @@ function DesktopIcon(Props: PropTypes) {
   }
 
   return (
-    <div
+    <motion.div
       style={{ ...Props.Style }}
       className={cn(
         "Desktop-Icon-Container",
@@ -63,6 +65,16 @@ function DesktopIcon(Props: PropTypes) {
       )}
       data-id={Props.id}
       onClick={onClickApplication}
+      initial={{ scale: 0 }}
+      animate={{ scale: 1 }}
+      transition={{
+        duration: 0.3,
+        delay: (Props.index || 0) * 0.1,
+        ease: "easeOut",
+        type: "spring",
+        stiffness: 100,
+        damping: 10,
+      }}
     >
       <img src={Props.Icon} className="w-3/5 pointer-events-none" />
       <h1
@@ -75,7 +87,7 @@ function DesktopIcon(Props: PropTypes) {
       >
         {ApplicationName}
       </h1>
-    </div>
+    </motion.div>
   );
 }
 

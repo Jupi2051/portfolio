@@ -427,7 +427,7 @@ function Desktop() {
         <div className="absolute w-full h-full pointer-events-none">
           <DesktopTimeWidget />
         </div>
-        {ApplicationsArray.map((desktopApp) => (
+        {ApplicationsArray.map((desktopApp, index) => (
           <DesktopIcon
             ApplicationName={desktopApp.Name}
             Icon={desktopApp.IconPath}
@@ -438,6 +438,7 @@ function Desktop() {
             key={desktopApp.id}
             AppName={desktopApp.AppComponent}
             processProps={desktopApp.processData}
+            index={index}
           />
         ))}
         <AnimatePresence>
