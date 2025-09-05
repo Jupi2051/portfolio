@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { RootState } from "@/storage/store";
 
-const useAppWindowData = (appId: number) => {
+const useAppWindowData = (appId: number = -1) => {
   const MinimizedData = useSelector(
     (x: RootState) => x.desktopState.minimizedStates
   );
