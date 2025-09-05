@@ -1,7 +1,7 @@
 import { AnimatePresence } from "framer-motion";
 import { OpenApplication } from "@/components/windows/desktop";
-
 import { DesktopAppsComponents } from "@/components/windows/desktop/apps-list";
+import ApplicationContext from "@/context/app-context";
 
 type PropTypes = {
   OpenApplications: OpenApplication[];
@@ -13,12 +13,16 @@ function ApplicationsContainer({ OpenApplications }: PropTypes) {
       {OpenApplications.map(({ App, id, ...openApp }) => {
         const AppComponent = DesktopAppsComponents[App];
         return (
-          <AppComponent
-            {...openApp}
-            AppId={id}
+          <ApplicationContext.Provider
+            value={{
+              AppId: id,
+              processData: openApp.processData as Object,
+              ...openApp,
+            }}
             key={id}
-            processData={openApp.processData ?? {}}
-          />
+          >
+            <AppComponent />
+          </ApplicationContext.Provider>
         );
       })}
     </AnimatePresence>

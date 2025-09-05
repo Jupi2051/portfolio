@@ -9,7 +9,6 @@ import Social from "@/components/apps/social";
 import AboutMe from "@/components/apps/about-me";
 import Blog from "@/components/apps/blog";
 import Controls from "@/components/apps/controls";
-import { AppFoundationProps } from "@/components/ui/app-foundation";
 
 export enum DesktopAppsList {
   DummyApp,
@@ -27,7 +26,7 @@ export enum DesktopAppsList {
 
 export const DesktopAppsComponents: Record<
   DesktopAppsList,
-  React.ComponentType<AppFoundationProps>
+  React.ComponentType<any>
 > = {
   [DesktopAppsList.DummyApp]: DummyApp,
   [DesktopAppsList.Oni]: Oni,

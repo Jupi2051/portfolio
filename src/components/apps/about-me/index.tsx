@@ -80,9 +80,9 @@ function AnimatedLettersHeader(props: {
   );
 }
 
-function AboutMe(Props: AppFoundationProps) {
+function AboutMe() {
   return (
-    <AppFoundation {...Props}>
+    <AppFoundation>
       <Provider>
         <div className="text-white font-segoe-ui h-full bg-black text-2xs overflow-y-scroll overflow-x-hidden py-12">
           <div className="h-full">

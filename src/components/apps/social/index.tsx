@@ -12,7 +12,7 @@ type Messages = {
   id: number;
 };
 
-function Social(Props: AppFoundationProps) {
+function Social() {
   const [content, setContent] = useState("");
   const [name, setName] = useState("");
   const [messages, setMessages] = useState<Messages[]>([]);
@@ -50,7 +50,7 @@ function Social(Props: AppFoundationProps) {
   }
 
   return (
-    <AppFoundation {...Props}>
+    <AppFoundation>
       <div className="paper-container">
         <div className="messages-board-container">
           <div className="messages-container">

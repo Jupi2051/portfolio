@@ -3,9 +3,9 @@ import AppFoundation, {
 } from "@/components/ui/app-foundation";
 import Stack, { StackTool } from "@/components/ui/tools";
 
-function EIEN(Props: AppFoundationProps) {
+function EIEN() {
   return (
-    <AppFoundation {...Props}>
+    <AppFoundation>
       <Stack
         StackTools={[
           StackTool.HTML,

@@ -40,12 +40,12 @@ const ChloeExplanation: ChloeConversation[] = [
   },
 ];
 
-function DummyApp(Props: AppFoundationProps) {
+function DummyApp() {
   const [renderChloe, setRenderChloe] = useState(false);
   const [conversationIndex, setConversationIndex] = useState(0);
 
   return (
-    <AppFoundation {...Props}>
+    <AppFoundation>
       <div
         style={{
           width: "100%",

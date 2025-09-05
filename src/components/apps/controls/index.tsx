@@ -10,7 +10,7 @@ const SettingsComponent = lazy(() =>
   })
 );
 
-function Controls(Props: AppFoundationProps) {
+function Controls() {
   const [writtenPassword, setWrittenPassword] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -39,7 +39,7 @@ function Controls(Props: AppFoundationProps) {
   }
 
   return (
-    <AppFoundation {...Props}>
+    <AppFoundation>
       <div style={{ width: "100%", height: "100%", border: "none" }}>
         <div
           style={{

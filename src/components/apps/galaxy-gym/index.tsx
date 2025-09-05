@@ -4,9 +4,9 @@ import AppFoundation, {
 } from "@/components/ui/app-foundation";
 import Stack, { StackTool } from "@/components/ui/tools";
 
-function GalaxyGym(Props: AppFoundationProps) {
+function GalaxyGym() {
   return (
-    <AppFoundation {...Props}>
+    <AppFoundation>
       <Stack
         StackTools={[
           StackTool.HTML,

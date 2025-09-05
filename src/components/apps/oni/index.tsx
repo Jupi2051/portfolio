@@ -1,11 +1,9 @@
-import AppFoundation, {
-  AppFoundationProps,
-} from "@/components/ui/app-foundation";
+import AppFoundation from "@/components/ui/app-foundation";
 import Stack, { StackTool } from "@/components/ui/tools";
 
-function Oni(Props: AppFoundationProps) {
+function Oni() {
   return (
-    <AppFoundation {...Props}>
+    <AppFoundation>
       <Stack
         StackTools={[
           StackTool.HTML,

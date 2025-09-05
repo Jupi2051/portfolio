@@ -2,6 +2,7 @@ import AppFoundation from "@/components/ui/app-foundation";
 import "@/Styles/Apps/Explorer.css";
 import ExplorerItem from "@/components/apps/explorer/explorer-item";
 import { DesktopAppsList } from "@/components/windows/desktop/apps-list";
+import { useApplicationData } from "@/context/app-context";
 
 type PropTypes = {
   AppId: number;
@@ -32,16 +33,10 @@ export type FolderItem = {
 //     {id: 9, Name: "Files", IconPath: "Imgs/DesktopApps/Folder.webp", Style: {}, Selected: false, AppComponent: DesktopAppsList.Explorer},
 // ];
 
-function Explorer(Props: PropTypes) {
-  const processData = Props.processData as { items: FolderItem[] };
-
+function Explorer() {
+  const { processData } = useApplicationData<{ items: FolderItem[] }>();
   return (
-    <AppFoundation
-      AppId={Props.AppId}
-      processIcon={Props.processIcon}
-      processName={Props.processName}
-      processData={Props.processData}
-    >
+    <AppFoundation>
       <div
         style={{
           width: "100%",
@@ -68,7 +63,7 @@ function Explorer(Props: PropTypes) {
         </div>
         <div className="folders-layout">
           <div className="item-listing">
-            {processData.items.map((element) => (
+            {processData.items.map((element: FolderItem) => (
               <ExplorerItem
                 AppName={element.AppComponent}
                 ApplicationName={element.Name}

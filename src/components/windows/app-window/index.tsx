@@ -8,6 +8,7 @@ import { bringToFront } from "@/storage/slices/main";
 import { useResizeDetector } from "react-resize-detector";
 import cn from "classnames";
 import AppWindowHeader from "./app-window-header";
+import useAppWindowData from "@/hooks/use-app-window-data";
 
 type PropType = {
   children?: ReactNode;
@@ -36,21 +37,11 @@ let WindowLocatorData = new Map<number, WindowBorderBox>();
 function AppWindow(props: PropType) {
   const [Maximized, SetMaximized] = useState(props.maximized ?? true);
   const [MoveWindow, SetMoveWindow] = useState(false);
-  const zIndexFrontData = useSelector(
-    (x: RootState) => x.mainState.zIndicesMap
-  );
-  const MinimizedData = useSelector(
-    (x: RootState) => x.desktopState.minimizedStates
-  );
-  const isFocused =
-    useSelector((x: RootState) => x.desktopState.focusedAppId) === props.AppId;
+
   const dispatch = useDispatch();
   const CursorLocation = useMousePosition();
-  const zIndexFront =
-    zIndexFrontData.find((element) => element.id === props.AppId)?.zIndex ?? 69;
-  const isMinimized =
-    MinimizedData.find((element) => element.id === props.AppId)?.minimized ??
-    false; // its not minimized by default
+
+  const { isMinimized, zIndexFront, isFocused } = useAppWindowData(props.AppId);
   const WindowId = useMemo(() => +new Date(), []);
   const CursorOffset = useSelector(
     (x: RootState) => x.desktopState.mouseMovementOffset
@@ -98,7 +89,6 @@ function AppWindow(props: PropType) {
       opacity: 1,
       x: Maximized ? 0 : NewLocation.x,
       y: Maximized ? 0 : NewLocation.y,
-      // zIndex: Maximized? zIndexFront : zIndexFront,
       zIndex: zIndexFront,
       width: Maximized ? "100%" : "auto",
       height: Maximized ? "100%" : "auto",
@@ -116,7 +106,6 @@ function AppWindow(props: PropType) {
       width: Maximized ? "100%" : "auto",
       height: Maximized ? "100%" : "auto",
       zIndex: zIndexFront,
-      // zIndex: Maximized? zIndexFront : zIndexFront
     },
   };
 

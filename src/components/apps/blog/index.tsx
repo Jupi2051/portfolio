@@ -19,7 +19,7 @@ export type articleLinkItem = {
   description: string;
 };
 
-function Blog(Props: AppFoundationProps) {
+function Blog() {
   const [articlesList, setArticlesList] = useState<articleLinkItem[]>([]);
   const [currentlyReadingId, setCurrentlyReadingId] = useState<string | null>(
     null
@@ -90,7 +90,7 @@ function Blog(Props: AppFoundationProps) {
   );
 
   return (
-    <AppFoundation {...Props}>
+    <AppFoundation>
       <div style={{ width: "100%", height: "100%", border: "none" }}>
         <div style={{ width: "100%", height: "100%", background: "black" }}>
           <div className="blog-browser-layout">

@@ -45,10 +45,10 @@ const AppWindowHeader = ({
     dispatch(setFocusedApp(-1));
   };
 
-  const onWindowClick = (
+  const onDoubleClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
-    if (event.detail !== 2) return;
+    event.preventDefault();
     setMaximized(!maximized);
   };
 
@@ -90,7 +90,7 @@ const AppWindowHeader = ({
     <div
       className="window-header flex text-center justify-end h-[30px] text-white bg-gradient-to-r from-[#3f3550] min-w-max"
       onMouseDown={onMouseDown}
-      onClick={onWindowClick}
+      onDoubleClick={onDoubleClick}
     >
       {processName !== undefined || processIcon !== undefined ? (
         <div className="h-full pointer-events-none px-2.5 flex items-center justify-center mr-auto font-segoe-ui-light text-xs select-none min-w-fit">
