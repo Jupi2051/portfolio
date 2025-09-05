@@ -52,7 +52,6 @@ function DummyApp() {
           overflowY: "scroll",
         }}
       >
-        <OrbitLoader failed={false} />
         <ChloeInfoButton
           conversationIndex={2}
           setConversationIndex={setConversationIndex}
