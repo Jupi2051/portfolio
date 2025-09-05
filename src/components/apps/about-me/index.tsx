@@ -2,9 +2,6 @@ import { Variants, motion } from "framer-motion";
 import { CSSProperties, ReactNode } from "react";
 import { Provider } from "react-wrap-balancer";
 import SolarSystem from "@/components/apps/about-me/solar-system";
-import AppFoundation, {
-  AppFoundationProps,
-} from "@/components/ui/app-foundation";
 
 const paragraphAnimation: Variants = {
   hidden: {

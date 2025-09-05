@@ -1,7 +1,3 @@
-import { motion } from "framer-motion";
-import AppFoundation, {
-  AppFoundationProps,
-} from "@/components/ui/app-foundation";
 import Stack, { StackTool } from "@/components/ui/tools";
 
 function GalaxyGym() {

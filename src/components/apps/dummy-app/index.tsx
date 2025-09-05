@@ -1,8 +1,6 @@
-import AppFoundation, {
-  AppFoundationProps,
-} from "@/components/ui/app-foundation";
 import Chloe, { ChloeConversation, ChloeEmotion } from "@/components/ui/chloe";
 import ChloeInfoButton from "@/components/ui/chloe/chloe-info-button";
+import OrbitLoader from "@/components/ui/orbit-loader";
 import { useState } from "react";
 
 const ChloeExplanation: ChloeConversation[] = [
@@ -54,6 +52,7 @@ function DummyApp() {
           overflowY: "scroll",
         }}
       >
+        <OrbitLoader failed={false} />
         <ChloeInfoButton
           conversationIndex={2}
           setConversationIndex={setConversationIndex}

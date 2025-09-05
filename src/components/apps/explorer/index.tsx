@@ -1,4 +1,3 @@
-import AppFoundation from "@/components/ui/app-foundation";
 import "@/Styles/Apps/Explorer.css";
 import ExplorerItem from "@/components/apps/explorer/explorer-item";
 import { DesktopAppsList } from "@/components/windows/desktop/apps-list";

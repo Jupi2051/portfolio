@@ -7,6 +7,7 @@ import { DesktopAppsComponents } from "./apps-list";
 type PropTypes = {
   OpenApplications: OpenApplication[];
 };
+
 function ApplicationsContainer({ OpenApplications }: PropTypes) {
   return (
     <AnimatePresence>

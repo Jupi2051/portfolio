@@ -1,4 +1,3 @@
-import AppFoundation from "@/components/ui/app-foundation";
 import Stack, { StackTool } from "@/components/ui/tools";
 
 function Oni() {

@@ -1,6 +1,3 @@
-import AppFoundation, {
-  AppFoundationProps,
-} from "@/components/ui/app-foundation";
 import Stack, { StackTool } from "@/components/ui/tools";
 
 function EIEN() {

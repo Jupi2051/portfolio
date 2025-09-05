@@ -1,6 +1,3 @@
-import AppFoundation, {
-  AppFoundationProps,
-} from "@/components/ui/app-foundation";
 import { useEffect, useState } from "react";
 import BoardMessage from "@/components/apps/social/board-message";
 import "@/Styles/Apps/Social.css";

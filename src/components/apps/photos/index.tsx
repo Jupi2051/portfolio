@@ -1,4 +1,3 @@
-import AppFoundation from "@/components/ui/app-foundation";
 import { useApplicationData } from "@/context/app-context";
 
 function Photos() {

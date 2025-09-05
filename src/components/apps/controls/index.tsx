@@ -1,6 +1,3 @@
-import AppFoundation, {
-  AppFoundationProps,
-} from "@/components/ui/app-foundation";
 import { useState, lazy, Suspense } from "react";
 import { attemptControlLogin } from "@/api/Auth";
 

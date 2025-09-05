@@ -1,7 +1,4 @@
 import { motion } from "framer-motion";
-import AppFoundation, {
-  AppFoundationProps,
-} from "@/components/ui/app-foundation";
 import { useEffect, useState } from "react";
 import "@/Styles/Apps/Blog.css";
 import BlogArticleLink from "@/components/apps/blog/blog-article-link";
