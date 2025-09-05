@@ -18,8 +18,8 @@ const AppLoading = () => {
       </div>
       <WavyText
         replay={true}
-        text="This app failed to load"
-        className="text-ctp-red-600 text-2xl font-bold select-none"
+        text="Failed to load"
+        className="text-ctp-red-600 text-2xl font-bold select-none uppercase"
       />
     </motion.div>
   );
