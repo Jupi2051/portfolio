@@ -8,6 +8,7 @@ import { bringToFront, openApplication } from "@/storage/slices/main";
 import { setFocusedApp } from "@/storage/slices/desktop";
 import { OpenApplication } from "@/components/windows/desktop";
 import cn from "classnames";
+import useStartMenu from "@/hooks/use-start-menu";
 
 type PropTypes = {
   Icon: string;
@@ -18,6 +19,7 @@ type PropTypes = {
 };
 
 function StartMenuApp(Props: PropTypes) {
+  const { setRenderStartMenu } = useStartMenu();
   const dispatch = useDispatch();
 
   function onClickApplication() {
@@ -30,7 +32,7 @@ function StartMenuApp(Props: PropTypes) {
       processData: Props.processData,
     };
 
-    dispatch(setRenderStartMenu(false));
+    setRenderStartMenu(false);
     dispatch(openApplication(appObject));
     dispatch(setFocusedApp(appObject.id));
     dispatch(

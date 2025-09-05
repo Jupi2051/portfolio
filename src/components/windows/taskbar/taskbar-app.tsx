@@ -6,6 +6,8 @@ import { setRenderStartMenu } from "@/storage/slices/taskbar";
 import { setFocusedApp, setMinimizedState } from "@/storage/slices/desktop";
 import { bringToFront } from "@/storage/slices/main";
 import cn from "classnames";
+import useAppWindowData from "@/hooks/use-app-window-data";
+import useStartMenu from "@/hooks/use-start-menu";
 
 type PropTypes = {
   Icon: string;
@@ -39,27 +41,22 @@ function TaskBarApp(Props: PropTypes) {
   const MinimizedData = useSelector(
     (x: RootState) => x.desktopState.minimizedStates
   );
-  const isMinimized =
-    MinimizedData.find((element) => element.id === Props.AppId)?.minimized ??
-    undefined; // its not minimized by default
-  const Focused =
-    useSelector((x: RootState) => x.desktopState.focusedAppId) === Props.AppId;
+
+  const { isMinimized, isFocused } = useAppWindowData(Props.AppId);
   const [isOpening, setIsOpening] = useState<boolean>();
-  const RenderWindowsSettings = useSelector(
-    (x: RootState) => x.taskbarState.RenderStartMenu
-  );
+  const { isRendered, setRenderStartMenu } = useStartMenu();
   const dispatch = useDispatch();
 
   const OnClickHandler = (event: React.MouseEvent<HTMLDivElement>) => {
     if (Props.isWindowsIcon) {
-      dispatch(setRenderStartMenu(!RenderWindowsSettings));
+      setRenderStartMenu(!isRendered);
       return;
     }
 
     event.preventDefault();
 
     if (Props.AppId) {
-      if (isMinimized === false && Focused === false) {
+      if (isMinimized === false && isFocused === false) {
         dispatch(bringToFront(Props.AppId));
         dispatch(setFocusedApp(Props.AppId));
         setIsOpening(true);
@@ -90,7 +87,8 @@ function TaskBarApp(Props: PropTypes) {
         "after:content-[''] after:block after:absolute after:top-full after:left-1/2 after:-translate-x-1/2 after:-translate-y-full after:bg-[#93909f] after:rounded-md after:h-[3.34px] after:-mt-px after:border-transparent after:pointer-events-none after:ease-in after:transition-all",
         {
           "after:w-1": !Props.HideStatusBar,
-          "after:bg-[#d0b3d5] after:w-[18px]": !Props.HideStatusBar && Focused,
+          "after:bg-[#d0b3d5] after:w-[18px]":
+            !Props.HideStatusBar && isFocused,
           "active:rounded-sm active:filter-[hue-rotate(20deg)_brightness(80%)_saturate(3.5)]":
             Props.isWindowsIcon,
           "after:border-0": Props.HideStatusBar,

@@ -1,18 +1,14 @@
 import { AnimatePresence } from "framer-motion";
-import { RootState } from "@/storage/store";
-import { useSelector } from "react-redux";
 import StartMenuComponent from "./start-menu";
+import useStartMenu from "@/hooks/use-start-menu";
 
 const StartMenu = ({ className }: { className?: string }) => {
-  const RenderWindowsSettings = useSelector(
-    (x: RootState) => x.taskbarState.RenderStartMenu
-  );
+  const { isRendered } = useStartMenu();
+
   return (
     <AnimatePresence>
       <AnimatePresence>
-        {RenderWindowsSettings ? (
-          <StartMenuComponent className={className} />
-        ) : null}
+        {isRendered ? <StartMenuComponent className={className} /> : null}
       </AnimatePresence>
     </AnimatePresence>
   );

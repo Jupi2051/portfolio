@@ -7,10 +7,9 @@ import SocialMedia, {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPowerOff } from "@fortawesome/free-solid-svg-icons";
 import { useOnClickOutside } from "usehooks-ts";
-import { useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-import { setRenderStartMenu } from "@/storage/slices/taskbar";
+import { useRef } from "react";
 import cn from "classnames";
+import useStartMenu from "@/hooks/use-start-menu";
 
 export const BottomAnimationVariants = {
   hidden: {
@@ -29,10 +28,10 @@ export const BottomAnimationVariants = {
 
 const StartMenuComponent = ({ className }: { className?: string }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const dispatch = useDispatch();
+  const { setRenderStartMenu } = useStartMenu();
   useOnClickOutside(ref, (e) => {
     if ((e.target as HTMLDivElement).dataset.isWindowsIcon) return;
-    dispatch(setRenderStartMenu(false));
+    setRenderStartMenu(false);
   });
 
   return (
