@@ -33,6 +33,7 @@ const AnimationFrames: Variants = {
     transition: { duration: 0.25, ease: ["easeOut", "easeIn"], times: [0, 1] },
   },
   tap: { scale: 0.825 },
+  exit: { opacity: 0 },
 };
 
 function TaskBarApp(Props: PropTypes) {
@@ -97,6 +98,7 @@ function TaskBarApp(Props: PropTypes) {
         isOpening === undefined ? "enterance" : isOpening ? "jump" : "drop"
       }
       data-is-windows-icon={Props.isWindowsIcon ? true : undefined}
+      exit="exit"
     >
       <motion.img
         variants={AnimationFrames}

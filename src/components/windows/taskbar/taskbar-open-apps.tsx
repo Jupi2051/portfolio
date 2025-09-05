@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import TaskBarApp from "./taskbar-app";
 import { RootState } from "@/storage/store";
-import { Reorder } from "framer-motion";
+import { AnimatePresence, Reorder } from "framer-motion";
 import { setTaskbarApplications } from "@/storage/slices/taskbar";
 
 export type TaskbarOpenApplication = {
@@ -26,6 +26,7 @@ function OpenApps() {
       values={TaskbarApplications}
       onReorder={SetTaskbarItems}
       axis="x"
+      as="ul"
     >
       <TaskBarApp
         Icon="/Imgs/Apps/Windows.png"
@@ -33,15 +34,17 @@ function OpenApps() {
         isWindowsIcon={true}
         AppId={0}
       />
-      {TaskbarApplications.map((taskbarApp) => (
-        <Reorder.Item key={taskbarApp.id} value={taskbarApp}>
-          <TaskBarApp
-            Icon={taskbarApp.Icon}
-            AppId={taskbarApp.AppId}
-            key={taskbarApp.AppId}
-          />
-        </Reorder.Item>
-      ))}
+      <AnimatePresence>
+        {TaskbarApplications.map((taskbarApp) => (
+          <Reorder.Item key={taskbarApp.id} value={taskbarApp} exit="exit">
+            <TaskBarApp
+              Icon={taskbarApp.Icon}
+              AppId={taskbarApp.AppId}
+              key={taskbarApp.AppId}
+            />
+          </Reorder.Item>
+        ))}
+      </AnimatePresence>
     </Reorder.Group>
   );
 }

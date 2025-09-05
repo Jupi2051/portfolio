@@ -3,7 +3,7 @@ import {
   faVolumeHigh as HighVolume,
   faWifiStrong as WifiIcon,
 } from "@fortawesome/free-solid-svg-icons";
-import BackgroundAppWrapper from "../taskbar-app-wrapper";
+import BackgroundAppWrapper from "./background-app-wrapper";
 
 function VolumeInternet() {
   return (
