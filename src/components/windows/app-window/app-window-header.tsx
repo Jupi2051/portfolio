@@ -11,6 +11,8 @@ import useMousePosition from "@/hooks/use-mouse-position";
 import { Point } from "framer-motion";
 import AppWindowHeaderButton from "./app-window-header-button";
 import { useEventListener } from "usehooks-ts";
+import useAppWindowControls from "@/hooks/use-app-window-data";
+import useGlobalWindowsControls from "@/hooks/use-global-windows-controls";
 
 interface AppWindowHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   processName?: string;
@@ -38,6 +40,8 @@ const AppWindowHeader = ({
   NewLocation,
 }: AppWindowHeaderProps) => {
   const dispatch = useDispatch();
+  const { isFocused } = useAppWindowControls(AppId);
+  const { unFocusAllWindows } = useGlobalWindowsControls();
   const CursorLocation = useMousePosition();
 
   const onDismissButton = () => {
@@ -53,6 +57,8 @@ const AppWindowHeader = ({
   };
 
   const CloseApplication = () => {
+    if (isFocused) unFocusAllWindows();
+
     dispatch(closeApplication(AppId));
     dispatch(closeTaskbarApplication(AppId));
   };
