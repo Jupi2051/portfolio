@@ -11,7 +11,7 @@ const InitialState: InitState = {
   RenderStartMenu: false,
 };
 
-type OpenTaskbarAppPayload = {
+export type OpenTaskbarAppPayload = {
   AppId: number;
   id: number;
   Icon: string;

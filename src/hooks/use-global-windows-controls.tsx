@@ -6,22 +6,23 @@ import useAppWindowControls from "./use-app-window-data";
 
 const useGlobalWindowsControls = () => {
   const dispatch = useDispatch();
+  const newAppId = +new Date();
+  const newAppControls = useAppWindowControls(newAppId);
 
   const unFocusAllWindows = () => {
     dispatch(setFocusedApp(-1));
   };
 
   const openNewApplication = (application: Omit<OpenApplication, "id">) => {
-    const Id = +new Date();
     const app: OpenApplication = {
-      id: Id,
+      id: newAppId,
       ...application,
     };
     dispatch(openApplication(app));
 
     return {
       app,
-      ...useAppWindowControls(Id),
+      ...newAppControls,
     };
   };
 

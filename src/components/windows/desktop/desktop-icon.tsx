@@ -1,12 +1,10 @@
 import { useState } from "react";
 import { OpenApplication } from "@/components/windows/desktop";
-import { useDispatch } from "react-redux";
-import { openTaskbarApplication } from "@/storage/slices/taskbar";
 import { DesktopAppsList } from "@/components/windows/desktop/apps-list";
-import { bringToFront, openApplication } from "@/storage/slices/main";
-import { setFocusedApp } from "@/storage/slices/desktop";
 import cn from "classnames";
 import { motion } from "framer-motion";
+import useGlobalTaskbarControls from "@/hooks/use-global-taskbar-controls";
+import useGlobalWindowsControls from "@/hooks/use-global-windows-controls";
 
 type PropTypes = {
   ApplicationName: string;
@@ -25,7 +23,8 @@ type PropTypes = {
 
 function DesktopIcon(Props: PropTypes) {
   const [ApplicationName, SetAppName] = useState(Props.ApplicationName);
-  const dispatch = useDispatch();
+  const { openNewApplication } = useGlobalWindowsControls();
+  const { openNewTaskbarApplication } = useGlobalTaskbarControls();
 
   function onClickApplication(
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -41,17 +40,16 @@ function DesktopIcon(Props: PropTypes) {
       processData: Props.processData,
     };
 
-    dispatch(openApplication(ApplicationObject));
-    dispatch(setFocusedApp(ApplicationObject.id));
-    dispatch(
-      openTaskbarApplication({
-        id,
-        AppId: id,
-        Icon: Props.Icon,
-        CustomTaskbarIcon: Props.customTaskbarIcon,
-      })
-    );
-    dispatch(bringToFront(id));
+    const { focusWindow, bringWindowToFront, app } =
+      openNewApplication(ApplicationObject);
+    focusWindow();
+    bringWindowToFront();
+    openNewTaskbarApplication({
+      id: app.id,
+      AppId: app.id,
+      Icon: Props.Icon,
+      CustomTaskbarIcon: Props.customTaskbarIcon,
+    });
   }
 
   return (

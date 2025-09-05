@@ -1,15 +1,8 @@
 import { DesktopAppsList } from "@/components/windows/desktop/apps-list";
-import { useDispatch } from "react-redux";
-import {
-  openTaskbarApplication,
-  setRenderStartMenu,
-} from "@/storage/slices/taskbar";
-import { bringToFront, openApplication } from "@/storage/slices/main";
-import { setFocusedApp } from "@/storage/slices/desktop";
-import { OpenApplication } from "@/components/windows/desktop";
 import cn from "classnames";
 import useStartMenu from "@/hooks/use-start-menu";
 import useGlobalWindowsControls from "@/hooks/use-global-windows-controls";
+import useGlobalTaskbarControls from "@/hooks/use-global-taskbar-controls";
 
 type PropTypes = {
   Icon: string;
@@ -22,7 +15,7 @@ type PropTypes = {
 function StartMenuApp(Props: PropTypes) {
   const { setRenderStartMenu } = useStartMenu();
   const { openNewApplication } = useGlobalWindowsControls();
-  const dispatch = useDispatch();
+  const { openNewTaskbarApplication } = useGlobalTaskbarControls();
 
   function onClickApplication() {
     const appObject = {
@@ -36,15 +29,13 @@ function StartMenuApp(Props: PropTypes) {
     const { focusWindow, bringWindowToFront, app } =
       openNewApplication(appObject);
     focusWindow();
-    dispatch(
-      openTaskbarApplication({
-        id: app.id,
-        AppId: app.id,
-        Icon: Props.Icon,
-        CustomTaskbarIcon: Props.customTaskbarIcon,
-      })
-    );
     bringWindowToFront();
+    openNewTaskbarApplication({
+      id: app.id,
+      AppId: app.id,
+      Icon: Props.Icon,
+      CustomTaskbarIcon: Props.customTaskbarIcon,
+    });
   }
 
   return (

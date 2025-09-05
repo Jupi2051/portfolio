@@ -1,8 +1,7 @@
-import { useDispatch } from "react-redux";
 import { DesktopAppsList } from "@/components/windows/desktop/apps-list";
-import { openTaskbarApplication } from "@/storage/slices/taskbar";
 import cn from "classnames";
 import useGlobalWindowsControls from "@/hooks/use-global-windows-controls";
+import useGlobalTaskbarControls from "@/hooks/use-global-taskbar-controls";
 export interface ExplorerItemData {
   ApplicationName: string;
   Icon: string;
@@ -14,8 +13,8 @@ export interface ExplorerItemData {
 }
 
 function ExplorerItem(Props: ExplorerItemData) {
-  const dispatch = useDispatch();
   const { openNewApplication } = useGlobalWindowsControls();
+  const { openNewTaskbarApplication } = useGlobalTaskbarControls();
 
   function onClickApplication(
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -33,15 +32,13 @@ function ExplorerItem(Props: ExplorerItemData) {
       openNewApplication(ApplicationObject);
 
     focusWindow();
-    dispatch(
-      openTaskbarApplication({
-        id: app.id,
-        AppId: app.id,
-        Icon: Props.Icon,
-        CustomTaskbarIcon: Props.customTaskbarIcon,
-      })
-    );
     bringWindowToFront();
+    openNewTaskbarApplication({
+      id: app.id,
+      AppId: app.id,
+      Icon: Props.Icon,
+      CustomTaskbarIcon: Props.customTaskbarIcon,
+    });
   }
 
   return (
