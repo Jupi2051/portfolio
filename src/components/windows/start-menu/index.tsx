@@ -6,6 +6,10 @@ import SocialMedia, {
 } from "@/components/windows/start-menu/start-menu-social-media";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPowerOff } from "@fortawesome/free-solid-svg-icons";
+import { useOnClickOutside } from "usehooks-ts";
+import { useRef } from "react";
+import { useDispatch } from "react-redux";
+import { setRenderStartMenu } from "@/storage/slices/taskbar";
 
 export const BottomAnimationVariants = {
   hidden: {
@@ -23,6 +27,10 @@ export const BottomAnimationVariants = {
 };
 
 function WindowsSettings() {
+  const ref = useRef<HTMLDivElement>(null);
+  const dispatch = useDispatch();
+  useOnClickOutside(ref, () => dispatch(setRenderStartMenu(false)));
+
   return (
     <motion.div
       className="absolute grid bottom-0 rounded-md px-9 pt-8 pb-5 z-10 font-sans text-gray-200 font-light overflow-hidden grid-cols-1 left-1/2 min-h-[700px] w-[600px] bg-gradient-to-r from-[#3f3550d6] to-[#3f3550d6] shadow-[0px_0px_15px_0px_rgba(0,0,0,0.4)] backdrop-blur-[50px] grid-rows-[0.1fr_1.7fr_1fr]"
@@ -30,6 +38,7 @@ function WindowsSettings() {
       initial="hidden"
       animate="visible"
       exit="exit"
+      ref={ref}
     >
       <input
         type="text"
