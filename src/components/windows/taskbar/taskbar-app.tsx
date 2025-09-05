@@ -21,19 +21,19 @@ const AnimationFrames: Variants = {
     transition: { type: "spring", stiffness: 60, mass: 0.85 },
   },
   jump: {
-    y: [0, -4, 0], // Go up and back down
+    y: [0, -3, 0], // Go up and back down
     transition: {
-      duration: 0.25,
-      ease: ["easeOut", "easeIn"],
+      duration: 0.35,
+      ease: "easeInOut",
       times: [0, 1],
     },
   },
   drop: {
     y: [0, 3, 0],
-    transition: { duration: 0.25, ease: ["easeOut", "easeIn"], times: [0, 1] },
+    transition: { duration: 0.35, ease: "easeInOut", times: [0, 1] },
   },
   tap: { scale: 0.825 },
-  exit: { opacity: 0 },
+  exit: { y: 100 },
 };
 
 function TaskBarApp(Props: PropTypes) {
@@ -53,10 +53,10 @@ function TaskBarApp(Props: PropTypes) {
     event.preventDefault();
 
     if (Props.AppId) {
-      if (isMinimized === false && isFocused === false) {
+      if (!isMinimized && !isFocused) {
         bringWindowToFront();
         focusWindow();
-        setIsOpening(true);
+        setIsOpening(undefined);
       } else {
         const MinimizedState = !isMinimized;
         dispatch(
@@ -80,7 +80,7 @@ function TaskBarApp(Props: PropTypes) {
     <motion.div
       className={cn(
         "w-10 h-10 flex items-center justify-center relative select-none",
-        "before:content-[''] before:block before:absolute before:top-1/2 before:left-1/2 before:opacity-0 before:bg-white/5 before:w-10 before:h-10 before:rounded-md before:border-transparent before:border before:pointer-events-none transition-all before:-translate-1/2 before:scale-90 hover:before:scale-100 hover:before:opacity-100 before:transition-all before:duration-100 before:ease-in-out hover:before:border-white/5",
+        "before:content-[''] before:block before:absolute before:top-1/2 before:left-1/2 before:opacity-0 before:bg-white/5 before:w-10 before:h-10 before:rounded-md before:border-transparent before:border before:pointer-events-none before:-translate-1/2 before:scale-90 hover:before:scale-100 hover:before:opacity-100 before:transition-all before:duration-100 before:ease-in-out hover:before:border-white/5",
         "after:content-[''] after:block after:absolute after:top-full after:left-1/2 after:-translate-x-1/2 after:-translate-y-full after:bg-[#93909f] after:rounded-md after:h-[3.34px] after:-mt-px after:border-transparent after:pointer-events-none after:ease-in after:transition-all",
         {
           "after:w-1": !Props.HideStatusBar,
@@ -97,8 +97,9 @@ function TaskBarApp(Props: PropTypes) {
       animate={
         isOpening === undefined ? "enterance" : isOpening ? "jump" : "drop"
       }
-      data-is-windows-icon={Props.isWindowsIcon ? true : undefined}
+      variants={{ exit: { width: 0, transition: { delay: 0.15 } } }}
       exit="exit"
+      data-is-windows-icon={Props.isWindowsIcon ? true : undefined}
     >
       <motion.img
         variants={AnimationFrames}

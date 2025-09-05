@@ -36,12 +36,8 @@ function OpenApps() {
       />
       <AnimatePresence>
         {TaskbarApplications.map((taskbarApp) => (
-          <Reorder.Item key={taskbarApp.id} value={taskbarApp} exit="exit">
-            <TaskBarApp
-              Icon={taskbarApp.Icon}
-              AppId={taskbarApp.AppId}
-              key={taskbarApp.AppId}
-            />
+          <Reorder.Item key={taskbarApp.id} value={taskbarApp}>
+            <TaskBarApp Icon={taskbarApp.Icon} AppId={taskbarApp.AppId} />
           </Reorder.Item>
         ))}
       </AnimatePresence>
