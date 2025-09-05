@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/storage/store";
-import { setRenderWindowsSettings } from "@/storage/slices/taskbar";
+import { setRenderStartMenu } from "@/storage/slices/taskbar";
 import { setFocusedApp, setMinimizedState } from "@/storage/slices/desktop";
 import { bringToFront } from "@/storage/slices/main";
 import cn from "classnames";
@@ -27,13 +27,13 @@ function TaskBarApp(Props: PropTypes) {
     useSelector((x: RootState) => x.desktopState.focusedAppId) === Props.AppId;
   const [Open, SetOpen] = useState(true);
   const RenderWindowsSettings = useSelector(
-    (x: RootState) => x.taskbarState.RenderWindowsSettings
+    (x: RootState) => x.taskbarState.RenderStartMenu
   );
   const dispatch = useDispatch();
 
   const OnClickHandler = (event: React.MouseEvent<HTMLDivElement>) => {
     if (Props.isWindowsIcon) {
-      dispatch(setRenderWindowsSettings(!RenderWindowsSettings));
+      dispatch(setRenderStartMenu(!RenderWindowsSettings));
       return;
     }
 

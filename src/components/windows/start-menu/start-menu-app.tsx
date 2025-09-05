@@ -2,7 +2,7 @@ import { DesktopAppsList } from "@/components/windows/desktop/applications-conta
 import { useDispatch } from "react-redux";
 import {
   openTaskbarApplication,
-  setRenderWindowsSettings,
+  setRenderStartMenu,
 } from "@/storage/slices/taskbar";
 import { bringToFront, openApplication } from "@/storage/slices/main";
 import { setFocusedApp } from "@/storage/slices/desktop";
@@ -30,7 +30,7 @@ function StartMenuApp(Props: PropTypes) {
       processProps: Props.processProps,
     };
 
-    dispatch(setRenderWindowsSettings(false));
+    dispatch(setRenderStartMenu(false));
     dispatch(openApplication(appObject));
     dispatch(setFocusedApp(appObject.id));
     dispatch(

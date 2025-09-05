@@ -3,12 +3,12 @@ import { TaskbarOpenApplication } from "@/components/windows/taskbar/taskbar-ope
 
 type InitState = {
   TaskbarOpenApplications: TaskbarOpenApplication[];
-  RenderWindowsSettings: boolean;
+  RenderStartMenu: boolean;
 };
 
 const InitialState: InitState = {
   TaskbarOpenApplications: [],
-  RenderWindowsSettings: false,
+  RenderStartMenu: false,
 };
 
 type OpenTaskbarAppPayload = {
@@ -50,8 +50,8 @@ const TaskbarStateReducer = createSlice({
       state.TaskbarOpenApplications = action.payload;
       return state;
     },
-    setRenderWindowsSettings: (state, action: PayloadAction<boolean>) => {
-      state.RenderWindowsSettings = action.payload;
+    setRenderStartMenu: (state, action: PayloadAction<boolean>) => {
+      state.RenderStartMenu = action.payload;
       return state;
     },
   },
@@ -61,7 +61,7 @@ export const {
   openTaskbarApplication,
   closeTaskbarApplication,
   setTaskbarApplications,
-  setRenderWindowsSettings,
+  setRenderStartMenu,
 } = TaskbarStateReducer.actions;
 
 export default TaskbarStateReducer.reducer;

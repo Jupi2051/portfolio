@@ -7,7 +7,7 @@ import { AnimatePresence } from "framer-motion";
 
 function Surface() {
   const RenderWindowsSettings = useSelector(
-    (x: RootState) => x.taskbarState.RenderWindowsSettings
+    (x: RootState) => x.taskbarState.RenderStartMenu
   );
 
   return (
