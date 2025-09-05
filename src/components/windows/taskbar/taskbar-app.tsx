@@ -102,6 +102,7 @@ function TaskBarApp(Props: PropTypes) {
       animate={
         isOpening === undefined ? "enterance" : isOpening ? "jump" : "drop"
       }
+      data-is-windows-icon={Props.isWindowsIcon ? true : undefined}
     >
       <motion.img
         variants={AnimationFrames}

@@ -13,7 +13,7 @@ import { setRenderStartMenu } from "@/storage/slices/taskbar";
 
 export const BottomAnimationVariants = {
   hidden: {
-    y: "100vh",
+    y: "110%",
     x: "-50%",
   },
   visible: {
@@ -21,7 +21,7 @@ export const BottomAnimationVariants = {
     x: "-50%",
   },
   exit: {
-    y: "100vh",
+    y: "110%",
     x: "-50%",
   },
 };
@@ -29,7 +29,10 @@ export const BottomAnimationVariants = {
 function WindowsSettings() {
   const ref = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
-  useOnClickOutside(ref, () => dispatch(setRenderStartMenu(false)));
+  useOnClickOutside(ref, (e) => {
+    if ((e.target as HTMLDivElement).dataset.isWindowsIcon) return;
+    dispatch(setRenderStartMenu(false));
+  });
 
   return (
     <motion.div
