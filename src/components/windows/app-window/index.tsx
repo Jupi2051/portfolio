@@ -144,7 +144,7 @@ function AppWindow(props: PropType) {
           `absolute border border-black border-solid mx-auto rounded-md overflow-hidden box-shadow-[0px_0px_15px_0px_rgba(0,0,0,0.4)] user-select-none transition-[box-shadow,border] duration-200 isolate ease-in-out pointer-events-auto`,
           {
             "!border-none !rounded-none": Maximized,
-            "select-auto border border-pink-200 shadow-[0px_0px_20px_0px_rgba(0,0,0,0.7)]":
+            "select-auto border border-ctp-sky-400 shadow-[0px_0px_20px_0px_rgba(0,0,0,0.7)]":
               isFocused,
             "user-select-none": MoveWindow,
           }
