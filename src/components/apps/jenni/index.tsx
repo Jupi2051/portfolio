@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import AppWindow from "@/components/windows/app-window";
+import AppFoundation from "@/components/ui/app-foundation";
 import { useEffect } from "react";
 import Stack, { StackTool } from "@/components/ui/tools";
 import Chloe from "@/components/ui/chloe";
@@ -12,7 +12,7 @@ type PropTypes = {
 
 function Jenni(Props: PropTypes) {
   return (
-    <AppWindow
+    <AppFoundation
       AppId={Props.AppId}
       processIcon={Props.processIcon}
       processName={Props.processName}
@@ -34,7 +34,7 @@ function Jenni(Props: PropTypes) {
         src="https://www.jennixdraws.com/"
         style={{ width: "100%", height: "100%", border: "none" }}
       ></iframe>
-    </AppWindow>
+    </AppFoundation>
   );
 }
 

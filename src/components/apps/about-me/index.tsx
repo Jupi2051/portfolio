@@ -1,8 +1,8 @@
 import { Variants, motion } from "framer-motion";
-import AppWindow from "@/components/windows/app-window";
 import { CSSProperties, ReactNode } from "react";
 import { Provider } from "react-wrap-balancer";
 import SolarSystem from "@/components/apps/about-me/solar-system";
+import AppFoundation from "@/components/ui/app-foundation";
 
 type PropTypes = {
   AppId: number;
@@ -86,7 +86,7 @@ function AnimatedLettersHeader(props: {
 
 function AboutMe(Props: PropTypes) {
   return (
-    <AppWindow
+    <AppFoundation
       AppId={Props.AppId}
       processIcon={Props.processIcon}
       processName={Props.processName}
@@ -180,7 +180,7 @@ function AboutMe(Props: PropTypes) {
           </div>
         </div>
       </Provider>
-    </AppWindow>
+    </AppFoundation>
   );
 }
 

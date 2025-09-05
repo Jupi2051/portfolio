@@ -2,7 +2,7 @@ import { useState } from "react";
 import { OpenApplication } from "@/components/windows/desktop";
 import { useDispatch } from "react-redux";
 import { openTaskbarApplication } from "@/storage/slices/taskbar";
-import { DesktopAppsList } from "@/components/windows/desktop/applications-container";
+import { DesktopAppsList } from "@/components/windows/desktop/apps-list";
 import { bringToFront, openApplication } from "@/storage/slices/main";
 import { setFocusedApp } from "@/storage/slices/desktop";
 import cn from "classnames";
@@ -19,7 +19,7 @@ type PropTypes = {
   };
   Selected: boolean;
   AppName: DesktopAppsList;
-  processProps?: Object;
+  processData?: Object;
   index?: number;
 };
 
@@ -38,7 +38,7 @@ function DesktopIcon(Props: PropTypes) {
       App: Props.AppName,
       processIcon: Props.customTaskbarIcon ?? Props.Icon,
       processName: Props.ApplicationName,
-      processProps: Props.processProps,
+      processData: Props.processData,
     };
 
     dispatch(openApplication(ApplicationObject));

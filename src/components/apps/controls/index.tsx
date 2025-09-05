@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import AppWindow from "@/components/windows/app-window";
+import AppFoundation from "@/components/ui/app-foundation";
 import { useState, lazy, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/storage/store";
@@ -46,7 +46,7 @@ function Controls(Props: PropTypes) {
   }
 
   return (
-    <AppWindow
+    <AppFoundation
       AppId={Props.AppId}
       processIcon={Props.processIcon}
       processName={Props.processName}
@@ -86,7 +86,7 @@ function Controls(Props: PropTypes) {
           )}
         </div>
       </div>
-    </AppWindow>
+    </AppFoundation>
   );
 }
 

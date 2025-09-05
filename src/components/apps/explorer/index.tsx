@@ -1,7 +1,7 @@
-import AppWindow from "@/components/windows/app-window";
+import AppFoundation from "@/components/ui/app-foundation";
 import "@/Styles/Apps/Explorer.css";
 import ExplorerItem from "@/components/apps/explorer/explorer-item";
-import { DesktopAppsList } from "@/components/windows/desktop/applications-container";
+import { DesktopAppsList } from "@/components/windows/desktop/apps-list";
 
 type PropTypes = {
   AppId: number;
@@ -36,7 +36,7 @@ function Explorer(Props: PropTypes) {
   const processData = Props.processData as { items: FolderItem[] };
 
   return (
-    <AppWindow
+    <AppFoundation
       AppId={Props.AppId}
       processIcon={Props.processIcon}
       processName={Props.processName}
@@ -81,7 +81,7 @@ function Explorer(Props: PropTypes) {
           </div>
         </div>
       </div>
-    </AppWindow>
+    </AppFoundation>
   );
 }
 

@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import AppWindow from "@/components/windows/app-window";
+import AppFoundation from "@/components/ui/app-foundation";
 import Chloe, { ChloeConversation, ChloeEmotion } from "@/components/ui/chloe";
 import ChloeInfoButton from "@/components/ui/chloe/chloe-info-button";
 import { useState } from "react";
@@ -50,7 +50,7 @@ function DummyApp(Props: PropTypes) {
   const [conversationIndex, setConversationIndex] = useState(0);
 
   return (
-    <AppWindow
+    <AppFoundation
       AppId={Props.AppId}
       processIcon={Props.processIcon}
       processName={Props.processName}
@@ -161,7 +161,7 @@ function DummyApp(Props: PropTypes) {
           Conversations={ChloeExplanation}
         />
       ) : null}
-    </AppWindow>
+    </AppFoundation>
   );
 }
 

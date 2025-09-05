@@ -1,4 +1,4 @@
-import AppWindow from "@/components/windows/app-window";
+import AppFoundation from "@/components/ui/app-foundation";
 import { useEffect, useState } from "react";
 import BoardMessage from "@/components/apps/social/board-message";
 import "@/Styles/Apps/Social.css";
@@ -54,7 +54,7 @@ function Social(Props: PropTypes) {
   }
 
   return (
-    <AppWindow
+    <AppFoundation
       AppId={Props.AppId}
       processIcon={Props.processIcon}
       processName={Props.processName}
@@ -107,7 +107,7 @@ function Social(Props: PropTypes) {
           </button>
         </form>
       </div>
-    </AppWindow>
+    </AppFoundation>
   );
 }
 

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import AppWindow from "@/components/windows/app-window";
+import AppFoundation from "@/components/ui/app-foundation";
 import Stack, { StackTool } from "@/components/ui/tools";
 
 type PropTypes = {
@@ -10,7 +10,7 @@ type PropTypes = {
 
 function Oni(Props: PropTypes) {
   return (
-    <AppWindow
+    <AppFoundation
       AppId={Props.AppId}
       processIcon={Props.processIcon}
       processName={Props.processName}
@@ -33,7 +33,7 @@ function Oni(Props: PropTypes) {
         src="https://www.oniverse.xyz/"
         style={{ width: "100%", height: "100%", border: "none" }}
       ></iframe>
-    </AppWindow>
+    </AppFoundation>
   );
 }
 

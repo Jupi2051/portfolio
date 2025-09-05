@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import AppWindow from "@/components/windows/app-window";
+import AppFoundation from "@/components/ui/app-foundation";
 import { useEffect, useState } from "react";
 import "@/Styles/Apps/Blog.css";
 import BlogArticleLink from "@/components/apps/blog/blog-article-link";
@@ -94,7 +94,7 @@ function Blog(Props: PropTypes) {
   );
 
   return (
-    <AppWindow
+    <AppFoundation
       AppId={Props.AppId}
       processIcon={Props.processIcon}
       processName={Props.processName}
@@ -173,7 +173,7 @@ function Blog(Props: PropTypes) {
           </div>
         </div>
       </div>
-    </AppWindow>
+    </AppFoundation>
   );
 }
 

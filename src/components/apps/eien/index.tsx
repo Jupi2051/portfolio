@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import AppWindow from "@/components/windows/app-window";
+import AppFoundation from "@/components/ui/app-foundation";
 import { useEffect } from "react";
 import Stack, { StackTool } from "@/components/ui/tools";
 
@@ -11,7 +11,7 @@ type PropTypes = {
 
 function EIEN(Props: PropTypes) {
   return (
-    <AppWindow
+    <AppFoundation
       AppId={Props.AppId}
       processIcon={Props.processIcon}
       processName={Props.processName}
@@ -33,7 +33,7 @@ function EIEN(Props: PropTypes) {
         src="https://www.eien-project.com/"
         style={{ width: "100%", height: "100%", border: "none" }}
       ></iframe>
-    </AppWindow>
+    </AppFoundation>
   );
 }
 

@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { DesktopAppsList } from "@/components/windows/desktop/applications-container";
+import { DesktopAppsList } from "@/components/windows/desktop/apps-list";
 import { bringToFront, openApplication } from "@/storage/slices/main";
 import { setFocusedApp } from "@/storage/slices/desktop";
 import { openTaskbarApplication } from "@/storage/slices/taskbar";
@@ -12,7 +12,7 @@ export interface ExplorerItemData {
   customTaskbarIcon?: string;
   Selected?: boolean;
   AppName: DesktopAppsList;
-  processProps?: Object;
+  processData?: Object;
 }
 
 function ExplorerItem(Props: ExplorerItemData) {
@@ -29,7 +29,7 @@ function ExplorerItem(Props: ExplorerItemData) {
       App: Props.AppName,
       processIcon: Props.customTaskbarIcon ?? Props.Icon,
       processName: Props.ApplicationName,
-      processProps: Props.processProps,
+      processData: Props.processData,
     };
 
     dispatch(openApplication(ApplicationObject));

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import AppWindow from "@/components/windows/app-window";
+import AppFoundation from "@/components/ui/app-foundation";
 
 type PropTypes = {
   AppId: number;
@@ -12,7 +12,7 @@ function Photos(Props: PropTypes) {
   const PassedData = Props.processData as any;
 
   return (
-    <AppWindow
+    <AppFoundation
       AppId={Props.AppId}
       processIcon={Props.processIcon}
       processName={Props.processName}
@@ -23,7 +23,7 @@ function Photos(Props: PropTypes) {
           src={PassedData.openedImage}
         />
       </div>
-    </AppWindow>
+    </AppFoundation>
   );
 }
 

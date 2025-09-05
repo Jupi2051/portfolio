@@ -4,9 +4,8 @@ import DesktopIcon from "@/components/windows/desktop/desktop-icon";
 import DesktopTimeWidget from "@/components/widgets/time/desktop-time-widget";
 import useResizeObserver from "use-resize-observer";
 import MovingDesktopIcon from "@/components/windows/desktop/moving-desktop-icon";
-import ApplicationsContainer, {
-  DesktopAppsList,
-} from "@/components/windows/desktop/applications-container";
+import ApplicationsContainer from "@/components/windows/desktop/applications-container";
+import { DesktopAppsList } from "@/components/windows/desktop/apps-list";
 import { AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/storage/store";
@@ -24,7 +23,7 @@ export type OpenApplication = {
   processName: string;
   processIcon: string;
   taskbarIcon?: string;
-  processProps?: Object;
+  processData?: Object;
 };
 
 export type DesktopIconData = {
@@ -438,7 +437,7 @@ function Desktop({ className }: { className?: string }) {
             customTaskbarIcon={desktopApp.customTaskbarIcon}
             key={desktopApp.id}
             AppName={desktopApp.AppComponent}
-            processProps={desktopApp.processData}
+            processData={desktopApp.processData}
             index={index}
           />
         ))}

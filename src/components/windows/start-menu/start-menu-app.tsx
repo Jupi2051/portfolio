@@ -1,4 +1,4 @@
-import { DesktopAppsList } from "@/components/windows/desktop/applications-container";
+import { DesktopAppsList } from "@/components/windows/desktop/apps-list";
 import { useDispatch } from "react-redux";
 import {
   openTaskbarApplication,
@@ -14,7 +14,7 @@ type PropTypes = {
   ApplicationName: string;
   App: DesktopAppsList;
   customTaskbarIcon?: string;
-  processProps: Object;
+  processData: Object;
 };
 
 function StartMenuApp(Props: PropTypes) {
@@ -27,7 +27,7 @@ function StartMenuApp(Props: PropTypes) {
       App: Props.App,
       processIcon: Props.customTaskbarIcon ?? Props.Icon,
       processName: Props.ApplicationName,
-      processProps: Props.processProps,
+      processData: Props.processData,
     };
 
     dispatch(setRenderStartMenu(false));
