@@ -5,7 +5,7 @@ import Stack, { StackTool } from "@/components/ui/tools";
 
 function EIEN() {
   return (
-    <AppFoundation>
+    <>
       <Stack
         StackTools={[
           StackTool.HTML,
@@ -23,7 +23,7 @@ function EIEN() {
         src="https://www.eien-project.com/"
         style={{ width: "100%", height: "100%", border: "none" }}
       ></iframe>
-    </AppFoundation>
+    </>
   );
 }
 

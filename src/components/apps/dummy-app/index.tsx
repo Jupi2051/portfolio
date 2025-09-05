@@ -45,7 +45,7 @@ function DummyApp() {
   const [conversationIndex, setConversationIndex] = useState(0);
 
   return (
-    <AppFoundation>
+    <>
       <div
         style={{
           width: "100%",
@@ -152,7 +152,7 @@ function DummyApp() {
           Conversations={ChloeExplanation}
         />
       ) : null}
-    </AppFoundation>
+    </>
   );
 }
 

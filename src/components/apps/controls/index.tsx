@@ -5,7 +5,7 @@ import { useState, lazy, Suspense } from "react";
 import { attemptControlLogin } from "@/api/Auth";
 
 const SettingsComponent = lazy(() =>
-  import("./article-controls").then((module) => {
+  import("@/components/apps/controls/article-controls").then((module) => {
     return { default: module.default };
   })
 );
@@ -39,43 +39,41 @@ function Controls() {
   }
 
   return (
-    <AppFoundation>
-      <div style={{ width: "100%", height: "100%", border: "none" }}>
-        <div
-          style={{
-            widows: "100%",
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          {password === "sonic2000" ? (
-            <Suspense fallback={<h1>DAMN ITS LOADING RN BOYS ITS LADING</h1>}>
-              <SettingsComponent password={password} />
-            </Suspense>
-          ) : (
-            <div className="w-full h-full flex items-center justify-center bg-black">
-              <form onSubmit={onFormSubmit} className="flex flex-col gap-2.5">
-                <input
-                  className="h-20 rounded-xl w-96 text-3xl py-2 px-1 bg-gray-950 border-2 border-solid border-gray-900 text-white"
-                  type="password"
-                  onChange={onChangeText}
-                  placeholder="Password...."
-                />
-                <button
-                  className="create-article-button"
-                  type="submit"
-                  onClick={onSubmitPassword}
-                >
-                  Log In
-                </button>
-              </form>
-            </div>
-          )}
-        </div>
+    <div style={{ width: "100%", height: "100%", border: "none" }}>
+      <div
+        style={{
+          widows: "100%",
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {password === "sonic2000" ? (
+          <Suspense fallback={<h1>DAMN ITS LOADING RN BOYS ITS LADING</h1>}>
+            <SettingsComponent password={password} />
+          </Suspense>
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-black">
+            <form onSubmit={onFormSubmit} className="flex flex-col gap-2.5">
+              <input
+                className="h-20 rounded-xl w-96 text-3xl py-2 px-1 bg-gray-950 border-2 border-solid border-gray-900 text-white"
+                type="password"
+                onChange={onChangeText}
+                placeholder="Password...."
+              />
+              <button
+                className="create-article-button"
+                type="submit"
+                onClick={onSubmitPassword}
+              >
+                Log In
+              </button>
+            </form>
+          </div>
+        )}
       </div>
-    </AppFoundation>
+    </div>
   );
 }
 

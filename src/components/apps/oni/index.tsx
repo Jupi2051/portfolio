@@ -3,7 +3,7 @@ import Stack, { StackTool } from "@/components/ui/tools";
 
 function Oni() {
   return (
-    <AppFoundation>
+    <>
       <Stack
         StackTools={[
           StackTool.HTML,
@@ -22,7 +22,7 @@ function Oni() {
         src="https://www.oniverse.xyz/"
         style={{ width: "100%", height: "100%", border: "none" }}
       ></iframe>
-    </AppFoundation>
+    </>
   );
 }
 

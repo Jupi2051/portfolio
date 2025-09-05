@@ -1,7 +1,11 @@
 import { useApplicationData } from "@/context/app-context";
 import AppWindow from "@/components/windows/app-window";
-import React from "react";
+import AppLoading from "./app-loading";
+import AppLoadingFailed from "./app-loading-failed";
+
+import React, { Suspense, useEffect, useState } from "react";
 import { ReactNode } from "react";
+import { DesktopAppsList } from "@/components/windows/desktop/apps-list";
 
 export interface AppFoundationProps<T = Object> {
   AppId: number;
@@ -11,13 +15,14 @@ export interface AppFoundationProps<T = Object> {
   children?: ReactNode;
 }
 
-const AppFoundation = ({
-  children,
-}: {
-  children: string | React.ReactNode;
-}) => {
+const AppFoundation = ({ App }: { App: React.FC }) => {
   const appData = useApplicationData();
-  return <AppWindow {...appData}>{children}</AppWindow>;
+
+  return (
+    <AppWindow {...appData}>
+      <Suspense fallback={<AppLoading />}>{<App />}</Suspense>
+    </AppWindow>
+  );
 };
 
 export default AppFoundation;

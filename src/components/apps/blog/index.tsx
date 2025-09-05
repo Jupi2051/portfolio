@@ -90,82 +90,80 @@ function Blog() {
   );
 
   return (
-    <AppFoundation>
-      <div style={{ width: "100%", height: "100%", border: "none" }}>
-        <div style={{ width: "100%", height: "100%", background: "black" }}>
-          <div className="blog-browser-layout">
-            <motion.div
-              className={`blogs-articles-list ${
-                listExpanded ? "" : "list-hidden"
-              }`}
-            >
-              {isLoadingLinks === false ? (
-                articlesList.length === 0 ? (
-                  <>
-                    <h2>No articles posted yet!</h2>
-                  </>
-                ) : (
-                  <>
-                    <h1 className="blog-list-title">Articles</h1>
-                    {articlesList
-                      .sort((a, b) => {
-                        const date1 = new Date(a.dateTime);
-                        const date2 = new Date(b.dateTime);
-                        return date2.getTime() - date1.getTime();
-                      })
-                      .map((article) => (
-                        <BlogArticleLink
-                          key={article.id}
-                          id={article.id}
-                          title={article.title}
-                          description={article.description}
-                          dateTime={article.dateTime}
-                          idAssignFunction={setCurrentlyReadingId}
-                        />
-                      ))}
-                  </>
-                )
+    <div style={{ width: "100%", height: "100%", border: "none" }}>
+      <div style={{ width: "100%", height: "100%", background: "black" }}>
+        <div className="blog-browser-layout">
+          <motion.div
+            className={`blogs-articles-list ${
+              listExpanded ? "" : "list-hidden"
+            }`}
+          >
+            {isLoadingLinks === false ? (
+              articlesList.length === 0 ? (
+                <>
+                  <h2>No articles posted yet!</h2>
+                </>
               ) : (
                 <>
-                  <ArticleLinkLoader />
-                  <ArticleLinkLoader />
-                  <ArticleLinkLoader />
-                  <ArticleLinkLoader />
-                  <ArticleLinkLoader />
+                  <h1 className="blog-list-title">Articles</h1>
+                  {articlesList
+                    .sort((a, b) => {
+                      const date1 = new Date(a.dateTime);
+                      const date2 = new Date(b.dateTime);
+                      return date2.getTime() - date1.getTime();
+                    })
+                    .map((article) => (
+                      <BlogArticleLink
+                        key={article.id}
+                        id={article.id}
+                        title={article.title}
+                        description={article.description}
+                        dateTime={article.dateTime}
+                        idAssignFunction={setCurrentlyReadingId}
+                      />
+                    ))}
                 </>
-              )}
-            </motion.div>
-            <div className="blogs-article-reader" onClick={onArticleClick}>
-              <button
-                className="blog-expand-button"
-                onClick={onExpandList}
-                aria-label="expand-list"
-              >
-                <div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                </div>
-              </button>
-              {isLoadingArticle ? (
-                <ArticleReadLoader />
-              ) : foundArticle ? (
-                <BlogArticle
-                  id={foundArticle.id}
-                  content={foundArticle.content}
-                  description={foundArticle.description}
-                  title={foundArticle.title}
-                  dateTime={foundArticle.dateTime}
-                  key={foundArticle.id}
-                />
-              ) : (
-                <h1>No blog is being read!</h1>
-              )}
-            </div>
+              )
+            ) : (
+              <>
+                <ArticleLinkLoader />
+                <ArticleLinkLoader />
+                <ArticleLinkLoader />
+                <ArticleLinkLoader />
+                <ArticleLinkLoader />
+              </>
+            )}
+          </motion.div>
+          <div className="blogs-article-reader" onClick={onArticleClick}>
+            <button
+              className="blog-expand-button"
+              onClick={onExpandList}
+              aria-label="expand-list"
+            >
+              <div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            </button>
+            {isLoadingArticle ? (
+              <ArticleReadLoader />
+            ) : foundArticle ? (
+              <BlogArticle
+                id={foundArticle.id}
+                content={foundArticle.content}
+                description={foundArticle.description}
+                title={foundArticle.title}
+                dateTime={foundArticle.dateTime}
+                key={foundArticle.id}
+              />
+            ) : (
+              <h1>No blog is being read!</h1>
+            )}
           </div>
         </div>
       </div>
-    </AppFoundation>
+    </div>
   );
 }
 

@@ -29,48 +29,46 @@ export type FolderItem = {
 function Explorer() {
   const { processData } = useApplicationData<{ items: FolderItem[] }>();
   return (
-    <AppFoundation>
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        border: "none",
+        overflowY: "hidden",
+      }}
+      className="explorer-background-container"
+    >
       <div
         style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
           width: "100%",
-          height: "100%",
-          border: "none",
-          overflowY: "hidden",
         }}
-        className="explorer-background-container"
       >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "100%",
-          }}
-        >
-          <input
-            type="text"
-            placeholder="Search for apps, settings and documents."
-            title="Search"
-            className="search-bar-explorer"
-          />
-        </div>
-        <div className="folders-layout">
-          <div className="item-listing">
-            {processData.items.map((element: FolderItem) => (
-              <ExplorerItem
-                AppName={element.AppComponent}
-                ApplicationName={element.Name}
-                Icon={element.IconPath}
-                id={element.id}
-                key={element.id}
-                processData={element.processData}
-                customTaskbarIcon={element.customTaskbarIcon}
-              />
-            ))}
-          </div>
+        <input
+          type="text"
+          placeholder="Search for apps, settings and documents."
+          title="Search"
+          className="search-bar-explorer"
+        />
+      </div>
+      <div className="folders-layout">
+        <div className="item-listing">
+          {processData.items.map((element: FolderItem) => (
+            <ExplorerItem
+              AppName={element.AppComponent}
+              ApplicationName={element.Name}
+              Icon={element.IconPath}
+              id={element.id}
+              key={element.id}
+              processData={element.processData}
+              customTaskbarIcon={element.customTaskbarIcon}
+            />
+          ))}
         </div>
       </div>
-    </AppFoundation>
+    </div>
   );
 }
 

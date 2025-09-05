@@ -6,7 +6,7 @@ import Stack, { StackTool } from "@/components/ui/tools";
 
 function GalaxyGym() {
   return (
-    <AppFoundation>
+    <>
       <Stack
         StackTools={[
           StackTool.HTML,
@@ -26,7 +26,7 @@ function GalaxyGym() {
         src="https://www.galaxygym.eu/"
         style={{ width: "100%", height: "100%", border: "none" }}
       ></iframe>
-    </AppFoundation>
+    </>
   );
 }
 

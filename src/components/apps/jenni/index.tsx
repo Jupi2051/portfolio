@@ -3,7 +3,7 @@ import Stack, { StackTool } from "@/components/ui/tools";
 
 function Jenni() {
   return (
-    <AppFoundation>
+    <>
       <Stack
         StackTools={[
           StackTool.HTML,
@@ -21,7 +21,7 @@ function Jenni() {
         src="https://www.jennixdraws.com/"
         style={{ width: "100%", height: "100%", border: "none" }}
       ></iframe>
-    </AppFoundation>
+    </>
   );
 }
 

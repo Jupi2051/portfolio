@@ -5,14 +5,12 @@ function Photos() {
   const { processData } = useApplicationData<{ openedImage: string }>();
 
   return (
-    <AppFoundation>
-      <div className="relative w-full h-full flex items-center justify-center bg-black">
-        <img
-          className="max-w-10/12 max-h-10/12 select-none"
-          src={processData.openedImage}
-        />
-      </div>
-    </AppFoundation>
+    <div className="relative w-full h-full flex items-center justify-center bg-black">
+      <img
+        className="max-w-10/12 max-h-10/12 select-none"
+        src={processData.openedImage}
+      />
+    </div>
   );
 }
 
