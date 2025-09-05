@@ -13,7 +13,7 @@ const StartMenuFooter = () => {
             src="https://i.postimg.cc/kX5cqZgP/Birthday-Festival-BD-artwork-2.png"
             className="w-9 h-9 object-cover rounded-full"
           />
-          <p className="text-xs font-segoe-ui">Jupi</p>
+          <p className="text-xs -mt-0.5 font-segoe-ui">Jupi</p>
         </div>
         <FontAwesomeIcon className="text-sm" icon={faPowerOff} />
       </div>
