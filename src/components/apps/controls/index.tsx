@@ -1,8 +1,7 @@
-import { AnimatePresence, motion } from "framer-motion";
-import AppFoundation from "@/components/ui/app-foundation";
+import AppFoundation, {
+  AppFoundationProps,
+} from "@/components/ui/app-foundation";
 import { useState, lazy, Suspense } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/storage/store";
 import { attemptControlLogin } from "@/api/Auth";
 
 const SettingsComponent = lazy(() =>
@@ -11,13 +10,7 @@ const SettingsComponent = lazy(() =>
   })
 );
 
-type PropTypes = {
-  AppId: number;
-  processName: string;
-  processIcon: string;
-};
-
-function Controls(Props: PropTypes) {
+function Controls(Props: AppFoundationProps) {
   const [writtenPassword, setWrittenPassword] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -46,11 +39,7 @@ function Controls(Props: PropTypes) {
   }
 
   return (
-    <AppFoundation
-      AppId={Props.AppId}
-      processIcon={Props.processIcon}
-      processName={Props.processName}
-    >
+    <AppFoundation {...Props}>
       <div style={{ width: "100%", height: "100%", border: "none" }}>
         <div
           style={{

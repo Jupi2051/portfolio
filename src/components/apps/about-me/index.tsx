@@ -2,13 +2,9 @@ import { Variants, motion } from "framer-motion";
 import { CSSProperties, ReactNode } from "react";
 import { Provider } from "react-wrap-balancer";
 import SolarSystem from "@/components/apps/about-me/solar-system";
-import AppFoundation from "@/components/ui/app-foundation";
-
-type PropTypes = {
-  AppId: number;
-  processName: string;
-  processIcon: string;
-};
+import AppFoundation, {
+  AppFoundationProps,
+} from "@/components/ui/app-foundation";
 
 const paragraphAnimation: Variants = {
   hidden: {
@@ -84,13 +80,9 @@ function AnimatedLettersHeader(props: {
   );
 }
 
-function AboutMe(Props: PropTypes) {
+function AboutMe(Props: AppFoundationProps) {
   return (
-    <AppFoundation
-      AppId={Props.AppId}
-      processIcon={Props.processIcon}
-      processName={Props.processName}
-    >
+    <AppFoundation {...Props}>
       <Provider>
         <div className="text-white font-segoe-ui h-full bg-black text-2xs overflow-y-scroll overflow-x-hidden py-12">
           <div className="h-full">

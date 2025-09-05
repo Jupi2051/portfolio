@@ -65,7 +65,7 @@ const StartMenuComponent = ({ className }: { className?: string }) => {
               ApplicationName={element.Name}
               Icon={element.IconPath}
               customTaskbarIcon={element.customTaskbarIcon}
-              processProps={element.processData}
+              processData={element.processData}
               key={element.id}
             />
           ))}

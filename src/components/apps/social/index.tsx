@@ -1,14 +1,10 @@
-import AppFoundation from "@/components/ui/app-foundation";
+import AppFoundation, {
+  AppFoundationProps,
+} from "@/components/ui/app-foundation";
 import { useEffect, useState } from "react";
 import BoardMessage from "@/components/apps/social/board-message";
 import "@/Styles/Apps/Social.css";
 import { getMessages, sendMessage } from "@/api/MessagesBoard";
-
-type PropTypes = {
-  AppId: number;
-  processName: string;
-  processIcon: string;
-};
 
 type Messages = {
   content: string;
@@ -16,7 +12,7 @@ type Messages = {
   id: number;
 };
 
-function Social(Props: PropTypes) {
+function Social(Props: AppFoundationProps) {
   const [content, setContent] = useState("");
   const [name, setName] = useState("");
   const [messages, setMessages] = useState<Messages[]>([]);
@@ -54,11 +50,7 @@ function Social(Props: PropTypes) {
   }
 
   return (
-    <AppFoundation
-      AppId={Props.AppId}
-      processIcon={Props.processIcon}
-      processName={Props.processName}
-    >
+    <AppFoundation {...Props}>
       <div className="paper-container">
         <div className="messages-board-container">
           <div className="messages-container">

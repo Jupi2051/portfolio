@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
-import AppFoundation from "@/components/ui/app-foundation";
+import AppFoundation, {
+  AppFoundationProps,
+} from "@/components/ui/app-foundation";
 import { useEffect, useState } from "react";
 import "@/Styles/Apps/Blog.css";
 import BlogArticleLink from "@/components/apps/blog/blog-article-link";
@@ -10,12 +12,6 @@ import { fetchArticle, fetchArticlesLinks } from "@/api/BlogList";
 import ArticleReadLoader from "@/components/ui/loaders/article-read-loader";
 import ArticleLinkLoader from "@/components/ui/loaders/article-link-loader";
 
-type PropTypes = {
-  AppId: number;
-  processName: string;
-  processIcon: string;
-};
-
 export type articleLinkItem = {
   id: string;
   title: string;
@@ -23,7 +19,7 @@ export type articleLinkItem = {
   description: string;
 };
 
-function Blog(Props: PropTypes) {
+function Blog(Props: AppFoundationProps) {
   const [articlesList, setArticlesList] = useState<articleLinkItem[]>([]);
   const [currentlyReadingId, setCurrentlyReadingId] = useState<string | null>(
     null
@@ -94,11 +90,7 @@ function Blog(Props: PropTypes) {
   );
 
   return (
-    <AppFoundation
-      AppId={Props.AppId}
-      processIcon={Props.processIcon}
-      processName={Props.processName}
-    >
+    <AppFoundation {...Props}>
       <div style={{ width: "100%", height: "100%", border: "none" }}>
         <div style={{ width: "100%", height: "100%", background: "black" }}>
           <div className="blog-browser-layout">

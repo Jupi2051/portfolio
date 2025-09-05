@@ -40,6 +40,7 @@ function Explorer(Props: PropTypes) {
       AppId={Props.AppId}
       processIcon={Props.processIcon}
       processName={Props.processName}
+      processData={Props.processData}
     >
       <div
         style={{
@@ -74,7 +75,7 @@ function Explorer(Props: PropTypes) {
                 Icon={element.IconPath}
                 id={element.id}
                 key={element.id}
-                processProps={element.processData}
+                processData={element.processData}
                 customTaskbarIcon={element.customTaskbarIcon}
               />
             ))}

@@ -1,14 +1,9 @@
-import { AnimatePresence, motion } from "framer-motion";
-import AppFoundation from "@/components/ui/app-foundation";
+import AppFoundation, {
+  AppFoundationProps,
+} from "@/components/ui/app-foundation";
 import Chloe, { ChloeConversation, ChloeEmotion } from "@/components/ui/chloe";
 import ChloeInfoButton from "@/components/ui/chloe/chloe-info-button";
 import { useState } from "react";
-
-type PropTypes = {
-  AppId: number;
-  processName: string;
-  processIcon: string;
-};
 
 const ChloeExplanation: ChloeConversation[] = [
   {
@@ -45,16 +40,12 @@ const ChloeExplanation: ChloeConversation[] = [
   },
 ];
 
-function DummyApp(Props: PropTypes) {
+function DummyApp(Props: AppFoundationProps) {
   const [renderChloe, setRenderChloe] = useState(false);
   const [conversationIndex, setConversationIndex] = useState(0);
 
   return (
-    <AppFoundation
-      AppId={Props.AppId}
-      processIcon={Props.processIcon}
-      processName={Props.processName}
-    >
+    <AppFoundation {...Props}>
       <div
         style={{
           width: "100%",

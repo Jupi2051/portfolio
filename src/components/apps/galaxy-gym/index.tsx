@@ -1,20 +1,12 @@
 import { motion } from "framer-motion";
-import AppFoundation from "@/components/ui/app-foundation";
+import AppFoundation, {
+  AppFoundationProps,
+} from "@/components/ui/app-foundation";
 import Stack, { StackTool } from "@/components/ui/tools";
 
-type PropTypes = {
-  AppId: number;
-  processName: string;
-  processIcon: string;
-};
-
-function GalaxyGym(Props: PropTypes) {
+function GalaxyGym(Props: AppFoundationProps) {
   return (
-    <AppFoundation
-      AppId={Props.AppId}
-      processIcon={Props.processIcon}
-      processName={Props.processName}
-    >
+    <AppFoundation {...Props}>
       <Stack
         StackTools={[
           StackTool.HTML,
