@@ -6,12 +6,9 @@ function Taskbar({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "grid grid-cols-3 grid-rows-[1fr] justify-center justify-items-end bg-black/45 outline-4 outline-ctp-lavender-300/2",
+        "grid grid-cols-3 grid-rows-[1fr] justify-center justify-items-end bg-black/45 outline-4 outline-ctp-lavender-300/2 backdrop-blur-md",
         className
       )}
-      style={{
-        backdropFilter: "blur(10px)",
-      }}
     >
       <OpenApps />
       <BackgroundApps />

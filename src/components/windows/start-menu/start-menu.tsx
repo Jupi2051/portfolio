@@ -10,6 +10,7 @@ import { useOnClickOutside } from "usehooks-ts";
 import { useRef } from "react";
 import cn from "classnames";
 import useStartMenu from "@/hooks/use-start-menu";
+import StartMenuFooter from "./start-menu-footer";
 
 export const BottomAnimationVariants = {
   hidden: {
@@ -37,12 +38,9 @@ const StartMenuComponent = ({ className }: { className?: string }) => {
   return (
     <motion.div
       className={cn(
-        "absolute grid bottom-0 rounded-md px-9 pt-8 pb-5 font-sans text-gray-200 font-light overflow-hidden grid-cols-1 left-1/2 min-h-[700px] w-[600px] bg-gradient-to-r from-[#3f3550d6] to-[#3f3550d6] shadow-[0px_0px_15px_0px_rgba(0,0,0,0.4)] grid-rows-[0.1fr_1.7fr_1fr]",
+        "absolute grid bottom-0 rounded-md px-9 pt-8 pb-5 font-sans text-gray-200 font-light overflow-hidden grid-cols-1 left-1/2 min-h-[700px] w-[600px] bg-gradient-to-r from-ctp-blue-950/80 to-ctp-lavender-300/60 backdrop-blur-md shadow-[0px_0px_15px_0px_rgba(0,0,0,0.4)] grid-rows-[0.1fr_1.7fr_1fr]",
         className
       )}
-      style={{
-        backdropFilter: "blur(50px)",
-      }}
       variants={BottomAnimationVariants}
       initial="hidden"
       animate="visible"
@@ -87,21 +85,7 @@ const StartMenuComponent = ({ className }: { className?: string }) => {
           />
         </div>
       </div>
-      <div
-        className="absolute w-full h-full left-0 bg-[#3f3550d6] top-[var(--user-container-inner)]"
-        style={{ "--user-container-inner": "90%" } as React.CSSProperties}
-      >
-        <div className="flex items-center justify-between px-12 h-[calc(100%-var(--user-container-inner))]">
-          <div className="flex items-center justify-center gap-5 text-2xs">
-            <img
-              src="https://i.postimg.cc/kX5cqZgP/Birthday-Festival-BD-artwork-2.png"
-              className="w-9 h-9 object-cover rounded-full"
-            />
-            <p className="text-xs">Jupi</p>
-          </div>
-          <FontAwesomeIcon className="text-xl" icon={faPowerOff} />
-        </div>
-      </div>
+      <StartMenuFooter />
     </motion.div>
   );
 };
