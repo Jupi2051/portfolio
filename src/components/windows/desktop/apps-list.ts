@@ -33,6 +33,6 @@ export const DesktopAppsComponents: Record<DesktopAppsList, any> = {
 
 function delayForDemo(promise: Promise<any>) {
   return new Promise(resolve => {
-    setTimeout(resolve, 1000);
+    setTimeout(resolve, 10000);
   }).then(() => promise);
 }
