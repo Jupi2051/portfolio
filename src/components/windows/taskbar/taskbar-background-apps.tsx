@@ -3,7 +3,7 @@ import VolumeInternet from "./background-apps/volume-internet";
 
 function BackgroundApps() {
   return (
-    <div className="flex flex-row-reverse gap-4 px-5 items-center justify-center rounded-t-lg list-none pt-1 pb-0.5 w-fit z-[3]  col-start-3 bg-gradient-to-r from-[#3f3550] to-[#523a54]">
+    <div className="flex flex-row-reverse gap-4 px-5 items-center justify-center rounded-t-lg list-none pt-1 pb-0.5 w-fit z-[3]  col-start-3">
       <DateTime />
       <VolumeInternet />
     </div>

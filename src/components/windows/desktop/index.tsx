@@ -268,7 +268,7 @@ let Timer: number;
 const MaxDistanceBeforeMovementTrigger = 10;
 let LocalMousePosition: { x: number; y: number } = { x: 0, y: 0 };
 
-function Desktop() {
+function Desktop({ className }: { className?: string }) {
   const dispatch = useDispatch();
   const [isHoldClicked, SetHoldClick] = useState(false);
   const [HoldClickInitPosition, SetHoldClickInitPosition] = useState({
@@ -423,6 +423,7 @@ function Desktop() {
         onResize={onDesktopResize}
         onMouseDown={onMouseDown}
         onMouseUp={onMouseUp}
+        className={className}
       >
         <div className="absolute w-full h-full pointer-events-none">
           <DesktopTimeWidget />

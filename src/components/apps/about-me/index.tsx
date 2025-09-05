@@ -92,7 +92,7 @@ function AboutMe(Props: PropTypes) {
       processName={Props.processName}
     >
       <Provider>
-        <div className="text-white font-segoe-ui h-full bg-black text-xss overflow-y-scroll overflow-x-hidden py-12">
+        <div className="text-white font-segoe-ui h-full bg-black text-2xs overflow-y-scroll overflow-x-hidden py-12">
           <div className="h-full">
             <div className="flex items-center justify-center gap-4">
               <AnimatedLettersHeader

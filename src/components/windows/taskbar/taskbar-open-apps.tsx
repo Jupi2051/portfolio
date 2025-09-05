@@ -22,7 +22,7 @@ function OpenApps() {
 
   return (
     <Reorder.Group
-      className="flex items-center bg-ctp-peach-500 justify-center gap-0 rounded-t-lg list-none px-1 pt-1 w-fit z-[3] col-start-2 justify-self-center bg-gradient-to-r from-[#3f3550] to-[#523a54]"
+      className="flex items-center justify-center gap-0 rounded-t-lg list-none px-1 pt-1 w-fit z-[3] col-start-2 justify-self-center"
       values={TaskbarApplications}
       onReorder={SetTaskbarItems}
       axis="x"

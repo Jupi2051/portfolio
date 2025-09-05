@@ -47,7 +47,7 @@ function StartMenuApp(Props: PropTypes) {
   return (
     <div
       className={cn(
-        "relative flex flex-col max-w-12 h-full w-full items-center justify-center text-white select-none isolate text-xss group",
+        "relative flex flex-col max-w-12 h-full w-full items-center justify-center text-white select-none isolate text-2xs group",
         "before:content-[''] before:block before:absolute before:top-1/2 before:left-1/2 before:opacity-0 before:bg-white/5 before:aspect-square before:w-[200%] before:rounded-md before:pointer-events-none before:-translate-1/2 before:transition-all before:duration-100 before:ease-in-out hover:before:opacity-100 hover:active:before:bg-white/5"
       )}
       onClick={onClickApplication}
