@@ -18,7 +18,7 @@ const AppLoading = () => {
       </div>
       <WavyText
         replay={true}
-        text="Loading..."
+        text="Loading"
         className="text-white text-2xl font-bold"
       />
     </motion.div>
