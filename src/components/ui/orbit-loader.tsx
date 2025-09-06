@@ -11,6 +11,7 @@ interface OrbitLoaderProps {
   failedColor?: string;
   failed?: boolean;
   className?: string;
+  moonClassName?: string;
 }
 
 const OrbitLoader = ({
@@ -25,6 +26,7 @@ const OrbitLoader = ({
   failedColor = "#a86170",
   failed = false,
   className = "m-10",
+  moonClassName,
 }: OrbitLoaderProps) => {
   return (
     <motion.div
@@ -123,7 +125,10 @@ const OrbitLoader = ({
             }}
           >
             <div
-              className="aspect-square w-[30%] rounded-full absolute top-0 left-0 -translate-1/2"
+              className={cn(
+                "aspect-square w-[30%] rounded-full absolute top-0 left-0 -translate-1/2",
+                moonClassName
+              )}
               style={{ backgroundColor: orbitColor }}
             />
           </motion.div>

@@ -1,8 +1,21 @@
 import "./jupi-logo.css";
 
-function Julogo({ Size, className }: { Size: number; className?: string }) {
+function Julogo({
+  Size,
+  className,
+  skipEnterAnimation,
+}: {
+  Size: number;
+  className?: string;
+  skipEnterAnimation?: boolean;
+}) {
   return (
-    <div className={"logo " + className} style={{ maxWidth: Size + "px" }}>
+    <div
+      className={
+        "logo " + (skipEnterAnimation ? "no-animation " : "") + className
+      }
+      style={{ maxWidth: Size + "px" }}
+    >
       <div className="first-line">
         <div className="cloud-tall"></div>
         <div className="cloud-organizer">

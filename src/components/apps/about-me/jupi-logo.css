@@ -1,115 +1,126 @@
-.logo
-{
-    overflow: hidden;
-    background: white;
-    aspect-ratio:  1 / 1;
-    border-radius: 100%;
+.logo {
+  overflow: hidden;
+  background: white;
+  aspect-ratio: 1 / 1;
+  border-radius: 100%;
+  transform: scale(0);
+  animation: expandAnimation ease forwards 1 2s;
+  animation-delay: 0s;
+}
+
+.first-line {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  margin: 0px;
+  gap: 0px;
+  width: 500%;
+  height: 7.5%;
+  bottom: 100.5%;
+  right: 13%;
+  transform: rotate(-32.5deg) translateX(-36.2%);
+  animation: firstLineAnimation linear running infinite 15s;
+  animation-delay: -1.85s;
+}
+
+.cloud-organizer {
+  display: inline-flex;
+  flex-direction: row;
+  gap: 20%;
+  width: 30%;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+
+.cloud-1 {
+  background: rgba(33, 33, 33, 255);
+  border-radius: 50px;
+  height: 100%;
+  width: 500%;
+  margin: 0px;
+  background-color: rgba(33, 33, 33, 255);
+}
+
+.cloud-tall {
+  background-color: rgba(33, 33, 33, 255);
+  width: 10%;
+  margin: 0px;
+  padding: 0px;
+  height: 100%;
+  border-radius: 50px 0px 0px 50px;
+  transform: scaleX(101%) translateX(0.5%);
+}
+
+.stickycloud {
+  border-radius: 0px 50px 50px 0px;
+}
+
+.second-line {
+  position: relative;
+  background: rgba(33, 33, 33, 255);
+  width: 120%;
+  height: 17%;
+  top: 34%;
+  right: 20%;
+  transform: rotate(-32.2deg);
+  transition: all ease 1s;
+}
+
+.third-line {
+  position: relative;
+  background: rgba(33, 33, 33, 255);
+  width: 120%;
+  height: 7%;
+  top: 30.8%;
+  right: 0%;
+  transform: rotate(-32deg);
+  transition: all ease 1s;
+}
+
+.storm {
+  position: relative;
+  left: 56%;
+  bottom: 36%;
+  border-radius: 100%;
+  width: 13.4%;
+  height: 225%; /* idk why it works, magic number */
+  background: rgba(33, 33, 33, 255);
+  animation: stormAnimation linear running infinite 30s;
+  animation-delay: -11s;
+}
+
+@keyframes stormAnimation {
+  0% {
+    transform: scale(1) translateX(300%);
+  }
+  100% {
+    transform: scale(1) translateX(-550%);
+  }
+}
+
+@keyframes firstLineAnimation {
+  0% {
+    transform: rotate(-32.5deg) translateX(-50%);
+  }
+  100% {
+    transform: rotate(-32.5deg) translateX(20%);
+  }
+}
+
+@keyframes expandAnimation {
+  0% {
     transform: scale(0);
-    animation: expandAnimation ease forwards 1 2s;
-    animation-delay: 0s;
+    opacity: 0;
+  }
+  100% {
+    transform: scale(100%);
+    opacity: 1;
+  }
 }
 
-.first-line
-{
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    margin: 0px;
-    gap: 0px;
-    width: 500%;
-    height: 7.5%;
-    bottom: 100.5%;
-    right: 13%;
-    transform: rotate(-32.5deg) translateX(-36.2%);
-    animation: firstLineAnimation linear running infinite 15s;
-    animation-delay: -1.85s;
-}
-
-.cloud-organizer
-{
-    display: inline-flex;
-    flex-direction: row;
-    gap: 20%;
-    width: 30%;
-    height: 100%;
-    margin: 0px;
-    padding: 0px;
-}
-
-.cloud-1
-{
-    background: rgba(33, 33, 33, 255);
-    border-radius: 50px;
-    height: 100%;
-    width: 500%;
-    margin: 0px;
-    background-color: rgba(33, 33, 33, 255);
-}
-
-.cloud-tall
-{
-    background-color: rgba(33, 33, 33, 255);
-    width: 10%;
-    margin: 0px;
-    padding: 0px;
-    height: 100%;
-    border-radius: 50px 0px 0px 50px;
-    transform: scaleX(101%) translateX(0.5%);
-}
-
-.stickycloud {border-radius: 0px 50px 50px 0px;}
-
-.second-line
-{
-    position: relative;
-    background: rgba(33, 33, 33, 255);
-    width: 120%;
-    height: 17%;
-    top: 34%;
-    right: 20%;
-    transform: rotate(-32.2deg);
-    transition: all ease 1s;
-}
-
-.third-line
-{
-    position: relative;
-    background: rgba(33, 33, 33, 255);
-    width: 120%;
-    height: 7%;
-    top: 30.8%;
-    right: 0%;
-    transform: rotate(-32deg);
-    transition: all ease 1s;
-}
-
-.storm
-{
-    position: relative;
-    left: 56%;
-    bottom: 36%;
-    border-radius: 100%;
-    width: 13.4%;
-    height: 225%; /* idk why it works, magic number */
-    background: rgba(33, 33, 33, 255);
-    animation: stormAnimation linear running infinite 30s;
-    animation-delay: -11s;
-}
-
-@keyframes stormAnimation
-{
-    0% {transform: scale(1) translateX(300%);}
-    100% {transform: scale(1) translateX(-550%);}
-}
-
-@keyframes firstLineAnimation
-{
-    0% {transform: rotate(-32.5deg) translateX(-50%);}
-    100% {transform: rotate(-32.5deg) translateX(20%);}
-}
-
-@keyframes expandAnimation
-{
-    0% {transform: scale(0); opacity: 0;}
-    100% {transform: scale(100%); opacity: 1;}
+.no-animation {
+  transform: scale(1);
+  opacity: 1;
+  animation: none;
 }
