@@ -13,7 +13,7 @@ const AppLoading = () => {
         <img
           src={processIcon}
           alt="App Loading"
-          className="absolute top-1/2 left-1/2 -translate-1/2 w-12 p-1 z-10"
+          className="absolute top-1/2 left-1/2 -translate-1/2 w-12 p-1 z-10 animate-pulse"
         />
       </div>
       <WavyText
