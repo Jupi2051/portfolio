@@ -13,6 +13,7 @@ import AppWindowHeaderButton from "./app-window-header-button";
 import { useEventListener } from "usehooks-ts";
 import useAppWindowControls from "@/hooks/use-app-window-data";
 import useGlobalWindowsControls from "@/hooks/use-global-windows-controls";
+import useMediaQuery from "@/hooks/use-media-query";
 
 interface AppWindowHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   processName?: string;
@@ -39,6 +40,7 @@ const AppWindowHeader = ({
   windowHeight,
   NewLocation,
 }: AppWindowHeaderProps) => {
+  const isPhone = useMediaQuery("sm");
   const dispatch = useDispatch();
   const { isFocused } = useAppWindowControls(AppId);
   const { unFocusAllWindows } = useGlobalWindowsControls();
@@ -52,6 +54,7 @@ const AppWindowHeader = ({
   const onDoubleClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
+    if (isPhone) return;
     event.preventDefault();
     setMaximized(!maximized);
   };
@@ -108,7 +111,10 @@ const AppWindowHeader = ({
         <AppWindowHeaderButton onClick={CloseApplication} type="danger">
           ✕
         </AppWindowHeaderButton>
-        <AppWindowHeaderButton onClick={MaximizeWindow}>
+        <AppWindowHeaderButton
+          onClick={MaximizeWindow}
+          className="hidden sm:flex"
+        >
           <span className="block aspect-square w-2.5 border border-solid"></span>
         </AppWindowHeaderButton>
         <AppWindowHeaderButton onClick={onDismissButton}>

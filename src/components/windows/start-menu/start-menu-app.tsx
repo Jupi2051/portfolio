@@ -50,7 +50,7 @@ function StartMenuApp(Props: PropTypes) {
         className="max-w-full transition-transform duration-150 mb-5 ease-in-out group-hover:group-active:scale-[0.85]"
         src={Props.Icon}
       />
-      <p className="absolute bottom-0 whitespace-nowrap font-segoe-ui-light font-thin text-xs text-center">
+      <p className="absolute top-full -translate-y-1/2 sm:bottom-0 whitespace-normal sm:whitespace-nowrap font-segoe-ui-light font-thin text-xs text-center">
         {Props.ApplicationName}
       </p>
     </div>

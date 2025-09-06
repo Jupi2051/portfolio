@@ -31,7 +31,7 @@ function DesktopTimeWidget() {
 
   return (
     <div className="w-fit absolute right-1/12 top-1/6">
-      <h1 className="text-7xl text-black/50 font-open-sans">{Time}</h1>
+      <h1 className="text-7xl text-ctp-maroon-700 font-open-sans">{Time}</h1>
     </div>
   );
 }

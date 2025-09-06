@@ -37,12 +37,14 @@ function SocialMedia(Props: PropTypes) {
 
   return (
     <a
-      className="text-white flex gap-2.5 text-xs w-full h-full items-center pl-2.5 rounded-md cursor-default no-underline transition-colors duration-150 ease-in-out hover:bg-white/10  "
+      className="text-white flex gap-2.5 sm:text-xs w-full h-full items-center pl-2.5 rounded-md cursor-default no-underline transition-colors duration-150 ease-in-out hover:bg-white/10 "
       href={Props.Link}
       target="_blank"
     >
-      <FontAwesomeIcon className="text-3xl" icon={icon} />
-      <p className="text-base text-white/80 font-normal font-sans">{name}</p>
+      <FontAwesomeIcon className="text-2xl sm:text-3xl" icon={icon} />
+      <p className="text-xs sm:text-base text-white/80 font-normal font-sans">
+        {name}
+      </p>
     </a>
   );
 }
