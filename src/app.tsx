@@ -16,7 +16,7 @@ function app() {
     <AnimatePresence>
       {loaded ? (
         <div className={"App"}>
-          <Surface />
+          <Surface key={"surface"} />
         </div>
       ) : (
         <LoadingScreen key={"loading-screen"} setLoaded={setLoaded} />
