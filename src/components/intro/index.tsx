@@ -10,6 +10,7 @@ const Intro = ({ setLoaded }: { setLoaded: (loaded: boolean) => void }) => {
       onClick={() => setLoaded(true)}
       exit={{
         opacity: 0,
+        transition: { delay: 0.3, ease: "easeOut" },
       }}
     >
       <motion.div
