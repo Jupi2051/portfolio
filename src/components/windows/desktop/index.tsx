@@ -361,9 +361,9 @@ function Desktop({ className }: { className?: string }) {
     SetApplicationsArray(DesktopIcons);
   }
 
-  function onDesktopResize(event: SyntheticEvent<HTMLDivElement, Event>) {
-    console.log("resize");
-  }
+  // function onDesktopResize(event: SyntheticEvent<HTMLDivElement, Event>) {
+  //   console.log("resize");
+  // }
 
   function onMouseDown(
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -419,7 +419,8 @@ function Desktop({ className }: { className?: string }) {
         id="Desktop"
         ref={ref}
         onMouseMove={onMouseMove}
-        onResize={onDesktopResize}
+        // onResize={onDesktopResize}
+
         onMouseDown={onMouseDown}
         onMouseUp={onMouseUp}
         className={className}

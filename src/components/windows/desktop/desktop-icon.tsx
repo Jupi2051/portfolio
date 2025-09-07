@@ -5,6 +5,7 @@ import cn from "classnames";
 import { motion } from "framer-motion";
 import useGlobalTaskbarControls from "@/hooks/use-global-taskbar-controls";
 import useGlobalWindowsControls from "@/hooks/use-global-windows-controls";
+import { useTouchDevice } from "@/hooks/use-touch-device";
 
 type PropTypes = {
   ApplicationName: string;
@@ -25,11 +26,9 @@ function DesktopIcon(Props: PropTypes) {
   const [ApplicationName, SetAppName] = useState(Props.ApplicationName);
   const { openNewApplication } = useGlobalWindowsControls();
   const { openNewTaskbarApplication } = useGlobalTaskbarControls();
+  const isTouchDevice = useTouchDevice();
 
-  function onClickApplication(
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>
-  ) {
-    if (event.detail !== 2) return;
+  const openLinkedApplication = () => {
     const id = +new Date();
 
     const ApplicationObject: OpenApplication = {
@@ -50,7 +49,17 @@ function DesktopIcon(Props: PropTypes) {
       Icon: Props.Icon,
       CustomTaskbarIcon: Props.customTaskbarIcon,
     });
-  }
+  };
+
+  const onClickApplication = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    if (isTouchDevice) {
+      openLinkedApplication();
+    } else if (event.detail === 2) {
+      openLinkedApplication();
+    }
+  };
 
   return (
     <motion.div
