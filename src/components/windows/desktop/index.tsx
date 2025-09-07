@@ -331,8 +331,8 @@ function Desktop({ className }: { className?: string }) {
   }
 
   function GetGridLocationFromMousePosition(): Point {
-    const itemMinHeight = 100;
-    const itemMinWidth = 100;
+    const itemMinHeight = 90;
+    const itemMinWidth = 90;
 
     let CalculatedColumn = Math.round(LocalMousePosition.x / itemMinWidth);
     let CalculatedRow = Math.round(LocalMousePosition.y / itemMinHeight);
