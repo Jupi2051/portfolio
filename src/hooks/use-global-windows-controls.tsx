@@ -2,7 +2,6 @@ import { setFocusedApp } from "@/storage/slices/desktop";
 import { useDispatch } from "react-redux";
 import { OpenApplication } from "@/components/windows/desktop";
 import { bringToFront, openApplication } from "@/storage/slices/main";
-import useAppWindowControls from "./use-app-window-data";
 
 const useGlobalWindowsControls = () => {
   const dispatch = useDispatch();
@@ -12,7 +11,7 @@ const useGlobalWindowsControls = () => {
   };
 
   const openNewApplication = (application: Omit<OpenApplication, "id">) => {
-    const newAppId = +new Date(); // Generate new ID for each call
+    const newAppId = +new Date();
 
     const app: OpenApplication = {
       id: newAppId,
@@ -20,13 +19,12 @@ const useGlobalWindowsControls = () => {
     };
     dispatch(openApplication(app));
 
-    // Create controls for this specific app
     const appControls = {
       focusWindow: () => dispatch(setFocusedApp(newAppId)),
       bringWindowToFront: () => dispatch(bringToFront(newAppId)),
-      isMinimized: false, // New apps are not minimized
-      isFocused: false, // New apps are not focused initially
-      zIndexFront: 999, // New apps get highest z-index
+      isMinimized: false,
+      isFocused: false,
+      zIndexFront: 999,
     };
 
     return {
