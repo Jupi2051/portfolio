@@ -66,8 +66,8 @@ function DesktopIcon(Props: PropTypes) {
       style={{ ...Props.Style }}
       className={cn(
         "Desktop-Icon-Container",
-        "relative flex flex-col w-[100px] h-[100px] pb-4 items-center justify-center text-white select-none isolate",
-        'after:content-[" "] after:pointer-events-none after:w-full after:h-full after:absolute after:left-1/2 after:top-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-md after:bg-transparent after:z-[-1] hover:after:bg-white/15',
+        "relative flex flex-col w-[90px] h-[90px] pb-4 items-center justify-center text-white select-none isolate",
+        'after:content-[" "] after:pointer-events-none after:w-[98%] after:h-full after:absolute after:left-1/2 after:top-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-md after:bg-transparent after:z-[-1] hover:after:bg-white/15',
         { "after:bg-white/15": Props.Selected }
       )}
       data-id={Props.id}

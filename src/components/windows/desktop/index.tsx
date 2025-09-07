@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/storage/store";
 import { setFocusedApp } from "@/storage/slices/desktop";
 import { FolderItem } from "@/components/apps/explorer";
+import cn from "classnames";
 
 type Point = {
   x: number;
@@ -420,10 +421,9 @@ function Desktop({ className }: { className?: string }) {
         ref={ref}
         onMouseMove={onMouseMove}
         // onResize={onDesktopResize}
-
         onMouseDown={onMouseDown}
         onMouseUp={onMouseUp}
-        className={className}
+        className={cn(className, "grid-flow-row sm:grid-flow-col")}
       >
         <div className="absolute w-full h-full pointer-events-none">
           <DesktopTimeWidget />
