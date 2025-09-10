@@ -97,7 +97,7 @@ const AppWindowHeader = ({
 
   return (
     <div
-      className="window-header flex text-center justify-end h-[30px] text-white bg-gradient-to-r from-ctp-blue-950 to-ctp-mauve-900/60 min-w-max"
+      className="window-header flex text-center justify-end min-h-[30px] h-[30px] text-white bg-gradient-to-r from-ctp-blue-950 to-ctp-mauve-900/60 min-w-max"
       onMouseDown={onMouseDown}
       onDoubleClick={onDoubleClick}
     >

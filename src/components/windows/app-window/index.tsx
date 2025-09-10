@@ -1,4 +1,11 @@
-import { ReactNode, useMemo, useState } from "react";
+import {
+  ReactNode,
+  SyntheticEvent,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Point, Variants, motion } from "framer-motion";
 import useMousePosition from "@/hooks/use-mouse-position";
 import { useSelector } from "react-redux";
@@ -7,6 +14,7 @@ import { useResizeDetector } from "react-resize-detector";
 import cn from "classnames";
 import AppWindowHeader from "./app-window-header";
 import useAppWindowData from "@/hooks/use-app-window-data";
+import { useResizeObserver } from "usehooks-ts";
 
 type PropType = {
   children?: ReactNode;
@@ -35,9 +43,7 @@ let WindowLocatorData = new Map<number, WindowBorderBox>();
 function AppWindow(props: PropType) {
   const [Maximized, SetMaximized] = useState(props.maximized ?? true);
   const [MoveWindow, SetMoveWindow] = useState(false);
-
   const CursorLocation = useMousePosition();
-
   const {
     isMinimized,
     zIndexFront,
@@ -45,11 +51,17 @@ function AppWindow(props: PropType) {
     focusWindow,
     bringWindowToFront,
   } = useAppWindowData(props.AppId);
+
   const WindowId = useMemo(() => +new Date(), []);
   const CursorOffset = useSelector(
     (x: RootState) => x.desktopState.mouseMovementOffset
   );
-  const { width, height, ref } = useResizeDetector();
+  const ref = useRef<HTMLDivElement>(null);
+  const { width = 0, height = 0 } = useResizeObserver({
+    ref,
+    box: "border-box",
+  });
+
   const [MinimizedDimensions, SetMinmizedDimensions] = useState<Dimensions2D>({
     width: 500,
     height: 500,
@@ -162,7 +174,7 @@ function AppWindow(props: PropType) {
         onMouseDown={onWindowMouseDown}
       >
         <div
-          className="relative bg-gradient-to-b from-[#1d1d1d] to-[#3d3d3d] resize-both overflow-hidden z-[-1] @container/appwindow"
+          className="relative bg-gradient-to-b from-[#1d1d1d] to-[#3d3d3d] resize-both overflow-hidden flex flex-col z-[-1] @container/appwindow"
           style={{
             width: Maximized ? "100%" : MinimizedDimensions.width ?? "auto",
             height: Maximized ? "100%" : MinimizedDimensions.height ?? "auto",

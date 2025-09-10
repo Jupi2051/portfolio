@@ -1,27 +1,11 @@
-import Stack, { StackTool } from "@/components/ui/tools";
-
 function Oni() {
   return (
-    <>
-      <Stack
-        StackTools={[
-          StackTool.HTML,
-          StackTool.CSS,
-          StackTool.JS,
-          StackTool.Express,
-          StackTool.Bootstrap,
-          StackTool.Discord,
-          StackTool.Ubuntu,
-          StackTool.Nginx,
-          StackTool.CSharp,
-          StackTool.Java,
-        ]}
-      />
+    <div className="w-full h-full overflow-hidden max-w-full max-h-full select-none">
       <iframe
-        src="https://www.oniverse.xyz/"
-        style={{ width: "100%", height: "100%", border: "none" }}
-      ></iframe>
-    </>
+        src="https://game.instatus.com/"
+        className="w-full h-full border-none max-w-full max-h-full select-none"
+      />
+    </div>
   );
 }
 

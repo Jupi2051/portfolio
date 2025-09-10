@@ -166,7 +166,14 @@ export let DesktopIcons: DesktopIconData[] = [
     Selected: false,
     AppComponent: DesktopAppsList.EIEN,
   },
-  // {id: 3, Name: "Oni", IconPath: "Imgs/DesktopApps/Oni.png", Style: {}, Selected: false, AppComponent: DesktopAppsList.Oni},
+  {
+    id: 3,
+    Name: "Oni",
+    IconPath: "Imgs/DesktopApps/Oni.png",
+    Style: {},
+    Selected: false,
+    AppComponent: DesktopAppsList.Oni,
+  },
   {
     id: 4,
     Name: "Jenni",
