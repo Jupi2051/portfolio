@@ -168,11 +168,11 @@ export let DesktopIcons: DesktopIconData[] = [
   },
   {
     id: 3,
-    Name: "Oni",
-    IconPath: "Imgs/DesktopApps/Oni.png",
+    Name: "Instatus Inspace",
+    IconPath: "Imgs/DesktopApps/astronaut.webp",
     Style: {},
     Selected: false,
-    AppComponent: DesktopAppsList.Oni,
+    AppComponent: DesktopAppsList.InstatusInspace,
   },
   {
     id: 4,

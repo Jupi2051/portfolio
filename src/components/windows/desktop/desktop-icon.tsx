@@ -83,7 +83,7 @@ function DesktopIcon(Props: PropTypes) {
         damping: 10,
       }}
     >
-      <img src={Props.Icon} className="w-3/5 pointer-events-none" />
+      <img src={Props.Icon} className="pointer-events-none max-h-[50px]" />
       <h1
         className="absolute bottom-1 font-segoe-ui-light font-thin text-xs mt-1.5 select-none pointer-events-none"
         style={{

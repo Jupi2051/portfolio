@@ -3,7 +3,7 @@ import AppLoadingFailed from "@/components/ui/app-foundation/app-loading-failed"
 
 export enum DesktopAppsList {
   DummyApp,
-  Oni,
+  InstatusInspace,
   Jenni,
   EIEN,
   GalaxyGym,
@@ -19,7 +19,7 @@ const handleFailedLoad = () => ({ default: AppLoadingFailed });
 
 export const DesktopAppsComponents: Record<DesktopAppsList, any> = {
   [DesktopAppsList.DummyApp]: lazy(() => delayForDemo(import("@/components/apps/dummy-app").catch(handleFailedLoad))),
-  [DesktopAppsList.Oni]: lazy(() => delayForDemo(import("@/components/apps/oni").catch(handleFailedLoad))),
+  [DesktopAppsList.InstatusInspace]: lazy(() => delayForDemo(import("@/components/apps/instatus-inspace").catch(handleFailedLoad))),
   [DesktopAppsList.Jenni]: lazy(() => delayForDemo(import("@/components/apps/jenni").catch(handleFailedLoad))),
   [DesktopAppsList.EIEN]: lazy(() => delayForDemo(import("@/components/apps/eien").catch(handleFailedLoad))),
   [DesktopAppsList.GalaxyGym]: lazy(() => delayForDemo(import("@/components/apps/galaxy-gym").catch(handleFailedLoad))),
