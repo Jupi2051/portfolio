@@ -162,31 +162,31 @@ function DesktopTimeWidget() {
   return (
     <div className="w-full h-full absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none">
       <motion.div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[120%] flex flex-col items-center justify-center text-center text-white"
+        className="absolute bottom-0 right-0 sm:right-auto sm:bottom-auto sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-[120%] flex flex-col items-end sm:items-center sm:justify-center sm:text-center text-white"
         initial={{ opacity: 0, filter: "blur(40px)", scale: 0.5 }}
         animate={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
         transition={{ delay: 1, duration: 1, ease: "easeOut" }}
       >
         <AnimatePresence>
           <motion.h1
-            className="font-lato uppercase font-extrabold text-8.5xl leading-none"
+            className="font-lato uppercase font-extrabold text-3xl sm:text-8.5xl leading-none"
             key="dayText"
           >
             {dayText}
           </motion.h1>
-          <motion.h1 className="flex gap-2 text-3xl" key="dayNumber">
+          <motion.h1 className="flex gap-2 text-xl sm:text-3xl" key="dayNumber">
             <span>{dayNumber}</span>
             <span className="uppercase">{monthName}</span>
             <span>{year}</span>
           </motion.h1>
           <motion.h1
-            className="text-3xl font-lato font-medium flex py-5 relative"
+            className="text-lg sm:text-3xl font-lato font-medium flex sm:py-5 relative"
             key="timeWithAMPM"
           >
-            <span className="absolute w-fit top-1/2 -translate-y-1/2 left-full translate-x-full text-left font-capirola font-extrabold">
+            <span className="hidden sm:block absolute w-fit top-1/2 -translate-y-1/2 left-full translate-x-full text-left font-capirola font-extrabold">
               -
             </span>
-            <span className="absolute w-fit top-1/2 -translate-y-1/2 right-full -translate-x-full font-capirola font-extrabold">
+            <span className="hidden sm:block absolute w-fit top-1/2 -translate-y-1/2 right-full -translate-x-full font-capirola font-extrabold">
               -
             </span>
             {timeWithAMPM
