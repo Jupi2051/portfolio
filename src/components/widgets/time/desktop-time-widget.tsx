@@ -165,18 +165,24 @@ function DesktopTimeWidget() {
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[120%] flex flex-col items-center justify-center text-center text-white"
         initial={{ opacity: 0, filter: "blur(40px)", scale: 0.5 }}
         animate={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
-        transition={{ delay: 2, duration: 1, ease: "easeOut" }}
+        transition={{ delay: 1, duration: 1, ease: "easeOut" }}
       >
-        <AnimatePresence mode="wait">
-          <motion.h1 className="font-lato uppercase font-extrabold text-8.5xl leading-none">
+        <AnimatePresence>
+          <motion.h1
+            className="font-lato uppercase font-extrabold text-8.5xl leading-none"
+            key="dayText"
+          >
             {dayText}
           </motion.h1>
-          <motion.h1 className="flex gap-2 text-3xl">
+          <motion.h1 className="flex gap-2 text-3xl" key="dayNumber">
             <span>{dayNumber}</span>
             <span className="uppercase">{monthName}</span>
             <span>{year}</span>
           </motion.h1>
-          <motion.h1 className="text-3xl font-lato font-medium flex py-5 relative">
+          <motion.h1
+            className="text-3xl font-lato font-medium flex py-5 relative"
+            key="timeWithAMPM"
+          >
             <span className="absolute w-fit top-1/2 -translate-y-1/2 left-full translate-x-full text-left font-capirola font-extrabold">
               -
             </span>
