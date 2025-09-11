@@ -1,6 +1,11 @@
-import TextEditor from "@/components/apps/controls/text-editor/text-editor";
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { createArticle } from "@/api/BlogList";
+
+const TextEditor = lazy(() =>
+  import("@/components/apps/controls/text-editor").then((module) => {
+    return { default: module.default };
+  })
+);
 
 function ArticleControls({ password }: { password: string }) {
   const [articleTextContent, setArticleTextContent] = useState<string>("");
@@ -48,11 +53,12 @@ function ArticleControls({ password }: { password: string }) {
             />
           </div>
         </div>
-
-        <TextEditor
-          value={articleTextContent}
-          setValue={setArticleTextContent}
-        />
+        <Suspense fallback={<div>Loading...</div>}>
+          <TextEditor
+            value={articleTextContent}
+            setValue={setArticleTextContent}
+          />
+        </Suspense>
         <button
           type="button"
           className="border-2 border-solid border-gray-800 rounded-2xl cursor-pointer transition-all duration-300 ease-in-out px-4 py-8 text-base font-bold hover:bg-white hover:text-black hover:border-white"

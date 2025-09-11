@@ -86,7 +86,7 @@ function TextEditor(props: propTypes) {
   }
 
   return (
-    <div className="w-full bg-ctp-base border border-ctp-surface0 rounded-lg overflow-hidden">
+    <div className="w-full bg-ctp-base border border-ctp-surface0 rounded-lg">
       <TextEditorMainMenu editor={editor} />
       <div className="border-t border-ctp-surface0">
         <EditorContent editor={editor} />

@@ -1,5 +1,5 @@
 import BlogArticle from "./blog-article";
-import TextEditor from "../controls/text-editor/text-editor";
+import TextEditor from "../controls/text-editor";
 import { useState } from "react";
 import "@catppuccin/highlightjs/css/catppuccin-frappe.css";
 
