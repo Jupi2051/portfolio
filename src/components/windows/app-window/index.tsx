@@ -194,7 +194,7 @@ function AppWindow(props: PropType) {
             windowHeight={height ?? 0}
             NewLocation={NewLocation}
           />
-          <div className="flex flex-col w-full h-full border-none">
+          <div className="flex flex-col w-full h-full border-none overflow-hidden">
             {props.children}
           </div>
         </div>
