@@ -1,13 +1,6 @@
-import hljs from "highlight.js/lib/core";
-import { useState } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
-import javascript from "highlight.js/lib/languages/javascript";
-import java from "highlight.js/lib/languages/java";
-import css from "highlight.js/lib/languages/css";
-hljs.registerLanguage("javascript", javascript);
-hljs.registerLanguage("java", java);
-hljs.registerLanguage("css", css);
+import { EditorContent, useEditor, useEditorState } from "@tiptap/react";
+import { BubbleMenu } from "@tiptap/react/menus";
+import StarterKit from "@tiptap/starter-kit";
 
 type propTypes = {
   textContent: string;
@@ -15,39 +8,15 @@ type propTypes = {
 };
 
 function TextEditor(props: propTypes) {
-  hljs.configure({
-    languages: ["javascript", "ruby", "python", "rust"],
+  const editor = useEditor({
+    extensions: [StarterKit], // define your extension array
+    content: "<p>Hello World!</p>", // initial content
   });
 
-  const modules: any = {
-    toolbar: [
-      [{ header: [1, 2, false] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
-      [
-        { list: "ordered" },
-        { list: "bullet" },
-        { indent: "-1" },
-        { indent: "+1" },
-      ],
-      ["link", "image", "code-block"],
-      ["clean"],
-    ],
-  };
-
-  const formats: any = [
-    "header",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "list",
-    "bullet",
-    "indent",
-    "link",
-    "image",
-    "code-block",
-  ];
+  const editorContent = useEditorState({
+    editor,
+    selector: ({ editor }) => editor.getHTML(),
+  });
 
   function onUpdateContent(value: string) {
     props.updateTextContentFunction(value);
@@ -55,17 +24,9 @@ function TextEditor(props: propTypes) {
 
   return (
     <div className="w-full">
-      <div className="ql-snow">
-        <ReactQuill
-          className="react-quill-item"
-          theme={"snow"}
-          value={props.textContent}
-          onChange={onUpdateContent}
-          placeholder="content"
-          formats={formats}
-          modules={modules}
-        />
-      </div>
+      <EditorContent editor={editor} />
+      {/* <FloatingMenu editor={editor}>This is the floating menu</FloatingMenu> */}
+      <BubbleMenu editor={editor}>This is the bubble menu</BubbleMenu>
     </div>
   );
 }

@@ -30,7 +30,6 @@
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.3.1",
-    "react-quill": "^2.0.0",
     "react-redux": "^9.2.0",
     "react-resize-detector": "^12.1.0",
     "react-syntax-highlighter": "^15.6.6",
