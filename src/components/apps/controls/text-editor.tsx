@@ -9,18 +9,12 @@ type propTypes = {
 
 function TextEditor(props: propTypes) {
   const editor = useEditor({
-    extensions: [StarterKit], // define your extension array
-    content: "<p>Hello World!</p>", // initial content
+    extensions: [StarterKit],
+    content: props.textContent,
+    onUpdate({ editor }) {
+      props.updateTextContentFunction(editor.getHTML());
+    },
   });
-
-  const editorContent = useEditorState({
-    editor,
-    selector: ({ editor }) => editor.getHTML(),
-  });
-
-  function onUpdateContent(value: string) {
-    props.updateTextContentFunction(value);
-  }
 
   return (
     <div className="w-full">
