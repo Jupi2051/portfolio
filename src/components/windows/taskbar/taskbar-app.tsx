@@ -107,7 +107,7 @@ function TaskBarApp(Props: PropTypes) {
       <motion.img
         variants={AnimationFrames}
         src={Props.Icon}
-        className="max-w-[25px] pointer-events-none"
+        className="max-w-6 pointer-events-none max-h-7"
       />
       <motion.span
         className={cn(

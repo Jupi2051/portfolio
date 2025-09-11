@@ -103,7 +103,7 @@ const AppWindowHeader = ({
     >
       {processName !== undefined || processIcon !== undefined ? (
         <div className="h-full pointer-events-none px-2.5 flex items-center justify-center mr-auto font-segoe-ui-light text-xs select-none min-w-fit">
-          <img src={processIcon} className="max-w-4" />
+          <img src={processIcon} className="max-w-4 max-h-5" />
           <p className="mx-2.5 text-white font-thin">{processName}</p>
         </div>
       ) : null}
