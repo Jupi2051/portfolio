@@ -1,7 +1,5 @@
-import parse from "html-react-parser";
-import "@catppuccin/highlightjs/css/catppuccin-frappe.css";
-import SyntaxHighlighter from "react-syntax-highlighter";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
+import useParseBlogContent from "./parse-blog";
 
 export type BlogArticleType = {
   id: string;
@@ -18,6 +16,7 @@ function BlogArticle({
   description,
 }: BlogArticleType) {
   const contentRef = useRef<HTMLDivElement>(null);
+  const ParsedContent = useParseBlogContent({ content });
 
   const dateTimeFormatted = new Date(dateTime);
   const formattedDate = dateTimeFormatted.toLocaleString("en-US", {
@@ -38,28 +37,7 @@ function BlogArticle({
         </div>
       </div>
       <div className="article-content text-ctp-text" ref={contentRef}>
-        {parse(content)}
-        <style>
-          {`
-          .article-content pre {
-            background-color: #303446;
-            padding: 0.5rem 0.5rem;
-          }
-          `}
-        </style>
-        <SyntaxHighlighter
-          language="javascript"
-          useInlineStyles={false}
-          showLineNumbers={true}
-        >
-          {`const plastic_love = 3
-          
-if (plastic_love === 3) {
-  console.log("plastic_love is 3")
-} else {
-  console.log("plastic_love is not 3")
-}`}
-        </SyntaxHighlighter>
+        <ParsedContent />
       </div>
     </div>
   );

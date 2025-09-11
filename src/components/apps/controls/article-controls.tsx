@@ -1,7 +1,6 @@
-import TextEditor from "@/components/apps/controls/text-editor";
+import TextEditor from "@/components/apps/controls/text-editor/text-editor";
 import { useState } from "react";
 import { createArticle } from "@/api/BlogList";
-import { useSelector } from "react-redux";
 
 function ArticleControls({ password }: { password: string }) {
   const [articleTextContent, setArticleTextContent] = useState<string>("");
@@ -51,8 +50,8 @@ function ArticleControls({ password }: { password: string }) {
         </div>
 
         <TextEditor
-          textContent={articleTextContent}
-          updateTextContentFunction={setArticleTextContent}
+          value={articleTextContent}
+          setValue={setArticleTextContent}
         />
         <button
           type="button"

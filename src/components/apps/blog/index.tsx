@@ -1,26 +1,16 @@
-import { useEditor, EditorContent, useEditorState } from "@tiptap/react";
-import { FloatingMenu, BubbleMenu } from "@tiptap/react/menus";
-import StarterKit from "@tiptap/starter-kit";
 import BlogArticle from "./blog-article";
+import TextEditor from "../controls/text-editor/text-editor";
+import { useState } from "react";
+import "@catppuccin/highlightjs/css/catppuccin-frappe.css";
 
 const Blog = () => {
-  const editor = useEditor({
-    extensions: [StarterKit], // define your extension array
-    content: "<p>Hello World!</p>", // initial content
-  });
-
-  const editorContent = useEditorState({
-    editor,
-    selector: ({ editor }) => editor.getHTML(),
-  });
+  const [editorContent, setEditorContent] = useState<string>("");
 
   return (
     <div className="w-full h-full bg-ctp-base flex items-center justify-center px-20">
       <div className="w-full h-full flex items-center justify-center">
         <div className="w-1/2 max-1/2">
-          <EditorContent editor={editor} />
-          {/* <FloatingMenu editor={editor}>This is the floating menu</FloatingMenu> */}
-          <BubbleMenu editor={editor}>This is the bubble menu</BubbleMenu>
+          <TextEditor value={editorContent} setValue={setEditorContent} />
         </div>
         <div className="w-1/2">
           <BlogArticle
