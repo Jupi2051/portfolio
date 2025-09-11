@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@catppuccin/tailwindcss": "^1.0.0",
     "@fortawesome/fontawesome-svg-core": "^7.0.1",
     "@fortawesome/free-brands-svg-icons": "^7.0.1",
     "@fortawesome/free-regular-svg-icons": "^7.0.1",
@@ -16,11 +17,15 @@
     "@fortawesome/react-fontawesome": "^3.0.2",
     "@reduxjs/toolkit": "^2.8.2",
     "@tailwindcss/vite": "^4.1.12",
+    "@tiptap/pm": "^3.4.2",
+    "@tiptap/react": "^3.4.2",
+    "@tiptap/starter-kit": "^3.4.2",
     "classnames": "^2.5.1",
     "framer-motion": "^12.23.6",
-    "highlight.js": "^11.11.1",
     "html-react-parser": "^5.2.6",
+    "i": "^0.3.7",
     "moment": "^2.30.1",
+    "npm": "^11.6.0",
     "react": "^18.3.1",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
@@ -28,16 +33,18 @@
     "react-quill": "^2.0.0",
     "react-redux": "^9.2.0",
     "react-resize-detector": "^12.1.0",
+    "react-syntax-highlighter": "^15.6.6",
     "react-wrap-balancer": "^1.1.1",
     "tailwindcss": "^4.1.12",
-    "usehooks-ts": "^3.1.1",
-    "@catppuccin/tailwindcss": "^1.0.0",
-    "use-resize-observer": "^9.1.0"
+    "use-resize-observer": "^9.1.0",
+    "usehooks-ts": "^3.1.1"
   },
   "devDependencies": {
+    "@catppuccin/highlightjs": "^1.0.1",
     "@types/node": "^24.3.0",
     "@types/react": "18.3.16",
     "@types/react-dom": "18.3.1",
+    "@types/react-syntax-highlighter": "^15.5.13",
     "@vitejs/plugin-react": "^4.7.0",
     "typescript": "^5.8.3",
     "vite": "^7.0.5"

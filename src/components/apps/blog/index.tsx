@@ -1,167 +1,39 @@
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import "@/Styles/Apps/Blog.css";
-import BlogArticleLink from "@/components/apps/blog/blog-article-link";
-import BlogArticle, {
-  BlogArticleType,
-} from "@/components/apps/blog/blog-article";
-import { fetchArticle, fetchArticlesLinks } from "@/api/BlogList";
-import ArticleReadLoader from "@/components/ui/loaders/article-read-loader";
-import ArticleLinkLoader from "@/components/ui/loaders/article-link-loader";
+import { useEditor, EditorContent, useEditorState } from "@tiptap/react";
+import { FloatingMenu, BubbleMenu } from "@tiptap/react/menus";
+import StarterKit from "@tiptap/starter-kit";
+import BlogArticle from "./blog-article";
 
-export type articleLinkItem = {
-  id: string;
-  title: string;
-  dateTime: string;
-  description: string;
-};
+const Blog = () => {
+  const editor = useEditor({
+    extensions: [StarterKit], // define your extension array
+    content: "<p>Hello World!</p>", // initial content
+  });
 
-function Blog() {
-  const [articlesList, setArticlesList] = useState<articleLinkItem[]>([]);
-  const [currentlyReadingId, setCurrentlyReadingId] = useState<string | null>(
-    null
-  );
-  const [cachedArticles, setCachedArticles] = useState<BlogArticleType[]>([]);
-  const [isLoadingArticle, setIsLoadingArticle] = useState<boolean>(false);
-  const [isLoadingLinks, setIsLoadingLinks] = useState<boolean>(true);
-  const [listExpanded, setListExpanded] = useState<boolean>(false);
-
-  useEffect(() => {
-    setIsLoadingLinks(true);
-    fetchArticlesLinks()
-      .then((data) => {
-        if (data === null) {
-          setCachedArticles([
-            {
-              id: "-1",
-              content: "No article",
-              title: "Error",
-              dateTime: "right now",
-              description: "no article detected",
-            },
-          ]);
-          setCurrentlyReadingId("-1");
-          return;
-        } else {
-          setArticlesList(data);
-        }
-      })
-      .finally(() => setIsLoadingLinks(false));
-  }, []);
-
-  useEffect(() => {
-    setListExpanded(false);
-    if (currentlyReadingId) {
-      const isCached = cachedArticles.find(
-        (article) => article.id === currentlyReadingId
-      );
-      if (isCached) {
-        return;
-      }
-      setIsLoadingArticle(true);
-      fetchArticle(currentlyReadingId)
-        .then((data) => {
-          if (data !== null) {
-            setCachedArticles([...cachedArticles, data]);
-          }
-        })
-        .catch((error) => {
-          console.log("Failed to load article");
-        })
-        .finally(() => setIsLoadingArticle(false));
-    }
-  }, [currentlyReadingId]);
-
-  function onExpandList() {
-    setListExpanded(!listExpanded);
-  }
-
-  function onArticleClick() {
-    if (listExpanded) {
-      setListExpanded(false);
-    }
-  }
-
-  const foundArticle = cachedArticles.find(
-    (article) => article.id === currentlyReadingId
-  );
+  const editorContent = useEditorState({
+    editor,
+    selector: ({ editor }) => editor.getHTML(),
+  });
 
   return (
-    <div style={{ width: "100%", height: "100%", border: "none" }}>
-      <div style={{ width: "100%", height: "100%", background: "black" }}>
-        <div className="blog-browser-layout">
-          <motion.div
-            className={`blogs-articles-list ${
-              listExpanded ? "" : "list-hidden"
-            }`}
-          >
-            {isLoadingLinks === false ? (
-              articlesList.length === 0 ? (
-                <>
-                  <h2>No articles posted yet!</h2>
-                </>
-              ) : (
-                <>
-                  <h1 className="blog-list-title">Articles</h1>
-                  {articlesList
-                    .sort((a, b) => {
-                      const date1 = new Date(a.dateTime);
-                      const date2 = new Date(b.dateTime);
-                      return date2.getTime() - date1.getTime();
-                    })
-                    .map((article) => (
-                      <BlogArticleLink
-                        key={article.id}
-                        id={article.id}
-                        title={article.title}
-                        description={article.description}
-                        dateTime={article.dateTime}
-                        idAssignFunction={setCurrentlyReadingId}
-                      />
-                    ))}
-                </>
-              )
-            ) : (
-              <>
-                <ArticleLinkLoader />
-                <ArticleLinkLoader />
-                <ArticleLinkLoader />
-                <ArticleLinkLoader />
-                <ArticleLinkLoader />
-              </>
-            )}
-          </motion.div>
-          <div className="blogs-article-reader" onClick={onArticleClick}>
-            <button
-              className="blog-expand-button"
-              onClick={onExpandList}
-              aria-label="expand-list"
-            >
-              <div>
-                <div></div>
-                <div></div>
-                <div></div>
-              </div>
-            </button>
-            {isLoadingArticle ? (
-              <ArticleReadLoader />
-            ) : foundArticle ? (
-              <BlogArticle
-                id={foundArticle.id}
-                content={foundArticle.content}
-                description={foundArticle.description}
-                title={foundArticle.title}
-                dateTime={foundArticle.dateTime}
-                key={foundArticle.id}
-              />
-            ) : (
-              <h1>No blog is being read!</h1>
-            )}
-          </div>
+    <div className="w-full h-full bg-ctp-base flex items-center justify-center px-20">
+      <div className="w-full h-full flex items-center justify-center">
+        <div className="w-1/2 max-1/2">
+          <EditorContent editor={editor} />
+          {/* <FloatingMenu editor={editor}>This is the floating menu</FloatingMenu> */}
+          <BubbleMenu editor={editor}>This is the bubble menu</BubbleMenu>
+        </div>
+        <div className="w-1/2">
+          <BlogArticle
+            content={editorContent}
+            id="30"
+            title="Hello World"
+            description="This is a description"
+            dateTime="2021-01-01"
+          />
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Blog;

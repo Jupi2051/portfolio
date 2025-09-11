@@ -193,7 +193,7 @@ function DesktopTimeWidget() {
         animate={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
         transition={{ delay: 1, duration: 1, ease: "easeOut" }}
       >
-        <AnimatePresence mode="wait">
+        <AnimatePresence>
           <motion.h1
             className="font-lato uppercase font-extrabold text-3xl sm:text-8.5xl leading-none"
             key="dayText"
