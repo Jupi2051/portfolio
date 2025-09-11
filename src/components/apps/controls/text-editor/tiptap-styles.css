@@ -1,0 +1,552 @@
+/* TipTap Editor Styles */
+.ProseMirror {
+  outline: none;
+  color: #cdd6f4;
+  font-family: "Segoe UI", sans-serif;
+  line-height: 1.6;
+}
+
+/* Image Styles */
+.ProseMirror .editor-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 1rem 0;
+  display: block;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease-in-out;
+}
+
+.ProseMirror .editor-image:hover {
+  transform: scale(1.02);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.ProseMirror .editor-image.selected {
+  outline: 2px solid #89b4fa;
+  outline-offset: 2px;
+}
+
+.ProseMirror p {
+  margin: 0.75rem 0;
+}
+
+.ProseMirror p:first-child {
+  margin-top: 0;
+}
+
+.ProseMirror p:last-child {
+  margin-bottom: 0;
+}
+
+.ProseMirror h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #f5c2e7;
+  margin: 1.5rem 0 1rem 0;
+  line-height: 1.2;
+}
+
+.ProseMirror h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #cba6f7;
+  margin: 1.25rem 0 0.75rem 0;
+  line-height: 1.3;
+}
+
+.ProseMirror h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #89b4fa;
+  margin: 1rem 0 0.5rem 0;
+  line-height: 1.4;
+}
+
+.ProseMirror h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #a6e3a1;
+  margin: 0.875rem 0 0.5rem 0;
+  line-height: 1.4;
+}
+
+.ProseMirror h5 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fab387;
+  margin: 0.75rem 0 0.5rem 0;
+  line-height: 1.4;
+}
+
+.ProseMirror h6 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #f38ba8;
+  margin: 0.75rem 0 0.5rem 0;
+  line-height: 1.4;
+}
+
+.ProseMirror strong {
+  font-weight: 700;
+  color: #f5c2e7;
+}
+
+.ProseMirror em {
+  font-style: italic;
+  color: #cba6f7;
+}
+
+.ProseMirror u {
+  text-decoration: underline;
+  text-decoration-color: #89b4fa;
+}
+
+.ProseMirror s {
+  text-decoration: line-through;
+  text-decoration-color: #f38ba8;
+}
+
+.ProseMirror code {
+  background-color: #313244;
+  color: #f9e2af;
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  font-family: "Consolas", "Monaco", "Courier New", monospace;
+  font-size: 0.875em;
+}
+
+.ProseMirror pre {
+  background-color: #1e1e2e;
+  color: #cdd6f4;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #313244;
+  margin: 1rem 0;
+  overflow-x: auto;
+  font-family: "Consolas", "Monaco", "Courier New", monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.ProseMirror pre code {
+  background: none;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+}
+
+.ProseMirror blockquote {
+  border-left: 4px solid #89b4fa;
+  background-color: #313244;
+  padding: 0.75rem 1rem;
+  margin: 1rem 0;
+  border-radius: 0 0.375rem 0.375rem 0;
+  color: #bac2de;
+  font-style: italic;
+}
+
+.ProseMirror ul {
+  list-style-type: disc;
+  margin: 0.75rem 0;
+  padding-left: 1.5rem;
+}
+
+.ProseMirror ol {
+  list-style-type: decimal;
+  margin: 0.75rem 0;
+  padding-left: 1.5rem;
+}
+
+.ProseMirror li {
+  margin: 0.25rem 0;
+  color: #cdd6f4;
+}
+
+.ProseMirror li::marker {
+  color: #89b4fa;
+}
+
+.ProseMirror ul ul {
+  list-style-type: circle;
+  margin: 0.25rem 0;
+}
+
+.ProseMirror ul ul ul {
+  list-style-type: square;
+}
+
+.ProseMirror ol ol {
+  list-style-type: lower-alpha;
+}
+
+.ProseMirror ol ol ol {
+  list-style-type: lower-roman;
+}
+
+.ProseMirror hr {
+  border: none;
+  border-top: 2px solid #313244;
+  margin: 2rem 0;
+}
+
+.ProseMirror mark {
+  background-color: #f9e2af;
+  color: #1e1e2e;
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+}
+
+/* Text alignment */
+.ProseMirror[style*="text-align: center"] {
+  text-align: center;
+}
+
+.ProseMirror[style*="text-align: right"] {
+  text-align: right;
+}
+
+.ProseMirror[style*="text-align: justify"] {
+  text-align: justify;
+}
+
+/* Placeholder styling */
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #6c7086;
+  pointer-events: none;
+  height: 0;
+}
+
+/* Selection styling */
+.ProseMirror .selectedCell:after {
+  background: rgba(137, 180, 250, 0.2);
+  content: "";
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 2;
+}
+
+/* Focus styling */
+.ProseMirror:focus {
+  outline: none;
+}
+
+/* Custom highlight colors */
+.ProseMirror mark[data-color="#f9e2af"] {
+  background-color: #f9e2af;
+  color: #1e1e2e;
+}
+
+.ProseMirror mark[data-color="#a6e3a1"] {
+  background-color: #a6e3a1;
+  color: #1e1e2e;
+}
+
+.ProseMirror mark[data-color="#89b4fa"] {
+  background-color: #89b4fa;
+  color: #1e1e2e;
+}
+
+.ProseMirror mark[data-color="#cba6f7"] {
+  background-color: #cba6f7;
+  color: #1e1e2e;
+}
+
+.ProseMirror mark[data-color="#f5c2e7"] {
+  background-color: #f5c2e7;
+  color: #1e1e2e;
+}
+
+.ProseMirror mark[data-color="#f38ba8"] {
+  background-color: #f38ba8;
+  color: #1e1e2e;
+}
+
+/* Custom text colors - TipTap Color extension */
+.ProseMirror span[data-color="#f38ba8"] {
+  color: #f38ba8 !important;
+}
+
+.ProseMirror span[data-color="#fab387"] {
+  color: #fab387 !important;
+}
+
+.ProseMirror span[data-color="#f9e2af"] {
+  color: #f9e2af !important;
+}
+
+.ProseMirror span[data-color="#a6e3a1"] {
+  color: #a6e3a1 !important;
+}
+
+.ProseMirror span[data-color="#89b4fa"] {
+  color: #89b4fa !important;
+}
+
+.ProseMirror span[data-color="#cba6f7"] {
+  color: #cba6f7 !important;
+}
+
+.ProseMirror span[data-color="#f5c2e7"] {
+  color: #f5c2e7 !important;
+}
+
+.ProseMirror span[data-color="#cdd6f4"] {
+  color: #cdd6f4 !important;
+}
+
+/* Fallback for inline styles */
+.ProseMirror span[style*="color: #f38ba8"] {
+  color: #f38ba8 !important;
+}
+
+.ProseMirror span[style*="color: #fab387"] {
+  color: #fab387 !important;
+}
+
+.ProseMirror span[style*="color: #f9e2af"] {
+  color: #f9e2af !important;
+}
+
+.ProseMirror span[style*="color: #a6e3a1"] {
+  color: #a6e3a1 !important;
+}
+
+.ProseMirror span[style*="color: #89b4fa"] {
+  color: #89b4fa !important;
+}
+
+.ProseMirror span[style*="color: #cba6f7"] {
+  color: #cba6f7 !important;
+}
+
+.ProseMirror span[style*="color: #f5c2e7"] {
+  color: #f5c2e7 !important;
+}
+
+.ProseMirror span[style*="color: #cdd6f4"] {
+  color: #cdd6f4 !important;
+}
+
+/* Ensure TipTap color extension works properly */
+.ProseMirror .text-red-400 {
+  color: #f38ba8 !important;
+}
+
+.ProseMirror .text-orange-400 {
+  color: #fab387 !important;
+}
+
+.ProseMirror .text-yellow-400 {
+  color: #f9e2af !important;
+}
+
+.ProseMirror .text-green-400 {
+  color: #a6e3a1 !important;
+}
+
+.ProseMirror .text-blue-400 {
+  color: #89b4fa !important;
+}
+
+.ProseMirror .text-purple-400 {
+  color: #cba6f7 !important;
+}
+
+.ProseMirror .text-pink-400 {
+  color: #f5c2e7 !important;
+}
+
+/* Code block language styling - supports both class and attribute */
+.ProseMirror pre {
+  position: relative;
+}
+
+.ProseMirror pre code[class*="language-"]::before,
+.ProseMirror pre code[language]::before {
+  content: attr(language);
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background-color: #313244;
+  color: #6c7086;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Language-specific display names using language attribute */
+.ProseMirror pre code[language="javascript"]::before {
+  content: "JavaScript";
+}
+.ProseMirror pre code[language="typescript"]::before {
+  content: "TypeScript";
+}
+.ProseMirror pre code[language="python"]::before {
+  content: "Python";
+}
+.ProseMirror pre code[language="java"]::before {
+  content: "Java";
+}
+.ProseMirror pre code[language="cpp"]::before {
+  content: "C++";
+}
+.ProseMirror pre code[language="csharp"]::before {
+  content: "C#";
+}
+.ProseMirror pre code[language="go"]::before {
+  content: "Go";
+}
+.ProseMirror pre code[language="rust"]::before {
+  content: "Rust";
+}
+.ProseMirror pre code[language="php"]::before {
+  content: "PHP";
+}
+.ProseMirror pre code[language="ruby"]::before {
+  content: "Ruby";
+}
+.ProseMirror pre code[language="swift"]::before {
+  content: "Swift";
+}
+.ProseMirror pre code[language="kotlin"]::before {
+  content: "Kotlin";
+}
+.ProseMirror pre code[language="html"]::before {
+  content: "HTML";
+}
+.ProseMirror pre code[language="css"]::before {
+  content: "CSS";
+}
+.ProseMirror pre code[language="scss"]::before {
+  content: "SCSS";
+}
+.ProseMirror pre code[language="json"]::before {
+  content: "JSON";
+}
+.ProseMirror pre code[language="xml"]::before {
+  content: "XML";
+}
+.ProseMirror pre code[language="yaml"]::before {
+  content: "YAML";
+}
+.ProseMirror pre code[language="markdown"]::before {
+  content: "Markdown";
+}
+.ProseMirror pre code[language="sql"]::before {
+  content: "SQL";
+}
+.ProseMirror pre code[language="bash"]::before {
+  content: "Bash";
+}
+.ProseMirror pre code[language="shell"]::before {
+  content: "Shell";
+}
+.ProseMirror pre code[language="dockerfile"]::before {
+  content: "Docker";
+}
+.ProseMirror pre code[language="text"]::before {
+  content: "Plain Text";
+}
+
+/* Extract language name from class for display (fallback) */
+.ProseMirror pre code.language-javascript::before {
+  content: "JavaScript";
+}
+.ProseMirror pre code.language-typescript::before {
+  content: "TypeScript";
+}
+.ProseMirror pre code.language-python::before {
+  content: "Python";
+}
+.ProseMirror pre code.language-java::before {
+  content: "Java";
+}
+.ProseMirror pre code.language-cpp::before {
+  content: "C++";
+}
+.ProseMirror pre code.language-csharp::before {
+  content: "C#";
+}
+.ProseMirror pre code.language-go::before {
+  content: "Go";
+}
+.ProseMirror pre code.language-rust::before {
+  content: "Rust";
+}
+.ProseMirror pre code.language-php::before {
+  content: "PHP";
+}
+.ProseMirror pre code.language-ruby::before {
+  content: "Ruby";
+}
+.ProseMirror pre code.language-swift::before {
+  content: "Swift";
+}
+.ProseMirror pre code.language-kotlin::before {
+  content: "Kotlin";
+}
+.ProseMirror pre code.language-html::before {
+  content: "HTML";
+}
+.ProseMirror pre code.language-css::before {
+  content: "CSS";
+}
+.ProseMirror pre code.language-scss::before {
+  content: "SCSS";
+}
+.ProseMirror pre code.language-json::before {
+  content: "JSON";
+}
+.ProseMirror pre code.language-xml::before {
+  content: "XML";
+}
+.ProseMirror pre code.language-yaml::before {
+  content: "YAML";
+}
+.ProseMirror pre code.language-markdown::before {
+  content: "Markdown";
+}
+.ProseMirror pre code.language-sql::before {
+  content: "SQL";
+}
+.ProseMirror pre code.language-bash::before {
+  content: "Bash";
+}
+.ProseMirror pre code.language-shell::before {
+  content: "Shell";
+}
+.ProseMirror pre code.language-dockerfile::before {
+  content: "Docker";
+}
+.ProseMirror pre code.language-text::before {
+  content: "Plain Text";
+}
+
+/* Ensure language badges are positioned correctly and don't interfere with interaction */
+.ProseMirror pre code[class*="language-"]::before,
+.ProseMirror pre code[language]::before {
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Debug: Show language attribute value */
+.ProseMirror pre code[language]::after {
+  content: " (" attr(language) ")";
+  font-size: 0.6rem;
+  opacity: 0.7;
+}
