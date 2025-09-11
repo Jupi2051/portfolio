@@ -53,7 +53,7 @@ const StartMenuComponent = ({ className }: { className?: string }) => {
         title="Search"
         className="rounded-3xl text-sm px-9 h-7 border border-gray-600 text-ctp-lavender-500 bg-gray-700 focus:border-transparent focus:outline-transparent focus:outline-none"
       />
-      <div className="flex flex-col gap-5 self-center">
+      <div className="flex flex-col gap-0 sm:gap-5 self-center">
         <p className="text-xs sm:text-base">Pinned</p>
         <div className="grid w-full grid-cols-6 grid-rows-3 gap-x-6 gap-y-5 self-center items-center justify-items-center justify-between">
           {DesktopIcons.map((element) => (
@@ -69,7 +69,7 @@ const StartMenuComponent = ({ className }: { className?: string }) => {
         </div>
       </div>
       <div>
-        <p className="text-xs sm:text-base">Socials</p>
+        <p className="text-xs sm:text-base mt-2.5 sm:mt-0">Socials</p>
         <div className="grid h-1/2 gap-x-2.5 grid-cols-2 items-center justify-items-start w-full sm:w-4/5 mx-auto">
           <SocialMedia
             SocialMedia={SocialMediaTypes.Twitter}
