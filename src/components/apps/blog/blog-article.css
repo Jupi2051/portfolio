@@ -1,0 +1,922 @@
+/* ========================================
+   CUTESTY CATPPUCCIN ARTICLE THEME
+
+   ======================================== */
+
+/* ========================================
+   ARTICLE CONTAINER & BASE STYLES
+   ======================================== */
+
+.article-content {
+  /* Base typography */
+  font-family: "Segoe UI", "Inter", -apple-system, BlinkMacSystemFont,
+    sans-serif;
+  line-height: 1.7;
+  color: #cdd6f4; /* ctp-text */
+  font-size: 1rem;
+  max-width: none;
+
+  /* Cutesy spacing */
+  padding: 1.5rem;
+  margin: 0;
+
+  /* Soft background with subtle gradient */
+  background: linear-gradient(
+    135deg,
+    #1e1e2e 0%,
+    /* ctp-base */ #313244 100%
+  ); /* ctp-surface0 */
+  border-radius: 1rem;
+  border: 2px solid #45475a; /* ctp-surface1 */
+
+  /* Subtle shadow for depth */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* ========================================
+   HEADINGS - CUTESTY STYLES
+   ======================================== */
+
+.article-content h1 {
+  /* Pink heading - most important */
+  color: #f5c2e7; /* ctp-pink */
+  font-size: 2.25rem;
+  font-weight: 700;
+  font-family: "Caveat", cursive;
+  margin: 2rem 0 1.5rem 0;
+  line-height: 1.2;
+
+  /* Cutesy decorations */
+  position: relative;
+  padding-left: 1rem;
+  padding-bottom: 0.5rem;
+
+  /* Soft glow effect */
+  text-shadow: 0 0 10px rgba(245, 194, 231, 0.3);
+
+  /* Animated underline */
+  border-bottom: 3px solid #f5c2e7; /* ctp-pink */
+  border-radius: 0 0 0.5rem 0.5rem;
+
+  /* Subtle animation */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.article-content h1:hover {
+  transform: translateY(-2px);
+  text-shadow: 0 0 15px rgba(245, 194, 231, 0.5);
+}
+
+.article-content h1::before {
+  content: "✨";
+  position: absolute;
+  left: -0.5rem;
+  top: 0.2rem;
+  font-size: 1.2rem;
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+.article-content h2 {
+  /* Purple heading */
+  color: #cba6f7; /* ctp-mauve */
+  font-size: 1.875rem;
+  font-weight: 600;
+  font-family: "Caveat", cursive;
+  margin: 1.75rem 0 1.25rem 0;
+  line-height: 1.3;
+
+  /* Cutesy styling */
+  padding-left: 0.75rem;
+  border-left: 4px solid #cba6f7; /* ctp-mauve */
+  border-radius: 0 0.5rem 0.5rem 0;
+  background: linear-gradient(
+    90deg,
+    rgba(203, 166, 247, 0.1) 0%,
+    transparent 100%
+  );
+
+  transition: all 0.3s ease;
+}
+
+.article-content h2:hover {
+  transform: translateX(5px);
+  background: linear-gradient(
+    90deg,
+    rgba(203, 166, 247, 0.2) 0%,
+    transparent 100%
+  );
+}
+
+.article-content h3 {
+  /* Pink heading */
+  color: #f5c2e7; /* ctp-pink */
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 1.25rem 0 0.75rem 0;
+  line-height: 1.4;
+
+  /* Cutesy styling */
+  padding-left: 0.75rem;
+  border-left: 4px solid #f5c2e7; /* ctp-pink */
+  border-radius: 0 0.5rem 0.5rem 0;
+  background: linear-gradient(
+    90deg,
+    rgba(245, 194, 231, 0.1) 0%,
+    transparent 100%
+  );
+
+  transition: all 0.3s ease;
+}
+
+.article-content h3:hover {
+  transform: translateX(5px);
+  background: linear-gradient(
+    90deg,
+    rgba(245, 194, 231, 0.2) 0%,
+    transparent 100%
+  );
+}
+
+.article-content h4 {
+  /* Green heading */
+  color: #a6e3a1; /* ctp-green */
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 1.25rem 0 0.75rem 0;
+  line-height: 1.4;
+
+  /* Leaf-like decoration */
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.article-content h4::before {
+  content: "🍃";
+  position: absolute;
+  left: 0;
+  top: 0.1rem;
+  font-size: 1rem;
+}
+
+.article-content h5 {
+  /* Peach heading */
+  color: #fab387; /* ctp-peach */
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 1rem 0 0.5rem 0;
+  line-height: 1.4;
+
+  /* Soft highlight */
+  background: linear-gradient(
+    120deg,
+    rgba(250, 179, 135, 0.2) 0%,
+    transparent 50%
+  );
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.article-content h6 {
+  /* Red heading */
+  color: #f38ba8; /* ctp-red */
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0.875rem 0 0.5rem 0;
+  line-height: 1.4;
+
+  /* Heart decoration */
+  position: relative;
+  padding-left: 1.25rem;
+}
+
+.article-content h6::before {
+  content: "💖";
+  position: absolute;
+  left: 0;
+  top: 0.05rem;
+  font-size: 0.9rem;
+}
+
+/* ========================================
+   PARAGRAPHS & TEXT
+   ======================================== */
+
+.article-content p {
+  color: #cdd6f4; /* ctp-text */
+  margin: 1rem 0;
+  font-size: 1rem;
+  line-height: 1.7;
+
+  /* Soft text shadow for readability */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+
+  /* Smooth transitions */
+  transition: all 0.2s ease;
+}
+
+.article-content p:first-child {
+  margin-top: 0;
+}
+
+.article-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* ========================================
+   LINKS - CUTESTY STYLES
+   ======================================== */
+
+.article-content a {
+  color: #89b4fa; /* ctp-blue */
+  text-decoration: none;
+  font-weight: 500;
+
+  /* Cutesy underline */
+  position: relative;
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+
+  /* Smooth transitions */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.article-content a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    #89b4fa 0%,
+    /* ctp-blue */ #cba6f7 100%
+  ); /* ctp-mauve */
+  border-radius: 1px;
+
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.article-content a:hover {
+  color: #cba6f7; /* ctp-mauve */
+  background: rgba(137, 180, 250, 0.1);
+  transform: translateY(-1px);
+}
+
+.article-content a:hover::after {
+  width: 100%;
+}
+
+/* ========================================
+   LISTS - CUTESTY STYLES
+   ======================================== */
+
+.article-content ul {
+  list-style: none;
+  margin: 1rem 0;
+  padding-left: 0;
+}
+
+.article-content ul li {
+  color: #cdd6f4; /* ctp-text */
+  margin: 0.5rem 0;
+  padding-left: 2rem;
+  position: relative;
+
+  /* Smooth transitions */
+  transition: all 0.2s ease;
+}
+
+.article-content ul li::before {
+  content: "";
+  position: absolute;
+  left: 0.25rem;
+  top: 0.4rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  background: linear-gradient(135deg, #89b4fa 0%, #cba6f7 100%);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(137, 180, 250, 0.4);
+
+  /* Cutesy animation */
+  animation: bounce 2s ease-in-out infinite;
+}
+
+.article-content ul li:hover {
+  transform: translateX(5px);
+  color: #cba6f7; /* ctp-mauve */
+}
+
+.article-content ul li:hover::before {
+  background: linear-gradient(135deg, #cba6f7 0%, #f5c2e7 100%);
+  box-shadow: 0 0 12px rgba(203, 166, 247, 0.6);
+  transform: scale(1.2);
+}
+
+/* Nested lists */
+.article-content ul ul {
+  margin: 0.25rem 0;
+  padding-left: 1.5rem;
+}
+
+.article-content ul ul li::before {
+  width: 0.4rem;
+  height: 0.4rem;
+  background: linear-gradient(135deg, #f9e2af 0%, #fab387 100%);
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  box-shadow: 0 0 6px rgba(249, 226, 175, 0.4);
+  animation: wiggle 3s ease-in-out infinite;
+}
+
+.article-content ul ul li:hover::before {
+  background: linear-gradient(135deg, #fab387 0%, #f5c2e7 100%);
+  box-shadow: 0 0 10px rgba(250, 179, 135, 0.6);
+}
+
+.article-content ul ul ul li::before {
+  width: 0.35rem;
+  height: 0.35rem;
+  background: linear-gradient(135deg, #f38ba8 0%, #f5c2e7 100%);
+  border-radius: 0.1rem;
+  box-shadow: 0 0 5px rgba(243, 139, 168, 0.4);
+  animation: pulse 2.5s ease-in-out infinite;
+}
+
+.article-content ul ul ul li:hover::before {
+  background: linear-gradient(135deg, #f5c2e7 0%, #cba6f7 100%);
+  box-shadow: 0 0 8px rgba(245, 194, 231, 0.6);
+  transform: rotate(45deg);
+}
+
+/* Ordered lists */
+.article-content ol {
+  list-style: none;
+  counter-reset: cute-counter;
+  margin: 1rem 0;
+  padding-left: 0;
+}
+
+.article-content ol li {
+  counter-increment: cute-counter;
+  color: #cdd6f4; /* ctp-text */
+  margin: 0.5rem 0;
+  padding-left: 2rem;
+  position: relative;
+
+  transition: all 0.2s ease;
+}
+
+.article-content ol li::before {
+  content: counter(cute-counter);
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: #89b4fa; /* ctp-blue */
+  color: #1e1e2e; /* ctp-base */
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+
+  transition: all 0.3s ease;
+}
+
+.article-content ol li:hover {
+  transform: translateX(5px);
+  color: #89b4fa; /* ctp-blue */
+}
+
+.article-content ol li:hover::before {
+  background: #cba6f7; /* ctp-mauve */
+  transform: scale(1.1);
+}
+
+/* ========================================
+   CODE - CUTESTY STYLES
+   ======================================== */
+
+.article-content code {
+  background: #45475a; /* ctp-surface1 */
+  color: #f9e2af; /* ctp-yellow */
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  font-family: "Consolas", "Monaco", "Courier New", monospace;
+  font-size: 0.9em;
+  font-weight: 500;
+
+  /* Cutesy border */
+  border: 1px solid #585b70; /* ctp-surface2 */
+
+  /* Smooth transitions */
+  transition: all 0.2s ease;
+}
+
+/* Code blocks */
+.article-content pre {
+  background: #313244; /* ctp-surface0 */
+  color: #cdd6f4; /* ctp-text */
+  padding: 1.5rem;
+  border-radius: 1rem;
+  border: 2px solid #45475a; /* ctp-surface1 */
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  font-family: "Consolas", "Monaco", "Courier New", monospace;
+  font-size: 0.9rem;
+  line-height: 1.6;
+
+  /* Cutesy shadow */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+  /* Smooth transitions */
+  transition: all 0.3s ease;
+}
+
+.article-content pre code {
+  background: none;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+  border: none;
+}
+
+/* ========================================
+   BLOCKQUOTES - CUTESTY STYLES
+   ======================================== */
+
+.article-content blockquote {
+  border-left: 4px solid #89b4fa; /* ctp-blue */
+  background: linear-gradient(
+    135deg,
+    #45475a 0%,
+    /* ctp-surface1 */ #313244 100%
+  ); /* ctp-surface0 */
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0 1rem 1rem 0;
+  color: #bac2de; /* ctp-subtext1 */
+  font-style: italic;
+  position: relative;
+
+  /* Cutesy shadow */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+  /* Smooth transitions */
+  transition: all 0.3s ease;
+}
+
+.article-content blockquote:hover {
+  transform: translateX(5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* ========================================
+   HORIZONTAL RULES - CUTESTY STYLES
+   ======================================== */
+
+.article-content hr {
+  border: none;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #cba6f7 20%,
+    /* ctp-mauve */ #89b4fa 50%,
+    /* ctp-blue */ #cba6f7 80%,
+    /* ctp-mauve */ transparent 100%
+  );
+  margin: 2.5rem 0;
+  border-radius: 1.5px;
+
+  /* Cutesy animation */
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+/* ========================================
+   TEXT FORMATTING - CUTESTY STYLES
+   ======================================== */
+
+.article-content strong {
+  font-weight: 700;
+
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+}
+
+.article-content em {
+  font-style: italic;
+
+  /* Subtle decoration */
+  position: relative;
+}
+
+.article-content u {
+  text-decoration: none;
+  border-bottom: 2px solid #89b4fa; /* ctp-blue */
+  border-radius: 0 0 2px 2px;
+
+  transition: all 0.2s ease;
+}
+
+.article-content u:hover {
+  border-bottom-color: #cba6f7; /* ctp-mauve */
+  background: rgba(137, 180, 250, 0.1);
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+}
+
+.article-content s {
+  text-decoration: line-through;
+  text-decoration-color: #f38ba8; /* ctp-red */
+  text-decoration-thickness: 2px;
+  opacity: 0.7;
+
+  transition: all 0.2s ease;
+}
+
+.article-content s:hover {
+  opacity: 1;
+  background: rgba(243, 139, 168, 0.1);
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+}
+
+/* ========================================
+   HIGHLIGHTING - CUTESTY STYLES
+   ======================================== */
+
+.article-content mark {
+  background: #f9e2af; /* ctp-yellow */
+  color: #1e1e2e; /* ctp-base */
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+
+  /* Cutesy border */
+  border: 1px solid #fab387; /* ctp-peach */
+
+  transition: all 0.2s ease;
+}
+
+.article-content mark:hover {
+  background: #fab387; /* ctp-peach */
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(249, 226, 175, 0.4);
+}
+
+/* ========================================
+   IMAGES - CUTESTY STYLES
+   ======================================== */
+
+.article-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 1rem;
+  margin: 1.5rem 0;
+  display: block;
+
+  /* Cutesy shadow */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 0 0 1px #45475a; /* ctp-surface1 */
+
+  /* Smooth transitions */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.article-content img:hover {
+  transform: scale(1.02) translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05), 0 0 0 1px #89b4fa; /* ctp-blue */
+}
+
+/* ========================================
+   TABLES - CUTESTY STYLES
+   ======================================== */
+
+.article-content table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 2rem 0;
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 2px solid #45475a; /* ctp-surface1 */
+  background: #313244; /* ctp-surface0 */
+
+  /* Cool shadow effect */
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.15),
+    0 4px 8px -2px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Table header styling */
+.article-content thead tr {
+  background: linear-gradient(
+    135deg,
+    #89b4fa 0%,
+    /* ctp-blue */ #cba6f7 100% /* ctp-mauve */
+  );
+}
+
+.article-content th {
+  background: transparent;
+  color: #1e1e2e; /* ctp-base */
+  padding: 1.25rem 1rem;
+  text-align: left;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+  border-bottom: 3px solid #45475a; /* ctp-surface1 */
+  position: relative;
+
+  /* Subtle text shadow for depth */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Table cell styling */
+.article-content td {
+  background: #313244; /* ctp-surface0 */
+  color: #cdd6f4; /* ctp-text */
+  padding: 1rem;
+  border-bottom: 1px solid #45475a; /* ctp-surface1 */
+  border-right: 1px solid rgba(69, 71, 90, 0.3); /* subtle vertical borders */
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Remove right border from last column */
+.article-content td:last-child {
+  border-right: none;
+}
+
+/* Alternating row colors for better readability */
+.article-content tbody tr:nth-child(even) td {
+  background: #45475a; /* ctp-surface1 */
+}
+
+/* Simple hover effect */
+.article-content tbody tr:hover td {
+  background: #585b70; /* ctp-surface2 */
+  color: #89b4fa; /* ctp-blue */
+}
+
+/* Special styling for first column (often contains labels) */
+.article-content tbody td:first-child {
+  font-weight: 600;
+  color: #cba6f7; /* ctp-mauve */
+  background: linear-gradient(
+    90deg,
+    rgba(203, 166, 247, 0.1) 0%,
+    transparent 100%
+  );
+}
+
+.article-content tbody tr:hover td:first-child {
+  background: linear-gradient(
+    90deg,
+    rgba(203, 166, 247, 0.2) 0%,
+    rgba(137, 180, 250, 0.1) 100%
+  );
+  color: #cba6f7; /* ctp-mauve */
+}
+
+/* Table caption styling */
+.article-content table caption {
+  caption-side: top;
+  padding: 1rem 0 0.5rem 0;
+  color: #bac2de; /* ctp-subtext1 */
+  font-style: italic;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* Responsive table wrapper */
+.article-content .table-wrapper {
+  overflow-x: auto;
+  margin: 2rem 0;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Mobile table improvements */
+@media (max-width: 768px) {
+  .article-content table {
+    font-size: 0.85rem;
+    margin: 1rem 0;
+  }
+
+  .article-content th,
+  .article-content td {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .article-content th {
+    font-size: 0.8rem;
+    padding: 0.875rem 0.5rem;
+  }
+
+  /* Stack table on very small screens */
+  @media (max-width: 480px) {
+    .article-content table,
+    .article-content thead,
+    .article-content tbody,
+    .article-content th,
+    .article-content td,
+    .article-content tr {
+      display: block;
+    }
+
+    .article-content thead tr {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+
+    .article-content tr {
+      border: 2px solid #45475a;
+      margin-bottom: 1rem;
+      border-radius: 0.5rem;
+      padding: 0.5rem;
+      background: #313244;
+    }
+
+    .article-content td {
+      border: none;
+      border-bottom: 1px solid #45475a;
+      position: relative;
+      padding-left: 50%;
+      background: transparent;
+    }
+
+    .article-content td:before {
+      content: attr(data-label) ": ";
+      position: absolute;
+      left: 6px;
+      width: 45%;
+      padding-right: 10px;
+      white-space: nowrap;
+      font-weight: 600;
+      color: #cba6f7;
+    }
+
+    .article-content td:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
+@keyframes sparkle {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2) rotate(180deg);
+    opacity: 0.7;
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(5deg);
+  }
+  75% {
+    transform: rotate(-5deg);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 768px) {
+  .article-content {
+    padding: 1rem;
+    border-radius: 0.75rem;
+  }
+
+  .article-content h1 {
+    font-size: 1.875rem;
+    margin: 1.5rem 0 1rem 0;
+  }
+
+  .article-content h2 {
+    font-size: 1.5rem;
+    margin: 1.25rem 0 0.75rem 0;
+  }
+
+  .article-content h3 {
+    font-size: 1.25rem;
+    margin: 1rem 0 0.5rem 0;
+  }
+
+  .article-content pre {
+    padding: 1rem;
+    margin: 1rem 0;
+  }
+
+  .article-content blockquote {
+    padding: 1rem;
+    margin: 1rem 0;
+  }
+}
+
+/* ========================================
+   ACCESSIBILITY & FOCUS STATES
+   ======================================== */
+
+.article-content a:focus,
+.article-content button:focus {
+  outline: 2px solid #89b4fa; /* ctp-blue */
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .article-content * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+
+@media print {
+  .article-content {
+    background: white;
+    color: black;
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+
+  .article-content h1,
+  .article-content h2,
+  .article-content h3,
+  .article-content h4,
+  .article-content h5,
+  .article-content h6 {
+    color: black;
+    text-shadow: none;
+  }
+
+  .article-content a {
+    color: black;
+    text-decoration: underline;
+  }
+
+  .article-content a::after {
+    display: none;
+  }
+}
