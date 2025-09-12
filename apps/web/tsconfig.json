@@ -27,7 +27,7 @@
       "@/assets/*": ["./src/assets/*"],
       "@/fonts/*": ["./src/fonts/*"],
       "@/Styles/*": ["./src/Styles/*"],
-      "@/server/*": ["../server/src/*"]
+      "@/servertypes/*": ["../server/dist-types/*"]
     }
   },
   "include": ["src"],
