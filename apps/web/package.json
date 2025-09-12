@@ -15,8 +15,12 @@
     "@fortawesome/free-regular-svg-icons": "^7.0.1",
     "@fortawesome/free-solid-svg-icons": "^7.0.1",
     "@fortawesome/react-fontawesome": "^3.0.2",
+    "@portfolio/server": "workspace:*",
+    "@portfolio/shared": "workspace:*",
+    "@portfolio/types": "workspace:*",
     "@reduxjs/toolkit": "^2.8.2",
     "@tailwindcss/vite": "^4.1.12",
+    "@tanstack/react-query": "^5.0.0",
     "@tiptap/extension-bubble-menu": "^3.4.2",
     "@tiptap/extension-code-block-lowlight": "^3.4.2",
     "@tiptap/extension-color": "^3.4.2",
@@ -39,7 +43,7 @@
     "@trpc/client": "^11.0.0",
     "@trpc/react-query": "^11.0.0",
     "@trpc/server": "^11.0.0",
-    "@tanstack/react-query": "^5.0.0",
+    "@trpc/tanstack-react-query": "^11.5.1",
     "classnames": "^2.5.1",
     "framer-motion": "^12.23.6",
     "html-react-parser": "^5.2.6",
@@ -57,10 +61,7 @@
     "react-wrap-balancer": "^1.1.1",
     "tailwindcss": "^4.1.12",
     "use-resize-observer": "^9.1.0",
-    "usehooks-ts": "^3.1.1",
-    "@portfolio/shared": "workspace:*",
-    "@portfolio/types": "workspace:*",
-    "@portfolio/server": "workspace:*"
+    "usehooks-ts": "^3.1.1"
   },
   "devDependencies": {
     "@catppuccin/highlightjs": "^1.0.1",

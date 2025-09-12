@@ -4,14 +4,14 @@ import App from "@/app";
 import "./index.css";
 import { Provider } from "react-redux";
 import store from "@/storage/store";
-import { TRPCProvider } from "@/lib/trpc/trpc-provider";
+import TRPCProvider from "./lib/trpc/provider";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <TRPCProvider>
-      <Provider store={store}>
+    <Provider store={store}>
+      <TRPCProvider>
         <App />
-      </Provider>
-    </TRPCProvider>
+      </TRPCProvider>
+    </Provider>
   </React.StrictMode>
 );

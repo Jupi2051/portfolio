@@ -1,21 +1,20 @@
-import { publicProcedure } from "@/trpc";
+import { publicProcedure } from "@/lib/trpc";
 import { z } from "zod";
 
 const createUser = publicProcedure
   .input(
     z.object({
       email: z.string().email(),
-      name: z.string().optional(),
+      password: z.string().optional(),
     })
   )
   .mutation(async ({ input, ctx }) => {
-    const user = await ctx.prisma.user.create({
-      data: {
-        email: input.email,
-        name: input.name,
-      },
-    });
-    return user;
+    return {
+      id: "1",
+      email: input.email,
+      password: input.password,
+      assigned: "1",
+    };
   });
 
 const getUser = publicProcedure
@@ -23,16 +22,12 @@ const getUser = publicProcedure
   .query(async ({ input, ctx }) => {
     const user = await ctx.prisma.user.findUnique({
       where: { id: input.id },
-      include: { posts: true },
     });
     return user;
   });
 
 const getAllUsers = publicProcedure.query(async ({ ctx }) => {
-  const users = await ctx.prisma.user.findMany({
-    include: { posts: true },
-  });
-  return users;
+  return [];
 });
 
 export { createUser, getUser, getAllUsers };

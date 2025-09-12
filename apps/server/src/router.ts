@@ -1,23 +1,11 @@
-import { publicProcedure, router } from "./trpc";
+import { router } from "./lib/trpc";
 import { blogRouter } from "./modules/blog/router";
-import { createUser, getUser, getAllUsers } from "./modules/users";
+import { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
 
 export const appRouter = router({
-  blog: router({
-    blogRouter,
-  }),
-  users: router({
-    create: createUser,
-    get: getUser,
-    getAll: getAllUsers,
-  }),
-  dada: publicProcedure.query(() => {
-    return {
-      id: "1",
-      title: "Hello",
-      content: "World",
-    };
-  }),
+  blog: blogRouter,
 });
 
 export type AppRouter = typeof appRouter;
+export type AppRouterInput = inferRouterInputs<AppRouter>;
+export type AppRouterOutput = inferRouterOutputs<AppRouter>;
