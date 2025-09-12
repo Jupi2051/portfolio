@@ -292,15 +292,12 @@
   content: "";
   position: absolute;
   left: 0.25rem;
-  top: 0.4rem;
-  width: 0.5rem;
-  height: 0.5rem;
+  top: 0.6rem;
+  width: 0.75rem;
+  height: 0.75rem;
   background: linear-gradient(135deg, #89b4fa 0%, #cba6f7 100%);
   border-radius: 50%;
   box-shadow: 0 0 8px rgba(137, 180, 250, 0.4);
-
-  /* Cutesy animation */
-  animation: bounce 2s ease-in-out infinite;
 }
 
 .article-content ul li:hover {
@@ -312,6 +309,7 @@
   background: linear-gradient(135deg, #cba6f7 0%, #f5c2e7 100%);
   box-shadow: 0 0 12px rgba(203, 166, 247, 0.6);
   transform: scale(1.2);
+  animation: bounce 2s ease-in-out infinite;
 }
 
 /* Nested lists */
@@ -321,32 +319,32 @@
 }
 
 .article-content ul ul li::before {
-  width: 0.4rem;
-  height: 0.4rem;
+  width: 0.6rem;
+  height: 0.6rem;
   background: linear-gradient(135deg, #f9e2af 0%, #fab387 100%);
   border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
   box-shadow: 0 0 6px rgba(249, 226, 175, 0.4);
-  animation: wiggle 3s ease-in-out infinite;
 }
 
 .article-content ul ul li:hover::before {
   background: linear-gradient(135deg, #fab387 0%, #f5c2e7 100%);
   box-shadow: 0 0 10px rgba(250, 179, 135, 0.6);
+  animation: wiggle 3s ease-in-out infinite;
 }
 
 .article-content ul ul ul li::before {
-  width: 0.35rem;
-  height: 0.35rem;
+  width: 0.5rem;
+  height: 0.5rem;
   background: linear-gradient(135deg, #f38ba8 0%, #f5c2e7 100%);
   border-radius: 0.1rem;
   box-shadow: 0 0 5px rgba(243, 139, 168, 0.4);
-  animation: pulse 2.5s ease-in-out infinite;
 }
 
 .article-content ul ul ul li:hover::before {
   background: linear-gradient(135deg, #f5c2e7 0%, #cba6f7 100%);
   box-shadow: 0 0 8px rgba(245, 194, 231, 0.6);
   transform: rotate(45deg);
+  animation: pulse 2.5s ease-in-out infinite;
 }
 
 /* Ordered lists */
