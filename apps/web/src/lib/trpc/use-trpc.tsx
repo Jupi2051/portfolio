@@ -1,7 +1,15 @@
 import { trpc } from "./trpc";
 
 const useTRPC = () => {
-  return trpc;
+  const {
+    Provider,
+    useQueries,
+    useSuspenseQueries,
+    useUtils,
+    createClient,
+    ...rest
+  } = trpc;
+  return rest;
 };
 
 export default useTRPC;

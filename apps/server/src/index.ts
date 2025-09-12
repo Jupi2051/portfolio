@@ -3,6 +3,7 @@ import cors from "cors";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { appRouter } from "./router";
 import { createContext } from "./context";
+import { prisma } from "./lib/prisma";
 
 const app = express();
 const port = process.env.PORT || 3001;
