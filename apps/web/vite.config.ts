@@ -12,4 +12,13 @@ export default defineConfig({
       "@/context": path.resolve(__dirname, "./src", "components", "context"),
     },
   },
+  server: {
+    port: 5173,
+    proxy: {
+      "/trpc": {
+        target: "http://localhost:3001",
+        changeOrigin: true,
+      },
+    },
+  },
 });

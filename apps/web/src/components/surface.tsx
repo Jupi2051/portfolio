@@ -1,5 +1,5 @@
-import Desktop from "./windows/desktop";
-import Taskbar from "./windows/taskbar";
+import Desktop from "@/components/windows/desktop";
+import Taskbar from "@/components/windows/taskbar";
 import StartMenu from "@/components/windows/start-menu";
 
 function Surface() {

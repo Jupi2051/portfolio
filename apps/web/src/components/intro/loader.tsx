@@ -1,4 +1,4 @@
-import OrbitLoader from "../ui/orbit-loader";
+import OrbitLoader from "@/components/ui/orbit-loader";
 
 const Loader = () => {
   return (
