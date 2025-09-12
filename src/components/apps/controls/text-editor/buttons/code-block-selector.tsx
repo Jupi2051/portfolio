@@ -17,6 +17,8 @@ const CodeBlockSelector = ({
   const languages = [
     { name: "JavaScript", value: "javascript" },
     { name: "TypeScript", value: "typescript" },
+    { name: "TSX", value: "typescriptreact" },
+    { name: "JSX", value: "javascriptreact" },
     { name: "Python", value: "python" },
     { name: "Java", value: "java" },
     { name: "C++", value: "cpp" },

@@ -18,6 +18,8 @@ import {
   BulletListButton,
   OrderedListButton,
   BlockquoteButton,
+  LinkButton,
+  TableActionsMenu,
 } from "./buttons";
 
 const TextEditorBubbleMenu = ({ editor }: { editor: Editor }) => {
@@ -35,6 +37,7 @@ const TextEditorBubbleMenu = ({ editor }: { editor: Editor }) => {
         <UnderlineButton editor={editor} />
         <StrikethroughButton editor={editor} />
         <InlineCodeButton editor={editor} />
+        <LinkButton editor={editor} />
       </div>
 
       <div className="w-px h-6 bg-ctp-surface1 mx-1" />
@@ -107,6 +110,16 @@ const TextEditorBubbleMenu = ({ editor }: { editor: Editor }) => {
             >
               <FontAwesomeIcon icon={faTrash} />
             </button>
+          </div>
+        </>
+      )}
+
+      {/* Tables */}
+      {editor.isActive("table") && (
+        <>
+          <div className="w-px h-6 bg-ctp-surface1 mx-1" />
+          <div className="flex gap-1">
+            <TableActionsMenu editor={editor} />
           </div>
         </>
       )}

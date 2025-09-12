@@ -17,3 +17,5 @@ export { default as UndoButton } from "./undo-button";
 export { default as RedoButton } from "./redo-button";
 export { default as BlockquoteButton } from "./blockquote-button";
 export { default as ImageUploadButton } from "./image-upload-button";
+export { default as LinkButton } from "./link-button";
+export { default as TableActionsMenu } from "./table-actions-menu";

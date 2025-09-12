@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import useParseBlogContent from "./parse-blog";
+import "./blog-article.css";
 
 export type BlogArticleType = {
   id: string;

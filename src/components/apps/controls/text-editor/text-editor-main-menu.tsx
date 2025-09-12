@@ -19,6 +19,8 @@ import {
   RedoButton,
   BlockquoteButton,
   ImageUploadButton,
+  LinkButton,
+  TableActionsMenu,
 } from "./buttons";
 
 const TextEditorMainMenu = ({ editor }: { editor: Editor }) => {
@@ -81,6 +83,20 @@ const TextEditorMainMenu = ({ editor }: { editor: Editor }) => {
       {/* Image Upload */}
       <div className="flex gap-1 mr-2">
         <ImageUploadButton editor={editor} />
+      </div>
+
+      <div className="w-px h-6 bg-ctp-surface1 mx-1" />
+
+      {/* Links */}
+      <div className="flex gap-1 mr-2">
+        <LinkButton editor={editor} />
+      </div>
+
+      <div className="w-px h-6 bg-ctp-surface1 mx-1" />
+
+      {/* Tables */}
+      <div className="flex gap-1 mr-2">
+        <TableActionsMenu editor={editor} />
       </div>
 
       <div className="w-px h-6 bg-ctp-surface1 mx-1" />

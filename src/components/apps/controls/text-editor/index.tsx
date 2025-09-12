@@ -8,6 +8,11 @@ import Highlight from "@tiptap/extension-highlight";
 import Placeholder from "@tiptap/extension-placeholder";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import Image from "@tiptap/extension-image";
+import Link from "@tiptap/extension-link";
+import { Table } from "@tiptap/extension-table";
+import TableRow from "@tiptap/extension-table-row";
+import TableCell from "@tiptap/extension-table-cell";
+import TableHeader from "@tiptap/extension-table-header";
 import { createLowlight } from "lowlight";
 import TextEditorMainMenu from "./text-editor-main-menu";
 import TextEditorBubbleMenu from "./text-editor-bubble-menu";
@@ -68,6 +73,18 @@ function TextEditor(props: propTypes) {
           class: "editor-image",
         },
       }),
+      Link.configure({
+        openOnClick: false,
+        HTMLAttributes: {
+          class: "editor-link",
+        },
+      }),
+      Table.configure({
+        resizable: true,
+      }),
+      TableRow,
+      TableHeader,
+      TableCell,
     ],
     content: props.value,
     onUpdate({ editor }) {
