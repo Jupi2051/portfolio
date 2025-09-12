@@ -20,7 +20,7 @@ function MovingDesktopIcon(Props: PropTypes) {
   return (
     <div
       className={cn(
-        "absolute pointer-events-none -top-10 -left-12 opacity-60 flex flex-col w-[100px] h-[100px] pb-4 items-center justify-center text-white select-none isolate",
+        "absolute pointer-events-none -top-10 -left-12 opacity-60 flex flex-col w-[90px] h-[90px] pb-4 items-center justify-center text-white select-none isolate",
         'after:content-[" "] after:pointer-events-none after:w-full after:h-full after:absolute after:left-1/2 after:top-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-md after:bg-transparent after:z-[-1] hover:after:bg-white/15'
       )}
       data-id={Props.id}
@@ -31,7 +31,7 @@ function MovingDesktopIcon(Props: PropTypes) {
     >
       <img
         src={Props.Icon}
-        className="pointer-events-none max-h-[55px] max-w-[55px]"
+        className="pointer-events-none max-h-[50px] max-w-[55px]"
       />
       <h1
         className="absolute bottom-1 font-segoe-ui-light font-thin text-xs mt-1.5 select-none pointer-events-none"
