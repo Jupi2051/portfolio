@@ -1,12 +1,18 @@
 import { publicProcedure } from "@/lib/trpc";
+import { z } from "zod";
 
-const getArticle = publicProcedure.query(async ({ ctx }) => {
-  const posts = await ctx.prisma.blogPost.findMany({
-    where: { published: true },
-    orderBy: { createdAt: "desc" },
+const getArticle = publicProcedure
+  .input(
+    z.object({
+      id: z.string(),
+    })
+  )
+  .query(async ({ ctx, input }) => {
+    const posts = await ctx.prisma.blogPost.findUnique({
+      where: { id: input.id, published: true },
+    });
+
+    return posts;
   });
-
-  return posts;
-});
 
 export default getArticle;
