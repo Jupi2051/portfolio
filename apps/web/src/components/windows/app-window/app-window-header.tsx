@@ -3,7 +3,6 @@ import {
   setMinimizedState,
   setMouseMovementOffset,
 } from "@/storage/slices/desktop";
-import { closeApplication } from "@/storage/slices/main";
 import { closeTaskbarApplication } from "@/storage/slices/taskbar";
 import { useDispatch } from "react-redux";
 import { Dimensions2D } from ".";
@@ -27,6 +26,8 @@ interface AppWindowHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   windowHeight: number;
   NewLocation: Point;
   hiddenButtons: ("minimize" | "maximize" | "close")[];
+  disableMaximize?: boolean;
+  disableMinimize?: boolean;
 }
 
 const AppWindowHeader = ({
@@ -41,11 +42,13 @@ const AppWindowHeader = ({
   windowHeight,
   NewLocation,
   hiddenButtons,
+  disableMaximize = false,
+  disableMinimize = false,
 }: AppWindowHeaderProps) => {
   const isPhone = useMediaQuery("sm");
   const dispatch = useDispatch();
   const { isFocused } = useAppWindowControls(AppId);
-  const { unFocusAllWindows } = useGlobalWindowsControls();
+  const { unFocusAllWindows, closeApplication } = useGlobalWindowsControls();
   const CursorLocation = useMousePosition();
 
   const onDismissButton = () => {
@@ -58,14 +61,16 @@ const AppWindowHeader = ({
   ) => {
     if (isPhone) return;
     event.preventDefault();
+    const newMaximizedState = !maximized;
+    if (newMaximizedState && disableMaximize) return;
+    if (!newMaximizedState && disableMinimize) return;
     setMaximized(!maximized);
   };
 
   const CloseApplication = () => {
     if (isFocused) unFocusAllWindows();
 
-    dispatch(closeApplication(AppId));
-    dispatch(closeTaskbarApplication(AppId));
+    closeApplication(AppId);
   };
 
   useEventListener("mouseup", () => setMoveWindow(false));
@@ -86,15 +91,18 @@ const AppWindowHeader = ({
   }
 
   function MaximizeWindow() {
-    const maximizationNewState = !maximized;
+    const newMaximizedState = !maximized;
 
-    if (maximizationNewState)
+    if (newMaximizedState && disableMaximize) return;
+    if (!newMaximizedState && disableMinimize) return;
+
+    if (newMaximizedState)
       SetMinmizedDimensions({
         width: windowWidth ?? 0,
         height: windowHeight ?? 0,
       });
 
-    setMaximized(maximizationNewState);
+    setMaximized(newMaximizedState);
   }
 
   return (

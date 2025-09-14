@@ -1,6 +1,6 @@
 import { lazy } from "react";
 import AppLoadingFailed from "@/components/ui/app-foundation/app-loading-failed";
-import NotificationWindow from "@/components/apps/notification/notification-window";
+import NotificationWindow from "@/components/apps/notification/index";
 
 export enum DesktopAppsList {
   DummyApp,

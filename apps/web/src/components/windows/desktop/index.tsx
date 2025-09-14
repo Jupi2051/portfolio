@@ -12,22 +12,44 @@ import { RootState } from "@/storage/store";
 import { setFocusedApp } from "@/storage/slices/desktop";
 import { FolderItem } from "@/components/apps/explorer";
 import cn from "classnames";
+import { Dimensions2D } from "@/components/windows/app-window";
 
 type Point = {
   x: number;
   y: number;
 };
 
-export type OpenApplication = {
+export type openApplicationMetaData = {
+  hiddenButtons?: ("minimize" | "maximize" | "close")[];
+  forceView?: boolean;
+  windowSize?: Dimensions2D;
+  maximized?: boolean;
+  windowLocation?:
+    | "center"
+    | "top-left"
+    | "top-right"
+    | "bottom-left"
+    | "bottom-right"
+    | "top-center"
+    | "bottom-center"
+    | "left-center"
+    | "right-center";
+  disableMaximize?: boolean;
+  disableMinimize?: boolean;
+  disableResize?: boolean;
+};
+
+export interface OpenApplication {
   id: number;
   App: DesktopAppsList;
+  metaData?: openApplicationMetaData;
   processName: string;
   processIcon: string;
   taskbarIcon?: string;
   processData?: Object;
   parentProcess?: number;
   childrenProcess?: number[];
-};
+}
 
 export type DesktopIconData = {
   id: number;

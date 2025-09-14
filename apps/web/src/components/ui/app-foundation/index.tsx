@@ -4,14 +4,15 @@ import AppLoading from "./app-loading";
 
 import React, { Suspense } from "react";
 import { ReactNode } from "react";
+import {
+  OpenApplication,
+  openApplicationMetaData,
+} from "@/components/windows/desktop";
 
-export interface AppFoundationProps<T = Object> {
+export interface AppFoundationProps<T extends object = Record<string, unknown>>
+  extends Omit<Omit<OpenApplication, "id">, "App"> {
   AppId: number;
-  forceView?: boolean;
-  processName: string;
-  processIcon: string;
   processData: T;
-  children?: ReactNode;
 }
 
 const AppFoundation = ({ App }: { App: React.FC }) => {

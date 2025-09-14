@@ -5,6 +5,13 @@ import { bringToFront } from "@/storage/slices/main";
 
 const useAppWindowControls = (appId: number = -1) => {
   const dispatch = useDispatch();
+
+  const metaData = useSelector(
+    (x: RootState) =>
+      x.mainState.OpenApplications.find((element) => element.id === appId)
+        ?.metaData
+  );
+
   const MinimizedData = useSelector(
     (x: RootState) => x.desktopState.minimizedStates
   );
@@ -35,6 +42,7 @@ const useAppWindowControls = (appId: number = -1) => {
     isFocused,
     focusWindow,
     bringWindowToFront,
+    metaData,
   };
 };
 

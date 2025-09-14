@@ -1,7 +1,12 @@
 import { setFocusedApp } from "@/storage/slices/desktop";
 import { useDispatch } from "react-redux";
 import { OpenApplication } from "@/components/windows/desktop";
-import { bringToFront, openApplication } from "@/storage/slices/main";
+import {
+  bringToFront,
+  openApplication,
+  closeApplication,
+} from "@/storage/slices/main";
+import { closeTaskbarApplication } from "@/storage/slices/taskbar";
 
 const useGlobalWindowsControls = () => {
   const dispatch = useDispatch();
@@ -33,9 +38,15 @@ const useGlobalWindowsControls = () => {
     };
   };
 
+  const closeApplicationAbstraction = (appId: number) => {
+    dispatch(closeApplication(appId));
+    dispatch(closeTaskbarApplication(appId));
+  };
+
   return {
     unFocusAllWindows,
     openNewApplication,
+    closeApplication: closeApplicationAbstraction,
   };
 };
 

@@ -1,4 +1,3 @@
-import { TRPCDemo } from "@/components/trpc-demo";
 import { useApplicationData } from "@/context/app-context";
 
 function Photos() {
@@ -10,7 +9,6 @@ function Photos() {
         className="max-w-10/12 max-h-10/12 select-none"
         src={processData.openedImage}
       />
-      <TRPCDemo />
     </div>
   );
 }

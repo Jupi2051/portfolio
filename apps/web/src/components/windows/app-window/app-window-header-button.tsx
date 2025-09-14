@@ -5,11 +5,13 @@ const AppWindowHeaderButton = ({
   onClick,
   className,
   type = "normal",
+  disabled = false,
 }: {
   children?: React.ReactNode;
   onClick?: () => void;
   className?: string;
   type?: "normal" | "danger";
+  disabled?: boolean;
 }) => {
   return (
     <span
@@ -19,6 +21,7 @@ const AppWindowHeaderButton = ({
           "hover:bg-white/10 hover:active:bg-white/20 hover:active:transition-none":
             type === "normal",
           "hover:bg-red-700 hover:active:bg-red-800": type === "danger",
+          "opacity-50 cursor-not-allowed": disabled,
         },
         className
       )}

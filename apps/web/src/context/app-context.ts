@@ -6,7 +6,7 @@ const ApplicationContext = createContext<
   AppFoundationProps<Object> | undefined
 >(undefined);
 
-export const useApplicationData = <T = Object>() => {
+export const useApplicationData = <T extends object = Object>() => {
   const context = useContext(ApplicationContext);
   if (!context) {
     throw new Error(

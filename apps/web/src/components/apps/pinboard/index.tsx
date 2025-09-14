@@ -2,9 +2,8 @@ import { useState } from "react";
 import BoardMessage from "@/components/apps/pinboard/board-message";
 import { useTRPC } from "@/lib/trpc/trpc";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { DesktopAppsList } from "@/components/windows/desktop/apps-list";
 import { useApplicationData } from "@/context/app-context";
-import useSystemNotification from "../notification";
+import useSystemNotification from "@/components/apps/notification/use-system-notification";
 
 type Messages = {
   content: string;

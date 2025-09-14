@@ -13,8 +13,6 @@ type PropType = {
   AppId: number;
   processName?: string;
   processIcon?: string;
-  maximized?: boolean;
-  hiddenButtons?: ("minimize" | "maximize" | "close")[];
 };
 
 type WindowBorderBox = {
@@ -33,24 +31,19 @@ const exitAndOpenMainContainer: Variants = {
 
 let WindowLocatorData = new Map<number, WindowBorderBox>();
 
-function AppWindow({
-  maximized,
-  AppId,
-  processName,
-  processIcon,
-  children,
-  hiddenButtons = [],
-}: PropType) {
-  const [Maximized, SetMaximized] = useState(maximized ?? true);
-  const [MoveWindow, SetMoveWindow] = useState(false);
-  const CursorLocation = useMousePosition();
+function AppWindow({ AppId, processName, processIcon, children }: PropType) {
   const {
     isMinimized,
     zIndexFront,
     isFocused,
     focusWindow,
     bringWindowToFront,
+    metaData,
   } = useAppWindowData(AppId);
+
+  const [Maximized, SetMaximized] = useState(metaData?.maximized ?? true);
+  const [MoveWindow, SetMoveWindow] = useState(false);
+  const CursorLocation = useMousePosition();
 
   const WindowId = useMemo(() => +new Date(), []);
   const CursorOffset = useSelector(
@@ -63,17 +56,19 @@ function AppWindow({
   });
 
   const [MinimizedDimensions, SetMinmizedDimensions] = useState<Dimensions2D>({
-    width: 500,
-    height: 500,
+    width: metaData?.windowSize?.width ?? 500,
+    height: metaData?.windowSize?.height ?? 500,
   });
 
   let FoundObject = WindowLocatorData.get(WindowId);
   if (!FoundObject) {
     FoundObject = {
-      Location: {
-        x: Math.floor(Math.random() * 200),
-        y: Math.floor(Math.random() * 200),
-      },
+      Location: metaData?.windowLocation
+        ? getWindowLocation(metaData.windowLocation, MinimizedDimensions)
+        : {
+            x: Math.floor(Math.random() * 400),
+            y: Math.floor(Math.random() * 400),
+          },
     };
     WindowLocatorData.set(WindowId, FoundObject);
   }
@@ -150,6 +145,7 @@ function AppWindow({
       initial="init"
       animate="init"
       className="absolute top-0 left-0 w-full h-full pointer-events-none"
+      style={metaData?.forceView ? { zIndex: 9999 } : {}}
     >
       <motion.div
         className={cn(
@@ -165,7 +161,8 @@ function AppWindow({
         initial="hidden"
         animate={animateValue}
         transition={{
-          duration: 0.1,
+          duration: MoveWindow ? 0 : 0.1,
+          delay: MoveWindow ? 0 : undefined,
           width: { duration: 0.125 },
           height: { duration: 0.125 },
           x: { duration: 0 },
@@ -174,7 +171,12 @@ function AppWindow({
         onMouseDown={onWindowMouseDown}
       >
         <div
-          className="relative bg-ctp-base resize-both overflow-hidden flex flex-col z-[-1] @container/appwindow"
+          className={cn(
+            "relative bg-ctp-base resize-both overflow-hidden flex flex-col z-[-1] @container/appwindow",
+            {
+              "!resize-none": metaData?.disableResize,
+            }
+          )}
           style={{
             width: Maximized ? "100%" : MinimizedDimensions.width ?? "auto",
             height: Maximized ? "100%" : MinimizedDimensions.height ?? "auto",
@@ -193,7 +195,9 @@ function AppWindow({
             windowWidth={width ?? 0}
             windowHeight={height ?? 0}
             NewLocation={NewLocation}
-            hiddenButtons={hiddenButtons}
+            hiddenButtons={metaData?.hiddenButtons ?? []}
+            disableMaximize={metaData?.disableMaximize}
+            disableMinimize={metaData?.disableMinimize}
           />
           <div className="flex flex-col w-full h-full border-none overflow-hidden">
             {children}
@@ -202,6 +206,81 @@ function AppWindow({
       </motion.div>
     </motion.div>
   );
+}
+
+function getWindowLocation(
+  position:
+    | "top-left"
+    | "top-right"
+    | "bottom-left"
+    | "bottom-right"
+    | "center"
+    | "top-center"
+    | "bottom-center"
+    | "left-center"
+    | "right-center",
+  windowSize: Dimensions2D
+) {
+  const { width = 0, height = 0 } = windowSize;
+  const { innerWidth, innerHeight } = window;
+  const centerX = innerWidth / 2 - width / 2;
+  const centerY = innerHeight / 2 - height / 2;
+  switch (position) {
+    case "center": {
+      return {
+        x: centerX,
+        y: centerY,
+      };
+    }
+    case "top-left": {
+      return {
+        x: 0,
+        y: 0,
+      };
+    }
+    case "top-right": {
+      return {
+        x: innerWidth - width,
+        y: 0,
+      };
+    }
+    case "bottom-left": {
+      return {
+        x: 0,
+        y: innerHeight - height,
+      };
+    }
+    case "bottom-right": {
+      return {
+        x: innerWidth - width,
+        y: innerHeight - height,
+      };
+    }
+    case "top-center": {
+      return {
+        x: centerX,
+        y: 0,
+      };
+    }
+    case "bottom-center": {
+      return {
+        x: centerX,
+        y: innerHeight - height,
+      };
+    }
+    case "left-center": {
+      return {
+        x: 0,
+        y: centerY,
+      };
+    }
+    case "right-center": {
+      return {
+        x: innerWidth - width,
+        y: centerY,
+      };
+    }
+  }
 }
 
 export default AppWindow;
