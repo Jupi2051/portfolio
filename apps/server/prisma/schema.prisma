@@ -25,3 +25,15 @@ model BlogPost {
   updatedAt   DateTime @updatedAt
   deletedAt   DateTime?
 }
+
+model PinnedMessage {
+  id        String   @id @default(cuid())
+  content   String
+  author    String
+  color     String
+  positionX Int
+  positionY Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+}

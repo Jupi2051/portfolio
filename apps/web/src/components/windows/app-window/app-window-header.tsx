@@ -26,6 +26,7 @@ interface AppWindowHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   windowWidth: number;
   windowHeight: number;
   NewLocation: Point;
+  hiddenButtons: ("minimize" | "maximize" | "close")[];
 }
 
 const AppWindowHeader = ({
@@ -39,6 +40,7 @@ const AppWindowHeader = ({
   windowWidth,
   windowHeight,
   NewLocation,
+  hiddenButtons,
 }: AppWindowHeaderProps) => {
   const isPhone = useMediaQuery("sm");
   const dispatch = useDispatch();
@@ -108,18 +110,24 @@ const AppWindowHeader = ({
         </div>
       ) : null}
       <div className="w-fit flex flex-row-reverse items-center p-0 h-full">
-        <AppWindowHeaderButton onClick={CloseApplication} type="danger">
-          ✕
-        </AppWindowHeaderButton>
-        <AppWindowHeaderButton
-          onClick={MaximizeWindow}
-          className="hidden sm:flex"
-        >
-          <span className="block aspect-square w-2.5 border border-solid"></span>
-        </AppWindowHeaderButton>
-        <AppWindowHeaderButton onClick={onDismissButton}>
-          <span className="block aspect-square w-2.5 h-px bg-white" />
-        </AppWindowHeaderButton>
+        {!hiddenButtons.includes("close") && (
+          <AppWindowHeaderButton onClick={CloseApplication} type="danger">
+            ✕
+          </AppWindowHeaderButton>
+        )}
+        {!hiddenButtons.includes("maximize") && (
+          <AppWindowHeaderButton
+            onClick={MaximizeWindow}
+            className="hidden sm:flex"
+          >
+            <span className="block aspect-square w-2.5 border border-solid"></span>
+          </AppWindowHeaderButton>
+        )}
+        {!hiddenButtons.includes("minimize") && (
+          <AppWindowHeaderButton onClick={onDismissButton}>
+            <span className="block aspect-square w-2.5 h-px bg-white" />
+          </AppWindowHeaderButton>
+        )}
       </div>
     </div>
   );

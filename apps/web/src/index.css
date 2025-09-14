@@ -29,7 +29,7 @@
 }
 
 @font-face {
-  font-family: "IndieFlower";
+  font-family: "IndieFlower", "Capirola";
   src: local("Indie Flower"),
     url("/src/fonts/IndieFlower.ttf") format("truetype");
 }

@@ -49,16 +49,40 @@ const mainStateReducer = createSlice({
       return state;
     },
     closeApplication: (state, action: PayloadAction<number>) => {
+      const appToClose = state.OpenApplications.find(
+        (element) => element.id === action.payload
+      );
+      if (!appToClose) return state;
+
+      const childrenProcessIds =
+        appToClose?.childrenProcess?.map((element) => element) ?? [];
+
+      const allProcessIds = [...childrenProcessIds, action.payload];
+
       state.OpenApplications = state.OpenApplications.filter(
-        (element) => element.id !== action.payload
+        (element) => !allProcessIds.includes(element.id)
       );
       state.zIndicesMap = state.zIndicesMap.filter(
-        (element) => element.id !== action.payload
+        (element) => !allProcessIds.includes(element.id)
       );
       return state;
     },
     openApplication: (state, action: PayloadAction<OpenApplication>) => {
       state.OpenApplications = [...state.OpenApplications, action.payload];
+      if (action.payload.parentProcess) {
+        state.OpenApplications = state.OpenApplications.map((element) => {
+          if (element.id === action.payload.parentProcess) {
+            return {
+              ...element,
+              childrenProcess: [
+                ...(element.childrenProcess ?? []),
+                action.payload.id,
+              ],
+            };
+          }
+          return element;
+        });
+      }
       state.zIndicesMap = state.zIndicesMap.filter(
         (element) => element.id !== action.payload.id
       );
@@ -66,6 +90,7 @@ const mainStateReducer = createSlice({
         ...state.zIndicesMap,
         { id: action.payload.id, zIndex: 999 },
       ];
+
       return state;
     },
   },

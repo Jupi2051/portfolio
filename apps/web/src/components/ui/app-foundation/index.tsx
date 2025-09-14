@@ -7,6 +7,7 @@ import { ReactNode } from "react";
 
 export interface AppFoundationProps<T = Object> {
   AppId: number;
+  forceView?: boolean;
   processName: string;
   processIcon: string;
   processData: T;

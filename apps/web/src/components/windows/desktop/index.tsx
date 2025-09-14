@@ -25,6 +25,8 @@ export type OpenApplication = {
   processIcon: string;
   taskbarIcon?: string;
   processData?: Object;
+  parentProcess?: number;
+  childrenProcess?: number[];
 };
 
 export type DesktopIconData = {
@@ -242,7 +244,7 @@ export let DesktopIcons: DesktopIconData[] = [
     IconPath: "Imgs/DesktopApps/Pinboard.png",
     Style: {},
     Selected: false,
-    AppComponent: DesktopAppsList.Social,
+    AppComponent: DesktopAppsList.Pinboard,
   },
   {
     id: 12,

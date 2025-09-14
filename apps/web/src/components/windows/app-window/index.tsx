@@ -14,6 +14,7 @@ type PropType = {
   processName?: string;
   processIcon?: string;
   maximized?: boolean;
+  hiddenButtons?: ("minimize" | "maximize" | "close")[];
 };
 
 type WindowBorderBox = {
@@ -32,8 +33,15 @@ const exitAndOpenMainContainer: Variants = {
 
 let WindowLocatorData = new Map<number, WindowBorderBox>();
 
-function AppWindow(props: PropType) {
-  const [Maximized, SetMaximized] = useState(props.maximized ?? true);
+function AppWindow({
+  maximized,
+  AppId,
+  processName,
+  processIcon,
+  children,
+  hiddenButtons = [],
+}: PropType) {
+  const [Maximized, SetMaximized] = useState(maximized ?? true);
   const [MoveWindow, SetMoveWindow] = useState(false);
   const CursorLocation = useMousePosition();
   const {
@@ -42,7 +50,7 @@ function AppWindow(props: PropType) {
     isFocused,
     focusWindow,
     bringWindowToFront,
-  } = useAppWindowData(props.AppId);
+  } = useAppWindowData(AppId);
 
   const WindowId = useMemo(() => +new Date(), []);
   const CursorOffset = useSelector(
@@ -175,19 +183,20 @@ function AppWindow(props: PropType) {
           ref={ref}
         >
           <AppWindowHeader
-            processName={props.processName}
-            processIcon={props.processIcon}
+            processName={processName}
+            processIcon={processIcon}
             setMaximized={SetMaximized}
             SetMinmizedDimensions={SetMinmizedDimensions}
             maximized={Maximized}
             setMoveWindow={SetMoveWindow}
-            AppId={props.AppId}
+            AppId={AppId}
             windowWidth={width ?? 0}
             windowHeight={height ?? 0}
             NewLocation={NewLocation}
+            hiddenButtons={hiddenButtons}
           />
           <div className="flex flex-col w-full h-full border-none overflow-hidden">
-            {props.children}
+            {children}
           </div>
         </div>
       </motion.div>

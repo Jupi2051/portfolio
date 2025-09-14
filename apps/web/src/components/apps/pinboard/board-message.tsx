@@ -24,10 +24,11 @@ function BoardMessage(props: Props) {
       },
     },
   };
+
   return (
-    <motion.div className="board-message-container">
+    <motion.div className="text-[10px] text-ctp-lavender-400 font-caveat rounded-[10px]">
       <motion.h1
-        className="board-message-name"
+        className="inline text-[2.5em] flex-grow-[0.2]"
         variants={ParentMessageAnimation}
         animate="invisible"
         initial="invisible"
@@ -41,9 +42,11 @@ function BoardMessage(props: Props) {
           );
         })}
       </motion.h1>
-      <motion.span className="board-message-notation">:</motion.span>
+      <motion.span className="text-[2.5em] text-inherit mx-[5px_10px]">
+        :
+      </motion.span>
       <motion.p
-        className="board-message-content"
+        className="inline overflow-wrap-anywhere break-words text-[2.5em] leading-none w-full flex-grow-[0.8]"
         variants={ParentMessageAnimation}
         animate="invisible"
         initial="invisible"
