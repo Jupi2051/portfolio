@@ -5,11 +5,14 @@ import {
   bringToFront,
   openApplication,
   closeApplication,
+  setWindowFlashing,
 } from "@/storage/slices/main";
 import { closeTaskbarApplication } from "@/storage/slices/taskbar";
+import { useRef } from "react";
 
 const useGlobalWindowsControls = () => {
   const dispatch = useDispatch();
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const unFocusAllWindows = () => {
     dispatch(setFocusedApp(-1));
@@ -48,11 +51,23 @@ const useGlobalWindowsControls = () => {
     dispatch(closeTaskbarApplication(appId));
   };
 
+  const flashWindow = (appId: number, durationMs: number) => {
+    dispatch(setWindowFlashing({ id: appId, state: true }));
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+    const timeout = setTimeout(() => {
+      dispatch(setWindowFlashing({ id: appId, state: false }));
+    }, durationMs);
+    timerRef.current = timeout;
+  };
+
   return {
     unFocusAllWindows,
     focusWindowWithId,
     openNewApplication,
     closeApplication: closeApplicationAbstraction,
+    flashWindow,
   };
 };
 

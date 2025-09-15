@@ -9,10 +9,12 @@ type zIndexUnit = {
 type InitState = {
   zIndicesMap: zIndexUnit[];
   OpenApplications: OpenApplication[]; // Open Application uses React node as a type, its an unserializable
+  flashingWindows: number[];
 };
 
 const InitialState: InitState = {
   zIndicesMap: [],
+  flashingWindows: [],
   OpenApplications: [],
 };
 
@@ -31,6 +33,22 @@ const mainStateReducer = createSlice({
         ...state.zIndicesMap,
         { id: action.payload.id, zIndex: action.payload.zindex },
       ];
+      return state;
+    },
+    setWindowFlashing: (
+      state,
+      action: PayloadAction<{ id: number; state: boolean }>
+    ) => {
+      if (
+        action.payload.state &&
+        !state.flashingWindows.includes(action.payload.id)
+      ) {
+        state.flashingWindows = [...state.flashingWindows, action.payload.id];
+      } else {
+        state.flashingWindows = state.flashingWindows.filter(
+          (element) => element !== action.payload.id
+        );
+      }
       return state;
     },
     bringToFront: (state, action: PayloadAction<number>) => {
@@ -99,6 +117,7 @@ const mainStateReducer = createSlice({
 export const {
   setZIndex,
   bringToFront,
+  setWindowFlashing,
   unhandleZIndex,
   closeApplication,
   openApplication,

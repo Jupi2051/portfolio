@@ -42,12 +42,13 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
     metaData,
     isDisabled,
     disabledByOtherApp,
+    isFlashing,
   } = useAppWindowData(AppId);
+  const { focusWindowWithId, flashWindow } = useGlobalWindowsControls();
 
   const [Maximized, SetMaximized] = useState(metaData?.maximized ?? true);
   const [MoveWindow, SetMoveWindow] = useState(false);
   const CursorLocation = useMousePosition();
-  const { focusWindowWithId } = useGlobalWindowsControls();
 
   const WindowId = useMemo(() => +new Date(), []);
   const CursorOffset = useSelector(
@@ -135,8 +136,10 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
   }
 
   function onInteractWithWindow() {
-    if (!isDisabled) return;
-    focusWindowWithId(disabledByOtherApp?.id ?? -1);
+    if (isDisabled) {
+      focusWindowWithId(disabledByOtherApp?.id ?? -1);
+      flashWindow(disabledByOtherApp?.id ?? -1, 200);
+    }
   }
 
   const animateValue =
@@ -153,20 +156,19 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
       transition={{ duration: 0.1 }}
       initial="init"
       animate="init"
-      className="absolute top-0 left-0 w-full h-full"
-      style={metaData?.forceView ? { zIndex: 9999 } : {}}
-      onClick={onInteractWithWindow}
+      style={{
+        zIndex: metaData?.forceView ? 9999 : zIndexFront,
+      }}
+      className="absolute top-0 left-0 w-full h-full pointer-events-none"
     >
       <motion.div
         className={cn(
-          `absolute border border-black border-solid mx-auto rounded-md overflow-hidden box-shadow-[0px_0px_15px_0px_rgba(0,0,0,0.4)] user-select-none transition-[box-shadow,border] duration-200 isolate ease-in-out`,
+          `absolute border pointer-events-auto border-black border-solid mx-auto rounded-md overflow-hidden box-shadow-[0px_0px_15px_0px_rgba(0,0,0,0.4)] user-select-none transition-[box-shadow,border] duration-200 isolate ease-in-out`,
           {
             "!border-none !rounded-none": Maximized,
             "select-auto border border-ctp-sky-400 shadow-[0px_0px_20px_0px_rgba(0,0,0,0.7)]":
               isFocused,
             "user-select-none": MoveWindow,
-            "pointer-events-auto": !isDisabled,
-            "pointer-events-none": isDisabled,
           }
         )}
         variants={exitAndOpen}
@@ -181,12 +183,15 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
           y: { duration: 0 },
         }}
         onMouseDown={onWindowMouseDown}
+        onClick={onInteractWithWindow}
       >
-        <div
+        <motion.div
           className={cn(
             "relative bg-ctp-base resize-both overflow-hidden flex flex-col z-[-1] @container/appwindow",
             {
               "!resize-none": metaData?.disableResize,
+              "pointer-events-auto": !isDisabled,
+              "pointer-events-none": isDisabled,
             }
           )}
           style={{
@@ -194,6 +199,19 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
             height: Maximized ? "100%" : MinimizedDimensions.height ?? "auto",
             resize: Maximized ? "none" : "both",
           }}
+          animate={
+            isFlashing
+              ? {
+                  x: [0, -3, 0, 3, 0],
+                  y: [0, -3, 0, 3, 0],
+                  transition: {
+                    delay: 0,
+                    repeat: Infinity,
+                    duration: 0.1,
+                  },
+                }
+              : { transition: { duration: 0 } }
+          }
           ref={ref}
         >
           <AppWindowHeader
@@ -210,11 +228,13 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
             hiddenButtons={metaData?.hiddenButtons ?? []}
             disableMaximize={metaData?.disableMaximize}
             disableMinimize={metaData?.disableMinimize}
+            isFlashing={isFlashing}
+            isDisabled={isDisabled}
           />
           <div className="flex flex-col w-full h-full border-none overflow-hidden">
             {children}
           </div>
-        </div>
+        </motion.div>
       </motion.div>
     </motion.div>
   );

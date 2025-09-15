@@ -3,16 +3,16 @@ import {
   setMinimizedState,
   setMouseMovementOffset,
 } from "@/storage/slices/desktop";
-import { closeTaskbarApplication } from "@/storage/slices/taskbar";
 import { useDispatch } from "react-redux";
 import { Dimensions2D } from ".";
 import useMousePosition from "@/hooks/use-mouse-position";
-import { Point } from "framer-motion";
+import { motion, Point } from "framer-motion";
 import AppWindowHeaderButton from "./app-window-header-button";
 import { useEventListener } from "usehooks-ts";
 import useAppWindowControls from "@/hooks/use-app-window-data";
 import useGlobalWindowsControls from "@/hooks/use-global-windows-controls";
 import useMediaQuery from "@/hooks/use-media-query";
+import { duration } from "moment";
 
 interface AppWindowHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   processName?: string;
@@ -28,6 +28,8 @@ interface AppWindowHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   hiddenButtons: ("minimize" | "maximize" | "close")[];
   disableMaximize?: boolean;
   disableMinimize?: boolean;
+  isFlashing: boolean;
+  isDisabled: boolean;
 }
 
 const AppWindowHeader = ({
@@ -44,6 +46,8 @@ const AppWindowHeader = ({
   hiddenButtons,
   disableMaximize = false,
   disableMinimize = false,
+  isFlashing,
+  isDisabled,
 }: AppWindowHeaderProps) => {
   const isPhone = useMediaQuery("sm");
   const dispatch = useDispatch();
@@ -106,7 +110,7 @@ const AppWindowHeader = ({
   }
 
   return (
-    <div
+    <motion.div
       className="window-header flex text-center justify-end min-h-[30px] h-[30px] text-white bg-gradient-to-r from-ctp-blue-950 to-ctp-mauve-900/60 min-w-max"
       onMouseDown={onMouseDown}
       onDoubleClick={onDoubleClick}
@@ -137,7 +141,7 @@ const AppWindowHeader = ({
           </AppWindowHeaderButton>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

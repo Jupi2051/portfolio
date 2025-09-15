@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/storage/store";
 import { setFocusedApp } from "@/storage/slices/desktop";
 import { bringToFront } from "@/storage/slices/main";
+import { DesktopAppsList } from "@/components/windows/desktop/apps-list";
 
 const useAppWindowControls = (appId: number = -1) => {
   const dispatch = useDispatch();
@@ -17,6 +18,10 @@ const useAppWindowControls = (appId: number = -1) => {
   );
   const zIndexFrontData = useSelector(
     (x: RootState) => x.mainState.zIndicesMap
+  );
+
+  const isFlashing = useSelector((x: RootState) =>
+    x.mainState.flashingWindows.includes(appId)
   );
 
   const isFocused =
@@ -37,10 +42,12 @@ const useAppWindowControls = (appId: number = -1) => {
   };
 
   const disablerApp = useSelector((x: RootState) =>
-    x.mainState.OpenApplications.find(
-      (element) =>
-        element.metaData?.disableOtherAppsPointerEvents && element.id !== appId
-    )
+    x.mainState.OpenApplications.find((element) => {
+      return (
+        (element.metaData?.disableOtherAppsPointerEvents ?? false) === true &&
+        element.id !== appId
+      );
+    })
   );
 
   return {
@@ -50,8 +57,9 @@ const useAppWindowControls = (appId: number = -1) => {
     focusWindow,
     bringWindowToFront,
     metaData,
-    isDisabled: disablerApp?.metaData?.disableOtherAppsPointerEvents,
+    isDisabled: disablerApp !== undefined,
     disabledByOtherApp: disablerApp,
+    isFlashing,
   };
 };
 
