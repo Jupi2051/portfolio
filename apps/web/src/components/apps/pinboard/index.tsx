@@ -22,6 +22,7 @@ function Pinboard() {
     data: messages,
     isLoading,
     isError,
+    refetch,
   } = useQuery(trpc.pinboard.getPinnedMessageList.queryOptions());
   const { mutate: pinMessage, isPending: isPinning } = useMutation(
     trpc.pinboard.createPinnedMessage.mutationOptions()
@@ -36,23 +37,24 @@ function Pinboard() {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) {
     event.preventDefault();
-    summonNotificationWindow();
-    // pinMessage(
-    //   {
-    //     content,
-    //     author,
-    //     color: "white",
-    //     positionX: 0,
-    //     positionY: 0,
-    //   },
-    //   {
-    //     onSuccess: () => {
-    //       setAuthor("");
-    //       setContent("");
-    //     },
-    //     onError: console.log,
-    //   }
-    // );
+    pinMessage(
+      {
+        content,
+        author,
+        color: "white",
+        positionX: 0,
+        positionY: 0,
+      },
+      {
+        onSuccess: () => {
+          setAuthor("");
+          setContent("");
+          summonNotificationWindow();
+          refetch();
+        },
+        onError: console.log,
+      }
+    );
   }
 
   function onNameChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -100,6 +102,7 @@ function Pinboard() {
             onChange={onNameChange}
             value={author}
             maxLength={20}
+            disabled={isPinning}
           />
           <input
             className="w-full border-[0.15em] border-solid bg-ctp-lavender-300 text-white font-capirola py-[10px] px-[5px] text-[1.8em] rounded-[10px] focus:outline-none placeholder:text-white placeholder:opacity-80"
@@ -109,12 +112,14 @@ function Pinboard() {
             onChange={onContentChange}
             value={content}
             maxLength={205}
+            disabled={isPinning}
           />
         </div>
         <button
           type="submit"
           onClick={onSendMessage}
           className="font-capirola py-[7px] px-[15px] bg-transparent border-[0.2em] border-solid border-ctp-lavender-300 text-white rounded-[0.5em] text-[2em] transition-all duration-300 ease-in-out hover:cursor-pointer hover:bg-ctp-lavender-300 hover:rounded-[0px_30%_0px_30%] hover:scale-110"
+          disabled={isPinning}
         >
           Pin
         </button>

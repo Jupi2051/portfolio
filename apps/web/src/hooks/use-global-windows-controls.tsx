@@ -53,9 +53,8 @@ const useGlobalWindowsControls = () => {
 
   const flashWindow = (appId: number, durationMs: number) => {
     dispatch(setWindowFlashing({ id: appId, state: true }));
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-    }
+    if (timerRef.current) clearTimeout(timerRef.current);
+
     const timeout = setTimeout(() => {
       dispatch(setWindowFlashing({ id: appId, state: false }));
     }, durationMs);
