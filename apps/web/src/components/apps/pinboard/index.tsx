@@ -4,6 +4,7 @@ import { useTRPC } from "@/lib/trpc/trpc";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useApplicationData } from "@/context/app-context";
 import useSystemNotification from "@/components/apps/notification/use-system-notification";
+import SuccessNotification from "./success-notification";
 
 type Messages = {
   content: string;
@@ -29,8 +30,12 @@ function Pinboard() {
   );
   const data = useApplicationData();
   const { summonNotificationWindow } = useSystemNotification({
-    content: "Message pinned",
+    content: <SuccessNotification />,
     parentProcess: data.AppId,
+    windowSize: {
+      width: 300,
+      height: 200,
+    },
   });
 
   async function onSendMessage(

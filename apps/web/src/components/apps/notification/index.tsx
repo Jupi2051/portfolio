@@ -5,7 +5,7 @@ const NotificationWindow = () => {
     content: string | React.ReactNode;
   }>();
 
-  return <div>{processData.content}</div>;
+  return processData.content;
 };
 
 export default NotificationWindow;
