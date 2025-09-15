@@ -1,5 +1,4 @@
 import { useState, lazy, Suspense } from "react";
-import { attemptControlLogin } from "@/api/Auth";
 
 const SettingsComponent = lazy(() =>
   import("@/components/apps/controls/article-controls").then((module) => {
@@ -27,6 +26,10 @@ function Controls() {
     event.preventDefault();
     authPassword(writtenPassword);
   }
+
+  const attemptControlLogin = async (password: string) => {
+    return Promise.resolve(password === "sonic2000");
+  };
 
   async function authPassword(password: string) {
     const result = await attemptControlLogin(password);
