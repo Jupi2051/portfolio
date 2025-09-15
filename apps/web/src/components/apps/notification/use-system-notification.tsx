@@ -33,6 +33,7 @@ const useSystemNotification = ({
         disableMaximize: true,
         disableMinimize: true,
         disableResize: true,
+        disableOtherAppsPointerEvents: true,
       },
     });
 

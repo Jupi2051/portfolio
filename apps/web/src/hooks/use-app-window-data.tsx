@@ -36,6 +36,13 @@ const useAppWindowControls = (appId: number = -1) => {
     dispatch(bringToFront(appId));
   };
 
+  const disablerApp = useSelector((x: RootState) =>
+    x.mainState.OpenApplications.find(
+      (element) =>
+        element.metaData?.disableOtherAppsPointerEvents && element.id !== appId
+    )
+  );
+
   return {
     isMinimized,
     zIndexFront,
@@ -43,6 +50,8 @@ const useAppWindowControls = (appId: number = -1) => {
     focusWindow,
     bringWindowToFront,
     metaData,
+    isDisabled: disablerApp?.metaData?.disableOtherAppsPointerEvents,
+    disabledByOtherApp: disablerApp,
   };
 };
 

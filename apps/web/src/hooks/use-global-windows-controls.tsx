@@ -15,6 +15,11 @@ const useGlobalWindowsControls = () => {
     dispatch(setFocusedApp(-1));
   };
 
+  const focusWindowWithId = (appId: number) => {
+    dispatch(setFocusedApp(appId));
+    dispatch(bringToFront(appId));
+  };
+
   const openNewApplication = (application: Omit<OpenApplication, "id">) => {
     const newAppId = +new Date();
 
@@ -45,6 +50,7 @@ const useGlobalWindowsControls = () => {
 
   return {
     unFocusAllWindows,
+    focusWindowWithId,
     openNewApplication,
     closeApplication: closeApplicationAbstraction,
   };

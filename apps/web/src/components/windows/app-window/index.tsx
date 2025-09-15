@@ -7,6 +7,7 @@ import cn from "classnames";
 import AppWindowHeader from "./app-window-header";
 import useAppWindowData from "@/hooks/use-app-window-data";
 import { useResizeObserver } from "usehooks-ts";
+import useGlobalWindowsControls from "@/hooks/use-global-windows-controls";
 
 type PropType = {
   children?: ReactNode;
@@ -39,11 +40,14 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
     focusWindow,
     bringWindowToFront,
     metaData,
+    isDisabled,
+    disabledByOtherApp,
   } = useAppWindowData(AppId);
 
   const [Maximized, SetMaximized] = useState(metaData?.maximized ?? true);
   const [MoveWindow, SetMoveWindow] = useState(false);
   const CursorLocation = useMousePosition();
+  const { focusWindowWithId } = useGlobalWindowsControls();
 
   const WindowId = useMemo(() => +new Date(), []);
   const CursorOffset = useSelector(
@@ -130,6 +134,11 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
     focusWindow();
   }
 
+  function onInteractWithWindow() {
+    if (!isDisabled) return;
+    focusWindowWithId(disabledByOtherApp?.id ?? -1);
+  }
+
   const animateValue =
     isMinimized === undefined
       ? "visible"
@@ -144,17 +153,20 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
       transition={{ duration: 0.1 }}
       initial="init"
       animate="init"
-      className="absolute top-0 left-0 w-full h-full pointer-events-none"
+      className="absolute top-0 left-0 w-full h-full"
       style={metaData?.forceView ? { zIndex: 9999 } : {}}
+      onClick={onInteractWithWindow}
     >
       <motion.div
         className={cn(
-          `absolute border border-black border-solid mx-auto rounded-md overflow-hidden box-shadow-[0px_0px_15px_0px_rgba(0,0,0,0.4)] user-select-none transition-[box-shadow,border] duration-200 isolate ease-in-out pointer-events-auto`,
+          `absolute border border-black border-solid mx-auto rounded-md overflow-hidden box-shadow-[0px_0px_15px_0px_rgba(0,0,0,0.4)] user-select-none transition-[box-shadow,border] duration-200 isolate ease-in-out`,
           {
             "!border-none !rounded-none": Maximized,
             "select-auto border border-ctp-sky-400 shadow-[0px_0px_20px_0px_rgba(0,0,0,0.7)]":
               isFocused,
             "user-select-none": MoveWindow,
+            "pointer-events-auto": !isDisabled,
+            "pointer-events-none": isDisabled,
           }
         )}
         variants={exitAndOpen}

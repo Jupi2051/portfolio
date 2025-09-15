@@ -37,6 +37,8 @@ export type openApplicationMetaData = {
   disableMaximize?: boolean;
   disableMinimize?: boolean;
   disableResize?: boolean;
+  disableOtherAppsPointerEvents?: boolean;
+  disabledByOtherApp?: OpenApplication;
 };
 
 export interface OpenApplication {

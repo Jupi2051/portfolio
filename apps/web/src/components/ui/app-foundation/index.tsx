@@ -1,13 +1,8 @@
 import { useApplicationData } from "@/context/app-context";
 import AppWindow from "@/components/windows/app-window";
 import AppLoading from "./app-loading";
-
 import React, { Suspense } from "react";
-import { ReactNode } from "react";
-import {
-  OpenApplication,
-  openApplicationMetaData,
-} from "@/components/windows/desktop";
+import { OpenApplication } from "@/components/windows/desktop";
 
 export interface AppFoundationProps<T extends object = Record<string, unknown>>
   extends Omit<Omit<OpenApplication, "id">, "App"> {
