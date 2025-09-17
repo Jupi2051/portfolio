@@ -1,5 +1,4 @@
 import { lazy, Suspense, useState } from "react";
-import { createArticle } from "@/api/BlogList";
 
 const TextEditor = lazy(() =>
   import("@/components/apps/controls/text-editor").then((module) => {
@@ -22,13 +21,7 @@ function ArticleControls({ password }: { password: string }) {
     setDescriptionContent(event.target.value);
   }
 
-  async function onCreateArticle() {
-    const title = titleContent;
-    const description = descriptionContent;
-    const content = articleTextContent;
-    const response = await createArticle(title, description, content, password);
-    // post here
-  }
+  async function onCreateArticle() {}
 
   return (
     <div className="flex">
