@@ -42,24 +42,25 @@ function Pinboard() {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) {
     event.preventDefault();
-    pinMessage(
-      {
-        content,
-        author,
-        color: "white",
-        positionX: 0,
-        positionY: 0,
-      },
-      {
-        onSuccess: () => {
-          setAuthor("");
-          setContent("");
-          summonNotificationWindow();
-          refetch();
-        },
-        onError: console.log,
-      }
-    );
+    summonNotificationWindow();
+    // pinMessage(
+    //   {
+    //     content,
+    //     author,
+    //     color: "white",
+    //     positionX: 0,
+    //     positionY: 0,
+    //   },
+    //   {
+    //     onSuccess: () => {
+    //       setAuthor("");
+    //       setContent("");
+    //       summonNotificationWindow();
+    //       refetch();
+    //     },
+    //     onError: console.log,
+    //   }
+    // );
   }
 
   function onNameChange(event: React.ChangeEvent<HTMLInputElement>) {
