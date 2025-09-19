@@ -59,9 +59,9 @@ function DesktopTimeWidget() {
     <div className="w-full h-full absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none">
       <motion.div
         className="absolute bottom-2 right-4 sm:right-auto sm:bottom-auto sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-[120%] flex flex-col items-end sm:items-center sm:justify-center sm:text-center text-white"
-        initial={{ opacity: 0, filter: "blur(40px)", scale: 0.5 }}
-        animate={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
-        transition={{ delay: 1, duration: 1, ease: "easeOut" }}
+        initial={{ opacity: 0, filter: "blur(10px)", scale: 0.8, y: 20 }}
+        animate={{ opacity: 1, filter: "blur(0px)", scale: 1, y: 0 }}
+        transition={{ duration: 1, ease: "easeOut" }}
       >
         <AnimatePresence>
           <motion.h1
