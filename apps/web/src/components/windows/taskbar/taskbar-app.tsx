@@ -55,7 +55,7 @@ function TaskBarApp(Props: PropTypes) {
     return () => clearTimeout(timer);
   }, []);
 
-  const OnClickHandler = (event: React.MouseEvent<HTMLDivElement>) => {
+  const OnClickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (Props.isWindowsIcon || Props.isCustomIcon) {
       unFocusAllWindows();
       if (Props.isWindowsIcon) setRenderStartMenu(!isRendered);
@@ -89,7 +89,7 @@ function TaskBarApp(Props: PropTypes) {
   };
 
   return (
-    <motion.div
+    <motion.button
       className={cn(
         "w-12 h-12 flex items-center justify-center relative select-none px-[2rem]",
         "before:content-[''] before:block before:absolute before:top-1/2 before:left-1/2 before:opacity-0 before:bg-white/5 before:w-[3.6rem] before:h-14 before:rounded-md before:border-transparent before:border before:pointer-events-none before:-translate-1/2 before:scale-90 hover:before:scale-100 hover:before:opacity-100 before:transition-all before:duration-100 before:ease-in-out hover:before:border-white/5",
@@ -139,7 +139,7 @@ function TaskBarApp(Props: PropTypes) {
           transition: { delay: isInitialRender ? 0.4 : 0 },
         }}
       />
-    </motion.div>
+    </motion.button>
   );
 }
 

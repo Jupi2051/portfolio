@@ -89,17 +89,14 @@ function DesktopIcon(Props: PropTypes) {
   };
 
   const onClickApplication = (
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    if (isTouchDevice) {
-      openLinkedApplication();
-    } else if (event.detail === 2) {
-      openLinkedApplication();
-    }
+    if (!isTouchDevice && !(event.detail === 2 || event.detail === 0)) return;
+    openLinkedApplication();
   };
 
   return (
-    <motion.div
+    <motion.button
       style={{ ...Props.Style }}
       className={cn(
         "Desktop-Icon-Container",
@@ -137,7 +134,7 @@ function DesktopIcon(Props: PropTypes) {
       <h1 className="absolute bottom-0 font-normal text-xs mt-1.5 select-none pointer-events-none uppercase text-center font-roboto-condensed">
         {ApplicationName}
       </h1>
-    </motion.div>
+    </motion.button>
   );
 }
 
