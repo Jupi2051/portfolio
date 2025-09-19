@@ -91,12 +91,8 @@ function TaskBarApp(Props: PropTypes) {
   return (
     <motion.button
       className={cn(
-        "w-12 h-12 flex items-center justify-center relative select-none px-[2rem]",
-        "before:content-[''] before:block before:absolute before:top-1/2 before:left-1/2 before:opacity-0 before:bg-white/5 before:w-[3.6rem] before:h-14 before:rounded-md before:border-transparent before:border before:pointer-events-none before:-translate-1/2 before:scale-90 hover:before:scale-100 hover:before:opacity-100 before:transition-all before:duration-100 before:ease-in-out hover:before:border-white/5",
-        {
-          "active:rounded-lg active:filter-[hue-rotate(10deg)_brightness(80%)_saturate(3.5)]":
-            Props.isWindowsIcon,
-        },
+        "w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center relative select-none sm:px-[2rem] group",
+        "before:content-[''] before:block before:absolute before:top-1/2 before:left-1/2 before:opacity-0 before:bg-white/5 before:w-9 before:h-9 sm:before:w-[3.6rem] sm:before:h-[50px] before:rounded-md before:border-transparent before:border before:pointer-events-none before:-translate-1/2 before:scale-90 hover:before:scale-100 hover:before:opacity-100 before:transition-all before:duration-100 before:ease-in-out hover:before:border-white/5",
         {
           "before:!border-white/5 before:!scale-100 before:!opacity-100":
             Props.forceHover || isFocused,
@@ -117,13 +113,17 @@ function TaskBarApp(Props: PropTypes) {
         variants={AnimationFrames}
         src={Props.Icon}
         className={cn(
-          "max-w-10 max-h-14 pointer-events-none",
-          Props.imageClassName
+          "max-w-6 max-h-9 sm:max-w-10 sm:max-h-14 pointer-events-none",
+          Props.imageClassName,
+          {
+            "group-active:rounded-md group-active:filter-[hue-rotate(10deg)_brightness(80%)_saturate(3.5)]":
+              Props.isWindowsIcon,
+          }
         )}
       />
       <motion.span
         className={cn(
-          "absolute block top-full left-1/2 -translate-x-1/2 bg-[#93909f] rounded-md h-[3.34px] -mt-px border-transparent pointer-events-none",
+          "absolute block bottom-0 -translate-y-full sm:translate-y-0 sm:top-full sm:bottom-0 left-1/2 -translate-x-1/2 bg-[#93909f] rounded-md h-[3.34px] -mt-px border-transparent pointer-events-none",
           {
             hidden: Props.HideStatusBar,
           }

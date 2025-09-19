@@ -24,7 +24,7 @@ function OpenApps() {
 
   return (
     <Reorder.Group
-      className="flex gap-0 rounded-t-lg list-none pl-4 w-fit z-[3] grow justify-self-start"
+      className="flex gap-0 rounded-t-lg list-none sm:pl-4 w-fit z-[3] grow justify-self-start"
       values={TaskbarApplications}
       onReorder={SetTaskbarItems}
       axis="x"
@@ -42,9 +42,9 @@ function OpenApps() {
         HideStatusBar={true}
         isCustomIcon={true}
         AppId={0}
-        imageClassName="!max-w-8 !max-h-8"
+        imageClassName="!max-w-6 !max-h-6 sm:!max-w-8 sm:!max-h-8"
       />
-      <div className="w-0.5 h-8 my-auto bg-white/40 ml-4 sm:mr-12"></div>
+      <div className="w-0.5 h-6 sm:h-8 my-auto bg-white/40 ml-1 mr-3 sm:ml-4 sm:mr-12"></div>
       <AnimatePresence>
         {TaskbarApplications.map((taskbarApp) => (
           <Reorder.Item key={taskbarApp.id} value={taskbarApp}>

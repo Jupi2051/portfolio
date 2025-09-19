@@ -48,7 +48,7 @@ const StartMenuComponent = ({ className }: { className?: string }) => {
   return (
     <motion.div
       className={cn(
-        "absolute grid bottom-0 left-3 translate-x-1/2 rounded-md px-9 pt-8 pb-0 sm:pb-5 font-sans text-gray-200 font-light overflow-hidden grid-cols-1 max-h-[600px] h-full sm:min-h-[700px] w-full sm:w-[600px] bg-gradient-to-r from-ctp-blue-950/80 to-ctp-lavender-300/60 backdrop-blur-md shadow-[0px_0px_15px_0px_rgba(0,0,0,0.4)] grid-rows-[0.1fr_1.7fr_1fr]",
+        "absolute grid -bottom-1.5 left-1/2 sm:bottom-3 sm:left-5 sm:translate-x-1/2 rounded-md px-9 pt-8 pb-0 sm:pb-5 font-sans text-gray-200 font-light overflow-hidden grid-cols-1 max-h-[600px] h-full sm:min-h-[700px] w-full sm:w-[600px] bg-gradient-to-r from-ctp-blue-950/80 to-ctp-lavender-300/60 backdrop-blur-md shadow-[0px_0px_15px_0px_rgba(0,0,0,0.4)] grid-rows-[0.1fr_1.7fr_1fr]",
         className
       )}
       variants={BottomAnimationVariants}
