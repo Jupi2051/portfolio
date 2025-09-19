@@ -14,7 +14,7 @@ function DateTime() {
 
   return (
     <BackgroundAppWrapper>
-      <div className="text-white font-segoe-ui flex-col items-center text-xs -tracking-tight select-none">
+      <div className="text-white font-segoe-ui flex-col items-center text-sm -tracking-tight select-none">
         <p className="text-right select-none">
           {moment(DateTime).format("LT")}
         </p>
