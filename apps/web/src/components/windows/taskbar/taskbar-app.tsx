@@ -123,7 +123,7 @@ function TaskBarApp(Props: PropTypes) {
       />
       <motion.span
         className={cn(
-          "absolute block bottom-0 -translate-y-full sm:translate-y-0 sm:top-full sm:bottom-0 left-1/2 -translate-x-1/2 bg-[#93909f] rounded-md h-[3.34px] -mt-px border-transparent pointer-events-none",
+          "absolute block bottom-0 -translate-y-full sm:translate-y-0 sm:top-full sm:bottom-0 left-1/2 -translate-x-1/2 bg-[#93909f] rounded-md h-[2.9px] sm:h-[3.34px] -mt-px border-transparent pointer-events-none",
           {
             hidden: Props.HideStatusBar,
           }
