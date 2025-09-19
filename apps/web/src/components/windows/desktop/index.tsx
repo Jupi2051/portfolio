@@ -373,16 +373,12 @@ function Desktop({ className }: { className?: string }) {
     };
   }
 
-  function SelectDesktopIcon(IconId: number, selected: boolean) {
+  function SelectDesktopIcon(IconId: number) {
     DesktopIcons = DesktopIcons.map((element) => {
       return { ...element, Selected: element.id === IconId };
     });
     SetApplicationsArray(DesktopIcons);
   }
-
-  // function onDesktopResize(event: SyntheticEvent<HTMLDivElement, Event>) {
-  //   console.log("resize");
-  // }
 
   function onMouseDown(
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -404,7 +400,10 @@ function Desktop({ className }: { className?: string }) {
     SetHoldClick(false);
     clearInterval(Timer);
     moveHeldElement();
-    SetMoveHeldIcon(false);
+    if (isMovingHeldIcon) {
+      SetMoveHeldIcon(false);
+      SelectDesktopIcon(-1);
+    }
     SetHeldIconId(-1);
   }
 
@@ -412,7 +411,7 @@ function Desktop({ className }: { className?: string }) {
     const DesktopIconElement = event.target as Element;
     if (DesktopIconElement.classList.contains("Desktop-Icon-Container")) {
       const ElementId = DesktopIconElement.getAttribute("data-id");
-      if (ElementId) SelectDesktopIcon(Number(ElementId), true);
+      if (ElementId) SelectDesktopIcon(Number(ElementId));
     } else {
       if (!isMovingHeldIcon) {
         DesktopIcons = DesktopIcons.map((e) => {
