@@ -40,6 +40,21 @@ const AnimationFrames: Variants = {
       damping: 10,
     },
   },
+  selected: {
+    y: [-0, -5, -0],
+    transition: {
+      duration: 0.6,
+      repeat: Infinity,
+      ease: "easeInOut",
+    },
+  },
+  unselected: {
+    y: 0,
+    transition: {
+      duration: 0.3,
+      ease: "easeOut",
+    },
+  },
 };
 
 function DesktopIcon(Props: PropTypes) {
@@ -117,6 +132,7 @@ function DesktopIcon(Props: PropTypes) {
         src={Props.Icon}
         className="pointer-events-none max-h-[50px] max-w-[55px]"
         variants={AnimationFrames}
+        animate={Props.Selected ? "selected" : "unselected"}
       />
       <h1 className="absolute bottom-0 font-normal text-xs mt-1.5 select-none pointer-events-none uppercase text-center font-roboto-condensed">
         {ApplicationName}
