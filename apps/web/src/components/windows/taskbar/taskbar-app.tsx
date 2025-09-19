@@ -12,6 +12,7 @@ type PropTypes = {
   HideStatusBar?: boolean;
   isWindowsIcon?: boolean;
   AppId?: number;
+  forceHover?: boolean;
 };
 
 const AnimationFrames: Variants = {
@@ -54,6 +55,7 @@ function TaskBarApp(Props: PropTypes) {
 
   const OnClickHandler = (event: React.MouseEvent<HTMLDivElement>) => {
     if (Props.isWindowsIcon) {
+      unFocusAllWindows();
       setRenderStartMenu(!isRendered);
       return;
     }
@@ -88,10 +90,14 @@ function TaskBarApp(Props: PropTypes) {
     <motion.div
       className={cn(
         "w-10 h-10 flex items-center justify-center relative select-none",
-        "before:content-[''] before:block before:absolute before:top-1/2 before:left-1/2 before:opacity-0 before:bg-white/5 before:w-10 before:h-10 before:rounded-md before:border-transparent before:border before:pointer-events-none before:-translate-1/2 before:scale-90 hover:before:scale-100 hover:before:opacity-100 before:transition-all before:duration-100 before:ease-in-out hover:before:border-white/5",
+        "before:content-[''] before:block before:absolute before:top-1/2 before:left-1/2 before:opacity-0 before:bg-white/5 before:w-[2.3rem] before:h-10 before:rounded-md before:border-transparent before:border before:pointer-events-none before:-translate-1/2 before:scale-90 hover:before:scale-100 hover:before:opacity-100 before:transition-all before:duration-100 before:ease-in-out hover:before:border-white/5",
         {
           "active:rounded-sm active:filter-[hue-rotate(20deg)_brightness(80%)_saturate(3.5)]":
             Props.isWindowsIcon,
+        },
+        {
+          "before:!border-white/5 before:!scale-100 before:!opacity-100":
+            Props.forceHover || isFocused,
         }
       )}
       onClick={OnClickHandler}

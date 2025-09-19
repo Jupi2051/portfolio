@@ -8,7 +8,7 @@ const createUser = publicProcedure
       password: z.string().optional(),
     })
   )
-  .mutation(async ({ input, ctx }) => {
+  .mutation(async ({ input }) => {
     return {
       id: "1",
       email: input.email,
@@ -26,7 +26,7 @@ const getUser = publicProcedure
     return user;
   });
 
-const getAllUsers = publicProcedure.query(async ({ ctx }) => {
+const getAllUsers = publicProcedure.query(async () => {
   return [];
 });
 

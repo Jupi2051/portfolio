@@ -3,6 +3,7 @@ import TaskBarApp from "./taskbar-app";
 import { RootState } from "@/storage/store";
 import { AnimatePresence, Reorder } from "framer-motion";
 import { setTaskbarApplications } from "@/storage/slices/taskbar";
+import useStartMenu from "@/hooks/use-start-menu";
 
 export type TaskbarOpenApplication = {
   Icon: string;
@@ -11,6 +12,7 @@ export type TaskbarOpenApplication = {
 };
 
 function OpenApps() {
+  const { isRendered } = useStartMenu();
   const TaskbarApplications = useSelector(
     (x: RootState) => x.taskbarState.TaskbarOpenApplications
   );
@@ -22,7 +24,7 @@ function OpenApps() {
 
   return (
     <Reorder.Group
-      className="flex items-center justify-center gap-0 rounded-t-lg list-none px-1 pt-1 w-fit z-[3] col-start-2 justify-self-center"
+      className="flex gap-0 rounded-t-lg list-none px-1 pt-1 w-fit z-[3] grow justify-self-start"
       values={TaskbarApplications}
       onReorder={SetTaskbarItems}
       axis="x"
@@ -33,6 +35,7 @@ function OpenApps() {
         HideStatusBar={true}
         isWindowsIcon={true}
         AppId={0}
+        forceHover={isRendered}
       />
       <AnimatePresence>
         {TaskbarApplications.map((taskbarApp) => (

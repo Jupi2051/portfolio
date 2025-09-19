@@ -1,29 +1,39 @@
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { DesktopIcons } from "@/components/windows/desktop";
 import StartMenuApp from "@/components/windows/start-menu/start-menu-app";
 import SocialMedia, {
   SocialMediaTypes,
 } from "@/components/windows/start-menu/start-menu-social-media";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPowerOff } from "@fortawesome/free-solid-svg-icons";
 import { useOnClickOutside } from "usehooks-ts";
 import { useRef } from "react";
 import cn from "classnames";
 import useStartMenu from "@/hooks/use-start-menu";
 import StartMenuFooter from "./start-menu-footer";
 
-export const BottomAnimationVariants = {
+export const BottomAnimationVariants: Variants = {
   hidden: {
     y: "110%",
     x: "-50%",
+    transition: {
+      ease: "easeInOut",
+      duration: 0.2,
+    },
   },
   visible: {
     y: -60,
     x: "-50%",
+    transition: {
+      ease: "easeInOut",
+      duration: 0.2,
+    },
   },
   exit: {
     y: "110%",
     x: "-50%",
+    transition: {
+      ease: "easeInOut",
+      duration: 0.2,
+    },
   },
 };
 
@@ -38,7 +48,7 @@ const StartMenuComponent = ({ className }: { className?: string }) => {
   return (
     <motion.div
       className={cn(
-        "absolute grid bottom-0 rounded-md px-9 pt-8 pb-0 sm:pb-5 font-sans text-gray-200 font-light overflow-hidden grid-cols-1 left-1/2 max-h-[600px] h-full sm:min-h-[700px] w-full sm:w-[600px] bg-gradient-to-r from-ctp-blue-950/80 to-ctp-lavender-300/60 backdrop-blur-md shadow-[0px_0px_15px_0px_rgba(0,0,0,0.4)] grid-rows-[0.1fr_1.7fr_1fr]",
+        "absolute grid bottom-0 left-3 translate-x-1/2 rounded-md px-9 pt-8 pb-0 sm:pb-5 font-sans text-gray-200 font-light overflow-hidden grid-cols-1 max-h-[600px] h-full sm:min-h-[700px] w-full sm:w-[600px] bg-gradient-to-r from-ctp-blue-950/80 to-ctp-lavender-300/60 backdrop-blur-md shadow-[0px_0px_15px_0px_rgba(0,0,0,0.4)] grid-rows-[0.1fr_1.7fr_1fr]",
         className
       )}
       variants={BottomAnimationVariants}
