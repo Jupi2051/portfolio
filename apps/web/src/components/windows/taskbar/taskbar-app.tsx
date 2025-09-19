@@ -21,7 +21,7 @@ const AnimationFrames: Variants = {
   init: { y: 50 },
   enterance: {
     y: 0,
-    transition: { type: "spring", stiffness: 60, mass: 0.85 },
+    transition: { type: "spring", stiffness: 150, mass: 0.5 },
   },
   jump: {
     y: [0, -3, 0], // Go up and back down
