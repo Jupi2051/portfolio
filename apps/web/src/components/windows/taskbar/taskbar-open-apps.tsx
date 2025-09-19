@@ -42,7 +42,6 @@ function OpenApps() {
         HideStatusBar={true}
         isCustomIcon={true}
         AppId={0}
-        forceHover={isRendered}
         imageClassName="!max-w-8 !max-h-8"
       />
       <div className="w-0.5 h-8 my-auto bg-white/40 ml-4 sm:mr-12"></div>

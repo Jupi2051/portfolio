@@ -20,6 +20,7 @@ type PropTypes = {
   AppName: DesktopAppsList;
   processData?: Object;
   index?: number;
+  isMovingAnIcon?: boolean;
 };
 
 const AnimationFrames: Variants = {
@@ -88,9 +89,9 @@ function DesktopIcon(Props: PropTypes) {
       className={cn(
         "Desktop-Icon-Container",
         "relative flex flex-col w-[90px] h-[90px] pb-4 items-center justify-center text-white select-none isolate",
-        'after:content-[" "] after:pointer-events-none after:w-[98%] after:h-full after:absolute after:left-1/2 after:top-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-md after:bg-transparent after:z-[-1] after:blur-lg hover:after:bg-black/40',
+        'after:content-[" "] after:pointer-events-none after:w-[98%] after:h-full after:absolute after:left-1/2 after:top-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-md after:bg-transparent after:z-[-1] after:blur-lg after:transition-opacity after:duration-200 hover:after:bg-[#00003A]/40 active:after:opacity-0',
         {
-          "after:bg-gradient-to-tl after:from-black/40 after:to-black/40 after:blur-lg":
+          "after:bg-gradient-to-tl after:from-[#00003A]/40 after:to-[#00003A]/40 after:blur-lg":
             Props.Selected,
         }
       )}

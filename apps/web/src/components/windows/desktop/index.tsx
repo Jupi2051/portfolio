@@ -187,6 +187,14 @@ export let DesktopIcons: DesktopIconData[] = [
     AppComponent: DesktopAppsList.Pinboard,
   },
   {
+    id: 13,
+    Name: "Blog",
+    IconPath: "Imgs/DesktopApps/Notepad.webp",
+    Style: {},
+    Selected: false,
+    AppComponent: DesktopAppsList.Blog,
+  },
+  {
     id: 14,
     Name: "Controls",
     IconPath: "Imgs/DesktopApps/Controls.webp",
@@ -270,15 +278,7 @@ export let DesktopIcons: DesktopIconData[] = [
   //   Style: {},
   //   Selected: false,
   //   AppComponent: DesktopAppsList.AboutMe,
-  // },
-  // {
-  //   id: 13,
-  //   Name: "Blog",
-  //   IconPath: "Imgs/DesktopApps/Notepad.webp",
-  //   Style: {},
-  //   Selected: false,
-  //   AppComponent: DesktopAppsList.Blog,
-  // },
+  // }
 ];
 
 let Timer: number;
@@ -332,7 +332,7 @@ function Desktop({ className }: { className?: string }) {
     if (isMovingHeldIcon) {
       const GridLocation = GetGridLocationFromMousePosition();
       UpdateElementGridLocation(HeldIconID, GridLocation);
-      SelectDesktopIcon(Number(HeldIconID), true);
+      // SelectDesktopIcon(Number(HeldIconID), true);
     }
   }
 
@@ -458,6 +458,7 @@ function Desktop({ className }: { className?: string }) {
             AppName={desktopApp.AppComponent}
             processData={desktopApp.processData}
             index={index}
+            isMovingAnIcon={isMovingHeldIcon}
           />
         ))}
         <AnimatePresence>
