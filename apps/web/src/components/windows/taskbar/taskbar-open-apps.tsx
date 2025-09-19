@@ -24,19 +24,28 @@ function OpenApps() {
 
   return (
     <Reorder.Group
-      className="flex gap-0 rounded-t-lg list-none px-1 pt-1 w-fit z-[3] grow justify-self-start"
+      className="flex gap-0 rounded-t-lg list-none pl-4 w-fit z-[3] grow justify-self-start"
       values={TaskbarApplications}
       onReorder={SetTaskbarItems}
       axis="x"
       as="ul"
     >
       <TaskBarApp
-        Icon="/Imgs/Apps/Windows.png"
+        Icon="/Imgs/Apps/Windows.webp"
         HideStatusBar={true}
         isWindowsIcon={true}
         AppId={0}
         forceHover={isRendered}
       />
+      <TaskBarApp
+        Icon="/Imgs/Apps/Search.webp"
+        HideStatusBar={true}
+        isCustomIcon={true}
+        AppId={0}
+        forceHover={isRendered}
+        imageClassName="!max-w-8 !max-h-8"
+      />
+      <div className="w-0.5 h-8 my-auto bg-white/40 ml-4 sm:mr-12"></div>
       <AnimatePresence>
         {TaskbarApplications.map((taskbarApp) => (
           <Reorder.Item key={taskbarApp.id} value={taskbarApp}>

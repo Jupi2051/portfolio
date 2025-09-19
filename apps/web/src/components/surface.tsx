@@ -4,10 +4,10 @@ import StartMenu from "@/components/windows/start-menu";
 
 function Surface() {
   return (
-    <div className="relative h-dvh bg-cover grid grid-cols-1 grid-rows-[1fr_0.05fr] overflow-hidden isolate bg-[url('/Imgs/background.webp')] isolate">
+    <div className="relative h-dvh bg-cover grid grid-cols-1 grid-rows-[1fr_0.07fr] overflow-hidden isolate bg-[url('/Imgs/background.webp')] isolate">
       <Desktop className="z-10" />
       <StartMenu className="z-20" />
-      <Taskbar className="z-30" />
+      <Taskbar className="z-30 h-full self-center" />
     </div>
   );
 }

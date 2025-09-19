@@ -11,8 +11,10 @@ type PropTypes = {
   Icon: string;
   HideStatusBar?: boolean;
   isWindowsIcon?: boolean;
+  isCustomIcon?: boolean;
   AppId?: number;
   forceHover?: boolean;
+  imageClassName?: string;
 };
 
 const AnimationFrames: Variants = {
@@ -54,9 +56,9 @@ function TaskBarApp(Props: PropTypes) {
   }, []);
 
   const OnClickHandler = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (Props.isWindowsIcon) {
+    if (Props.isWindowsIcon || Props.isCustomIcon) {
       unFocusAllWindows();
-      setRenderStartMenu(!isRendered);
+      if (Props.isWindowsIcon) setRenderStartMenu(!isRendered);
       return;
     }
 
@@ -89,10 +91,10 @@ function TaskBarApp(Props: PropTypes) {
   return (
     <motion.div
       className={cn(
-        "w-10 h-10 flex items-center justify-center relative select-none",
-        "before:content-[''] before:block before:absolute before:top-1/2 before:left-1/2 before:opacity-0 before:bg-white/5 before:w-[2.3rem] before:h-10 before:rounded-md before:border-transparent before:border before:pointer-events-none before:-translate-1/2 before:scale-90 hover:before:scale-100 hover:before:opacity-100 before:transition-all before:duration-100 before:ease-in-out hover:before:border-white/5",
+        "w-12 h-12 flex items-center justify-center relative select-none px-[2rem]",
+        "before:content-[''] before:block before:absolute before:top-1/2 before:left-1/2 before:opacity-0 before:bg-white/5 before:w-[3.6rem] before:h-14 before:rounded-md before:border-transparent before:border before:pointer-events-none before:-translate-1/2 before:scale-90 hover:before:scale-100 hover:before:opacity-100 before:transition-all before:duration-100 before:ease-in-out hover:before:border-white/5",
         {
-          "active:rounded-sm active:filter-[hue-rotate(20deg)_brightness(80%)_saturate(3.5)]":
+          "active:rounded-lg active:filter-[hue-rotate(10deg)_brightness(80%)_saturate(3.5)]":
             Props.isWindowsIcon,
         },
         {
@@ -109,15 +111,19 @@ function TaskBarApp(Props: PropTypes) {
       variants={{ exit: { width: 0 } }}
       exit="exit"
       data-is-windows-icon={Props.isWindowsIcon ? true : undefined}
+      data-is-custom-icon={Props.isCustomIcon ? true : undefined}
     >
       <motion.img
         variants={AnimationFrames}
         src={Props.Icon}
-        className="max-w-6 pointer-events-none max-h-7"
+        className={cn(
+          "max-w-10 max-h-14 pointer-events-none",
+          Props.imageClassName
+        )}
       />
       <motion.span
         className={cn(
-          "absolute block top-full left-1/2 -translate-x-1/2 -translate-y-full bg-[#93909f] rounded-md h-[3.34px] -mt-px border-transparent pointer-events-none",
+          "absolute block top-full left-1/2 -translate-x-1/2 bg-[#93909f] rounded-md h-[3.34px] -mt-px border-transparent pointer-events-none",
           {
             hidden: Props.HideStatusBar,
           }

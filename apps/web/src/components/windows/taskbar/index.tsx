@@ -6,7 +6,7 @@ function Taskbar({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "flex w-full justify-center justify-items-start bg-black/45 outline-4 outline-ctp-lavender-300/2 backdrop-blur-md",
+        "flex w-full justify-center items-center bg-black/45 outline-4 outline-ctp-lavender-300/2",
         className
       )}
     >
