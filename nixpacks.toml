@@ -2,7 +2,13 @@
 nixPkgs = ["nodejs"]
 
 [phases.install]
-cmds = ["pnpm install"]
+cmds = [
+  "ls -la",
+  "corepack enable",
+  "corepack prepare pnpm@10.15.1 --activate",
+  "pnpm --version",
+  "pnpm install --no-frozen-lockfile --reporter=verbose"
+]
 
 [phases.build]
 cmds = ["pnpm run build:server"]
