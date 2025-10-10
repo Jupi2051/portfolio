@@ -14,6 +14,8 @@
     "build:packages": "pnpm --filter @portfolio/shared build && pnpm --filter @portfolio/types build",
     "preview": "pnpm --filter @portfolio/web preview",
     "start": "pnpm --filter @portfolio/server start",
+    "start:server": "pnpm --filter @portfolio/server start",
+    "start:web": "pnpm --filter @portfolio/web start",
     "clean": "pnpm run --recursive clean && rm -rf node_modules",
     "type-check": "pnpm run --recursive type-check"
   },
