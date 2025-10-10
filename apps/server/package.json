@@ -1,7 +1,6 @@
 {
   "name": "@portfolio/server",
   "version": "0.0.0",
-  "packageManager": "pnpm@latest",
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "npx prisma generate && npx tsc -p tsconfig.types.json && tsc && tsc-alias",
