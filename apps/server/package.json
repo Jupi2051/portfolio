@@ -1,10 +1,9 @@
 {
   "name": "@portfolio/server",
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "tsc",
+    "build": "npx prisma generate && npx tsc -p tsconfig.types.json && tsc && tsc-alias",
     "start": "node dist/index.js",
     "build:types": "npx prisma generate && npx tsc -p tsconfig.types.json"
   },
@@ -22,6 +21,7 @@
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/node": "^24.3.0",
+    "tsc-alias": "^1.8.16",
     "tsx": "^4.7.0",
     "typescript": "^5.8.3"
   }
