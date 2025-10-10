@@ -4,6 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "packageManager": "pnpm@10.15.1",
+  "engines": {
+    "node": ">=20.19.0",
+    "pnpm": ">=10.15.1"
+  },
   "scripts": {
     "dev": "pnpm run --parallel dev",
     "dev:web": "pnpm --filter @portfolio/web dev",
