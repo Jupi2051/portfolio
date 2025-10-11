@@ -21,6 +21,8 @@ const createArticle = publicProcedure
       },
     });
 
+    console.log("THIS BLOG IS ON FIREE");
+
     return post;
   });
 
