@@ -4,7 +4,7 @@
   "packageManager": "pnpm@10.15.1",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "npx prisma generate && npx prisma db push --accept-data-loss && npx tsc -p tsconfig.types.json && tsc && tsc-alias",
+    "build": "npx prisma generate && npx tsc -p tsconfig.types.json && tsc && tsc-alias",
     "start": "node dist/index.js",
     "build:types": "npx prisma generate && npx tsc -p tsconfig.types.json"
   },
