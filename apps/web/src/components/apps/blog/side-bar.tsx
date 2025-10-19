@@ -30,6 +30,8 @@ export default function SideBar({
     error: listError,
   } = useQuery(trpc.blog.getArticleList.queryOptions());
 
+  console.log(articleList);
+
   return (
     <motion.div
       initial={{ x: -300, opacity: 0 }}

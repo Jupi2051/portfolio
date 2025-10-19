@@ -4,7 +4,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import UserForm from "./user-form";
 
 const SettingsComponent = lazy(() =>
-  import("@/components/apps/controls/article-controls").then((module) => {
+  import("@/components/apps/controls/aritcle-controls/index").then((module) => {
     return { default: module.default };
   })
 );
@@ -52,18 +52,10 @@ function Controls() {
 
   return (
     <div style={{ width: "100%", height: "100%", border: "none" }}>
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
+      <div className="overflow-auto w-full h-full flex items-center justify-center">
         {isAuthenticated ? (
           <div className="w-full h-full flex flex-col">
-            <div className="flex justify-end p-4">
+            <div className="flex justify-end p-4 absolute right-4">
               <button
                 onClick={handleLogout}
                 className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
