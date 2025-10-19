@@ -2,6 +2,7 @@ import { useState, lazy, Suspense } from "react";
 import { useTRPC } from "@/lib/trpc/trpc";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import UserForm from "./user-form";
+import { motion } from "framer-motion";
 
 const SettingsComponent = lazy(() =>
   import("@/components/apps/controls/aritcle-controls/index").then((module) => {
@@ -44,12 +45,27 @@ function Controls() {
             justifyContent: "center",
           }}
         >
-          <h1>Loading...</h1>
+          <motion.h1
+            className="text-6xl font-bold text-ctp-pink"
+            style={{ fontFamily: "Caveat, cursive" }}
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+              rotate: [0, 5, -5, 0],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          >
+            Loading
+          </motion.h1>
         </div>
       </div>
     );
   }
-
   return (
     <div style={{ width: "100%", height: "100%", border: "none" }}>
       <div className="overflow-auto w-full h-full flex items-center justify-center">
