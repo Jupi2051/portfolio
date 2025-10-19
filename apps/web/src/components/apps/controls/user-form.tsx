@@ -21,9 +21,6 @@ const registerSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
-type LoginFormData = z.infer<typeof loginSchema>;
-type RegisterFormData = z.infer<typeof registerSchema>;
-
 function UserForm({ type, onSuccess }: UserFormProps) {
   const trpc = useTRPC();
   const loginUser = useMutation(trpc.users.login.mutationOptions());
