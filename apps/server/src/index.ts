@@ -1,27 +1,24 @@
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { appRouter } from "./router";
 import { createContext } from "./context";
-import { prisma } from "./lib/prisma";
 
 const app = express();
-const port = process.env.PORT || 3001;
 
-// Middleware
 app.use(
   cors({
     origin:
       process.env.NODE_ENV === "production"
         ? ["https://jupi.dev"]
         : ["http://localhost:5173", "http://localhost:3000"],
-    credentials: true,
+    credentials: true, // Important for cookies
   })
 );
 
-app.use(express.json());
+app.use(cookieParser()); // Add cookie parser middleware
 
-// tRPC middleware
 app.use(
   "/trpc",
   createExpressMiddleware({
@@ -30,12 +27,8 @@ app.use(
   })
 );
 
-// Health check endpoint
-app.get("/health", (req, res) => {
-  res.json({ status: "ok", timestamp: new Date().toISOString() });
-});
+const PORT = process.env.PORT || 3000;
 
-app.listen(port, () => {
-  console.log(`🚀 Server running on port ${port}`);
-  console.log(`📡 tRPC endpoint: http://localhost:${port}/trpc`);
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
