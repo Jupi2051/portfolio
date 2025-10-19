@@ -1,6 +1,4 @@
-import { lazy, Suspense, useState } from "react";
-import { useTRPC } from "@/lib/trpc/trpc";
-import { useMutation } from "@tanstack/react-query";
+import { lazy, Suspense } from "react";
 import { motion, Variants } from "framer-motion";
 import BlogArticle from "@/components/apps/blog/blog-article";
 import useMediaQuery from "@/hooks/use-media-query";
