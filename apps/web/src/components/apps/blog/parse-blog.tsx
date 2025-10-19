@@ -73,7 +73,7 @@ const ParsedContent = memo(({ content }: { content?: string }) => {
 
 ParsedContent.displayName = "ParsedContent";
 
-const useParseBlogContent = ({ content }: { content?: string }) => {
+const useParseBlogContent = () => {
   return ParsedContent;
 };
 

@@ -59,8 +59,6 @@ const Blog = () => {
     setSelectedArticleId(articleId);
   };
 
-  console.log(selectedArticle);
-
   return (
     <div className="w-full h-full bg-ctp-base flex relative">
       {/* Toggle Button - Only visible on mobile/tablet */}

@@ -17,7 +17,7 @@ function BlogArticle({
   description,
 }: BlogArticleType) {
   const contentRef = useRef<HTMLDivElement>(null);
-  const ParsedContent = useParseBlogContent({ content });
+  const ParsedContent = useParseBlogContent();
 
   const dateTimeFormatted = new Date(dateTime);
   const formattedDate = dateTimeFormatted.toLocaleString("en-US", {
@@ -29,7 +29,7 @@ function BlogArticle({
   return (
     <div className="flex flex-col h-full isolate">
       <div className="flex flex-col w-full border-b-[1.6px] border-solid border-ctp-surface1 bg-ctp-surface0 rounded-t-lg p-6 rounded-xl -mb-5 z-10 hover:scale-[101%] transition-all duration-300">
-        <h1 className="@5xl:w-4/5 text-ctp-text font-semibold text-2xl mb-2 hover:translate-y-4">
+        <h1 className="@5xl:w-4/5 text-ctp-text font-semibold text-2xl mb-2">
           {title}
         </h1>
         <div className="flex justify-between">
