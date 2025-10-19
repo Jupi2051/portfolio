@@ -1,4 +1,6 @@
 import { lazy, Suspense, useState } from "react";
+import { useTRPC } from "@/lib/trpc/trpc";
+import { useMutation } from "@tanstack/react-query";
 
 const TextEditor = lazy(() =>
   import("@/components/apps/controls/text-editor").then((module) => {
@@ -6,10 +8,13 @@ const TextEditor = lazy(() =>
   })
 );
 
-function ArticleControls({ password }: { password: string }) {
+function ArticleControls() {
   const [articleTextContent, setArticleTextContent] = useState<string>("");
   const [titleContent, setTitleContent] = useState<string>("");
   const [descriptionContent, setDescriptionContent] = useState<string>("");
+  const [isCreating, setIsCreating] = useState<boolean>(false);
+  const trpc = useTRPC();
+  const createArticle = useMutation(trpc.blog.createArticle.mutationOptions());
 
   function onTitleChange(event: React.ChangeEvent<HTMLInputElement>) {
     event.preventDefault();
@@ -21,7 +26,35 @@ function ArticleControls({ password }: { password: string }) {
     setDescriptionContent(event.target.value);
   }
 
-  async function onCreateArticle() {}
+  function onCreateArticle() {
+    if (!titleContent || !descriptionContent || !articleTextContent) {
+      alert("Please fill in all fields");
+      return;
+    }
+
+    setIsCreating(true);
+
+    // This would use a protected procedure to create the article
+    // You'll need to create this endpoint in your blog router
+    createArticle.mutate(
+      {
+        title: titleContent,
+        description: descriptionContent,
+        content: articleTextContent,
+      },
+      {
+        onSuccess: () => {
+          setTitleContent("");
+          setDescriptionContent("");
+          setArticleTextContent("");
+          alert("Article created successfully!");
+        },
+        onError: (error) => {
+          alert(`Failed to create article: ${error.message}`);
+        },
+      }
+    );
+  }
 
   return (
     <div className="flex">
@@ -34,6 +67,7 @@ function ArticleControls({ password }: { password: string }) {
               value={titleContent}
               placeholder="Changing title with...."
               onChange={onTitleChange}
+              disabled={isCreating}
             />
           </div>
           <div className="flex w-full items-center justify-start gap-2.5 text-xl">
@@ -43,6 +77,7 @@ function ArticleControls({ password }: { password: string }) {
               placeholder="This article talks about...."
               value={descriptionContent}
               onChange={onDescriptionChange}
+              disabled={isCreating}
             />
           </div>
         </div>
@@ -54,10 +89,11 @@ function ArticleControls({ password }: { password: string }) {
         </Suspense>
         <button
           type="button"
-          className="border-2 border-solid border-gray-800 rounded-2xl cursor-pointer transition-all duration-300 ease-in-out px-4 py-8 text-base font-bold hover:bg-white hover:text-black hover:border-white"
+          className="border-2 border-solid border-gray-800 rounded-2xl cursor-pointer transition-all duration-300 ease-in-out px-4 py-8 text-base font-bold hover:bg-white hover:text-black hover:border-white disabled:opacity-50 disabled:cursor-not-allowed"
           onClick={onCreateArticle}
+          disabled={isCreating}
         >
-          Create Article
+          {isCreating ? "Creating Article..." : "Create Article"}
         </button>
       </div>
     </div>

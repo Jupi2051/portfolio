@@ -1,4 +1,7 @@
 import { useState, lazy, Suspense } from "react";
+import { useTRPC } from "@/lib/trpc/trpc";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import UserForm from "./user-form";
 
 const SettingsComponent = lazy(() =>
   import("@/components/apps/controls/article-controls").then((module) => {
@@ -7,70 +10,78 @@ const SettingsComponent = lazy(() =>
 );
 
 function Controls() {
-  const [writtenPassword, setWrittenPassword] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const trpc = useTRPC();
+  const logoutUser = useMutation(trpc.users.logout.mutationOptions());
 
-  function onChangeText(event: React.ChangeEvent<HTMLInputElement>) {
-    setWrittenPassword(event.target.value);
-    event.preventDefault();
+  // Check if any users are registered to determine form type
+  const { data: isRegistered, isLoading: isCheckingRegistration } = useQuery(
+    trpc.users.isRegistered.queryOptions()
+  );
+
+  function handleAuthSuccess() {
+    setIsAuthenticated(true);
   }
 
-  function onSubmitPassword(
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) {
-    event.preventDefault();
-    authPassword(writtenPassword);
+  function handleLogout() {
+    logoutUser.mutate(undefined, {
+      onSuccess: () => {
+        setIsAuthenticated(false);
+      },
+    });
   }
 
-  function onFormSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    authPassword(writtenPassword);
-  }
-
-  const attemptControlLogin = async (password: string) => {
-    return Promise.resolve(password === "sonic2000");
-  };
-
-  async function authPassword(password: string) {
-    const result = await attemptControlLogin(password);
-    if (result) {
-      setPassword(writtenPassword);
-    }
+  // Show loading while checking registration status
+  if (isCheckingRegistration) {
+    return (
+      <div style={{ width: "100%", height: "100%", border: "none" }}>
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <h1>Loading...</h1>
+        </div>
+      </div>
+    );
   }
 
   return (
     <div style={{ width: "100%", height: "100%", border: "none" }}>
       <div
         style={{
-          widows: "100%",
+          width: "100%",
           height: "100%",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        {password === "sonic2000" ? (
-          <Suspense fallback={<h1>DAMN ITS LOADING RN BOYS ITS LADING</h1>}>
-            <SettingsComponent password={password} />
-          </Suspense>
-        ) : (
-          <div className="w-full h-full flex items-center justify-center bg-black">
-            <form onSubmit={onFormSubmit} className="flex flex-col gap-2.5">
-              <input
-                className="h-20 rounded-xl w-96 text-3xl py-2 px-1 bg-gray-950 border-2 border-solid border-gray-900 text-white"
-                type="password"
-                onChange={onChangeText}
-                placeholder="Password...."
-              />
+        {isAuthenticated ? (
+          <div className="w-full h-full flex flex-col">
+            <div className="flex justify-end p-4">
               <button
-                className="create-article-button"
-                type="submit"
-                onClick={onSubmitPassword}
+                onClick={handleLogout}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
               >
-                Log In
+                Logout
               </button>
-            </form>
+            </div>
+            <div className="flex-1 flex items-center justify-center">
+              <Suspense fallback={<h1>DAMN ITS LOADING RN BOYS ITS LADING</h1>}>
+                <SettingsComponent />
+              </Suspense>
+            </div>
           </div>
+        ) : (
+          <UserForm
+            type={isRegistered ? "login" : "register"}
+            onSuccess={handleAuthSuccess}
+          />
         )}
       </div>
     </div>
