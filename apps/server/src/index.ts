@@ -33,6 +33,14 @@ app.use(
 
 app.use(cookieParser()); // Add cookie parser middleware
 
+console.log("NODE_ENV:", process.env.NODE_ENV);
+console.log(
+  "CORS origins:",
+  process.env.NODE_ENV === "production"
+    ? ["https://jupi.dev"]
+    : ["http://localhost:5173", "http://localhost:3000"]
+);
+
 app.use(
   "/trpc",
   createExpressMiddleware({
