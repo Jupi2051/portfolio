@@ -19,7 +19,7 @@ import TextEditorBubbleMenu from "./text-editor-bubble-menu";
 import "@catppuccin/highlightjs/css/catppuccin-frappe.css";
 import "./tiptap-styles.css";
 
-// Custom CodeBlock extension that adds language attribute
+// Custom CodeBlock extension that adds language attribute and tab indentation
 const CustomCodeBlockLowlight = CodeBlockLowlight.extend({
   renderHTML({ node, HTMLAttributes }) {
     const language = node.attrs.language || "text";
@@ -36,6 +36,43 @@ const CustomCodeBlockLowlight = CodeBlockLowlight.extend({
         0,
       ],
     ];
+  },
+
+  addKeyboardShortcuts() {
+    const isInCodeBlock = (editor: any) => {
+      const parentType = editor.state.selection.$from.parent.type.name;
+      return (
+        editor.isActive("codeBlock") ||
+        parentType === "codeBlock" ||
+        parentType === "codeBlockLowlight"
+      );
+    };
+
+    return {
+      Tab: ({ editor }) => {
+        if (isInCodeBlock(editor)) {
+          editor.commands.insertContent("\t");
+          return true;
+        }
+        return false;
+      },
+      "Shift-Tab": ({ editor }) => {
+        if (isInCodeBlock(editor)) {
+          const { state } = editor;
+          const { $from } = state.selection;
+          const lineStart = $from.start($from.depth);
+          const lineEnd = $from.end($from.depth);
+          const lineText = state.doc.textBetween(lineStart, lineEnd);
+
+          if (lineText.startsWith("\t")) {
+            editor.commands.setTextSelection({ from: lineStart, to: lineEnd });
+            editor.commands.insertContent(lineText.substring(1));
+            return true;
+          }
+        }
+        return false;
+      },
+    };
   },
 });
 
