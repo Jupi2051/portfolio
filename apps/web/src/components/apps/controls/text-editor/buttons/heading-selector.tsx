@@ -17,6 +17,7 @@ const HeadingSelector = ({ editor, className = "" }: HeadingSelectorProps) => {
   return (
     <div className={`relative group ${className}`}>
       <button
+        type="button"
         className={`p-2 rounded hover:bg-ctp-surface1 text-ctp-text transition-colors ${
           editor.isActive("heading") ? "bg-ctp-surface2" : ""
         }`}
@@ -31,6 +32,7 @@ const HeadingSelector = ({ editor, className = "" }: HeadingSelectorProps) => {
       >
         <div className="space-y-1">
           <button
+            type="button"
             onClick={() => editor.chain().focus().setParagraph().run()}
             className={`w-full text-left px-2 py-1 rounded hover:bg-ctp-surface1 text-ctp-text text-sm transition-colors ${
               editor.isActive("paragraph") ? "bg-ctp-surface2" : ""
@@ -40,6 +42,7 @@ const HeadingSelector = ({ editor, className = "" }: HeadingSelectorProps) => {
             Paragraph
           </button>
           <button
+            type="button"
             onClick={() =>
               editor.chain().focus().toggleHeading({ level: 1 }).run()
             }
@@ -51,6 +54,7 @@ const HeadingSelector = ({ editor, className = "" }: HeadingSelectorProps) => {
             H1
           </button>
           <button
+            type="button"
             onClick={() =>
               editor.chain().focus().toggleHeading({ level: 2 }).run()
             }
@@ -62,6 +66,7 @@ const HeadingSelector = ({ editor, className = "" }: HeadingSelectorProps) => {
             H2
           </button>
           <button
+            type="button"
             onClick={() =>
               editor.chain().focus().toggleHeading({ level: 3 }).run()
             }
@@ -73,6 +78,7 @@ const HeadingSelector = ({ editor, className = "" }: HeadingSelectorProps) => {
             H3
           </button>
           <button
+            type="button"
             onClick={() =>
               editor.chain().focus().toggleHeading({ level: 4 }).run()
             }
@@ -84,6 +90,7 @@ const HeadingSelector = ({ editor, className = "" }: HeadingSelectorProps) => {
             H4
           </button>
           <button
+            type="button"
             onClick={() =>
               editor.chain().focus().toggleHeading({ level: 5 }).run()
             }

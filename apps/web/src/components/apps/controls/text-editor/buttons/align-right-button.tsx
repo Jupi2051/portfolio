@@ -15,6 +15,7 @@ const AlignRightButton = ({
 
   return (
     <button
+      type="button"
       onClick={() => editor.chain().focus().setTextAlign("right").run()}
       className={`p-2 rounded hover:bg-ctp-surface1 text-ctp-text transition-colors ${
         editor.isActive({ textAlign: "right" }) ? "bg-ctp-surface2" : ""

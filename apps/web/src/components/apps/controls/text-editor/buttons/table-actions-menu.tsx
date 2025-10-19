@@ -142,6 +142,7 @@ const TableActionsMenu = ({
   return (
     <div className={`relative ${className}`}>
       <button
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
         className="p-2 rounded hover:bg-ctp-surface1 text-ctp-text transition-colors flex items-center gap-1"
         title="Table Actions"
@@ -163,6 +164,7 @@ const TableActionsMenu = ({
             {tableActions.map((action, index) => (
               <button
                 key={index}
+                type="button"
                 onClick={() => {
                   action.action();
                   setIsOpen(false);

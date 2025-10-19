@@ -15,6 +15,7 @@ const StrikethroughButton = ({
 
   return (
     <button
+      type="button"
       onClick={() => editor.chain().focus().toggleStrike().run()}
       className={`p-2 rounded hover:bg-ctp-surface1 text-ctp-text transition-colors ${
         editor.isActive("strike") ? "bg-ctp-surface2" : ""

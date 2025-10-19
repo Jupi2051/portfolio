@@ -46,6 +46,7 @@ const CodeBlockSelector = ({
   return (
     <div className={`relative group ${className}`}>
       <button
+        type="button"
         onClick={() => editor.chain().focus().setCodeBlock().run()}
         className={`p-2 rounded hover:bg-ctp-surface1 text-ctp-text transition-colors ${
           editor.isActive("codeBlock") ? "bg-ctp-surface2" : ""
@@ -62,6 +63,7 @@ const CodeBlockSelector = ({
           {languages.map((language) => (
             <button
               key={language.value}
+              type="button"
               onClick={() => {
                 if (editor.isActive("codeBlock")) {
                   editor

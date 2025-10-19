@@ -15,6 +15,7 @@ const AlignCenterButton = ({
 
   return (
     <button
+      type="button"
       onClick={() => editor.chain().focus().setTextAlign("center").run()}
       className={`p-2 rounded hover:bg-ctp-surface1 text-ctp-text transition-colors ${
         editor.isActive({ textAlign: "center" }) ? "bg-ctp-surface2" : ""

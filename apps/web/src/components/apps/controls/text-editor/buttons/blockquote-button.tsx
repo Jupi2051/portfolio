@@ -15,6 +15,7 @@ const BlockquoteButton = ({
 
   return (
     <button
+      type="button"
       onClick={() => editor.chain().focus().toggleBlockquote().run()}
       className={`p-2 rounded hover:bg-ctp-surface1 text-ctp-text transition-colors ${
         editor.isActive("blockquote") ? "bg-ctp-surface2" : ""

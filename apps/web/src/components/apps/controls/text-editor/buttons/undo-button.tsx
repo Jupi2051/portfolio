@@ -12,6 +12,7 @@ const UndoButton = ({ editor, className = "" }: UndoButtonProps) => {
 
   return (
     <button
+      type="button"
       onClick={() => editor.chain().focus().undo().run()}
       disabled={!editor.can().undo()}
       className={`p-2 rounded hover:bg-ctp-surface1 disabled:opacity-50 disabled:cursor-not-allowed text-ctp-text transition-colors ${className}`}

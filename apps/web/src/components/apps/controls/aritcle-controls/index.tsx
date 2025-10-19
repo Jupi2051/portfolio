@@ -10,8 +10,12 @@ const ArticleControls = () => {
   const trpc = useTRPC();
   const createArticle = useMutation(trpc.blog.createArticle.mutationOptions());
 
-  function onPublish(event: React.FormEvent) {
-    event.preventDefault();
+  function onPublish() {
+    if (!titleContent || !descriptionContent || !articleTextContent) {
+      alert("Oops! Looks like you forgot to fill something in! 🥺");
+      return;
+    }
+
     createArticle.mutate(
       {
         title: titleContent,

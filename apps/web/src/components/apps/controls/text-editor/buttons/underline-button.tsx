@@ -12,6 +12,7 @@ const UnderlineButton = ({ editor, className = "" }: UnderlineButtonProps) => {
 
   return (
     <button
+      type="button"
       onClick={() => editor.chain().focus().toggleUnderline().run()}
       className={`p-2 rounded hover:bg-ctp-surface1 text-ctp-text transition-colors ${
         editor.isActive("underline") ? "bg-ctp-surface2" : ""

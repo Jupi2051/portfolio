@@ -15,6 +15,7 @@ const BulletListButton = ({
 
   return (
     <button
+      type="button"
       onClick={() => editor.chain().focus().toggleBulletList().run()}
       className={`p-2 rounded hover:bg-ctp-surface1 text-ctp-text transition-colors ${
         editor.isActive("bulletList") ? "bg-ctp-surface2" : ""

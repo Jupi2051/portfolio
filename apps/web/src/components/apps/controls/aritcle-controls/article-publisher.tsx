@@ -16,7 +16,7 @@ interface ArticlePublisherProps {
   setTitleContent: (titleContent: string) => void;
   descriptionContent: string;
   setDescriptionContent: (descriptionContent: string) => void;
-  onPublish: (event: React.FormEvent) => void;
+  onPublish: () => void;
   isCreating: boolean;
 }
 
@@ -32,22 +32,10 @@ function ArticlePublisher({
 }: ArticlePublisherProps) {
   const isDesktop = useMediaQuery("sm", true);
 
-  function onTitleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setTitleContent(event.target.value);
-  }
-
-  function onDescriptionChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setDescriptionContent(event.target.value);
-  }
-
   function onCreateArticle(event: React.FormEvent) {
     event.preventDefault(); // Prevent form submission
-    if (!titleContent || !descriptionContent || !articleTextContent) {
-      alert("Oops! Looks like you forgot to fill something in! 🥺");
-      return;
-    }
-
-    onPublish(event);
+    event.stopPropagation();
+    onPublish();
   }
 
   const containerVariants: Variants = {
@@ -180,7 +168,7 @@ function ArticlePublisher({
                   className="w-full px-4 py-3 bg-ctp-base/50 border border-ctp-surface1/30 rounded-xl text-ctp-text placeholder-ctp-subtext0 focus:outline-none focus:ring-2 focus:ring-ctp-blue/50 focus:border-ctp-blue font-lato"
                   value={titleContent}
                   placeholder="What's your amazing story about? 🌟"
-                  onChange={onTitleChange}
+                  onChange={(event) => setTitleContent(event.target.value)}
                   disabled={isCreating}
                 />
               </motion.div>
@@ -195,7 +183,9 @@ function ArticlePublisher({
                   className="w-full px-4 py-3 bg-ctp-base/50 border border-ctp-surface1/30 rounded-xl text-ctp-text placeholder-ctp-subtext0 focus:outline-none focus:ring-2 focus:ring-ctp-blue/50 focus:border-ctp-blue font-lato"
                   placeholder="Give us a sneak peek! 👀"
                   value={descriptionContent}
-                  onChange={onDescriptionChange}
+                  onChange={(event) =>
+                    setDescriptionContent(event.target.value)
+                  }
                   disabled={isCreating}
                 />
               </motion.div>

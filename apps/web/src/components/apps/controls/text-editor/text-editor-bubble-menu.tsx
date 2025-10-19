@@ -87,6 +87,7 @@ const TextEditorBubbleMenu = ({ editor }: { editor: Editor }) => {
               }}
               className="p-2 rounded hover:bg-ctp-surface1 text-ctp-text transition-colors"
               title="Edit Alt Text"
+              type="button"
             >
               <FontAwesomeIcon icon={faImage} />
             </button>
@@ -100,6 +101,7 @@ const TextEditorBubbleMenu = ({ editor }: { editor: Editor }) => {
               }}
               className="p-2 rounded hover:bg-ctp-surface1 text-ctp-text transition-colors"
               title="Change Image URL"
+              type="button"
             >
               <FontAwesomeIcon icon={faExpand} />
             </button>
@@ -107,6 +109,7 @@ const TextEditorBubbleMenu = ({ editor }: { editor: Editor }) => {
               onClick={() => editor.chain().focus().deleteNode("image").run()}
               className="p-2 rounded hover:bg-ctp-surface1 text-ctp-text transition-colors"
               title="Delete Image"
+              type="button"
             >
               <FontAwesomeIcon icon={faTrash} />
             </button>

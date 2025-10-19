@@ -25,6 +25,7 @@ const HighlightColorPicker = ({
   return (
     <div className={`relative group ${className}`}>
       <button
+        type="button"
         className="p-2 rounded hover:bg-ctp-surface1 text-ctp-text transition-colors"
         title="Highlight"
       >
@@ -35,6 +36,7 @@ const HighlightColorPicker = ({
           {highlights.map((color) => (
             <button
               key={color.name}
+              type="button"
               onClick={() =>
                 editor
                   .chain()

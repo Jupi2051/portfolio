@@ -12,6 +12,7 @@ const RedoButton = ({ editor, className = "" }: RedoButtonProps) => {
 
   return (
     <button
+      type="button"
       onClick={() => editor.chain().focus().redo().run()}
       disabled={!editor.can().redo()}
       className={`p-2 rounded hover:bg-ctp-surface1 disabled:opacity-50 disabled:cursor-not-allowed text-ctp-text transition-colors ${className}`}

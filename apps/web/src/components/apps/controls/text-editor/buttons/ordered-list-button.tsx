@@ -15,6 +15,7 @@ const OrderedListButton = ({
 
   return (
     <button
+      type="button"
       onClick={() => editor.chain().focus().toggleOrderedList().run()}
       className={`p-2 rounded hover:bg-ctp-surface1 text-ctp-text transition-colors ${
         editor.isActive("orderedList") ? "bg-ctp-surface2" : ""

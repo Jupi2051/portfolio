@@ -24,6 +24,7 @@ const TextColorPicker = ({ editor, className = "" }: TextColorPickerProps) => {
   return (
     <div className={`relative group ${className}`}>
       <button
+        type="button"
         className="p-2 rounded hover:bg-ctp-surface1 text-ctp-text transition-colors"
         title="Text Color"
       >
@@ -34,6 +35,7 @@ const TextColorPicker = ({ editor, className = "" }: TextColorPickerProps) => {
           {colors.map((color) => (
             <button
               key={color.name}
+              type="button"
               onClick={() => editor.chain().focus().setColor(color.value).run()}
               className="w-6 h-6 rounded border border-ctp-surface1 hover:scale-110 transition-transform"
               style={{ backgroundColor: color.value }}

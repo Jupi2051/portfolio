@@ -31,6 +31,7 @@ const LinkButton = ({ editor, className = "" }: LinkButtonProps) => {
 
   return (
     <button
+      type="button"
       onClick={setLink}
       className={`p-2 rounded hover:bg-ctp-surface1 text-ctp-text transition-colors ${
         editor.isActive("link") ? "bg-ctp-surface2" : ""

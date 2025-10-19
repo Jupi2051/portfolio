@@ -12,6 +12,7 @@ const ItalicButton = ({ editor, className = "" }: ItalicButtonProps) => {
 
   return (
     <button
+      type="button"
       onClick={() => editor.chain().focus().toggleItalic().run()}
       className={`p-2 rounded hover:bg-ctp-surface1 text-ctp-text transition-colors ${
         editor.isActive("italic") ? "bg-ctp-surface2" : ""
