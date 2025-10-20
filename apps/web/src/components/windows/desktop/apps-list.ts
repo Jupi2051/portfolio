@@ -1,6 +1,9 @@
 import { lazy } from "react";
 import AppLoadingFailed from "@/components/ui/app-foundation/app-loading-failed";
 import NotificationWindow from "@/components/apps/notification/index";
+type AppKey = keyof typeof DesktopAppsList;
+export const toAppFromName = (k: string): DesktopAppsList =>
+  DesktopAppsList[k as AppKey] as DesktopAppsList;
 
 export enum DesktopAppsList {
   DummyApp,

@@ -1,11 +1,14 @@
-import { SyntheticEvent, useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "@/Styles/Desktop.css";
 import DesktopIcon from "@/components/windows/desktop/desktop-icon";
 import DesktopTimeWidget from "@/components/widgets/time/desktop-time-widget";
 import useResizeObserver from "use-resize-observer";
 import MovingDesktopIcon from "@/components/windows/desktop/moving-desktop-icon";
 import ApplicationsContainer from "@/components/windows/desktop/applications-container";
-import { DesktopAppsList } from "@/components/windows/desktop/apps-list";
+import {
+  DesktopAppsList,
+  toAppFromName,
+} from "@/components/windows/desktop/apps-list";
 import { AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/storage/store";
@@ -13,6 +16,9 @@ import { setFocusedApp } from "@/storage/slices/desktop";
 import { FolderItem } from "@/components/apps/explorer";
 import cn from "classnames";
 import { Dimensions2D } from "@/components/windows/app-window";
+import useApplicationURLParams from "@/hooks/use-application-url-params";
+import useGlobalWindowsControls from "@/hooks/use-global-windows-controls";
+import useGlobalTaskbarControls from "@/hooks/use-global-taskbar-controls";
 
 type Point = {
   x: number;
@@ -287,8 +293,11 @@ const MaxDistanceBeforeMovementTrigger = 10;
 let LocalMousePosition: { x: number; y: number } = { x: 0, y: 0 };
 
 function Desktop({ className }: { className?: string }) {
+  const urlParams = useApplicationURLParams();
+  const { openNewApplication } = useGlobalWindowsControls();
+  const { openNewTaskbarApplication } = useGlobalTaskbarControls();
   const dispatch = useDispatch();
-  const [isHoldClicked, SetHoldClick] = useState(false);
+  const startedURLApps = useRef(false);
   const [HoldClickInitPosition, SetHoldClickInitPosition] = useState({
     x: 0,
     y: 0,
@@ -307,10 +316,30 @@ function Desktop({ className }: { className?: string }) {
   );
 
   useEffect(() => {
-    if (isHoldClicked)
-      Timer = setInterval(onHoldClick, 10) as unknown as number;
-    else EndClick();
-  }, [isHoldClicked]);
+    if (startedURLApps.current) return;
+    startedURLApps.current = true;
+
+    urlParams.forEach((appState) => {
+      const AppKey = toAppFromName(appState.app);
+      const foundIconData = DesktopIcons.find(
+        (desktopIcon) => desktopIcon.AppComponent === AppKey
+      );
+      const { focusWindow, bringWindowToFront, app } = openNewApplication({
+        App: AppKey,
+        processIcon: foundIconData?.IconPath ?? "",
+        processName: foundIconData?.Name ?? "",
+        processData: appState.value,
+      });
+
+      focusWindow();
+      bringWindowToFront();
+      openNewTaskbarApplication({
+        id: app.id,
+        AppId: app.id,
+        Icon: foundIconData?.IconPath ?? "",
+      });
+    });
+  }, []);
 
   function onMouseMove(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     const rect = event.currentTarget.getBoundingClientRect();
@@ -384,7 +413,6 @@ function Desktop({ className }: { className?: string }) {
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ): void {
     SetHoldClickInitPosition({ x: event.clientX, y: event.clientY });
-    SetHoldClick(true);
     const DesktopClickedElement = event.target as Element;
     if (DesktopClickedElement.classList.contains("Desktop-Icon-Container")) {
       const ElementId =
@@ -397,8 +425,6 @@ function Desktop({ className }: { className?: string }) {
   }
 
   function EndClick() {
-    SetHoldClick(false);
-    clearInterval(Timer);
     moveHeldElement();
     if (isMovingHeldIcon) {
       SetMoveHeldIcon(false);
@@ -422,11 +448,6 @@ function Desktop({ className }: { className?: string }) {
     }
 
     EndClick();
-  }
-
-  function onHoldClick() {
-    // if (HeldIconID >= 0)
-    // console.log(HeldIconID);
   }
 
   const MovingAppObject = DesktopIcons.find((e) => e.id === HeldIconID);

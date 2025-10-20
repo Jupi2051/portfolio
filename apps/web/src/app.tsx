@@ -2,9 +2,11 @@ import Surface from "@/components/surface";
 import { AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import LoadingScreen from "@/components/intro";
+import useApplicationURLParams from "./hooks/use-application-url-params";
 
 function app() {
-  const [loaded, setLoaded] = useState(false);
+  const urlParams = useApplicationURLParams();
+  const [loaded, setLoaded] = useState(urlParams.length > 0);
 
   useEffect(() => {
     setTimeout(() => {
