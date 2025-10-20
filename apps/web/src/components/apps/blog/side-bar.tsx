@@ -33,8 +33,6 @@ export default function SideBar({
     error: listError,
   } = useQuery(trpc.blog.getArticleList.queryOptions());
 
-  console.log(articleList);
-
   return (
     <>
       {/* Overlay for mobile - only visible when sidebar is open */}
