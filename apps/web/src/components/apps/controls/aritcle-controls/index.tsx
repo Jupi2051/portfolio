@@ -2,6 +2,9 @@ import { useTRPC } from "@/lib/trpc/trpc";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import ArticlePublisher from "./article-publisher";
+import SuccessNotification from "../notification";
+import { useApplicationData } from "@/context/app-context";
+import useSystemNotification from "../../notification/use-system-notification";
 
 const ArticleControls = () => {
   const [articleTextContent, setArticleTextContent] = useState<string>("");
@@ -9,10 +12,21 @@ const ArticleControls = () => {
   const [descriptionContent, setDescriptionContent] = useState<string>("");
   const trpc = useTRPC();
   const createArticle = useMutation(trpc.blog.createArticle.mutationOptions());
+  const data = useApplicationData();
+  const { summonNotificationWindow } = useSystemNotification({
+    content: <SuccessNotification />,
+    parentProcess: data.AppId,
+    windowSize: {
+      width: 450,
+      height: 200,
+    },
+  });
 
-  function onPublish() {
+  const onPublish = () => {
     if (!titleContent || !descriptionContent || !articleTextContent) {
-      alert("Oops! Looks like you forgot to fill something in! 🥺");
+      summonNotificationWindow({
+        title: "Oops! Looks like you forgot to fill something in!",
+      });
       return;
     }
 
@@ -29,15 +43,19 @@ const ArticleControls = () => {
           setTitleContent("");
           setDescriptionContent("");
           setArticleTextContent("");
-          alert("Yay! Your article is ready to shine! ✨");
+          summonNotificationWindow({
+            title: "Yay! Your article is ready to shine! ✨",
+          });
         },
         onError: (error) => {
-          alert(`Oh no! Something went wrong: ${error.message} 😅`);
+          summonNotificationWindow({
+            title: `Oh no! Something went wrong: ${error.message}`,
+          });
         },
         onSettled: () => {},
       }
     );
-  }
+  };
 
   return (
     <ArticlePublisher

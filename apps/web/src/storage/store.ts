@@ -9,6 +9,19 @@ const store = configureStore({
     taskbarState: TaskbarState,
     desktopState: DesktopState,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        // The desktop apps can carry React nodes in processData
+        // to disable errors
+        ignoredPaths: ["mainState.OpenApplications"],
+        ignoredActions: [
+          "mainState/openApplication",
+          "mainState/bringToFront",
+          "DesktopState/setFocusedApp",
+        ],
+      },
+    }),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

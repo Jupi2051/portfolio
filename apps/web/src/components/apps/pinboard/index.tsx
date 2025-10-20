@@ -6,18 +6,9 @@ import { useApplicationData } from "@/context/app-context";
 import useSystemNotification from "@/components/apps/notification/use-system-notification";
 import SuccessNotification from "./success-notification";
 
-type Messages = {
-  content: string;
-  name: string;
-  id: number;
-};
-
 function Pinboard() {
   const [content, setContent] = useState("");
   const [author, setAuthor] = useState("");
-  const [color, setColor] = useState("white");
-  const [positionX, setPositionX] = useState(0);
-  const [positionY, setPositionY] = useState(0);
   const trpc = useTRPC();
   const {
     data: messages,
