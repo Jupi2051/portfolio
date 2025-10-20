@@ -36,11 +36,8 @@ const Blog = () => {
   const [selectedArticleId, setSelectedArticleId] = useState<string | null>(
     processData?.id ?? null
   );
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
-  // Fetch article list for initial selection
-  const { data: articleList } = useQuery(
-    trpc.blog.getArticleList.queryOptions()
+  const [isSidebarOpen, setIsSidebarOpen] = useState(
+    processData?.id ? false : true
   );
 
   // Fetch selected article
