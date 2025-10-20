@@ -57,6 +57,8 @@ export interface OpenApplication {
   processData?: Object;
   parentProcess?: number;
   childrenProcess?: number[];
+  URLSavable?: boolean;
+  URLParams?: Record<string, string>;
 }
 
 export type DesktopIconData = {
@@ -71,6 +73,7 @@ export type DesktopIconData = {
   AppComponent: DesktopAppsList;
   customTaskbarIcon?: string;
   processData?: any;
+  URLSavable?: boolean;
 };
 
 let DesktopData: DesktopIconData[] = [
@@ -199,6 +202,7 @@ export let DesktopIcons: DesktopIconData[] = [
     Style: {},
     Selected: false,
     AppComponent: DesktopAppsList.Blog,
+    URLSavable: true,
   },
   {
     id: 14,
@@ -287,8 +291,6 @@ export let DesktopIcons: DesktopIconData[] = [
   // }
 ];
 
-let Timer: number;
-
 const MaxDistanceBeforeMovementTrigger = 10;
 let LocalMousePosition: { x: number; y: number } = { x: 0, y: 0 };
 
@@ -329,6 +331,7 @@ function Desktop({ className }: { className?: string }) {
         processIcon: foundIconData?.IconPath ?? "",
         processName: foundIconData?.Name ?? "",
         processData: appState.value,
+        URLSavable: foundIconData?.URLSavable ?? false,
       });
 
       focusWindow();
@@ -340,6 +343,14 @@ function Desktop({ className }: { className?: string }) {
       });
     });
   }, []);
+
+  const focusedApp = useSelector((x: RootState) => x.desktopState.focusedAppId);
+  useEffect(() => {
+    if (focusedApp === -1) {
+      history.replaceState(null, "", window.location.pathname);
+      console.log("focusedApp is -1");
+    }
+  }, [focusedApp]);
 
   function onMouseMove(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     const rect = event.currentTarget.getBoundingClientRect();

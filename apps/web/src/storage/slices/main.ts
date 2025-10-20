@@ -111,6 +111,30 @@ const mainStateReducer = createSlice({
 
       return state;
     },
+    setURLParams: (
+      state,
+      action: PayloadAction<{ id: number; params: Record<string, string> }>
+    ) => {
+      state.OpenApplications = state.OpenApplications.map((element) => {
+        if (element.id === action.payload.id) {
+          return {
+            ...element,
+            URLParams: action.payload.params,
+          };
+        }
+        return element;
+      });
+      return state;
+    },
+    deleteURLParams: (state, action: PayloadAction<number>) => {
+      state.OpenApplications = state.OpenApplications.map((element) => {
+        if (element.id === action.payload) {
+          return { ...element, URLParams: undefined };
+        }
+        return element;
+      });
+      return state;
+    },
   },
 });
 
@@ -121,6 +145,8 @@ export const {
   unhandleZIndex,
   closeApplication,
   openApplication,
+  setURLParams,
+  deleteURLParams,
 } = mainStateReducer.actions;
 
 export default mainStateReducer.reducer;

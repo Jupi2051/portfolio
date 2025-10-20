@@ -9,6 +9,7 @@ import {
 } from "@/storage/slices/main";
 import { closeTaskbarApplication } from "@/storage/slices/taskbar";
 import { useRef } from "react";
+import { DesktopAppsList } from "@/components/windows/desktop/apps-list";
 
 const useGlobalWindowsControls = () => {
   const dispatch = useDispatch();
@@ -32,8 +33,17 @@ const useGlobalWindowsControls = () => {
     };
     dispatch(openApplication(app));
 
+    const appName =
+      DesktopAppsList[app.App as DesktopAppsList] ?? "UnknownApplication";
+
     const appControls = {
-      focusWindow: () => dispatch(setFocusedApp(newAppId)),
+      focusWindow: () => {
+        dispatch(setFocusedApp(newAppId));
+        // do it in the next cycle otherwise it will delete the URL after loading.
+        setTimeout(() => {
+          history.replaceState(null, "", `?${appName}={}`);
+        });
+      },
       bringWindowToFront: () => dispatch(bringToFront(newAppId)),
       isMinimized: false,
       isFocused: false,

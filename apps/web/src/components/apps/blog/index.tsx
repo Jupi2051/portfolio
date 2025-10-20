@@ -7,6 +7,7 @@ import { useTRPC } from "@/lib/trpc/trpc";
 import { useQuery } from "@tanstack/react-query";
 import cn from "classnames";
 import { useApplicationData } from "@/context/app-context";
+import useAppWindowControls from "@/hooks/use-app-window-data";
 
 // Loading skeleton component
 const ArticleSkeleton = () => (
@@ -30,7 +31,8 @@ const ArticleSkeleton = () => (
 
 const Blog = () => {
   const trpc = useTRPC();
-  const { processData } = useApplicationData<{ id: string }>();
+  const { processData, AppId } = useApplicationData<{ id: string }>();
+  const { updateURLParams } = useAppWindowControls(AppId);
   const [selectedArticleId, setSelectedArticleId] = useState<string | null>(
     processData?.id ?? null
   );
@@ -51,14 +53,10 @@ const Blog = () => {
       selectedArticleId ? { id: selectedArticleId } : { id: "" }
     )
   );
-  useState(() => {
-    if (articleList && articleList.length > 0 && !selectedArticleId) {
-      setSelectedArticleId(articleList[0].id);
-    }
-  });
 
   const handleArticleSelect = (articleId: string) => {
     setSelectedArticleId(articleId);
+    updateURLParams({ id: articleId }, true);
   };
 
   return (
