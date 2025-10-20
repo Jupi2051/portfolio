@@ -326,11 +326,13 @@ function Desktop({ className }: { className?: string }) {
       const foundIconData = DesktopIcons.find(
         (desktopIcon) => desktopIcon.AppComponent === AppKey
       );
+
       const { focusWindow, bringWindowToFront, app } = openNewApplication({
         App: AppKey,
         processIcon: foundIconData?.IconPath ?? "",
         processName: foundIconData?.Name ?? "",
         processData: appState.value,
+        URLParams: appState.value as unknown as Record<string, string>,
         URLSavable: foundIconData?.URLSavable ?? false,
       });
 

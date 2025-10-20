@@ -41,7 +41,11 @@ const useGlobalWindowsControls = () => {
         dispatch(setFocusedApp(newAppId));
         // do it in the next cycle otherwise it will delete the URL after loading.
         setTimeout(() => {
-          history.replaceState(null, "", `?${appName}={}`);
+          history.replaceState(
+            null,
+            "",
+            `?${appName}=${JSON.stringify(application.URLParams ?? {})}`
+          );
         });
       },
       bringWindowToFront: () => dispatch(bringToFront(newAppId)),
