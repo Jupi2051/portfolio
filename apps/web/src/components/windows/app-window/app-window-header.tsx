@@ -12,7 +12,6 @@ import { useEventListener } from "usehooks-ts";
 import useAppWindowControls from "@/hooks/use-app-window-data";
 import useGlobalWindowsControls from "@/hooks/use-global-windows-controls";
 import useMediaQuery from "@/hooks/use-media-query";
-import { duration } from "moment";
 
 interface AppWindowHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   processName?: string;
@@ -30,6 +29,9 @@ interface AppWindowHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   disableMinimize?: boolean;
   isFlashing: boolean;
   isDisabled: boolean;
+  initialPosition?: Point;
+  setInitialPosition?: (position: Point | null) => void;
+  setIsMovingWindowFromMaximizedToMinimized?: (isMoving: boolean) => void;
 }
 
 const AppWindowHeader = ({
@@ -46,8 +48,8 @@ const AppWindowHeader = ({
   hiddenButtons,
   disableMaximize = false,
   disableMinimize = false,
-  isFlashing,
-  isDisabled,
+  setInitialPosition,
+  setIsMovingWindowFromMaximizedToMinimized,
 }: AppWindowHeaderProps) => {
   const isPhone = useMediaQuery("sm");
   const dispatch = useDispatch();
@@ -77,7 +79,11 @@ const AppWindowHeader = ({
     closeApplication(AppId);
   };
 
-  useEventListener("mouseup", () => setMoveWindow(false));
+  useEventListener("mouseup", () => {
+    setMoveWindow(false);
+    setInitialPosition?.(null);
+    setIsMovingWindowFromMaximizedToMinimized?.(false);
+  });
 
   function onMouseDown(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     const ClickedElement = event.target as HTMLDivElement;
@@ -89,6 +95,7 @@ const AppWindowHeader = ({
             y: NewLocation.y - (CursorLocation.y ?? 0),
           })
         );
+        setInitialPosition?.(NewLocation);
         setMoveWindow(true);
       }
     }

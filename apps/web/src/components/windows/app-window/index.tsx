@@ -30,8 +30,6 @@ const exitAndOpenMainContainer: Variants = {
   init: { opacity: 1, scale: 1 },
 };
 
-let WindowLocatorData = new Map<number, WindowBorderBox>();
-
 function AppWindow({ AppId, processName, processIcon, children }: PropType) {
   const {
     isMinimized,
@@ -45,42 +43,44 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
     isFlashing,
   } = useAppWindowData(AppId);
   const { focusWindowWithId, flashWindow } = useGlobalWindowsControls();
-
   const [Maximized, SetMaximized] = useState(metaData?.maximized ?? true);
   const [MoveWindow, SetMoveWindow] = useState(false);
-  const CursorLocation = useMousePosition();
+  const [
+    isMovingWindowFromMaximizedToMinimized,
+    SetIsMovingWindowFromMaximizedToMinimized,
+  ] = useState(false);
+  const [offsetFromMaximizedToMinimized, SetOffsetFromMaximizedToMinimized] =
+    useState(0);
 
-  const WindowId = useMemo(() => +new Date(), []);
+  const CursorLocation = useMousePosition();
   const CursorOffset = useSelector(
     (x: RootState) => x.desktopState.mouseMovementOffset
   );
   const ref = useRef<HTMLDivElement>(null);
+  const [initialPosition, setInitialPosition] = useState<null | Point>(null);
   const { width = 0, height = 0 } = useResizeObserver({
     ref,
     box: "border-box",
   });
-
   const [MinimizedDimensions, SetMinmizedDimensions] = useState<Dimensions2D>({
     width: metaData?.windowSize?.width ?? 500,
     height: metaData?.windowSize?.height ?? 500,
   });
+  const windowLocationDataRef = useRef<Point | null>(null);
+  const windowLocationData = windowLocationDataRef.current;
 
-  let FoundObject = WindowLocatorData.get(WindowId);
-  if (!FoundObject) {
-    FoundObject = {
-      Location: metaData?.windowLocation
-        ? getWindowLocation(metaData.windowLocation, MinimizedDimensions)
-        : {
-            x: Math.floor(Math.random() * 400),
-            y: Math.floor(Math.random() * 400),
-          },
-    };
-    WindowLocatorData.set(WindowId, FoundObject);
+  if (!windowLocationData) {
+    windowLocationDataRef.current = metaData?.windowLocation
+      ? getWindowLocation(metaData.windowLocation, MinimizedDimensions)
+      : {
+          x: Math.floor(Math.random() * 400),
+          y: Math.floor(Math.random() * 400),
+        };
   }
 
   let NewLocation: Point = {
-    x: FoundObject.Location.x,
-    y: FoundObject.Location.y,
+    x: windowLocationData?.x ?? 0,
+    y: windowLocationData?.y ?? 0,
   };
 
   if (MoveWindow) {
@@ -88,8 +88,39 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
       x: CursorLocation.x === null ? 0 : CursorLocation.x + CursorOffset.x,
       y: CursorLocation.y === null ? 0 : CursorLocation.y + CursorOffset.y,
     };
-    WindowLocatorData.delete(WindowId);
-    WindowLocatorData.set(WindowId, { Location: NewLocation });
+    windowLocationDataRef.current = NewLocation;
+
+    if (Maximized) {
+      const deltaVector = {
+        x: NewLocation.x - (initialPosition?.x ?? 0),
+        y: NewLocation.y - (initialPosition?.y ?? 0),
+      };
+
+      const movementDistance = Math.sqrt(
+        Math.pow(deltaVector.x, 2) + Math.pow(deltaVector.y, 2)
+      );
+
+      if (movementDistance > 7) {
+        SetMaximized(false);
+        SetIsMovingWindowFromMaximizedToMinimized(true);
+        setInitialPosition?.(null);
+        const xOffsetPercentage = Math.min(
+          (CursorLocation.x ?? 0) / (window.innerWidth ?? 1),
+          0.7
+        );
+        const finalXValue =
+          xOffsetPercentage * (MinimizedDimensions.width ?? 0);
+        SetOffsetFromMaximizedToMinimized(finalXValue);
+      }
+    }
+  }
+
+  if (isMovingWindowFromMaximizedToMinimized) {
+    NewLocation = {
+      x: (CursorLocation.x ?? 0) - offsetFromMaximizedToMinimized,
+      y: (CursorLocation.y ?? 0) - 5,
+    };
+    windowLocationDataRef.current = NewLocation;
   }
 
   const exitAndOpen: Variants = {
@@ -230,6 +261,10 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
             disableMinimize={metaData?.disableMinimize}
             isFlashing={isFlashing}
             isDisabled={isDisabled}
+            setInitialPosition={setInitialPosition}
+            setIsMovingWindowFromMaximizedToMinimized={
+              SetIsMovingWindowFromMaximizedToMinimized
+            }
           />
           <div className="flex flex-col w-full h-full border-none overflow-hidden">
             {children}
