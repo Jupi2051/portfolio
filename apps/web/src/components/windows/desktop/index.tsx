@@ -312,7 +312,7 @@ function Desktop({ className }: { className?: string }) {
   const [HeldIconID, SetHeldIconId] = useState(-1); // -1 means no element is held atm.
   const [isMovingHeldIcon, SetMoveHeldIcon] = useState(false);
   const [ApplicationsArray, SetApplicationsArray] = useState(DesktopIcons);
-
+  const focusedApp = useSelector((x: RootState) => x.desktopState.focusedAppId);
   const OpenApplications = useSelector(
     (x: RootState) => x.mainState.OpenApplications
   );
@@ -344,12 +344,9 @@ function Desktop({ className }: { className?: string }) {
     });
   }, []);
 
-  const focusedApp = useSelector((x: RootState) => x.desktopState.focusedAppId);
   useEffect(() => {
-    if (focusedApp === -1) {
+    if (focusedApp === -1)
       history.replaceState(null, "", window.location.pathname);
-      console.log("focusedApp is -1");
-    }
   }, [focusedApp]);
 
   function onMouseMove(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
