@@ -1,4 +1,4 @@
-import { ReactNode, useMemo, useRef, useState } from "react";
+import { ReactNode, useRef, useState } from "react";
 import { Point, Variants, motion } from "framer-motion";
 import useMousePosition from "@/hooks/use-mouse-position";
 import { useSelector } from "react-redux";
@@ -14,10 +14,6 @@ type PropType = {
   AppId: number;
   processName?: string;
   processIcon?: string;
-};
-
-type WindowBorderBox = {
-  Location: Point;
 };
 
 export type Dimensions2D = {
