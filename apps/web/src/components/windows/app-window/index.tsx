@@ -114,7 +114,7 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
   if (isMovingWindowFromMaximizedToMinimized) {
     NewLocation = {
       x: (CursorLocation.x ?? 0) - offsetFromMaximizedToMinimized,
-      y: (CursorLocation.y ?? 0) - 5,
+      y: (CursorLocation.y ?? 0) - 15,
     };
     windowLocationDataRef.current = NewLocation;
   }
