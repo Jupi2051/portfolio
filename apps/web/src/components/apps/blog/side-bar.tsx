@@ -103,7 +103,10 @@ export default function SideBar({
                     key={article.id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    onClick={() => onArticleSelect(article.id)}
+                    onClick={() => {
+                      onArticleSelect(article.id);
+                      if (isOpen) onClose();
+                    }}
                     className={`w-full p-4 rounded-lg text-left cursor-pointer ${
                       selectedArticleId === article.id
                         ? "bg-ctp-blue/20 border border-ctp-blue/30 shadow-lg"
