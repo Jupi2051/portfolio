@@ -7,7 +7,7 @@ import { OpenApplication } from "@/components/windows/desktop";
 export interface AppFoundationProps<T extends object = Record<string, unknown>>
   extends Omit<Omit<OpenApplication, "id">, "App"> {
   AppId: number;
-  processData: T;
+  processData?: T;
 }
 
 const AppFoundation = ({ App }: { App: React.FC }) => {

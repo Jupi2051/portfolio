@@ -3,7 +3,6 @@ import { DesktopAppsList } from "@/components/windows/desktop/apps-list";
 
 type MatchedParam = { app: string; value: string };
 
-// Build case-insensitive lookup: lowercase enum key -> proper-cased enum key
 const enumKeyMap: Record<string, string> = Object.keys(DesktopAppsList)
   .filter((k) => isNaN(Number(k)))
   .reduce<Record<string, string>>((acc, key) => {
@@ -21,12 +20,9 @@ function safelyDecode(value: string): string {
 
 function ensureJsonString(value: string): string {
   const trimmed = value.trim();
-  // If already valid JSON, return as-is (decoded)
   try {
-    JSON.parse(trimmed);
-    return trimmed;
+    return JSON.parse(trimmed);
   } catch {
-    // Not valid JSON → make it a JSON string
     return JSON.stringify(value);
   }
 }
@@ -59,13 +55,11 @@ function parseParamsFromLocation(filter?: DesktopAppsList[]): MatchedParam[] {
 const useApplicationURLParams = (
   filter?: DesktopAppsList[]
 ): MatchedParam[] => {
-  // Compute initial value synchronously so first render isn't empty
   const [matched, setMatched] = useState<MatchedParam[]>(() =>
     parseParamsFromLocation(filter)
   );
 
   useEffect(() => {
-    // Re-parse on filter change and on browser navigation
     const update = () => setMatched(parseParamsFromLocation(filter));
 
     update();

@@ -15,7 +15,7 @@ const useSystemNotification = ({
 }: SystemNotificationData) => {
   const { openNewApplication } = useGlobalWindowsControls();
 
-  const openNotificationWindow = (processData: Object) => {
+  const openNotificationWindow = (processData?: Object) => {
     const { focusWindow, bringWindowToFront } = openNewApplication({
       App: DesktopAppsList.Notification,
       processIcon: "Imgs/Apps/Notification.webp",

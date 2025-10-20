@@ -10,8 +10,6 @@ const SuccessNotification = () => {
     };
   }>();
 
-  console.log(processData);
-
   return (
     <div className="flex flex-col items-center gap-2 p-4 w-full h-full bg-ctp-base">
       <div className="flex items-center gap-2 text-white">
