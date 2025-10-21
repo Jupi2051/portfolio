@@ -4,6 +4,8 @@ import cn from "classnames";
 
 interface PinFormProps {
   onSubmit?: (data: { name: string; message: string; color: string }) => void;
+  onCancel?: () => void;
+  type: "create" | "edit";
 }
 
 type ColorOption =
@@ -16,7 +18,7 @@ type ColorOption =
   | "yellow"
   | "gray";
 
-const PinForm = ({ onSubmit }: PinFormProps) => {
+const PinForm = ({ onSubmit, onCancel, type = "create" }: PinFormProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -46,6 +48,12 @@ const PinForm = ({ onSubmit }: PinFormProps) => {
 
   const handleColorSelect = (color: ColorOption) => {
     setFormData((prev) => ({ ...prev, color }));
+  };
+
+  const handleCancel = () => {
+    onCancel?.();
+    setFormData({ name: "", message: "", color: "blue" });
+    setIsOpen(false);
   };
 
   const getColorClasses = (color: ColorOption) => {
@@ -119,15 +127,29 @@ const PinForm = ({ onSubmit }: PinFormProps) => {
 
   return (
     <>
-      {/* Open Form Button */}
-      <button
-        onClick={() => setIsOpen(true)}
-        className="absolute bottom-9 right-9 bg-ctp-mauve backdrop-blur-sm px-8 py-4 rounded-2xl shadow-xl hover:shadow-2xl group border-4 border-white/90 hover:border-white cursor-pointer active:bg-ctp-mauve/80 active:shadow-md transition-all duration-300 hover:cursor-pointer"
-      >
-        <span className="text-white text-2xl font-caveat font-bold group-hover:text-gray-100 transition-colors duration-300">
-          Pin your own!
-        </span>
-      </button>
+      {/* Button Container */}
+      <div className="absolute bottom-9 right-9 flex gap-3">
+        {/* Cancel Button - only show in edit mode */}
+        {type === "edit" && (
+          <button
+            onClick={handleCancel}
+            className="bg-gray-600 backdrop-blur-sm px-8 py-4 rounded-2xl shadow-xl hover:shadow-2xl group border-4 border-white/90 hover:border-white cursor-pointer active:bg-gray-500 active:shadow-md transition-all duration-300 hover:cursor-pointer hover:bg-gray-500"
+          >
+            <span className="text-white text-2xl font-caveat font-bold group-hover:text-gray-100 transition-colors duration-300">
+              Cancel
+            </span>
+          </button>
+        )}
+        {/* Open Form Button */}
+        <button
+          onClick={() => setIsOpen(true)}
+          className="bg-ctp-mauve backdrop-blur-sm px-8 py-4 rounded-2xl shadow-xl hover:shadow-2xl group border-4 border-white/90 hover:border-white cursor-pointer active:bg-ctp-mauve/80 active:shadow-md transition-all duration-300 hover:cursor-pointer"
+        >
+          <span className="text-white text-2xl font-caveat font-bold group-hover:text-gray-100 transition-colors duration-300">
+            {type === "create" ? "Pin your own!" : "Edit!"}
+          </span>
+        </button>
+      </div>
 
       {/* Overlay and Form */}
       <AnimatePresence>
@@ -139,7 +161,12 @@ const PinForm = ({ onSubmit }: PinFormProps) => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="absolute inset-0 bg-black/50 backdrop-blur-sm z-50 pointer-events-auto"
+              className={cn(
+                "absolute inset-0 bg-black/50 backdrop-blur-sm z-50 pointer-events-auto",
+                {
+                  "pointer-events-none": !isOpen,
+                }
+              )}
               onClick={() => setIsOpen(false)}
             />
 

@@ -12,6 +12,9 @@ const createPinnedMessage = publicProcedure
     })
   )
   .mutation(async ({ input, ctx }) => {
+    // Add artificial delay of 1.5 seconds
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+
     return ctx.prisma.pinnedMessage.create({
       data: input,
     });
