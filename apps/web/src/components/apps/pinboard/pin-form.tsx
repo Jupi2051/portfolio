@@ -136,14 +136,14 @@ const PinForm = ({ onSubmit, onCancel, type = "create" }: PinFormProps) => {
   return (
     <>
       {/* Button Container */}
-      <div className="absolute bottom-9 right-9 flex gap-3">
+      <div className="absolute bottom-4 right-4 @xl/appwindow:bottom-9 @xl/appwindow:right-9 flex gap-2 @xl/appwindow:gap-3">
         {/* Cancel Button - only show in edit mode */}
         {type === "edit" && (
           <button
             onClick={handleCancel}
-            className="bg-gray-600 backdrop-blur-sm px-8 py-4 rounded-2xl shadow-xl hover:shadow-2xl group border-4 border-white/90 hover:border-white cursor-pointer active:bg-gray-500 active:shadow-md transition-all duration-300 hover:cursor-pointer hover:bg-gray-500"
+            className="bg-gray-600 backdrop-blur-sm px-4 py-2 @xl/appwindow:px-8 @xl/appwindow:py-4 rounded-xl @xl/appwindow:rounded-2xl shadow-xl hover:shadow-2xl group border-2 @xl/appwindow:border-4 border-white/90 hover:border-white cursor-pointer active:bg-gray-500 active:shadow-md transition-all duration-300 hover:cursor-pointer hover:bg-gray-500"
           >
-            <span className="text-white text-2xl font-caveat font-bold group-hover:text-gray-100 transition-colors duration-300">
+            <span className="text-white text-lg @xl/appwindow:text-2xl font-caveat font-bold group-hover:text-gray-100 transition-colors duration-300">
               Cancel
             </span>
           </button>
@@ -151,9 +151,9 @@ const PinForm = ({ onSubmit, onCancel, type = "create" }: PinFormProps) => {
         {/* Open Form Button */}
         <button
           onClick={() => setIsOpen(true)}
-          className="bg-ctp-mauve backdrop-blur-sm px-8 py-4 rounded-2xl shadow-xl hover:shadow-2xl group border-4 border-white/90 hover:border-white cursor-pointer active:bg-ctp-mauve/80 active:shadow-md transition-all duration-300 hover:cursor-pointer"
+          className="bg-ctp-mauve backdrop-blur-sm px-4 py-2 @xl/appwindow:px-8 @xl/appwindow:py-4 rounded-xl @xl/appwindow:rounded-2xl shadow-xl hover:shadow-2xl group border-2 @xl/appwindow:border-4 border-white/90 hover:border-white cursor-pointer active:bg-ctp-mauve/80 active:shadow-md transition-all duration-300 hover:cursor-pointer"
         >
-          <span className="text-white text-2xl font-caveat font-bold group-hover:text-gray-100 transition-colors duration-300">
+          <span className="text-white text-lg @xl/appwindow:text-2xl font-caveat font-bold group-hover:text-gray-100 transition-colors duration-300">
             {type === "create" ? "Pin your own!" : "Edit!"}
           </span>
         </button>
@@ -193,7 +193,7 @@ const PinForm = ({ onSubmit, onCancel, type = "create" }: PinFormProps) => {
             >
               <div
                 className={cn(
-                  "relative w-full max-w-md mx-4 p-6 rounded-2xl shadow-2xl backdrop-blur-sm border-2 border-white/20 pointer-events-auto",
+                  "relative w-full max-w-sm @xl/appwindow:max-w-md mx-3 @xl/appwindow:mx-4 p-4 @xl/appwindow:p-6 rounded-xl @xl/appwindow:rounded-2xl shadow-2xl backdrop-blur-sm border-2 border-white/20 pointer-events-auto",
                   getColorClasses(formData.color)
                 )}
                 onClick={(e) => e.stopPropagation()}
@@ -231,7 +231,7 @@ const PinForm = ({ onSubmit, onCancel, type = "create" }: PinFormProps) => {
                 {/* Form Header */}
                 <h2
                   className={cn(
-                    "text-2xl font-bold mb-6 font-caveat",
+                    "text-xl @xl/appwindow:text-2xl font-bold mb-4 @xl/appwindow:mb-6 font-caveat",
                     formData.color === "black" || formData.color === "purple"
                       ? "text-white"
                       : "text-gray-800"
@@ -240,7 +240,10 @@ const PinForm = ({ onSubmit, onCancel, type = "create" }: PinFormProps) => {
                   Create a Pin
                 </h2>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form
+                  onSubmit={handleSubmit}
+                  className="space-y-4 @xl/appwindow:space-y-6"
+                >
                   {/* Name Input */}
                   <div>
                     <label
@@ -266,7 +269,7 @@ const PinForm = ({ onSubmit, onCancel, type = "create" }: PinFormProps) => {
                         }))
                       }
                       className={cn(
-                        "w-full px-4 py-3 rounded-xl border-2 backdrop-blur-sm transition-all duration-200 focus:outline-none",
+                        "w-full px-3 py-2 @xl/appwindow:px-4 @xl/appwindow:py-3 rounded-lg @xl/appwindow:rounded-xl border-2 backdrop-blur-sm transition-all duration-200 focus:outline-none text-sm @xl/appwindow:text-base",
                         formData.color === "black" ||
                           formData.color === "purple"
                           ? "border-gray-600 bg-gray-800/50 text-white placeholder-gray-400 focus:border-gray-500 focus:bg-gray-800/70"
@@ -300,9 +303,9 @@ const PinForm = ({ onSubmit, onCancel, type = "create" }: PinFormProps) => {
                           message: e.target.value,
                         }))
                       }
-                      rows={4}
+                      rows={3}
                       className={cn(
-                        "w-full px-4 py-3 rounded-xl border-2 backdrop-blur-sm transition-all duration-200 resize-none focus:outline-none",
+                        "w-full px-3 py-2 @xl/appwindow:px-4 @xl/appwindow:py-3 rounded-lg @xl/appwindow:rounded-xl border-2 backdrop-blur-sm transition-all duration-200 resize-none focus:outline-none text-sm @xl/appwindow:text-base",
                         formData.color === "black" ||
                           formData.color === "purple"
                           ? "border-gray-600 bg-gray-800/50 text-white placeholder-gray-400 focus:border-gray-500 focus:bg-gray-800/70"
@@ -315,20 +318,32 @@ const PinForm = ({ onSubmit, onCancel, type = "create" }: PinFormProps) => {
 
                   {/* Color Selection */}
                   <div>
-                    <label className="block text-sm font-medium mb-3 text-ctp-text">
+                    <label
+                      className={cn(
+                        "block text-sm font-medium mb-2 @xl/appwindow:mb-3 text-ctp-text",
+                        {
+                          "text-white":
+                            formData.color === "black" ||
+                            formData.color === "purple",
+                          "text-gray-700":
+                            formData.color !== "black" &&
+                            formData.color !== "purple",
+                        }
+                      )}
+                    >
                       Choose Color
                     </label>
-                    <div className="flex flex-wrap gap-3">
+                    <div className="flex flex-wrap gap-2 @xl/appwindow:gap-3">
                       {colorOptions.map((color) => (
                         <button
                           key={color}
                           type="button"
                           onClick={() => handleColorSelect(color)}
                           className={cn(
-                            "w-10 h-10 rounded-full transition-all duration-200 border-2 cursor-pointer hover:cursor-pointer",
+                            "w-8 h-8 @xl/appwindow:w-10 @xl/appwindow:h-10 rounded-full transition-all duration-200 border-2 cursor-pointer hover:cursor-pointer",
                             getColorButtonClasses(color),
                             formData.color === color
-                              ? "ring-4 ring-white/50 ring-offset-2 ring-offset-transparent scale-110"
+                              ? "ring-2 @xl/appwindow:ring-4 ring-white/50 ring-offset-1 @xl/appwindow:ring-offset-2 ring-offset-transparent scale-110"
                               : "hover:scale-105"
                           )}
                           title={color}
@@ -341,7 +356,7 @@ const PinForm = ({ onSubmit, onCancel, type = "create" }: PinFormProps) => {
                   <button
                     type="submit"
                     className={cn(
-                      "w-full font-bold py-3 px-6 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl active:scale-95 cursor-pointer hover:cursor-pointer",
+                      "w-full font-bold py-2 px-4 @xl/appwindow:py-3 @xl/appwindow:px-6 rounded-lg @xl/appwindow:rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl active:scale-95 cursor-pointer hover:cursor-pointer text-sm @xl/appwindow:text-base",
                       getSubmitButtonClasses(formData.color)
                     )}
                   >
