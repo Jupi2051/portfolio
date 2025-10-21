@@ -168,7 +168,7 @@ const PinForm = ({ onSubmit, onCancel, type = "create" }: PinFormProps) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.1 }}
               className={cn(
                 "absolute inset-0 bg-black/50 backdrop-blur-sm z-50 pointer-events-auto",
                 {
@@ -185,9 +185,9 @@ const PinForm = ({ onSubmit, onCancel, type = "create" }: PinFormProps) => {
               exit={{ opacity: 0, scale: 0.8, y: 50 }}
               transition={{
                 type: "spring",
-                stiffness: 300,
-                damping: 30,
-                duration: 0.4,
+                stiffness: 500,
+                damping: 25,
+                duration: 0.1,
               }}
               className="absolute inset-0 flex items-center justify-center z-50 pointer-events-none"
             >
