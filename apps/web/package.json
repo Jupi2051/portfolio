@@ -5,7 +5,7 @@
   "type": "module",
   "packageManager": "pnpm@10.15.1",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -54,6 +54,7 @@
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.3.1",
+    "react-indiana-drag-scroll": "^2.2.1",
     "react-redux": "^9.2.0",
     "react-resize-detector": "^12.1.0",
     "react-syntax-highlighter": "^15.6.6",

@@ -1,66 +1,59 @@
-import { Variants, motion } from "framer-motion";
-
+import cn from "classnames";
 interface Props {
   name: string;
   content: string;
+  top: number;
+  left: number;
+  color?:
+    | "white"
+    | "black"
+    | "blue"
+    | "green"
+    | "red"
+    | "pink"
+    | "yellow"
+    | "gray";
+  isPending?: boolean;
+  isMoving?: boolean;
 }
 
-const WritingAnimation: Variants = {
-  invisible: { opacity: 0 },
-  viewed: { opacity: 1, transition: { duration: 0.2 } },
-};
-
-function BoardMessage(props: Props) {
-  const contentLetters = props.content.split("");
-  const nameLetters = props.name.split("");
-
-  const StaggerIncrementValue =
-    (props.content.length + props.name.length) * 0.01; // 1% increase per letter
-  const ParentMessageAnimation: Variants = {
-    viewed: {
-      transition: {
-        duration: 1,
-        staggerChildren: Math.max(0.08 - StaggerIncrementValue * 0.08, 0.01),
-      },
-    },
-  };
-
+function BoardMessage({
+  name,
+  content,
+  top,
+  left,
+  color = "blue",
+  isPending = false,
+  isMoving = false,
+}: Props) {
   return (
-    <motion.div className="text-[10px] text-ctp-lavender-400 font-caveat rounded-[10px]">
-      <motion.h1
-        className="inline text-[2.5em] flex-grow-[0.2]"
-        variants={ParentMessageAnimation}
-        animate="invisible"
-        initial="invisible"
-        whileInView="viewed"
-      >
-        {nameLetters.map((letter, index) => {
-          return (
-            <motion.span variants={WritingAnimation} key={letter + "" + index}>
-              {letter}
-            </motion.span>
-          );
+    <div
+      className={cn(
+        `absolute top-[${top}px] left-[${left}px] cursor-auto z-20`,
+        {
+          "animate-pulse pointer-events-none blur-[1px]": isPending,
+          "animate-pulse shadow-2xl shadow-ctp-mauve/50 pointer-events-none":
+            isMoving,
+        }
+      )}
+      data-prevent-drag-scroll={true}
+    >
+      <div
+        className={cn("backdrop-blur-sm p-4 rounded-lg shadow-lg max-w-xs", {
+          "bg-blue-100/80": color === "blue",
+          "bg-white/80": color === "white",
+          "bg-black/80": color === "black",
+          "bg-green-100/80": color === "green",
+          "bg-red-100/80": color === "red",
+          "bg-pink-100/80": color === "pink",
+          "bg-yellow-100/80": color === "yellow",
+          "bg-gray-100/80": color === "gray",
         })}
-      </motion.h1>
-      <motion.span className="text-[2.5em] text-inherit mx-[5px_10px]">
-        :
-      </motion.span>
-      <motion.p
-        className="inline overflow-wrap-anywhere break-words text-[2.5em] leading-none w-full flex-grow-[0.8]"
-        variants={ParentMessageAnimation}
-        animate="invisible"
-        initial="invisible"
-        whileInView="viewed"
       >
-        {contentLetters.map((letter, index) => {
-          return (
-            <motion.span variants={WritingAnimation} key={letter + "" + index}>
-              {letter}
-            </motion.span>
-          );
-        })}
-      </motion.p>
-    </motion.div>
+        <h2 className="text-xl font-bold mb-2">{name}</h2>
+        <p className="text-gray-700">{content}</p>
+      </div>
+    </div>
   );
 }
 
