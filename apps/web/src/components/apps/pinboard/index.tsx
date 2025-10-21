@@ -36,7 +36,8 @@ function Pinboard() {
   };
 
   const handleBoardClick = (event: React.MouseEvent<Element, MouseEvent>) => {
-    if (!pendingMessage || !boardRef.current) return;
+    if (!pendingMessage || !boardRef.current || createPinnedMessage.isPending)
+      return;
 
     const scrollContainer = boardRef.current.querySelector(
       ".react-indiana-drag-scroll"
