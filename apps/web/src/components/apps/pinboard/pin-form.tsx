@@ -16,7 +16,8 @@ type ColorOption =
   | "red"
   | "pink"
   | "yellow"
-  | "gray";
+  | "gray"
+  | "purple";
 
 const PinForm = ({ onSubmit, onCancel, type = "create" }: PinFormProps) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,6 +36,7 @@ const PinForm = ({ onSubmit, onCancel, type = "create" }: PinFormProps) => {
     "pink",
     "yellow",
     "gray",
+    "purple",
   ];
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -74,6 +76,8 @@ const PinForm = ({ onSubmit, onCancel, type = "create" }: PinFormProps) => {
         return "bg-yellow-100/80";
       case "gray":
         return "bg-gray-100/80";
+      case "purple":
+        return "bg-gradient-to-br from-ctp-mauve/20 to-ctp-mauve/30 border-ctp-mauve/40";
       default:
         return "bg-blue-100/80";
     }
@@ -97,6 +101,8 @@ const PinForm = ({ onSubmit, onCancel, type = "create" }: PinFormProps) => {
         return "bg-yellow-500 hover:bg-yellow-600";
       case "gray":
         return "bg-gray-500 hover:bg-gray-600";
+      case "purple":
+        return "bg-ctp-mauve hover:bg-ctp-mauve/80";
       default:
         return "bg-blue-500 hover:bg-blue-600";
     }
@@ -120,6 +126,8 @@ const PinForm = ({ onSubmit, onCancel, type = "create" }: PinFormProps) => {
         return "bg-yellow-500 hover:bg-yellow-600 text-gray-800";
       case "gray":
         return "bg-gray-500 hover:bg-gray-600 text-white";
+      case "purple":
+        return "bg-ctp-mauve hover:bg-ctp-mauve/80 text-ctp-base";
       default:
         return "bg-blue-500 hover:bg-blue-600 text-white";
     }
@@ -195,7 +203,7 @@ const PinForm = ({ onSubmit, onCancel, type = "create" }: PinFormProps) => {
                   onClick={() => setIsOpen(false)}
                   className={cn(
                     "absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-200 cursor-pointer hover:cursor-pointer",
-                    formData.color === "black"
+                    formData.color === "black" || formData.color === "purple"
                       ? "bg-gray-700/50 hover:bg-gray-600/50"
                       : "bg-white/20 hover:bg-white/30"
                   )}
@@ -203,7 +211,7 @@ const PinForm = ({ onSubmit, onCancel, type = "create" }: PinFormProps) => {
                   <svg
                     className={cn(
                       "w-5 h-5",
-                      formData.color === "black"
+                      formData.color === "black" || formData.color === "purple"
                         ? "text-gray-300"
                         : "text-gray-700"
                     )}
@@ -224,7 +232,9 @@ const PinForm = ({ onSubmit, onCancel, type = "create" }: PinFormProps) => {
                 <h2
                   className={cn(
                     "text-2xl font-bold mb-6 font-caveat",
-                    formData.color === "black" ? "text-white" : "text-gray-800"
+                    formData.color === "black" || formData.color === "purple"
+                      ? "text-white"
+                      : "text-gray-800"
                   )}
                 >
                   Create a Pin
@@ -237,7 +247,8 @@ const PinForm = ({ onSubmit, onCancel, type = "create" }: PinFormProps) => {
                       htmlFor="name"
                       className={cn(
                         "block text-sm font-medium mb-2",
-                        formData.color === "black"
+                        formData.color === "black" ||
+                          formData.color === "purple"
                           ? "text-gray-300"
                           : "text-gray-700"
                       )}
@@ -256,7 +267,8 @@ const PinForm = ({ onSubmit, onCancel, type = "create" }: PinFormProps) => {
                       }
                       className={cn(
                         "w-full px-4 py-3 rounded-xl border-2 backdrop-blur-sm transition-all duration-200 focus:outline-none",
-                        formData.color === "black"
+                        formData.color === "black" ||
+                          formData.color === "purple"
                           ? "border-gray-600 bg-gray-800/50 text-white placeholder-gray-400 focus:border-gray-500 focus:bg-gray-800/70"
                           : "border-white/30 bg-white/50 text-gray-800 placeholder-gray-500 focus:border-white/50 focus:bg-white/70"
                       )}
@@ -271,7 +283,8 @@ const PinForm = ({ onSubmit, onCancel, type = "create" }: PinFormProps) => {
                       htmlFor="message"
                       className={cn(
                         "block text-sm font-medium mb-2",
-                        formData.color === "black"
+                        formData.color === "black" ||
+                          formData.color === "purple"
                           ? "text-gray-300"
                           : "text-gray-700"
                       )}
@@ -290,7 +303,8 @@ const PinForm = ({ onSubmit, onCancel, type = "create" }: PinFormProps) => {
                       rows={4}
                       className={cn(
                         "w-full px-4 py-3 rounded-xl border-2 backdrop-blur-sm transition-all duration-200 resize-none focus:outline-none",
-                        formData.color === "black"
+                        formData.color === "black" ||
+                          formData.color === "purple"
                           ? "border-gray-600 bg-gray-800/50 text-white placeholder-gray-400 focus:border-gray-500 focus:bg-gray-800/70"
                           : "border-white/30 bg-white/50 text-gray-800 placeholder-gray-500 focus:border-white/50 focus:bg-white/70"
                       )}
@@ -301,14 +315,7 @@ const PinForm = ({ onSubmit, onCancel, type = "create" }: PinFormProps) => {
 
                   {/* Color Selection */}
                   <div>
-                    <label
-                      className={cn(
-                        "block text-sm font-medium mb-3",
-                        formData.color === "black"
-                          ? "text-gray-300"
-                          : "text-gray-700"
-                      )}
-                    >
+                    <label className="block text-sm font-medium mb-3 text-ctp-text">
                       Choose Color
                     </label>
                     <div className="flex flex-wrap gap-3">
