@@ -220,6 +220,14 @@ export let DesktopIcons: DesktopIconData[] = [
     Selected: false,
     AppComponent: DesktopAppsList.DummyApp,
   },
+  {
+    id: 15,
+    Name: "Terminal",
+    IconPath: "Imgs/DesktopApps/Terminal.webp",
+    Style: {},
+    Selected: false,
+    AppComponent: DesktopAppsList.Terminal,
+  },
   // {
   //   id: 2,
   //   Name: "EIEN",
