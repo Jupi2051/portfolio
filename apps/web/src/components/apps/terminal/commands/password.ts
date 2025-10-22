@@ -5,11 +5,7 @@ const password: CommandFunction = async (
   readFromUser,
   ...args
 ) => {
-  const password = await readFromUser(
-    `output hte password lil bro:`,
-    true,
-    true
-  );
+  const password = await readFromUser(`Enter in a password:`, true, true);
   outputToTerminal(
     `\x1b[32mPassword received (${password.length} characters)\x1b[0m`
   );

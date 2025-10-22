@@ -1,6 +1,11 @@
 import { CommandFunction } from "./types";
 
-const echo: CommandFunction = (outputToTerminal, readFromUser, ...args) => {
+const echo: CommandFunction = (
+  outputToTerminal,
+  readFromUser,
+  terminalInfo,
+  ...args
+) => {
   if (args.length === 0) {
     outputToTerminal("");
   } else {

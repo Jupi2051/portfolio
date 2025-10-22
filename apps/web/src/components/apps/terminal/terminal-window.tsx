@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import commands from "./commands/index";
+import { TerminalInfo } from "./commands/types";
 
 const TerminalWindow = () => {
   const [history, setHistory] = useState<string[]>([
@@ -11,6 +12,7 @@ const TerminalWindow = () => {
   ]);
   const [input, setInput] = useState("");
   const [currentPath, _] = useState("C:\\Users\\Jupi");
+  const [sessionStartTime] = useState(Date.now());
   const [isWaitingForInput, setIsWaitingForInput] = useState(false);
   const [inputPrompt, setInputPrompt] = useState("");
   const [pendingResolve, setPendingResolve] = useState<
@@ -81,6 +83,18 @@ const TerminalWindow = () => {
     };
 
     let processed = text;
+
+    // Handle RGB foreground colors (\x1b[38;2;R;G;Bm)
+    processed = processed.replace(
+      /\x1b\[38;2;(\d+);(\d+);(\d+)m/g,
+      '<span style="color: rgb($1, $2, $3)">'
+    );
+
+    // Handle RGB background colors (\x1b[48;2;R;G;Bm)
+    processed = processed.replace(
+      /\x1b\[48;2;(\d+);(\d+);(\d+)m/g,
+      '<span style="background-color: rgb($1, $2, $3)">'
+    );
 
     // Replace escape sequences
     Object.entries(escapeMap).forEach(([escape, replacement]) => {
@@ -240,7 +254,18 @@ const TerminalWindow = () => {
 
     if (commandObj) {
       try {
-        await commandObj.execute(outputToTerminal, readFromUser, ...args);
+        const terminalInfo: TerminalInfo = {
+          currentPath,
+          sessionStartTime,
+          setHistory,
+        };
+
+        await commandObj.execute(
+          outputToTerminal,
+          readFromUser,
+          terminalInfo,
+          ...args
+        );
       } catch (error) {
         outputToTerminal(`\x1b[31mError executing command:\x1b[0m ${error}`);
       } finally {
@@ -310,37 +335,48 @@ const TerminalWindow = () => {
       className="w-full h-full bg-gradient-to-br from-ctp-base to-ctp-surface0 text-ctp-text font-roboto font-normal p-6 overflow-y-auto terminal-selection"
       onClick={handleTerminalClick}
     >
-      <div className="whitespace-pre text-base leading-tight overflow-x-auto">
-        {history.map((line, i) => (
-          <div
-            key={i}
-            className={`mb-0.5 font-roboto font-normal ${
-              line.includes(">") && !line.startsWith("\x1b")
-                ? "text-ctp-lavender text-base"
-                : "text-ctp-text"
-            }`}
-            dangerouslySetInnerHTML={{
-              __html:
-                line === ""
-                  ? "&nbsp;"
-                  : line.includes(">") && !line.startsWith("\x1b")
-                  ? line
-                  : processEscapeSequences(line),
-            }}
-          />
-        ))}
+      <div
+        className="whitespace-pre-wrap break-words"
+        style={{ fontFamily: "monospace", fontSize: "16px", lineHeight: "1" }}
+      >
+        {history.map((line, i) => {
+          const isColorSquareLine = line.includes("\x1b[48;2;");
+          const isCommandLine = line.includes(">") && !line.startsWith("\x1b");
+
+          return (
+            <div
+              key={i}
+              className={`${isColorSquareLine ? "" : "mb-0.5"} ${
+                isCommandLine ? "text-ctp-lavender" : "text-ctp-text"
+              }`}
+              style={{ fontFamily: "monospace", fontSize: "16px" }}
+              dangerouslySetInnerHTML={{
+                __html:
+                  line === ""
+                    ? "&nbsp;"
+                    : isCommandLine
+                    ? line
+                    : processEscapeSequences(line),
+              }}
+            />
+          );
+        })}
       </div>
 
       <form onSubmit={handleSubmit} className="flex items-center">
-        <span className="text-ctp-lavender text-base font-roboto font-normal">
+        <span
+          className="text-ctp-lavender"
+          style={{ fontFamily: "monospace", fontSize: "16px" }}
+        >
           {isWaitingForInput ? inputPrompt : `${currentPath}>`}
         </span>
         <input
           ref={inputRef}
-          className="bg-transparent outline-none flex-1 text-ctp-lavender text-base font-roboto font-normal"
+          className="bg-transparent outline-none flex-1 text-ctp-lavender"
           style={{
-            caretShape: "block",
+            fontFamily: "monospace",
             fontSize: "16px",
+            caretShape: "block",
           }}
           type={isPasswordInput ? "password" : "text"}
           value={input}

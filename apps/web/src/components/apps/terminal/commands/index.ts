@@ -7,8 +7,11 @@ import clear from "./clear";
 import echo from "./echo";
 import ask from "./ask";
 import password from "./password";
+import pwd from "./pwd";
+import neofetch from "./neofetch";
 
 const commands: Command[] = [
+  { name: ["neofetch", "fetch", "info"], execute: neofetch },
   { name: ["help", "h", "?"], execute: help },
   { name: ["about", "info"], execute: about },
   { name: ["projects", "proj", "work"], execute: projects },
@@ -16,7 +19,8 @@ const commands: Command[] = [
   { name: ["clear", "cls"], execute: clear },
   { name: ["echo", "print"], execute: echo },
   { name: ["ask", "question"], execute: ask },
-  { name: ["password", "pass", "pwd"], execute: password },
+  { name: ["password", "pass"], execute: password },
+  { name: ["pwd", "currentdir"], execute: pwd },
 ];
 
 export default commands;

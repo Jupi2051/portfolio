@@ -3,6 +3,7 @@ import { CommandFunction } from "./types";
 const ask: CommandFunction = async (
   outputToTerminal,
   readFromUser,
+  terminalInfo,
   ...args
 ) => {
   if (args.length === 0) {
