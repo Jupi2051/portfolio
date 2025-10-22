@@ -40,7 +40,7 @@ const neofetch: CommandFunction = (
     `\x1b[36m     @@@                  @@@     \x1b[0m \x1b[33m${distanceFromLogo} OS:\x1b[0m Windows 11 Pro 22H2`
   );
   outputToTerminal(
-    `\x1b[36m   @@                     @       \x1b[0m \x1b[33m${distanceFromLogo} Host:\x1b[0m Jupi's Portfolio Terminal`
+    `\x1b[36m   @@                     @       \x1b[0m \x1b[33m${distanceFromLogo} Host:\x1b[0m https://jupi.dev`
   );
   outputToTerminal(
     `\x1b[36m  @@                   @@@    @   \x1b[0m \x1b[33m${distanceFromLogo} Kernel:\x1b[0m Terminal v1.0.0`
