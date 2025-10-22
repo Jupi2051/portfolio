@@ -18,6 +18,7 @@ export enum DesktopAppsList {
   Blog,
   Controls,
   Notification,
+  Terminal,
 }
 
 const handleFailedLoad = () => ({ default: AppLoadingFailed });
@@ -59,6 +60,9 @@ export const DesktopAppsComponents: Record<DesktopAppsList, any> = {
     delayForDemo(import("@/components/apps/explorer").catch(handleFailedLoad))
   ),
   [DesktopAppsList.Notification]: NotificationWindow,
+  [DesktopAppsList.Terminal]: lazy(() =>
+    delayForDemo(import("@/components/apps/terminal").catch(handleFailedLoad))
+  ),
 };
 
 function delayForDemo(promise: Promise<any>) {
