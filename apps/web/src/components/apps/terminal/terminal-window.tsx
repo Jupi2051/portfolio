@@ -46,6 +46,30 @@ const TerminalWindow = () => {
     }
   };
 
+  // Handle right-click to copy selection
+  const handleTerminalContextMenu = (e: React.MouseEvent) => {
+    const selection = window.getSelection();
+    if (selection && selection.toString().length > 0) {
+      e.preventDefault(); // Prevent default context menu
+
+      // Copy selection to clipboard
+      navigator.clipboard
+        .writeText(selection.toString())
+        .then(() => {
+          // Clear selection
+          selection.removeAllRanges();
+
+          // Focus the input field
+          if (inputRef.current) {
+            inputRef.current.focus();
+          }
+        })
+        .catch((err) => {
+          console.error("Failed to copy text: ", err);
+        });
+    }
+  };
+
   // ANSI escape sequence processor
   const processEscapeSequences = (text: string) => {
     const escapeMap: { [key: string]: string } = {
@@ -334,6 +358,7 @@ const TerminalWindow = () => {
       ref={terminalRef}
       className="w-full h-full bg-gradient-to-br from-ctp-base to-ctp-surface0 text-ctp-text font-roboto font-normal p-6 overflow-y-auto terminal-selection"
       onClick={handleTerminalClick}
+      onContextMenu={handleTerminalContextMenu}
     >
       <div
         className="whitespace-pre-wrap break-words"
