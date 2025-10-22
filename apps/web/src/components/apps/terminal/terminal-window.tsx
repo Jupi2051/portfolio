@@ -152,7 +152,7 @@ const TerminalWindow = () => {
     return processed;
   };
 
-  // Add terminal selection styles
+  // Add terminal selection styles and custom scrollbar
   React.useEffect(() => {
     const style = document.createElement("style");
     style.textContent = `
@@ -176,6 +176,31 @@ const TerminalWindow = () => {
       @keyframes blink {
         0%, 50% { opacity: 1; }
         51%, 100% { opacity: 0; }
+      }
+      
+      /* Custom scrollbar styles */
+      .terminal-selection::-webkit-scrollbar {
+        width: 8px;
+      }
+      .terminal-selection::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .terminal-selection::-webkit-scrollbar-thumb {
+        background: #6c7086; /* ctp-surface2 */
+        border-radius: 4px;
+        border: none;
+      }
+      .terminal-selection::-webkit-scrollbar-thumb:hover {
+        background: #89b4fa; /* ctp-blue */
+      }
+      .terminal-selection::-webkit-scrollbar-corner {
+        background: transparent;
+      }
+      
+      /* Firefox scrollbar */
+      .terminal-selection {
+        scrollbar-width: thin;
+        scrollbar-color: #6c7086 transparent; /* ctp-surface2 */
       }
     `;
     document.head.appendChild(style);
