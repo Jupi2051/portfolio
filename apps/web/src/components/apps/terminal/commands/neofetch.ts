@@ -34,7 +34,7 @@ const neofetch: CommandFunction = (
     `\x1b[36m          @@@@@@@@@@@@@@@          \x1b[0m \x1b[36m${distanceFromLogo}jupi@jupi.dev\x1b[0m`
   );
   outputToTerminal(
-    `\x1b[36m       @@@@@@@@@@@@@@@@@@@@        \x1b[0m ${distanceFromLogo}-------------------------------------`
+    `\x1b[36m       @@@@@@@@@@@@@@@@@@@@        \x1b[0m ${distanceFromLogo}-------------`
   );
   outputToTerminal(
     `\x1b[36m     @@@                  @@@     \x1b[0m \x1b[33m${distanceFromLogo} OS:\x1b[0m Windows 11 Pro 22H2`
