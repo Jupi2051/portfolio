@@ -2,6 +2,8 @@ export interface TerminalInfo {
   currentPath: string;
   sessionStartTime: number;
   setHistory: (updater: (prev: string[]) => string[]) => void;
+  currentTheme: string;
+  setCurrentTheme: (theme: string) => void;
 }
 
 export type CommandFunction = (

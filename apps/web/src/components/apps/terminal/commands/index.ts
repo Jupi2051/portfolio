@@ -14,6 +14,7 @@ import rm from "./rm";
 import rainbow from "./rainbow";
 import toast from "./toast";
 import ping from "./ping";
+import theme from "./theme";
 
 const commands: Command[] = [
   { name: ["neofetch", "fetch", "info"], execute: neofetch },
@@ -31,6 +32,7 @@ const commands: Command[] = [
   { name: ["rainbow", "rainbowtext", "gaytext", "gay"], execute: rainbow },
   { name: ["toast", "notify", "notification"], execute: toast },
   { name: ["ping", "pong"], execute: ping },
+  { name: ["themes", "theme"], execute: theme },
 ];
 
 export default commands;

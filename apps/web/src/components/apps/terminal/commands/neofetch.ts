@@ -64,11 +64,17 @@ const neofetch: CommandFunction = (
     `\x1b[36m @       @@@   @@@@            @@ \x1b[0m \x1b[33m${distanceFromLogo} Memory:\x1b[0m 32 GB DDR4`
   );
   outputToTerminal("\x1b[36m @    @@@   @@@@               @@ \x1b[0m");
+  // Create colored squares using ANSI background colors (processed by theme system)
+  const colorSquares1 =
+    "\x1b[41m  \x1b[0m\x1b[45m  \x1b[0m\x1b[43m  \x1b[0m\x1b[44m  \x1b[0m\x1b[46m  \x1b[0m\x1b[42m  \x1b[0m\x1b[47m  \x1b[0m\x1b[100m  \x1b[0m";
+  const colorSquares2 =
+    "\x1b[42m  \x1b[0m\x1b[46m  \x1b[0m\x1b[44m  \x1b[0m\x1b[45m  \x1b[0m\x1b[41m  \x1b[0m\x1b[43m  \x1b[0m\x1b[47m  \x1b[0m\x1b[100m  \x1b[0m";
+
   outputToTerminal(
-    `\x1b[36m  @@@@@  @@@                   @  \x1b[0m \x1b[33m${distanceFromLogo} \x1b[48;2;242;213;207m  \x1b[0m\x1b[48;2;238;190;190m  \x1b[0m\x1b[48;2;244;184;228m  \x1b[0m\x1b[48;2;202;158;230m  \x1b[0m\x1b[48;2;231;130;132m  \x1b[0m\x1b[48;2;234;153;156m  \x1b[0m\x1b[48;2;239;159;118m  \x1b[0m\x1b[48;2;229;200;144m  \x1b[0m`
+    `\x1b[36m  @@@@@  @@@                   @  \x1b[0m \x1b[33m${distanceFromLogo} ${colorSquares1}`
   );
   outputToTerminal(
-    `\x1b[36m   @  @@@                     @@  \x1b[0m \x1b[33m${distanceFromLogo} \x1b[48;2;166;209;137m  \x1b[0m\x1b[48;2;129;200;190m  \x1b[0m\x1b[48;2;153;209;219m  \x1b[0m\x1b[48;2;133;193;220m  \x1b[0m\x1b[48;2;140;170;238m  \x1b[0m\x1b[48;2;186;187;241m  \x1b[0m\x1b[48;2;198;208;245m  \x1b[0m\x1b[48;2;181;191;226m  \x1b[0m`
+    `\x1b[36m   @  @@@                     @@  \x1b[0m \x1b[33m${distanceFromLogo} ${colorSquares2}`
   );
   outputToTerminal("\x1b[36m   @  @@@                     @@  \x1b[0m");
   outputToTerminal("\x1b[36m                             @@   \x1b[0m");

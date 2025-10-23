@@ -1,10 +1,12 @@
 import React, { useState, useRef, useCallback } from "react";
 import commands from "./commands/index";
 import { TerminalInfo } from "./commands/types";
+import { getTheme, getColor } from "./themes";
 
 const MAX_HISTORY_LINES = 50;
 
 const TerminalWindow = () => {
+  const [currentTheme, setCurrentTheme] = useState("default");
   const [history, setHistoryState] = useState<string[]>([
     "\x1b[36mJupi Terminal [Version 1.0.0]\x1b[0m",
     "\x1b[36m(c) Jupi. All rights reserved.\x1b[0m",
@@ -121,35 +123,35 @@ const TerminalWindow = () => {
   };
 
   const processEscapeSequences = (text: string) => {
+    const theme = getTheme(currentTheme);
     const escapeMap: { [key: string]: string } = {
       "\x1b[0m": "</span>",
       "\x1b[1m": '<span style="font-weight: bold">',
       "\x1b[2m": '<span style="opacity: 0.5">',
       "\x1b[4m": '<span style="text-decoration: underline">',
       "\x1b[5m": '<span style="animation: blink 1s infinite">',
-      "\x1b[7m":
-        '<span style="background-color: currentColor; color: var(--ctp-base)">',
+      "\x1b[7m": `<span style="background-color: currentColor; color: ${theme.colors.background}">`,
       "\x1b[8m": '<span style="color: transparent">',
 
-      "\x1b[30m": '<span style="color: #1e1e2e">', // Black
-      "\x1b[31m": '<span style="color: #f38ba8">', // Red
-      "\x1b[32m": '<span style="color: #a6e3a1">', // Green
-      "\x1b[33m": '<span style="color: #f9e2af">', // Yellow
-      "\x1b[34m": '<span style="color: #89b4fa">', // Blue
-      "\x1b[35m": '<span style="color: #cba6f7">', // Magenta
-      "\x1b[36m": '<span style="color: #94e2d5">', // Cyan
-      "\x1b[37m": '<span style="color: #cdd6f4">', // White
-      "\x1b[90m": '<span style="color: #585b70">', // Gray
+      "\x1b[30m": `<span style="color: ${theme.colors.black}">`, // Black
+      "\x1b[31m": `<span style="color: ${theme.colors.red}">`, // Red
+      "\x1b[32m": `<span style="color: ${theme.colors.green}">`, // Green
+      "\x1b[33m": `<span style="color: ${theme.colors.yellow}">`, // Yellow
+      "\x1b[34m": `<span style="color: ${theme.colors.blue}">`, // Blue
+      "\x1b[35m": `<span style="color: ${theme.colors.magenta}">`, // Magenta
+      "\x1b[36m": `<span style="color: ${theme.colors.cyan}">`, // Cyan
+      "\x1b[37m": `<span style="color: ${theme.colors.white}">`, // White
+      "\x1b[90m": `<span style="color: ${theme.colors.gray}">`, // Gray
 
-      "\x1b[40m": '<span style="background-color: #1e1e2e">', // Black
-      "\x1b[41m": '<span style="background-color: #f38ba8">', // Red
-      "\x1b[42m": '<span style="background-color: #a6e3a1">', // Green
-      "\x1b[43m": '<span style="background-color: #f9e2af">', // Yellow
-      "\x1b[44m": '<span style="background-color: #89b4fa">', // Blue
-      "\x1b[45m": '<span style="background-color: #cba6f7">', // Magenta
-      "\x1b[46m": '<span style="background-color: #94e2d5">', // Cyan
-      "\x1b[47m": '<span style="background-color: #cdd6f4">', // White
-      "\x1b[100m": '<span style="background-color: #585b70">', // Gray
+      "\x1b[40m": `<span style="background-color: ${theme.colors.bgBlack}">`, // Black
+      "\x1b[41m": `<span style="background-color: ${theme.colors.bgRed}">`, // Red
+      "\x1b[42m": `<span style="background-color: ${theme.colors.bgGreen}">`, // Green
+      "\x1b[43m": `<span style="background-color: ${theme.colors.bgYellow}">`, // Yellow
+      "\x1b[44m": `<span style="background-color: ${theme.colors.bgBlue}">`, // Blue
+      "\x1b[45m": `<span style="background-color: ${theme.colors.bgMagenta}">`, // Magenta
+      "\x1b[46m": `<span style="background-color: ${theme.colors.bgCyan}">`, // Cyan
+      "\x1b[47m": `<span style="background-color: ${theme.colors.bgWhite}">`, // White
+      "\x1b[100m": `<span style="background-color: ${theme.colors.bgGray}">`, // Gray
     };
 
     let processed = text;
@@ -176,7 +178,7 @@ const TerminalWindow = () => {
     const urlRegex = /(?<!\\)(https?:\/\/[^\s<>"{}|\\^`[\]]+)/g;
     processed = processed.replace(
       urlRegex,
-      '<a href="$1" target="_blank" rel="noopener noreferrer" style="color: #89b4fa; text-decoration: underline;">$1</a>'
+      `<a href="$1" target="_blank" rel="noopener noreferrer" style="color: ${theme.colors.link}; text-decoration: underline;">$1</a>`
     );
 
     processed = processed.replace(
@@ -192,23 +194,24 @@ const TerminalWindow = () => {
   };
 
   React.useEffect(() => {
+    const theme = getTheme(currentTheme);
     const style = document.createElement("style");
     style.textContent = `
       .terminal-selection ::selection {
-        background-color: #cba6f7; /* ctp-mauve */
-        color: white; /* ctp-base */
+        background-color: ${theme.colors.selection};
+        color: ${theme.colors.selectionText};
       }
       .terminal-selection ::-moz-selection {
-        background-color: #cba6f7; /* ctp-mauve */
-        color: white; /* ctp-base */
+        background-color: ${theme.colors.selection};
+        color: ${theme.colors.selectionText};
       }
       .terminal-selection a {
-        color: #89b4fa !important; /* ctp-blue */
+        color: ${theme.colors.link} !important;
         text-decoration: underline !important;
         cursor: pointer;
       }
       .terminal-selection a:hover {
-        color: #a6e3a1 !important; /* ctp-green */
+        color: ${theme.colors.linkHover} !important;
         text-decoration: underline !important;
       }
       @keyframes blink {
@@ -223,12 +226,12 @@ const TerminalWindow = () => {
         background: transparent;
       }
       .terminal-selection::-webkit-scrollbar-thumb {
-        background: #6c7086; /* ctp-surface2 */
+        background: ${theme.colors.scrollbar};
         border-radius: 4px;
         border: none;
       }
       .terminal-selection::-webkit-scrollbar-thumb:hover {
-        background: #89b4fa; /* ctp-blue */
+        background: ${theme.colors.scrollbarHover};
       }
       .terminal-selection::-webkit-scrollbar-corner {
         background: transparent;
@@ -236,7 +239,7 @@ const TerminalWindow = () => {
       
       .terminal-selection {
         scrollbar-width: thin;
-        scrollbar-color: #6c7086 transparent; /* ctp-surface2 */
+        scrollbar-color: ${theme.colors.scrollbar} transparent;
       }
     `;
     document.head.appendChild(style);
@@ -244,7 +247,7 @@ const TerminalWindow = () => {
     return () => {
       document.head.removeChild(style);
     };
-  }, []);
+  }, [currentTheme]);
 
   const parseCommand = (input: string) => {
     const trimmed = input.trim();
@@ -341,6 +344,8 @@ const TerminalWindow = () => {
           currentPath,
           sessionStartTime,
           setHistory,
+          currentTheme,
+          setCurrentTheme,
         };
 
         await commandObj.execute(
@@ -413,10 +418,16 @@ const TerminalWindow = () => {
     await handleCommand(currentInput);
   };
 
+  const theme = getTheme(currentTheme);
+
   return (
     <div
       ref={terminalRef}
-      className="w-full h-full bg-gradient-to-br from-ctp-base to-ctp-surface0 text-ctp-text font-roboto font-normal p-6 overflow-y-auto terminal-selection"
+      className="w-full h-full font-roboto font-normal p-6 overflow-y-auto terminal-selection"
+      style={{
+        background: theme.colors.background,
+        color: theme.colors.foreground,
+      }}
       onClick={handleTerminalClick}
       onContextMenu={handleTerminalContextMenu}
     >
@@ -431,10 +442,12 @@ const TerminalWindow = () => {
           return (
             <div
               key={i}
-              className={`${isColorSquareLine ? "" : "mb-0.5"} ${
-                isCommandLine ? "text-ctp-lavender" : "text-ctp-text"
-              }`}
-              style={{ fontFamily: "monospace", fontSize: "16px" }}
+              className={`${isColorSquareLine ? "" : "mb-0.5"}`}
+              style={{
+                fontFamily: "monospace",
+                fontSize: "16px",
+                color: theme.colors.foreground,
+              }}
               dangerouslySetInnerHTML={{
                 __html:
                   line === ""
@@ -454,18 +467,22 @@ const TerminalWindow = () => {
         style={{ opacity: isCommandRunning ? 0 : 1 }}
       >
         <span
-          className="text-ctp-lavender"
-          style={{ fontFamily: "monospace", fontSize: "16px" }}
+          style={{
+            fontFamily: "monospace",
+            fontSize: "16px",
+            color: theme.colors.foreground,
+          }}
         >
           {isWaitingForInput ? inputPrompt : `${currentPath}>`}
         </span>
         <input
           ref={inputRef}
-          className="bg-transparent outline-none flex-1 text-ctp-lavender"
+          className="bg-transparent outline-none flex-1"
           style={{
             fontFamily: "monospace",
             fontSize: "16px",
             caretShape: "block",
+            color: theme.colors.foreground,
           }}
           type={isPasswordInput ? "password" : "text"}
           value={input}

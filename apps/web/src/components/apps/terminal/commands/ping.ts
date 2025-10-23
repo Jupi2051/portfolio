@@ -16,12 +16,12 @@ const ping: CommandFunction = async (
   let latencyEmoji = "🟢";
   let latencyColor = "\x1b[32m"; // Green
 
-  if (latency > 200) {
+  if (latency > 500) {
+    latencyEmoji = "🔴";
+    latencyColor = "\x1b[31m"; // Red\
+  } else if (latency > 200) {
     latencyEmoji = "🟡";
     latencyColor = "\x1b[33m"; // Yellow
-  } else if (latency > 500) {
-    latencyEmoji = "🔴";
-    latencyColor = "\x1b[31m"; // Red
   }
 
   outputToTerminal(
