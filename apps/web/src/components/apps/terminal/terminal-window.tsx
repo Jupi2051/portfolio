@@ -1,7 +1,7 @@
 import React, { useState, useRef, useCallback } from "react";
 import commands from "./commands/index";
 import { TerminalInfo } from "./commands/types";
-import { getTheme, getColor } from "./themes";
+import { getTheme } from "./themes";
 
 const MAX_HISTORY_LINES = 50;
 
