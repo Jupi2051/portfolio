@@ -16,6 +16,8 @@ import toast from "./toast";
 import ping from "./ping";
 import theme from "./theme";
 import uptime from "./uptime";
+import love from "./love";
+import coinflip from "./coinflip";
 
 const commands: Command[] = [
   { name: ["help", "h", "?"], execute: help },
@@ -35,6 +37,8 @@ const commands: Command[] = [
   { name: ["pwd", "currentdir"], execute: pwd },
   { name: ["reboot", "restart", "reload"], execute: reboot },
   { name: ["uptime", "up"], execute: uptime },
+  { name: ["love"], execute: love },
+  { name: ["coinflip", "flip", "coin"], execute: coinflip },
 ];
 
 export default commands;

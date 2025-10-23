@@ -16,7 +16,7 @@ const theme: CommandFunction = async (
       outputToTerminal(`  \x1b[36m${themeName}\x1b[0m`);
     });
     outputToTerminal("");
-    outputToTerminal("Usage: themes <theme_name>");
+    outputToTerminal("\x1b[31mUsage: themes <theme_name>");
     return;
   }
 
