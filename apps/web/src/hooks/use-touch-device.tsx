@@ -1,40 +1,61 @@
 import { useState, useEffect } from "react";
 
 /**
- * Custom hook to detect if the current device supports touch interactions
- * @returns boolean indicating if the device is a touch device
+ * Custom hook to detect if the current device is in touch mode
+ * @returns boolean indicating if the device is currently in touch mode
  */
 export function useTouchDevice(): boolean {
   const [isTouchDevice, setIsTouchDevice] = useState<boolean>(false);
 
   useEffect(() => {
-    // Check if this is a touch device by looking for touch support
+    // Check if this is currently a touch device by detecting input mode
     const checkTouchDevice = () => {
-      const hasTouchSupport =
-        "ontouchstart" in window ||
-        navigator.maxTouchPoints > 0 ||
-        // Additional check for older browsers
-        ((window as any).DocumentTouch &&
-          document instanceof (window as any).DocumentTouch);
+      // Check for coarse pointer (touch) vs fine pointer (mouse)
+      const hasCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
 
-      setIsTouchDevice(hasTouchSupport);
+      // Check if hover is not supported (indicates touch mode)
+      const hasNoHover = window.matchMedia("(hover: none)").matches;
+
+      // Check if any-hover is not supported (indicates touch mode)
+      const hasNoAnyHover = window.matchMedia("(any-hover: none)").matches;
+
+      // Device is in touch mode if:
+      // 1. Pointer is coarse (touch), OR
+      // 2. Hover is not supported (touch device), OR
+      // 3. Any-hover is not supported (touch device)
+      const isCurrentlyTouch = hasCoarsePointer || hasNoHover || hasNoAnyHover;
+
+      setIsTouchDevice(isCurrentlyTouch);
     };
 
     // Check immediately
     checkTouchDevice();
 
-    // Listen for orientation changes which might affect touch detection
-    const handleOrientationChange = () => {
+    // Create media query listeners for dynamic detection
+    const coarsePointerQuery = window.matchMedia("(pointer: coarse)");
+    const hoverQuery = window.matchMedia("(hover: none)");
+    const anyHoverQuery = window.matchMedia("(any-hover: none)");
+
+    const handleMediaChange = () => {
       checkTouchDevice();
     };
 
-    window.addEventListener("orientationchange", handleOrientationChange);
-    window.addEventListener("resize", handleOrientationChange);
+    // Listen for changes in pointer type and hover capability
+    coarsePointerQuery.addEventListener("change", handleMediaChange);
+    hoverQuery.addEventListener("change", handleMediaChange);
+    anyHoverQuery.addEventListener("change", handleMediaChange);
+
+    // Also listen for orientation changes and resize events
+    window.addEventListener("orientationchange", handleMediaChange);
+    window.addEventListener("resize", handleMediaChange);
 
     // Cleanup
     return () => {
-      window.removeEventListener("orientationchange", handleOrientationChange);
-      window.removeEventListener("resize", handleOrientationChange);
+      coarsePointerQuery.removeEventListener("change", handleMediaChange);
+      hoverQuery.removeEventListener("change", handleMediaChange);
+      anyHoverQuery.removeEventListener("change", handleMediaChange);
+      window.removeEventListener("orientationchange", handleMediaChange);
+      window.removeEventListener("resize", handleMediaChange);
     };
   }, []);
 
