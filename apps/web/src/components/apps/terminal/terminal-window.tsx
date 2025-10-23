@@ -429,7 +429,7 @@ const TerminalWindow = () => {
   return (
     <div
       ref={terminalRef}
-      className="w-full h-full font-roboto font-normal p-6 overflow-y-auto terminal-selection"
+      className="w-full h-full font-roboto font-normal @lg/appwindow:p-6 p-3 overflow-y-auto terminal-selection"
       style={{
         background: theme.colors.background,
         color: theme.colors.foreground,
@@ -438,8 +438,8 @@ const TerminalWindow = () => {
       onContextMenu={handleTerminalContextMenu}
     >
       <div
-        className="whitespace-pre-wrap break-words"
-        style={{ fontFamily: "monospace", fontSize: "16px", lineHeight: "1" }}
+        className="whitespace-pre-wrap break-words @lg/appwindow:text-[16px] text-xs"
+        style={{ fontFamily: "monospace", lineHeight: "1" }}
       >
         {history.map((line, i) => {
           const isColorSquareLine = line.includes("\x1b[48;2;");
@@ -448,10 +448,11 @@ const TerminalWindow = () => {
           return (
             <div
               key={i}
-              className={`${isColorSquareLine ? "" : "mb-0.5"}`}
+              className={`@lg/appwindow:text-[16px] text-xs ${
+                isColorSquareLine ? "" : "mb-0.5"
+              }`}
               style={{
                 fontFamily: "monospace",
-                fontSize: "16px",
                 color: theme.colors.foreground,
               }}
               dangerouslySetInnerHTML={{
@@ -464,13 +465,12 @@ const TerminalWindow = () => {
 
       <form
         onSubmit={handleSubmit}
-        className="flex items-center"
+        className="flex items-center @lg/appwindow:text-[16px] text-xs"
         style={{ opacity: isCommandRunning ? 0 : 1 }}
       >
         <span
           style={{
             fontFamily: "monospace",
-            fontSize: "16px",
             color: theme.colors.foreground,
           }}
         >
@@ -478,10 +478,9 @@ const TerminalWindow = () => {
         </span>
         <input
           ref={inputRef}
-          className="bg-transparent outline-none flex-1"
+          className="bg-transparent outline-none flex-1 @lg/appwindow:text-[16px] text-xs"
           style={{
             fontFamily: "monospace",
-            fontSize: "16px",
             caretShape: "block",
             color: theme.colors.foreground,
           }}
