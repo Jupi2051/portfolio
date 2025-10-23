@@ -23,11 +23,11 @@ const love: CommandFunction = async (
       : Math.floor(Math.random() * 50) + 50;
 
   // ASCII art heart
-  outputToTerminal("\x1b[36m┌─────────────────────────────────┐\x1b[0m");
+  outputToTerminal("\x1b[36m┌──────────────────────────────────┐\x1b[0m");
   outputToTerminal(
     "\x1b[36m│\x1b[0m \x1b[31m💕 LOVE COMPATIBILITY TESTER 💕\x1b[0m \x1b[36m│\x1b[0m"
   );
-  outputToTerminal("\x1b[36m└─────────────────────────────────┘\x1b[0m");
+  outputToTerminal("\x1b[36m└──────────────────────────────────┘\x1b[0m");
   outputToTerminal("");
 
   // Main compatibility message
