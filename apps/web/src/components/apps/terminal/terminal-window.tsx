@@ -306,37 +306,44 @@ const TerminalWindow = () => {
       <form
         onSubmit={handleSubmit}
         className="px-6 py-0 relative bottom-[15px]"
+        style={{
+          opacity: isCommandRunning ? 0 : 1,
+        }}
       >
         <div className="flex items-center justify-center">
-          <span
-            className="font-mono text-base leading-4"
-            style={{
-              fontFamily: "monospace",
-              fontSize: "16px",
-              lineHeight: "16px",
-              color: theme.colors.foreground,
-            }}
-          >
-            {currentPath}&gt;
-          </span>
-          <input
-            ref={inputRef}
-            className="flex-1 bg-transparent outline-none font-mono text-base leading-4"
-            style={{
-              fontFamily: "monospace",
-              fontSize: "16px",
-              lineHeight: "16px",
-              color: theme.colors.foreground,
-              paddingLeft: "0",
-              marginLeft: "0",
-            }}
-            type={isPasswordInput ? "password" : "text"}
-            value={input}
-            onChange={handleInputChange}
-            onKeyDown={handleKeyDown}
-            autoFocus
-            placeholder=""
-          />
+          {!isWaitingForInput && (
+            <span
+              className="font-mono text-base leading-4"
+              style={{
+                fontFamily: "monospace",
+                fontSize: "16px",
+                lineHeight: "16px",
+                color: theme.colors.foreground,
+              }}
+            >
+              {currentPath}&gt;
+            </span>
+          )}
+          {
+            <input
+              ref={inputRef}
+              className="flex-1 bg-transparent outline-none font-mono text-base leading-4"
+              style={{
+                fontFamily: "monospace",
+                fontSize: "16px",
+                lineHeight: "16px",
+                color: theme.colors.foreground,
+                paddingLeft: "0",
+                marginLeft: "0",
+              }}
+              type={isPasswordInput ? "password" : "text"}
+              value={input}
+              onChange={handleInputChange}
+              onKeyDown={handleKeyDown}
+              autoFocus
+              placeholder=""
+            />
+          }
         </div>
       </form>
     </div>
