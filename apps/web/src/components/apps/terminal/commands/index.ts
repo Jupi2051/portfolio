@@ -17,8 +17,13 @@ import ping from "./ping";
 import theme from "./theme";
 
 const commands: Command[] = [
-  { name: ["neofetch", "fetch", "info"], execute: neofetch },
   { name: ["help", "h", "?"], execute: help },
+  { name: ["theme", "themes"], execute: theme },
+  { name: ["neofetch", "fetch", "info"], execute: neofetch },
+  { name: ["ping", "pong"], execute: ping },
+  { name: ["toast", "notify", "notification"], execute: toast },
+  { name: ["rainbow", "rainbowtext", "gaytext", "gay"], execute: rainbow },
+  { name: ["rm", "remove"], execute: rm },
   { name: ["about", "info"], execute: about },
   { name: ["projects", "proj", "work"], execute: projects },
   { name: ["colors", "color"], execute: colors },
@@ -28,11 +33,6 @@ const commands: Command[] = [
   { name: ["password", "pass"], execute: password },
   { name: ["pwd", "currentdir"], execute: pwd },
   { name: ["reboot", "restart", "reload"], execute: reboot },
-  { name: ["rm", "remove"], execute: rm },
-  { name: ["rainbow", "rainbowtext", "gaytext", "gay"], execute: rainbow },
-  { name: ["toast", "notify", "notification"], execute: toast },
-  { name: ["ping", "pong"], execute: ping },
-  { name: ["theme", "themes"], execute: theme },
 ];
 
 export default commands;
