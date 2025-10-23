@@ -307,7 +307,7 @@ const TerminalWindow = () => {
         onSubmit={handleSubmit}
         className="px-6 py-0 relative bottom-[15px]"
         style={{
-          opacity: isCommandRunning ? 0 : 1,
+          opacity: isCommandRunning && !isWaitingForInput ? 0 : 1,
         }}
       >
         <div className="flex items-center justify-center">
