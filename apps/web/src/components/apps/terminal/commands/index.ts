@@ -9,6 +9,8 @@ import ask from "./ask";
 import password from "./password";
 import pwd from "./pwd";
 import neofetch from "./neofetch";
+import reboot from "./reboot";
+import rm from "./rm";
 
 const commands: Command[] = [
   { name: ["neofetch", "fetch", "info"], execute: neofetch },
@@ -21,6 +23,8 @@ const commands: Command[] = [
   { name: ["ask", "question"], execute: ask },
   { name: ["password", "pass"], execute: password },
   { name: ["pwd", "currentdir"], execute: pwd },
+  { name: ["reboot", "restart", "reload"], execute: reboot },
+  { name: ["rm", "remove"], execute: rm },
 ];
 
 export default commands;
