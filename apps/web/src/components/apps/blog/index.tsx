@@ -96,7 +96,7 @@ const Blog = () => {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col">
         {selectedArticleId ? (
-          <div className="flex-1 overflow-y-auto p-6">
+          <div className="flex-1 overflow-y-auto p-0 @xl/appwindow:p-6">
             <AnimatePresence mode="wait">
               {isLoadingArticle ? (
                 <motion.div
