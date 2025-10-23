@@ -1,10 +1,16 @@
 import { TerminalTheme } from "./types";
 import { defaultTheme } from "./default";
 import { neonTheme } from "./neon";
+import { girlyPopTheme } from "./girly-pop";
+import { rosepineTheme } from "./rosepine";
+import { instatusTheme } from "./instatus";
 
 export const themes: Record<string, TerminalTheme> = {
   default: defaultTheme,
   neon: neonTheme,
+  "girly-pop": girlyPopTheme,
+  rosepine: rosepineTheme,
+  instatus: instatusTheme,
 };
 
 export const getTheme = (themeName: string): TerminalTheme => {

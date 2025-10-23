@@ -8,17 +8,17 @@ const ping: CommandFunction = async (
   ...args
 ) => {
   const timestamp = Date.now();
-  outputToTerminal("\x1b[32m🏓 Pinging server...\x1b[0m");
+  outputToTerminal("\x1b[36m🏓 Pinging server...\x1b[0m");
   const response = await trpcClient.terminal.ping.query();
   const latency = Date.now() - timestamp;
 
-  // Color-coded latency with emojis
+  // Color-coded latency with emojis using brighter greens
   let latencyEmoji = "🟢";
-  let latencyColor = "\x1b[32m"; // Green
+  let latencyColor = "\x1b[32m"; // Bright green
 
   if (latency > 500) {
     latencyEmoji = "🔴";
-    latencyColor = "\x1b[31m"; // Red\
+    latencyColor = "\x1b[31m"; // Red
   } else if (latency > 200) {
     latencyEmoji = "🟡";
     latencyColor = "\x1b[33m"; // Yellow

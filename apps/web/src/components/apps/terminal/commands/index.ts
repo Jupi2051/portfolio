@@ -32,7 +32,7 @@ const commands: Command[] = [
   { name: ["rainbow", "rainbowtext", "gaytext", "gay"], execute: rainbow },
   { name: ["toast", "notify", "notification"], execute: toast },
   { name: ["ping", "pong"], execute: ping },
-  { name: ["themes", "theme"], execute: theme },
+  { name: ["theme", "themes"], execute: theme },
 ];
 
 export default commands;
