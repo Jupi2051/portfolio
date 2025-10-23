@@ -53,7 +53,7 @@ const ask: CommandFunction = async (
   outputToTerminal("");
   // Show the question
   outputToTerminal(
-    `\x1b[33m❓ Your question:\x1b[0m \x1b[37m${question}\x1b[0m`
+    `\x1b[33m❓Your question: \x1b[0m \x1b[37m${question}\x1b[0m`
   );
   outputToTerminal("");
 
@@ -77,7 +77,7 @@ const ask: CommandFunction = async (
   }
 
   outputToTerminal(
-    `${answerEmoji} \x1b[36mAnswer:\x1b[0m ${answerColor}${randomResponse.text}\x1b[0m`
+    `${answerEmoji}\x1b[36m  Answer:\x1b[0m ${answerColor}${randomResponse.text}\x1b[0m`
   );
 
   outputToTerminal("");
