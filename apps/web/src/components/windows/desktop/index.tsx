@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import "@/Styles/Desktop.css";
 import DesktopIcon from "@/components/windows/desktop/desktop-icon";
 import DesktopTimeWidget from "@/components/widgets/time/desktop-time-widget";
@@ -19,6 +19,10 @@ import { Dimensions2D } from "@/components/windows/app-window";
 import useApplicationURLParams from "@/hooks/use-application-url-params";
 import useGlobalWindowsControls from "@/hooks/use-global-windows-controls";
 import useGlobalTaskbarControls from "@/hooks/use-global-taskbar-controls";
+
+const SystemNotifications = lazy(
+  () => import("@/components/windows/system-notifications")
+);
 
 type Point = {
   x: number;
@@ -483,6 +487,9 @@ function Desktop({ className }: { className?: string }) {
       >
         <div className="absolute w-full h-full pointer-events-none">
           <DesktopTimeWidget />
+          <Suspense fallback={<></>}>
+            <SystemNotifications />
+          </Suspense>
         </div>
         {ApplicationsArray.map((desktopApp, index) => (
           <DesktopIcon
