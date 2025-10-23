@@ -26,7 +26,6 @@ const TerminalRenderer: React.FC<TerminalRendererProps> = ({
   const [linkBounds, setLinkBounds] = useState<LinkBounds[]>([]);
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
 
-  // URL detection regex - only detect URLs with http:// or https://
   const urlRegex = /(https?:\/\/[^\s]+)/g;
 
   const detectUrls = useCallback(
@@ -124,19 +123,14 @@ const TerminalRenderer: React.FC<TerminalRendererProps> = ({
               const segmentEnd = styleEnd - textStart;
               const textSegment = textChunk.substring(segmentStart, segmentEnd);
 
-              // Check if this segment contains any part of a URL
               const segmentUrls = urls.filter(
                 (url) =>
-                  // URL starts in this segment
                   (url.start >= styleStart && url.start < styleEnd) ||
-                  // URL ends in this segment
                   (url.end > styleStart && url.end <= styleEnd) ||
-                  // URL spans across this segment
                   (url.start < styleStart && url.end > styleEnd)
               );
 
               if (segmentUrls.length > 0) {
-                // This segment contains part of a URL, render it as a link
                 const linkUrl = segmentUrls[0].url;
                 const isHovered = hoveredLink === linkUrl;
 
@@ -150,7 +144,6 @@ const TerminalRenderer: React.FC<TerminalRendererProps> = ({
                   );
                 }
 
-                // Use blue color for links, or cyan if hovered
                 ctx.fillStyle = isHovered
                   ? theme.colors.cyan
                   : theme.colors.blue;
@@ -159,7 +152,6 @@ const TerminalRenderer: React.FC<TerminalRendererProps> = ({
                 } ${fontSize}px monospace`;
                 ctx.fillText(textSegment, x, y);
 
-                // Always underline links (override any existing underline)
                 ctx.strokeStyle = isHovered
                   ? theme.colors.cyan
                   : theme.colors.blue;
@@ -172,8 +164,6 @@ const TerminalRenderer: React.FC<TerminalRendererProps> = ({
                 );
                 ctx.stroke();
 
-                // Track link bounds for click detection (in CSS coordinates)
-                // Adjust y position to better match the visual text area
                 newLinkBounds.push({
                   url: linkUrl,
                   x: x,
@@ -182,7 +172,6 @@ const TerminalRenderer: React.FC<TerminalRendererProps> = ({
                   height: lineHeight + 2, // Minimal height adjustment
                 });
               } else {
-                // Regular text rendering
                 if (style.backgroundColor) {
                   ctx.fillStyle = style.backgroundColor;
                   ctx.fillRect(
@@ -230,7 +219,6 @@ const TerminalRenderer: React.FC<TerminalRendererProps> = ({
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
 
-      // Check if click is on a link (with small padding for easier clicking)
       for (const link of linkBounds) {
         const padding = 2;
         if (
@@ -258,7 +246,6 @@ const TerminalRenderer: React.FC<TerminalRendererProps> = ({
 
       let foundLink: string | null = null;
 
-      // Check if mouse is over any link segment (with small padding for easier hovering)
       for (const link of linkBounds) {
         const padding = 2;
         if (
@@ -274,9 +261,7 @@ const TerminalRenderer: React.FC<TerminalRendererProps> = ({
 
       if (foundLink !== hoveredLink) {
         setHoveredLink(foundLink);
-        // Change cursor style
         canvas.style.cursor = foundLink ? "pointer" : "text";
-        // Force redraw to update hover state for all segments of the same URL
         drawCanvas();
       }
     },
@@ -289,7 +274,6 @@ const TerminalRenderer: React.FC<TerminalRendererProps> = ({
     if (canvas) {
       canvas.style.cursor = "text";
     }
-    // Force redraw to remove hover state from all link segments
     drawCanvas();
   }, [drawCanvas]);
 
