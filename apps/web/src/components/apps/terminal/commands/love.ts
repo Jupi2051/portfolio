@@ -16,6 +16,40 @@ const love: CommandFunction = async (
 
   const name = args.join(" ").trim();
 
+  // Special case for jupi - 1000% love!
+  if (name.toLowerCase() === "jupi") {
+    const compatibility = 1000;
+
+    // ASCII art heart
+    outputToTerminal("\x1b[36m┌──────────────────────────────────┐\x1b[0m");
+    outputToTerminal(
+      "\x1b[36m│\x1b[0m \x1b[31m💕 LOVE COMPATIBILITY TESTER 💕 \x1b[0m \x1b[36m│\x1b[0m"
+    );
+    outputToTerminal("\x1b[36m└──────────────────────────────────┘\x1b[0m");
+    outputToTerminal("");
+
+    // Special message for jupi
+    outputToTerminal(
+      `\x1b[31m❤️ ${compatibility}% compatibility between you and \x1b[33m${name}\x1b[31m!\x1b[0m`
+    );
+    outputToTerminal("\x1b[32m🎉 I LOVE YOU TOO! :> 🎉\x1b[0m");
+    outputToTerminal("");
+    outputToTerminal("\x1b[32m🌟 YOU ARE ABSOLUTELY THE BEST! 🌟\x1b[0m");
+    outputToTerminal("\x1b[32m✨ 1000% LOVE OVERFLOW! ✨\x1b[0m");
+    outputToTerminal("\x1b[32m💖 PERFECT BEYOND PERFECTION! 💖\x1b[0m");
+    outputToTerminal("\x1b[32m🎉 THE MOST AMAZING PERSON EVER! 🎉\x1b[0m");
+
+    // Special progress bar for 1000%
+    const barLength = 30;
+    const bar = "█".repeat(barLength);
+    outputToTerminal(`[\x1b[32m${bar}\x1b[0m] ${compatibility}%`);
+    outputToTerminal("");
+    outputToTerminal(
+      "\x1b[35m💌 Disclaimer: This is just for fun! Real love is much more complex! 💌\x1b[0m"
+    );
+    return;
+  }
+
   // Generate a random compatibility percentage (50/50 chance of good/bad)
   const compatibility =
     Math.random() < 0.5
