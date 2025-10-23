@@ -104,7 +104,7 @@ const uptime: CommandFunction = async (
     );
   } else {
     outputToTerminal(
-      `\x1b[36m✨ Perfect Uptime:\x1b[0m \x1b[32m100.000%\x1b[0m`
+      `\x1b[36m✨ Perfect Uptime: \x1b[0m \x1b[32m100.000%\x1b[0m`
     );
   }
 
