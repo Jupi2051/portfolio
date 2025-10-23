@@ -387,6 +387,23 @@ const TerminalWindow = () => {
     const currentInput = input;
     setInput("");
 
+    // Handle readFromUser input first
+    if (isWaitingForInput && pendingResolve) {
+      setIsWaitingForInput(false);
+      setInputPrompt("");
+
+      if (!shouldDeleteOutputMessage) {
+        setHistory((prev) => [...prev, currentInput]);
+      }
+
+      setShouldDeleteOutputMessage(false);
+      setIsPasswordInput(false);
+      pendingResolve(currentInput);
+      setPendingResolve(null);
+      return;
+    }
+
+    // If command is running but not waiting for input, queue the command
     if (isCommandRunning) {
       setCommandQueue((prev) => [...prev, currentInput]);
       return;
@@ -409,21 +426,6 @@ const TerminalWindow = () => {
 
     if (inQuotes) {
       setInput(currentInput + "\n");
-      return;
-    }
-
-    if (isWaitingForInput && pendingResolve) {
-      setIsWaitingForInput(false);
-      setInputPrompt("");
-
-      if (!shouldDeleteOutputMessage) {
-        setHistory((prev) => [...prev, currentInput]);
-      }
-
-      setShouldDeleteOutputMessage(false);
-      setIsPasswordInput(false);
-      pendingResolve(currentInput);
-      setPendingResolve(null);
       return;
     }
 
@@ -478,7 +480,7 @@ const TerminalWindow = () => {
       <form
         onSubmit={handleSubmit}
         className="flex items-center relative bottom-1"
-        style={{ opacity: isCommandRunning ? 0 : 1 }}
+        style={{ opacity: isCommandRunning && !isWaitingForInput ? 0 : 1 }}
       >
         <span
           style={{
