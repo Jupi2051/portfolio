@@ -124,6 +124,13 @@ const TerminalWindow = () => {
 
   const processEscapeSequences = (text: string) => {
     const theme = getTheme(currentTheme);
+
+    // Escape HTML characters to prevent them from being interpreted as HTML tags
+    let processed = text
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+
     const escapeMap: { [key: string]: string } = {
       "\x1b[0m": "</span>",
       "\x1b[1m": '<span style="font-weight: bold">',
@@ -153,8 +160,6 @@ const TerminalWindow = () => {
       "\x1b[47m": `<span style="background-color: ${theme.colors.bgWhite}">`, // White
       "\x1b[100m": `<span style="background-color: ${theme.colors.bgGray}">`, // Gray
     };
-
-    let processed = text;
 
     processed = processed.replace(
       /\x1b\[38;2;(\d+);(\d+);(\d+)m/g,
@@ -449,12 +454,7 @@ const TerminalWindow = () => {
                 color: theme.colors.foreground,
               }}
               dangerouslySetInnerHTML={{
-                __html:
-                  line === ""
-                    ? "&nbsp;"
-                    : isCommandLine
-                    ? line
-                    : processEscapeSequences(line),
+                __html: line === "" ? "&nbsp;" : processEscapeSequences(line),
               }}
             />
           );
