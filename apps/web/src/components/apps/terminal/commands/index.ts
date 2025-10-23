@@ -13,6 +13,7 @@ import reboot from "./reboot";
 import rm from "./rm";
 import rainbow from "./rainbow";
 import toast from "./toast";
+import ping from "./ping";
 
 const commands: Command[] = [
   { name: ["neofetch", "fetch", "info"], execute: neofetch },
@@ -29,6 +30,7 @@ const commands: Command[] = [
   { name: ["rm", "remove"], execute: rm },
   { name: ["rainbow", "rainbowtext", "gaytext", "gay"], execute: rainbow },
   { name: ["toast", "notify", "notification"], execute: toast },
+  { name: ["ping", "pong"], execute: ping },
 ];
 
 export default commands;
