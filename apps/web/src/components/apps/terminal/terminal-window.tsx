@@ -435,7 +435,7 @@ const TerminalWindow = () => {
   return (
     <div
       ref={terminalRef}
-      className="w-full h-full font-roboto font-normal p-6 overflow-y-auto terminal-selection"
+      className="w-full h-full font-roboto font-normal @lg/appwindow:p-6 p-3 overflow-y-auto terminal-selection"
       style={{
         background: theme.colors.background,
         color: theme.colors.foreground,
@@ -483,7 +483,6 @@ const TerminalWindow = () => {
         <span
           style={{
             fontFamily: "monospace",
-            fontSize: "16px",
             color: theme.colors.foreground,
           }}
         >
@@ -491,10 +490,9 @@ const TerminalWindow = () => {
         </span>
         <input
           ref={inputRef}
-          className="bg-transparent outline-none flex-1"
+          className="bg-transparent outline-none flex-1 @lg/appwindow:text-[16px] text-xs"
           style={{
             fontFamily: "monospace",
-            fontSize: "16px",
             caretShape: "block",
             color: theme.colors.foreground,
           }}
