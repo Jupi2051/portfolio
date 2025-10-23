@@ -1,9 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import commands from "./commands/index";
 import { TerminalInfo } from "./commands/types";
 
+const MAX_HISTORY_LINES = 50;
+
 const TerminalWindow = () => {
-  const [history, setHistory] = useState<string[]>([
+  const [history, setHistoryState] = useState<string[]>([
     "\x1b[36mJupi Terminal [Version 1.0.0]\x1b[0m",
     "\x1b[36m(c) Jupi. All rights reserved.\x1b[0m",
     "",
@@ -23,9 +25,23 @@ const TerminalWindow = () => {
   const [isPasswordInput, setIsPasswordInput] = useState(false);
   const [isCommandRunning, setIsCommandRunning] = useState(false);
   const [commandQueue, setCommandQueue] = useState<string[]>([]);
+  const [commandHistory, setCommandHistory] = useState<string[]>([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
+
+  // Memoized setHistory function that automatically limits to 100 messages
+  const setHistory = useCallback((updater: (prev: string[]) => string[]) => {
+    setHistoryState((prev) => {
+      const newHistory = updater(prev);
+      // Limit history to 100 messages, remove from beginning if exceeded
+      if (newHistory.length > MAX_HISTORY_LINES) {
+        return newHistory.slice(-MAX_HISTORY_LINES);
+      }
+      return newHistory;
+    });
+  }, []);
 
   // Scroll to bottom of terminal
   const scrollToBottom = () => {
@@ -88,6 +104,33 @@ const TerminalWindow = () => {
         .catch((err) => {
           console.error("Failed to copy text: ", err);
         });
+    }
+  };
+
+  // Handle keyboard events for command history navigation
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      if (commandHistory.length > 0) {
+        const newIndex =
+          historyIndex === -1
+            ? commandHistory.length - 1
+            : Math.max(0, historyIndex - 1);
+        setHistoryIndex(newIndex);
+        setInput(commandHistory[newIndex]);
+      }
+    } else if (e.key === "ArrowDown") {
+      e.preventDefault();
+      if (historyIndex !== -1) {
+        const newIndex = historyIndex + 1;
+        if (newIndex >= commandHistory.length) {
+          setHistoryIndex(-1);
+          setInput("");
+        } else {
+          setHistoryIndex(newIndex);
+          setInput(commandHistory[newIndex]);
+        }
+      }
     }
   };
 
@@ -311,9 +354,22 @@ const TerminalWindow = () => {
     // Add the command to history first
     setHistory((prev) => [...prev, `${currentPath}>${cmd}`]);
 
+    // Add command to command history (excluding empty commands)
+    if (cmd.trim()) {
+      setCommandHistory((prev) => {
+        const newHistory = [...prev, cmd];
+        // Limit command history to 50 commands
+        if (newHistory.length > MAX_HISTORY_LINES) {
+          return newHistory.slice(-MAX_HISTORY_LINES);
+        }
+        return newHistory;
+      });
+      setHistoryIndex(-1); // Reset history index
+    }
+
     // Handle clear command specially since it needs to clear state
     if (commandName === "clear") {
-      setHistory([]);
+      setHistory(() => []);
       return;
     }
 
@@ -464,6 +520,7 @@ const TerminalWindow = () => {
           type={isPasswordInput ? "password" : "text"}
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleKeyDown}
           autoFocus
         />
       </form>
