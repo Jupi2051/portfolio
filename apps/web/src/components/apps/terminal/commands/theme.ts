@@ -1,5 +1,6 @@
 import { CommandFunction } from "./types";
 import { getAvailableThemes } from "../themes";
+import { saveTheme } from "../themes/persistence";
 
 const theme: CommandFunction = async (
   outputToTerminal,
@@ -32,6 +33,7 @@ const theme: CommandFunction = async (
 
   // Switch the theme
   terminalInfo.setCurrentTheme(requestedTheme);
+  saveTheme(requestedTheme); // Save to localStorage
   outputToTerminal(`\x1b[32mSwitched to theme: ${requestedTheme}\x1b[0m`);
 };
 

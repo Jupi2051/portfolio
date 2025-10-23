@@ -2,11 +2,12 @@ import React, { useState, useRef, useCallback } from "react";
 import commands from "./commands/index";
 import { TerminalInfo } from "./commands/types";
 import { getTheme } from "./themes";
+import { loadTheme } from "./themes/persistence";
 
 const MAX_HISTORY_LINES = 50;
 
 const TerminalWindow = () => {
-  const [currentTheme, setCurrentTheme] = useState("default");
+  const [currentTheme, setCurrentTheme] = useState(() => loadTheme());
   const [history, setHistoryState] = useState<string[]>([
     "\x1b[36mJupi Terminal [Version 1.0.0]\x1b[0m",
     "\x1b[36m(c) Jupi. All rights reserved.\x1b[0m",
