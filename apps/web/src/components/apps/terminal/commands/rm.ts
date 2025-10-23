@@ -139,8 +139,9 @@ const rm: CommandFunction = async (
 
     outputToTerminal(`Successfully removed ${filesToDelete.length} files`);
     await new Promise((resolve) => setTimeout(resolve, 2000));
+    outputToTerminal("");
     outputToTerminal(
-      `Just kidding! No files were actually removed :D but Why would you even do such an evil thing? Do you know how much time and effort I put into this?`
+      `\x1b[1m\x1b[31mJust kidding! No files were actually removed :< but Why would you even do such an evil thing? Do you know how much time and effort I put into this?\x1b[0m`
     );
   } else {
     // Simple removal for regular rm command
