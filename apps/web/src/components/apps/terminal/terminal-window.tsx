@@ -31,11 +31,9 @@ const TerminalWindow = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
 
-  // Memoized setHistory function that automatically limits to 100 messages
   const setHistory = useCallback((updater: (prev: string[]) => string[]) => {
     setHistoryState((prev) => {
       const newHistory = updater(prev);
-      // Limit history to 100 messages, remove from beginning if exceeded
       if (newHistory.length > MAX_HISTORY_LINES) {
         return newHistory.slice(-MAX_HISTORY_LINES);
       }
@@ -43,60 +41,49 @@ const TerminalWindow = () => {
     });
   }, []);
 
-  // Scroll to bottom of terminal
   const scrollToBottom = () => {
     if (terminalRef.current) {
       terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
     }
   };
 
-  // Auto-focus input when form reappears after command completion
   React.useEffect(() => {
     if (!isCommandRunning && inputRef.current) {
       inputRef.current.focus();
     }
   }, [isCommandRunning]);
 
-  // Process command queue when no command is running
   React.useEffect(() => {
     if (!isCommandRunning && commandQueue.length > 0) {
       const nextCommand = commandQueue[0];
       setCommandQueue((prev) => prev.slice(1));
-      // Execute the queued command
       (async () => {
         await handleCommand(nextCommand);
       })();
     }
   }, [isCommandRunning, commandQueue]);
 
-  // Handle clicking on terminal to focus input
   const handleTerminalClick = (e: React.MouseEvent) => {
-    // Check if user is selecting text
     const selection = window.getSelection();
     if (selection && selection.toString().length > 0) {
-      return; // Don't focus if text is being selected
+      return;
     }
 
-    // Focus the input field
     if (inputRef.current) {
       inputRef.current.focus();
     }
   };
 
-  // Handle right-click to copy selection
   const handleTerminalContextMenu = (e: React.MouseEvent) => {
     const selection = window.getSelection();
     if (selection && selection.toString().length > 0) {
-      e.preventDefault(); // Prevent default context menu
+      e.preventDefault();
 
-      // Copy selection to clipboard
       navigator.clipboard
         .writeText(selection.toString())
         .then(() => {
-          // Clear selection
           selection.removeAllRanges();
 
-          // Focus the input field
           if (inputRef.current) {
             inputRef.current.focus();
           }
@@ -107,7 +94,6 @@ const TerminalWindow = () => {
     }
   };
 
-  // Handle keyboard events for command history navigation
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "ArrowUp") {
       e.preventDefault();
@@ -134,10 +120,8 @@ const TerminalWindow = () => {
     }
   };
 
-  // ANSI escape sequence processor
   const processEscapeSequences = (text: string) => {
     const escapeMap: { [key: string]: string } = {
-      // Reset and formatting
       "\x1b[0m": "</span>",
       "\x1b[1m": '<span style="font-weight: bold">',
       "\x1b[2m": '<span style="opacity: 0.5">',
@@ -147,7 +131,6 @@ const TerminalWindow = () => {
         '<span style="background-color: currentColor; color: var(--ctp-base)">',
       "\x1b[8m": '<span style="color: transparent">',
 
-      // Foreground colors
       "\x1b[30m": '<span style="color: #1e1e2e">', // Black
       "\x1b[31m": '<span style="color: #f38ba8">', // Red
       "\x1b[32m": '<span style="color: #a6e3a1">', // Green
@@ -158,7 +141,6 @@ const TerminalWindow = () => {
       "\x1b[37m": '<span style="color: #cdd6f4">', // White
       "\x1b[90m": '<span style="color: #585b70">', // Gray
 
-      // Background colors
       "\x1b[40m": '<span style="background-color: #1e1e2e">', // Black
       "\x1b[41m": '<span style="background-color: #f38ba8">', // Red
       "\x1b[42m": '<span style="background-color: #a6e3a1">', // Green
@@ -172,19 +154,16 @@ const TerminalWindow = () => {
 
     let processed = text;
 
-    // Handle RGB foreground colors (\x1b[38;2;R;G;Bm)
     processed = processed.replace(
       /\x1b\[38;2;(\d+);(\d+);(\d+)m/g,
       '<span style="color: rgb($1, $2, $3)">'
     );
 
-    // Handle RGB background colors (\x1b[48;2;R;G;Bm)
     processed = processed.replace(
       /\x1b\[48;2;(\d+);(\d+);(\d+)m/g,
       '<span style="background-color: rgb($1, $2, $3)">'
     );
 
-    // Replace escape sequences
     Object.entries(escapeMap).forEach(([escape, replacement]) => {
       processed = processed.replace(
         new RegExp(escape.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g"),
@@ -192,23 +171,19 @@ const TerminalWindow = () => {
       );
     });
 
-    // Handle newlines
     processed = processed.replace(/\n/g, "<br>");
 
-    // Convert URLs to clickable links (but not escaped ones)
     const urlRegex = /(?<!\\)(https?:\/\/[^\s<>"{}|\\^`[\]]+)/g;
     processed = processed.replace(
       urlRegex,
       '<a href="$1" target="_blank" rel="noopener noreferrer" style="color: #89b4fa; text-decoration: underline;">$1</a>'
     );
 
-    // Remove escape characters from escaped URLs
     processed = processed.replace(
       /\\https?:\/\/[^\s<>"{}|\\^`[\]]+/g,
       (match) => match.substring(1)
     );
 
-    // Ensure all spans are closed
     const openSpans = (processed.match(/<span/g) || []).length;
     const closeSpans = (processed.match(/<\/span>/g) || []).length;
     processed += "</span>".repeat(openSpans - closeSpans);
@@ -216,7 +191,6 @@ const TerminalWindow = () => {
     return processed;
   };
 
-  // Add terminal selection styles and custom scrollbar
   React.useEffect(() => {
     const style = document.createElement("style");
     style.textContent = `
@@ -242,7 +216,6 @@ const TerminalWindow = () => {
         51%, 100% { opacity: 0; }
       }
       
-      /* Custom scrollbar styles */
       .terminal-selection::-webkit-scrollbar {
         width: 8px;
       }
@@ -261,7 +234,6 @@ const TerminalWindow = () => {
         background: transparent;
       }
       
-      /* Firefox scrollbar */
       .terminal-selection {
         scrollbar-width: thin;
         scrollbar-color: #6c7086 transparent; /* ctp-surface2 */
@@ -274,7 +246,6 @@ const TerminalWindow = () => {
     };
   }, []);
 
-  // Parse command input and split arguments
   const parseCommand = (input: string) => {
     const trimmed = input.trim();
     if (!trimmed) return { command: "", args: [] };
@@ -288,27 +259,21 @@ const TerminalWindow = () => {
       const char = trimmed[i];
 
       if ((char === '"' || char === "'") && !inQuotes) {
-        // Starting a quoted string
         inQuotes = true;
         quoteChar = char;
       } else if (char === quoteChar && inQuotes) {
-        // Ending a quoted string
         inQuotes = false;
         quoteChar = "";
-        // Don't add the quote character itself
       } else if (char === " " && !inQuotes) {
-        // Space outside quotes - end current argument
         if (current) {
           args.push(current);
           current = "";
         }
       } else {
-        // Add character to current argument
         current += char;
       }
     }
 
-    // Add any remaining content
     if (current) {
       args.push(current);
     }
@@ -319,20 +284,16 @@ const TerminalWindow = () => {
     return { command, args: commandArgs };
   };
 
-  // Function to output text to terminal history
   const outputToTerminal = (text: string) => {
     setHistory((prev) => [...prev, text]);
-    // Scroll to bottom after adding text
     setTimeout(scrollToBottom, 0);
   };
 
-  // Function to read user input (pauses execution until user submits)
   const readFromUser = async (
     outputText: string = "",
     deleteOutputMessage: boolean = false,
     isPassword: boolean = false
   ): Promise<string> => {
-    // Output the message first
     if (outputText) {
       outputToTerminal(outputText);
     }
@@ -351,29 +312,24 @@ const TerminalWindow = () => {
     const { command, args } = parseCommand(cmd);
     const commandName = command.toLowerCase();
 
-    // Add the command to history first
     setHistory((prev) => [...prev, `${currentPath}>${cmd}`]);
 
-    // Add command to command history (excluding empty commands)
     if (cmd.trim()) {
       setCommandHistory((prev) => {
         const newHistory = [...prev, cmd];
-        // Limit command history to 50 commands
         if (newHistory.length > MAX_HISTORY_LINES) {
           return newHistory.slice(-MAX_HISTORY_LINES);
         }
         return newHistory;
       });
-      setHistoryIndex(-1); // Reset history index
+      setHistoryIndex(-1);
     }
 
-    // Handle clear command specially since it needs to clear state
     if (commandName === "clear") {
       setHistory(() => []);
       return;
     }
 
-    // Find and execute the command from static commands
     const commandObj = commands.find((cmd) =>
       cmd.name.some((name) => name.toLowerCase() === commandName)
     );
@@ -412,15 +368,13 @@ const TerminalWindow = () => {
     if (!input.trim()) return;
 
     const currentInput = input;
-    setInput(""); // Clear input immediately for all cases
+    setInput("");
 
-    // If a command is already running, queue this command instead
     if (isCommandRunning) {
       setCommandQueue((prev) => [...prev, currentInput]);
       return;
     }
 
-    // Check for incomplete quotes
     const trimmed = currentInput.trim();
     let inQuotes = false;
     let quoteChar = "";
@@ -436,18 +390,15 @@ const TerminalWindow = () => {
       }
     }
 
-    // If we're still in quotes, add newline instead of executing
     if (inQuotes) {
       setInput(currentInput + "\n");
       return;
     }
 
-    // If we're waiting for input from a command, resolve the promise
     if (isWaitingForInput && pendingResolve) {
       setIsWaitingForInput(false);
       setInputPrompt("");
 
-      // Add user input to history by default
       if (!shouldDeleteOutputMessage) {
         setHistory((prev) => [...prev, currentInput]);
       }
@@ -459,7 +410,6 @@ const TerminalWindow = () => {
       return;
     }
 
-    // Otherwise, handle as a regular command
     await handleCommand(currentInput);
   };
 
