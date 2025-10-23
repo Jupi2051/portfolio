@@ -66,7 +66,7 @@ const uptime: CommandFunction = async (
   // ASCII art header
   outputToTerminal("\x1b[36m┌─────────────────────────────────┐\x1b[0m");
   outputToTerminal(
-    "\x1b[36m│\x1b[0m \x1b[33m🚀 PORTFOLIO UPTIME MONITOR 🚀\x1b[0m \x1b[36m│\x1b[0m"
+    "\x1b[36m│\x1b[0m \x1b[33m🚀 PORTFOLIO UPTIME MONITOR 🚀 \x1b[0m \x1b[36m│\x1b[0m"
   );
   outputToTerminal("\x1b[36m└─────────────────────────────────┘\x1b[0m");
   outputToTerminal("");

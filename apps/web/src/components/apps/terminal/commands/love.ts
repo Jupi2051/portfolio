@@ -25,7 +25,7 @@ const love: CommandFunction = async (
   // ASCII art heart
   outputToTerminal("\x1b[36m┌──────────────────────────────────┐\x1b[0m");
   outputToTerminal(
-    "\x1b[36m│\x1b[0m \x1b[31m💕 LOVE COMPATIBILITY TESTER 💕\x1b[0m \x1b[36m│\x1b[0m"
+    "\x1b[36m│\x1b[0m \x1b[31m💕 LOVE COMPATIBILITY TESTER 💕 \x1b[0m \x1b[36m│\x1b[0m"
   );
   outputToTerminal("\x1b[36m└──────────────────────────────────┘\x1b[0m");
   outputToTerminal("");
