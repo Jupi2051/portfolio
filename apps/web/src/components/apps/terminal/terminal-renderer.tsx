@@ -165,10 +165,10 @@ const TerminalRenderer: React.FC<TerminalRendererProps> = ({
                   : theme.colors.blue;
                 ctx.lineWidth = 1;
                 ctx.beginPath();
-                ctx.moveTo(x, y + lineHeight - 8);
+                ctx.moveTo(x, y + lineHeight - 13);
                 ctx.lineTo(
                   x + textSegment.length * charWidth,
-                  y + lineHeight - 8
+                  y + lineHeight - 13
                 );
                 ctx.stroke();
 
