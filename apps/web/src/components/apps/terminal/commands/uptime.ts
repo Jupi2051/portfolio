@@ -7,7 +7,9 @@ const uptime: CommandFunction = async (
   terminalInfo,
   ...args
 ) => {
-  outputToTerminal("\x1b[36m📊 Fetching portfolio uptime data...\x1b[0m");
+  outputToTerminal(
+    "\x1b[36m📊 Fetching uptime data from status.jupi.dev...\x1b[0m"
+  );
 
   const { uptime, status } = await trpcClient.terminal.uptime.query();
 
@@ -58,6 +60,8 @@ const uptime: CommandFunction = async (
     default:
       statusColor = "\x1b[32m"; // Default to green
   }
+
+  terminalInfo.setHistory((prev) => prev.slice(0, -1));
 
   // ASCII art header
   outputToTerminal("\x1b[36m┌─────────────────────────────────┐\x1b[0m");
