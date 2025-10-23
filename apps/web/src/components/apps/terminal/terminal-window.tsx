@@ -21,6 +21,8 @@ const TerminalWindow = () => {
   const [shouldDeleteOutputMessage, setShouldDeleteOutputMessage] =
     useState(false);
   const [isPasswordInput, setIsPasswordInput] = useState(false);
+  const [isCommandRunning, setIsCommandRunning] = useState(false);
+  const [commandQueue, setCommandQueue] = useState<string[]>([]);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
@@ -31,6 +33,25 @@ const TerminalWindow = () => {
       terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
     }
   };
+
+  // Auto-focus input when form reappears after command completion
+  React.useEffect(() => {
+    if (!isCommandRunning && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isCommandRunning]);
+
+  // Process command queue when no command is running
+  React.useEffect(() => {
+    if (!isCommandRunning && commandQueue.length > 0) {
+      const nextCommand = commandQueue[0];
+      setCommandQueue((prev) => prev.slice(1));
+      // Execute the queued command
+      (async () => {
+        await handleCommand(nextCommand);
+      })();
+    }
+  }, [isCommandRunning, commandQueue]);
 
   // Handle clicking on terminal to focus input
   const handleTerminalClick = (e: React.MouseEvent) => {
@@ -302,6 +323,7 @@ const TerminalWindow = () => {
     );
 
     if (commandObj) {
+      setIsCommandRunning(true);
       try {
         const terminalInfo: TerminalInfo = {
           currentPath,
@@ -318,6 +340,7 @@ const TerminalWindow = () => {
       } catch (error) {
         outputToTerminal(`\x1b[31mError executing command:\x1b[0m ${error}`);
       } finally {
+        setIsCommandRunning(false);
         outputToTerminal("");
       }
     } else {
@@ -332,8 +355,17 @@ const TerminalWindow = () => {
     e.preventDefault();
     if (!input.trim()) return;
 
+    const currentInput = input;
+    setInput(""); // Clear input immediately for all cases
+
+    // If a command is already running, queue this command instead
+    if (isCommandRunning) {
+      setCommandQueue((prev) => [...prev, currentInput]);
+      return;
+    }
+
     // Check for incomplete quotes
-    const trimmed = input.trim();
+    const trimmed = currentInput.trim();
     let inQuotes = false;
     let quoteChar = "";
 
@@ -350,32 +382,29 @@ const TerminalWindow = () => {
 
     // If we're still in quotes, add newline instead of executing
     if (inQuotes) {
-      setInput(input + "\n");
+      setInput(currentInput + "\n");
       return;
     }
 
     // If we're waiting for input from a command, resolve the promise
     if (isWaitingForInput && pendingResolve) {
-      const userInput = input;
-      setInput("");
       setIsWaitingForInput(false);
       setInputPrompt("");
 
       // Add user input to history by default
       if (!shouldDeleteOutputMessage) {
-        setHistory((prev) => [...prev, userInput]);
+        setHistory((prev) => [...prev, currentInput]);
       }
 
       setShouldDeleteOutputMessage(false);
       setIsPasswordInput(false);
-      pendingResolve(userInput);
+      pendingResolve(currentInput);
       setPendingResolve(null);
       return;
     }
 
     // Otherwise, handle as a regular command
-    await handleCommand(input);
-    setInput("");
+    await handleCommand(currentInput);
   };
 
   return (
@@ -413,7 +442,11 @@ const TerminalWindow = () => {
         })}
       </div>
 
-      <form onSubmit={handleSubmit} className="flex items-center">
+      <form
+        onSubmit={handleSubmit}
+        className="flex items-center"
+        style={{ opacity: isCommandRunning ? 0 : 1 }}
+      >
         <span
           className="text-ctp-lavender"
           style={{ fontFamily: "monospace", fontSize: "16px" }}
