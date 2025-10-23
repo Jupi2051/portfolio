@@ -11,6 +11,7 @@ import pwd from "./pwd";
 import neofetch from "./neofetch";
 import reboot from "./reboot";
 import rm from "./rm";
+import rainbow from "./rainbow";
 
 const commands: Command[] = [
   { name: ["neofetch", "fetch", "info"], execute: neofetch },
@@ -25,6 +26,7 @@ const commands: Command[] = [
   { name: ["pwd", "currentdir"], execute: pwd },
   { name: ["reboot", "restart", "reload"], execute: reboot },
   { name: ["rm", "remove"], execute: rm },
+  { name: ["rainbow", "rainbowtext", "gaytext", "gay"], execute: rainbow },
 ];
 
 export default commands;
