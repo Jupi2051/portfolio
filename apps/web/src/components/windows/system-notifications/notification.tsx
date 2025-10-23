@@ -112,7 +112,7 @@ export default function Notification({
           e.stopPropagation();
           handleDismiss();
         }}
-        whileHover={{ scale: 1.15, rotate: 90 }}
+        whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.85 }}
         transition={{ type: "spring", stiffness: 400, damping: 25 }}
       >
