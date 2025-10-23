@@ -486,6 +486,8 @@ const TerminalWindow = () => {
           style={{
             fontFamily: "monospace",
             color: theme.colors.foreground,
+            fontSize: "16px",
+            lineHeight: 1,
           }}
         >
           {isWaitingForInput ? inputPrompt : `${currentPath}>`}
