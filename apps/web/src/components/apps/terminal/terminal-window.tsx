@@ -443,12 +443,10 @@ const TerminalWindow = () => {
       >
         {history.map((line, i) => {
           const isColorSquareLine = line.includes("\x1b[48;2;");
-          const isCommandLine = line.includes(">") && !line.startsWith("\x1b");
 
           return (
             <div
               key={i}
-              className={`${isColorSquareLine ? "" : "mb-0.5"}`}
               style={{
                 fontFamily: "monospace",
                 fontSize: "16px",
@@ -464,7 +462,7 @@ const TerminalWindow = () => {
 
       <form
         onSubmit={handleSubmit}
-        className="flex items-center"
+        className="flex items-center relative bottom-1"
         style={{ opacity: isCommandRunning ? 0 : 1 }}
       >
         <span

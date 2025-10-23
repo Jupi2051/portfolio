@@ -15,6 +15,7 @@ import rainbow from "./rainbow";
 import toast from "./toast";
 import ping from "./ping";
 import theme from "./theme";
+import uptime from "./uptime";
 
 const commands: Command[] = [
   { name: ["help", "h", "?"], execute: help },
@@ -33,6 +34,7 @@ const commands: Command[] = [
   { name: ["password", "pass"], execute: password },
   { name: ["pwd", "currentdir"], execute: pwd },
   { name: ["reboot", "restart", "reload"], execute: reboot },
+  { name: ["uptime", "up"], execute: uptime },
 ];
 
 export default commands;
