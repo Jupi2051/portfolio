@@ -295,7 +295,10 @@ const TerminalRenderer: React.FC<TerminalRendererProps> = ({
   });
 
   return (
-    <div ref={containerRef} style={{ width: "100%", height: "auto" }}>
+    <div
+      ref={containerRef}
+      style={{ width: "100%", height: "auto", minWidth: 0 }}
+    >
       <canvas
         ref={canvasRef}
         className="cursor-text"
@@ -308,6 +311,7 @@ const TerminalRenderer: React.FC<TerminalRendererProps> = ({
           height: "auto",
           minHeight: "auto",
           maxHeight: "none",
+          minWidth: 0,
         }}
       />
     </div>

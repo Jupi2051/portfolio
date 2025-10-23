@@ -295,9 +295,10 @@ const TerminalWindow = () => {
   return (
     <div
       ref={terminalRef}
-      className="w-full h-full relative overflow-auto pt-2"
+      className="w-full h-full relative overflow-x-hidden overflow-y-auto pt-2"
       style={{
         background: theme.colors.background,
+        minWidth: 0, // Allow shrinking below content width
       }}
       onClick={handleTerminalClick}
     >
@@ -305,12 +306,12 @@ const TerminalWindow = () => {
 
       <form
         onSubmit={handleSubmit}
-        className="px-6 py-0 relative bottom-[15px]"
+        className="px-6 py-0 relative bottom-[15px] min-w-0"
         style={{
           opacity: isCommandRunning && !isWaitingForInput ? 0 : 1,
         }}
       >
-        <div className="flex items-center justify-center">
+        <div className="flex items-center min-w-0">
           {!isWaitingForInput && (
             <span
               className="font-mono text-base leading-4"
@@ -327,7 +328,7 @@ const TerminalWindow = () => {
           {
             <input
               ref={inputRef}
-              className="flex-1 bg-transparent outline-none font-mono text-base leading-4"
+              className="flex-1 bg-transparent outline-none font-mono text-base leading-4 min-w-0"
               style={{
                 fontFamily: "monospace",
                 fontSize: "16px",
@@ -335,6 +336,7 @@ const TerminalWindow = () => {
                 color: theme.colors.foreground,
                 paddingLeft: "0",
                 marginLeft: "0",
+                minWidth: "0",
               }}
               type={isPasswordInput ? "password" : "text"}
               value={input}
