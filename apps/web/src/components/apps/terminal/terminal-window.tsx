@@ -247,6 +247,12 @@ const TerminalWindow = () => {
         scrollbar-width: thin;
         scrollbar-color: ${theme.colors.scrollbar} transparent;
       }
+      
+      .terminal-selection div {
+        margin: 0 !important;
+        padding: 0 !important;
+        line-height: 1 !important;
+      }
     `;
     document.head.appendChild(style);
 
@@ -439,7 +445,13 @@ const TerminalWindow = () => {
     >
       <div
         className="whitespace-pre-wrap break-words"
-        style={{ fontFamily: "monospace", fontSize: "16px", lineHeight: "1" }}
+        style={{
+          fontFamily: "monospace",
+          fontSize: "16px",
+          lineHeight: 1,
+          margin: 0,
+          padding: 0,
+        }}
       >
         {history.map((line, i) => {
           const isColorSquareLine = line.includes("\x1b[48;2;");
@@ -450,6 +462,9 @@ const TerminalWindow = () => {
               style={{
                 fontFamily: "monospace",
                 fontSize: "16px",
+                lineHeight: 1,
+                margin: 0,
+                padding: 0,
                 color: theme.colors.foreground,
               }}
               dangerouslySetInnerHTML={{
