@@ -241,7 +241,7 @@ const TerminalTextBased: React.FC<TerminalProps> = ({
           padding: 0,
         }}
       >
-        {history.map((line, i) => (
+        {history.slice(-MAX_HISTORY_LINES).map((line, i) => (
           <div
             key={i}
             style={{
