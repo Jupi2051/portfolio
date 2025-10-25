@@ -18,6 +18,9 @@ import theme from "./theme";
 import uptime from "./uptime";
 import love from "./love";
 import coinflip from "./coinflip";
+import advice from "./advice";
+import insult from "./insult";
+import joke from "./joke";
 
 const commands: Command[] = [
   { name: ["help", "h", "?"], execute: help },
@@ -39,6 +42,9 @@ const commands: Command[] = [
   { name: ["uptime", "up"], execute: uptime },
   { name: ["love"], execute: love },
   { name: ["coinflip", "flip", "coin"], execute: coinflip },
+  { name: ["advice", "adv"], execute: advice },
+  { name: ["insult", "ins"], execute: insult },
+  { name: ["joke", "joke"], execute: joke },
 ];
 
 export default commands;
