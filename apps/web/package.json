@@ -55,6 +55,7 @@
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.3.1",
+    "react-error-boundary": "^6.0.0",
     "react-indiana-drag-scroll": "^2.2.1",
     "react-redux": "^9.2.0",
     "react-resize-detector": "^12.1.0",
@@ -68,7 +69,7 @@
   "devDependencies": {
     "@catppuccin/highlightjs": "^1.0.1",
     "@types/node": "^24.3.0",
-    "@types/react": "18.3.16",
+    "@types/react": "18.3.1",
     "@types/react-dom": "18.3.1",
     "@types/react-syntax-highlighter": "^15.5.13",
     "@vitejs/plugin-react": "^4.7.0",
