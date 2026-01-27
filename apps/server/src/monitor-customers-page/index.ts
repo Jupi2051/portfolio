@@ -14,9 +14,7 @@ router.get("/customers-page-model-status", async (req, res) => {
     return;
   }
   isCheckingModel = true;
-  const isCustomersPageLoaded = await validateCustomersPage({
-    scroll: { y: 0, x: 0 },
-  });
+  const isCustomersPageLoaded = await validateCustomersPage();
   isCheckingModel = false;
   latestValidationResult = isCustomersPageLoaded;
 

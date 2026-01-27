@@ -1,10 +1,8 @@
-import validatePageSnapshot from './validate-customers-page'
+import validatePageSnapshot from "./validate-customers-page";
 
 const checkModel = async () => {
-  const isCustomersPageLoaded = await validatePageSnapshot({
-    scroll: { y: 0, x: 0 }
-  })
-  if (isCustomersPageLoaded) return
-}
+  const isCustomersPageLoaded = await validatePageSnapshot();
+  if (isCustomersPageLoaded) return;
+};
 
-export default checkModel
+export default checkModel;
