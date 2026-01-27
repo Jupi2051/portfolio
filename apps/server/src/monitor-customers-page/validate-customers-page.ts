@@ -83,6 +83,9 @@ const validateCustomersPage = async () => {
   };
 
   console.log("converting realtimeScreenshotData to imageData");
+
+  const { width, height } = await sharp(realtimeScreenshotData).metadata();
+
   const imageData = await sharp(realtimeScreenshotData)
     .raw()
     .toBuffer({ resolveWithObject: true });
@@ -91,16 +94,8 @@ const validateCustomersPage = async () => {
 
   console.log("checking for colors in the image");
   try {
-    for (
-      let y = spaceToCheckColors.topLeft.y;
-      y <= spaceToCheckColors.bottomRight.y;
-      y++
-    ) {
-      for (
-        let x = spaceToCheckColors.topLeft.x;
-        x <= spaceToCheckColors.bottomRight.x;
-        x++
-      ) {
+    for (let y = 0; y <= height; y++) {
+      for (let x = 0; x <= width; x++) {
         const color = await getPixelColor(imageData, x, y);
         console.log("color", color);
         if (color.r >= 60 && color.g >= 60 && color.b >= 60) {
