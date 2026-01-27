@@ -7,9 +7,24 @@ import fs from "fs";
 // const customersPageUrl = 'http://homepage.instatus:8000/customers'
 const customersPageUrl = "https://instatus.com/customers";
 
+/** Chromium args so WebGL canvas.toDataURL() works on headless Linux (no GPU). */
+function getChromiumArgs(): string[] {
+  const args = ["--use-gl=angle"];
+  if (process.platform === "linux") {
+    args.push(
+      "--use-angle=swiftshader",
+      "--no-sandbox",
+      "--disable-dev-shm-usage",
+      "--disable-gpu-sandbox",
+    );
+  }
+  return args;
+}
+
 const validateCustomersPage = async () => {
   const browser = await chromium.launch({
     headless: true,
+    args: getChromiumArgs(),
   });
   const context = await browser.newContext({
     viewport: { width: 300, height: 200 },
@@ -20,7 +35,10 @@ const validateCustomersPage = async () => {
     const original = HTMLCanvasElement.prototype.getContext;
     HTMLCanvasElement.prototype.getContext = function (type, attrs) {
       if (type === 'webgl' || type === 'webgl2') {
-        attrs = Object.assign({}, attrs, { preserveDrawingBuffer: true });
+        attrs = Object.assign({}, attrs || {}, {
+          preserveDrawingBuffer: true,
+          premultipliedAlpha: false,
+        });
       }
       return original.call(this, type, attrs);
     };
