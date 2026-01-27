@@ -7,24 +7,38 @@ import fs from "fs";
 // const customersPageUrl = 'http://homepage.instatus:8000/customers'
 const customersPageUrl = "https://instatus.com/customers";
 
-/** Chromium args so WebGL canvas.toDataURL() works on headless Linux (no GPU). */
-function getChromiumArgs(): string[] {
+/** Chromium args and launch opts so WebGL canvas.toDataURL() works on headless Linux (no GPU). */
+function getChromiumLaunchOptions(): {
+  args: string[];
+  ignoreDefaultArgs?: string[];
+} {
   const args = ["--use-gl=angle"];
   if (process.platform === "linux") {
+    // SwiftShader WebGL fallback (required when automatic fallback is deprecated).
+    // See https://chromium.googlesource.com/chromium/src/+/main/docs/gpu/swiftshader.md
     args.push(
-      "--use-angle=swiftshader",
+      "--use-angle=swiftshader-webgl",
+      "--enable-unsafe-swiftshader",
       "--no-sandbox",
       "--disable-dev-shm-usage",
       "--disable-gpu-sandbox",
     );
+    return {
+      args,
+      ignoreDefaultArgs: ["--disable-gpu"],
+    };
   }
-  return args;
+  return { args };
 }
 
 const validateCustomersPage = async () => {
+  const launchOpts = getChromiumLaunchOptions();
   const browser = await chromium.launch({
     headless: true,
-    args: getChromiumArgs(),
+    args: launchOpts.args,
+    ...(launchOpts.ignoreDefaultArgs && {
+      ignoreDefaultArgs: launchOpts.ignoreDefaultArgs,
+    }),
   });
   const context = await browser.newContext({
     viewport: { width: 300, height: 200 },
@@ -52,6 +66,14 @@ const validateCustomersPage = async () => {
   console.log("canvas found and visible");
   await page.waitForTimeout(5 * 1000);
 
+  // Wait for at least one composited frame so the WebGL buffer is committed (Linux headless).
+  await page.evaluate(() => {
+    const raf = (globalThis as typeof globalThis & { requestAnimationFrame: (cb: () => void) => number }).requestAnimationFrame;
+    return new Promise<void>((resolve) => {
+      raf(() => raf(() => resolve()));
+    });
+  });
+
   console.log("taking screenshot of canvas...");
   const dataUrl = await page.evaluate(() => {
     //@ts-ignore
@@ -77,11 +99,6 @@ const validateCustomersPage = async () => {
   await browser.close();
   console.log("browser closed");
 
-  const spaceToCheckColors = {
-    topLeft: { x: 150, y: 150 },
-    bottomRight: { x: 200, y: 200 },
-  };
-
   console.log("converting realtimeScreenshotData to imageData");
 
   const { width, height } = await sharp(realtimeScreenshotData).metadata();
@@ -94,13 +111,11 @@ const validateCustomersPage = async () => {
 
   console.log("checking for colors in the image");
   try {
-    for (let y = 0; y <= height; y++) {
-      for (let x = 0; x <= width; x++) {
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
         const color = await getPixelColor(imageData, x, y);
-        console.log("color", color);
         if (color.r >= 60 && color.g >= 60 && color.b >= 60) {
           isColorFound = true;
-          console.log("color found", color);
           break;
         }
       }
