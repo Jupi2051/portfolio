@@ -68,7 +68,11 @@ const validateCustomersPage = async () => {
 
   // Wait for at least one composited frame so the WebGL buffer is committed (Linux headless).
   await page.evaluate(() => {
-    const raf = (globalThis as typeof globalThis & { requestAnimationFrame: (cb: () => void) => number }).requestAnimationFrame;
+    const raf = (
+      globalThis as typeof globalThis & {
+        requestAnimationFrame: (cb: () => void) => number;
+      }
+    ).requestAnimationFrame;
     return new Promise<void>((resolve) => {
       raf(() => raf(() => resolve()));
     });
@@ -114,6 +118,7 @@ const validateCustomersPage = async () => {
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
         const color = await getPixelColor(imageData, x, y);
+        console.log("color found", color);
         if (color.r >= 60 && color.g >= 60 && color.b >= 60) {
           isColorFound = true;
           break;
