@@ -34,7 +34,7 @@ function getChromiumLaunchOptions(): {
 const validateCustomersPage = async () => {
   const launchOpts = getChromiumLaunchOptions();
   const browser = await chromium.launch({
-    headless: false,
+    headless: true,
     args: launchOpts.args,
     ...(launchOpts.ignoreDefaultArgs && {
       ignoreDefaultArgs: launchOpts.ignoreDefaultArgs,
