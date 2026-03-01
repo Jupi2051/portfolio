@@ -366,7 +366,7 @@ const Terminal = () => {
     <div className="w-full h-full relative">
       {/* Terminal Components */}
 
-      {useTextBased ? (
+      {/* {useTextBased ? (
         <TerminalTextBased
           {...sharedProps}
           inputRef={inputRef}
@@ -388,7 +388,17 @@ const Terminal = () => {
           onSubmit={handleSubmit}
           onScrollToBottom={scrollToBottom}
         />
-      )}
+      )} */}
+      <TerminalTextBased
+        {...sharedProps}
+        inputRef={inputRef}
+        terminalRef={terminalRef}
+        onTerminalClick={handleTerminalClick}
+        onKeyDown={handleKeyDown}
+        onInputChange={handleInputChange}
+        onSubmit={handleSubmit}
+        onScrollToBottom={scrollToBottom}
+      />
     </div>
   );
 };
