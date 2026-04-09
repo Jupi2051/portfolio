@@ -2,7 +2,6 @@ import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import "@/Styles/Desktop.css";
 import DesktopIcon from "@/components/windows/desktop/desktop-icon";
 import DesktopTimeWidget from "@/components/widgets/time/desktop-time-widget";
-import useResizeObserver from "use-resize-observer";
 import MovingDesktopIcon from "@/components/windows/desktop/moving-desktop-icon";
 import ApplicationsContainer from "@/components/windows/desktop/applications-container";
 import {
@@ -14,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/storage/store";
 import { setFocusedApp } from "@/storage/slices/desktop";
 import { FolderItem } from "@/components/apps/explorer";
+import { useResizeObserver } from "usehooks-ts";
 import cn from "classnames";
 import { Dimensions2D } from "@/components/windows/app-window";
 import useApplicationURLParams from "@/hooks/use-application-url-params";
@@ -35,15 +35,15 @@ export type openApplicationMetaData = {
   windowSize?: Dimensions2D;
   maximized?: boolean;
   windowLocation?:
-    | "center"
-    | "top-left"
-    | "top-right"
-    | "bottom-left"
-    | "bottom-right"
-    | "top-center"
-    | "bottom-center"
-    | "left-center"
-    | "right-center";
+  | "center"
+  | "top-left"
+  | "top-right"
+  | "bottom-left"
+  | "bottom-right"
+  | "top-center"
+  | "bottom-center"
+  | "left-center"
+  | "right-center";
   disableMaximize?: boolean;
   disableMinimize?: boolean;
   disableResize?: boolean;
@@ -316,11 +316,8 @@ function Desktop({ className }: { className?: string }) {
     x: 0,
     y: 0,
   });
-  const {
-    ref,
-    width = 1,
-    height = 1,
-  } = useResizeObserver<HTMLDivElement>({ box: "border-box" });
+  const ref = useRef<HTMLDivElement>(null);
+  const { width = 1, height = 1 } = useResizeObserver<HTMLDivElement>({ ref, box: "border-box" });
   const [HeldIconID, SetHeldIconId] = useState(-1); // -1 means no element is held atm.
   const [isMovingHeldIcon, SetMoveHeldIcon] = useState(false);
   const [ApplicationsArray, SetApplicationsArray] = useState(DesktopIcons);
