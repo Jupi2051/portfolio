@@ -5,6 +5,7 @@ import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { appRouter } from "./router";
 import { createContext } from "./context";
 import monitorCustomersPageRouter from "./monitor-customers-page";
+import "dotenv/config";
 
 const app = express();
 

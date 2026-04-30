@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "lib": ["ES2022"],
-    "module": "CommonJS",
-    "moduleResolution": "Node",
+    "target": "ES2023",
+    "lib": ["ES2023"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "allowJs": true,
@@ -11,15 +11,15 @@
     "noEmit": false,
     "declaration": true,
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": ".",
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "baseUrl": "./src",
     "paths": {
-      "@/*": ["./*"],
-      "@/router": ["./router"],
-      "@/modules/*": ["./modules/*"]
+      "@/*": ["./src/*"],
+      "@/router": ["./src/router"],
+      "@/modules/*": ["./src/modules/*"],
+      "@/lib/*": ["./src/lib/*"]
     }
   },
   "include": ["src/**/*"],
