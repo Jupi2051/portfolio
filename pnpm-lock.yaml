@@ -132,9 +132,6 @@ importers:
       '@tiptap/extension-font-family':
         specifier: ^3.22.5
         version: 3.22.5(@tiptap/extension-text-style@3.22.5(@tiptap/core@3.22.5(@tiptap/pm@3.22.5)))
-      '@tiptap/extension-font-size':
-        specifier: 3.0.0-next.3
-        version: 3.0.0-next.3(@tiptap/core@3.22.5(@tiptap/pm@3.22.5))(@tiptap/extension-text-style@3.22.5(@tiptap/core@3.22.5(@tiptap/pm@3.22.5)))
       '@tiptap/extension-highlight':
         specifier: ^3.22.5
         version: 3.22.5(@tiptap/core@3.22.5(@tiptap/pm@3.22.5))
@@ -1224,13 +1221,6 @@ packages:
     resolution: {integrity: sha512-UAFIHmj4YbqJcCkBomrhy02cxBu7D2gQzVcurpNP1NdimqbWW2k+Km4SGss7hzZQXSETHtUKDkrAYgD8/UoY1A==}
     peerDependencies:
       '@tiptap/extension-text-style': 3.22.5
-
-  '@tiptap/extension-font-size@3.0.0-next.3':
-    resolution: {integrity: sha512-JmmrCboLvDH4HG1nOAMkiwmeFluliXaeEh5+RDxOofuzxsHjSYVJpNP846eLtMnjkUAxjvh7tBz7GTjATm3OuQ==}
-    deprecated: This package is no longer maintained. Please use the new @tiptap/extension-text-style package.
-    peerDependencies:
-      '@tiptap/core': ^3.0.0-next.3
-      '@tiptap/extension-text-style': ^3.0.0-next.3
 
   '@tiptap/extension-gapcursor@3.22.5':
     resolution: {integrity: sha512-4WkMu7qqjbsm8hCQS+8X+la1wjriN0SKoRdvpfKH33qM50MB34tYJuGLAO+y7TTh4MMMco3AZCKPBL5JVMqNIg==}
@@ -3662,11 +3652,6 @@ snapshots:
 
   '@tiptap/extension-font-family@3.22.5(@tiptap/extension-text-style@3.22.5(@tiptap/core@3.22.5(@tiptap/pm@3.22.5)))':
     dependencies:
-      '@tiptap/extension-text-style': 3.22.5(@tiptap/core@3.22.5(@tiptap/pm@3.22.5))
-
-  '@tiptap/extension-font-size@3.0.0-next.3(@tiptap/core@3.22.5(@tiptap/pm@3.22.5))(@tiptap/extension-text-style@3.22.5(@tiptap/core@3.22.5(@tiptap/pm@3.22.5)))':
-    dependencies:
-      '@tiptap/core': 3.22.5(@tiptap/pm@3.22.5)
       '@tiptap/extension-text-style': 3.22.5(@tiptap/core@3.22.5(@tiptap/pm@3.22.5))
 
   '@tiptap/extension-gapcursor@3.22.5(@tiptap/extensions@3.22.5(@tiptap/core@3.22.5(@tiptap/pm@3.22.5))(@tiptap/pm@3.22.5))':
