@@ -68,7 +68,7 @@ function DesktopIconNameForm({ value, onSubmit, onCancel }: PropTypes) {
             }}
             autoFocus
             rows={1}
-            className="w-fit max-w-full border bg-white border-white/50 rounded-sm font-normal text-xs select-none uppercase text-center font-roboto-condensed text-black outline-none focus:border-white px-1 py-0.5 leading-4 resize-none overflow-hidden whitespace-pre-wrap break-all field-sizing-content"
+            className="w-fit max-w-full border bg-white border-white/50 rounded-sm font-normal text-xs select-none uppercase text-center font-roboto-condensed text-black outline-none focus:border-white px-1 py-0.5 leading-4 resize-none overflow-hidden whitespace-pre-wrap wrap-break-word field-sizing-content"
           />
         )}
       />

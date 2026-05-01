@@ -169,7 +169,7 @@ function DesktopIcon(Props: PropTypes) {
       ) : (
         <h1
           className={cn(
-            "absolute top-9/12 w-full px-1 font-normal text-xs mt-1.5 select-none uppercase text-center font-roboto-condensed break-all",
+            "absolute top-9/12 w-full px-1 font-normal text-xs mt-1.5 select-none uppercase text-center font-roboto-condensed wrap-break-word",
             {
               "overflow-visible": Props.Selected,
               "overflow-hidden": !Props.Selected,
