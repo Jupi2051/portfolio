@@ -61,10 +61,9 @@ const AnimationFrames: Variants = {
 function DesktopIcon(Props: PropTypes) {
   const [ApplicationName, SetAppName] = useState(Props.ApplicationName)
   const [isEditingName, SetIsEditingName] = useState(false)
-  const [editedName, SetEditedName] = useState(ApplicationName)
   const [hasInitialAnimationPlayed, setHasInitialAnimationPlayed] =
     useState(false)
-  const wasSelectedOnPointerDown = useRef(false)
+  const wasSelectedOnMouseDown = useRef(false)
   const { openNewApplication } = useGlobalWindowsControls()
   const { openNewTaskbarApplication } = useGlobalTaskbarControls()
   const isTouchDevice = useTouchDevice()
@@ -103,14 +102,14 @@ function DesktopIcon(Props: PropTypes) {
     openLinkedApplication()
   }
 
-  const onPointerDownName = () => {
-    wasSelectedOnPointerDown.current = Props.Selected
+  const onMouseDownName = () => {
+    wasSelectedOnMouseDown.current = Props.Selected
   }
 
   const onClickName = (
     event: React.MouseEvent<HTMLHeadingElement, MouseEvent>,
   ) => {
-    if (!wasSelectedOnPointerDown.current) return
+    if (!wasSelectedOnMouseDown.current) return
     if (!isTouchDevice && event.detail !== 1) return
     SetIsEditingName(true)
   }
@@ -159,6 +158,7 @@ function DesktopIcon(Props: PropTypes) {
         className="max-h-[50px] max-w-[55px]"
         variants={AnimationFrames}
         animate={Props.Selected ? "selected" : "unselected"}
+        draggable={false}
       />
       {isEditingName ? (
         <DesktopIconNameForm
@@ -169,7 +169,7 @@ function DesktopIcon(Props: PropTypes) {
       ) : (
         <h1
           className="absolute top-9/12 w-full px-1 font-normal text-xs mt-1.5 select-none uppercase text-center font-roboto-condensed break-all"
-          onPointerDown={onPointerDownName}
+          onMouseDown={onMouseDownName}
           onClick={onClickName}
         >
           {ApplicationName}
