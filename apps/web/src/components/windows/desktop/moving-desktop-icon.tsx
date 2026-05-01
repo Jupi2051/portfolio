@@ -43,7 +43,14 @@ function MovingDesktopIcon({ id, Icon, ApplicationName }: PropTypes) {
           ease: "easeInOut",
         }}
       />
-      <h1 className="absolute bottom-0 font-normal text-xs mt-1.5 select-none pointer-events-none uppercase text-center font-roboto-condensed">
+      <h1
+        className="absolute bottom-0 w-full px-1 font-normal text-xs mt-1.5 select-none pointer-events-none uppercase text-center font-roboto-condensed overflow-hidden wrap-break-word"
+        style={{
+          display: "-webkit-box",
+          WebkitLineClamp: 2,
+          WebkitBoxOrient: "vertical",
+        }}
+      >
         {ApplicationName}
       </h1>
     </div>
