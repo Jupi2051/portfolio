@@ -240,14 +240,14 @@ export let DesktopIcons: DesktopIconData[] = [
   //   Selected: false,
   //   AppComponent: DesktopAppsList.EIEN,
   // },
-  // {
-  //   id: 3,
-  //   Name: "Instatus Inspace",
-  //   IconPath: "Imgs/DesktopApps/astronaut.webp",
-  //   Style: {},
-  //   Selected: false,
-  //   AppComponent: DesktopAppsList.InstatusInspace,
-  // },
+  {
+    id: 3,
+    Name: "Instatus Inspace",
+    IconPath: "Imgs/DesktopApps/astronaut.webp",
+    Style: {},
+    Selected: false,
+    AppComponent: DesktopAppsList.InstatusInspace,
+  },
   // {
   //   id: 4,
   //   Name: "Jenni",
@@ -433,11 +433,14 @@ function Desktop({ className }: { className?: string }) {
   ): void {
     SetHoldClickInitPosition({ x: event.clientX, y: event.clientY });
     const DesktopClickedElement = event.target as Element;
-    if (DesktopClickedElement.classList.contains("Desktop-Icon-Container")) {
+    const clickedIconContainer = DesktopClickedElement.closest(
+      ".Desktop-Icon-Container"
+    );
+    if (clickedIconContainer) {
       const ElementId =
-        DesktopClickedElement.getAttribute("data-id") === undefined
+        clickedIconContainer.getAttribute("data-id") === undefined
           ? -1
-          : Number(DesktopClickedElement.getAttribute("data-id"));
+          : Number(clickedIconContainer.getAttribute("data-id"));
       SetHeldIconId(ElementId);
     } else if (DesktopClickedElement.id === "Desktop")
       dispatch(setFocusedApp(-1));
@@ -454,8 +457,11 @@ function Desktop({ className }: { className?: string }) {
 
   function onMouseUp(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     const DesktopIconElement = event.target as Element;
-    if (DesktopIconElement.classList.contains("Desktop-Icon-Container")) {
-      const ElementId = DesktopIconElement.getAttribute("data-id");
+    const clickedIconContainer = DesktopIconElement.closest(
+      ".Desktop-Icon-Container"
+    );
+    if (clickedIconContainer) {
+      const ElementId = clickedIconContainer.getAttribute("data-id");
       if (ElementId) SelectDesktopIcon(Number(ElementId));
     } else {
       if (!isMovingHeldIcon) {

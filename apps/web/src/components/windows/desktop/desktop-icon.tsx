@@ -1,27 +1,28 @@
-import { useState } from "react";
-import { OpenApplication } from "@/components/windows/desktop";
-import { DesktopAppsList } from "@/components/windows/desktop/apps-list";
-import cn from "classnames";
-import { motion, Variants } from "framer-motion";
-import useGlobalTaskbarControls from "@/hooks/use-global-taskbar-controls";
-import useGlobalWindowsControls from "@/hooks/use-global-windows-controls";
-import { useTouchDevice } from "@/hooks/use-touch-device";
+import { useEffect, useRef, useState } from "react"
+import { OpenApplication } from "@/components/windows/desktop"
+import { DesktopAppsList } from "@/components/windows/desktop/apps-list"
+import cn from "classnames"
+import { motion, Variants } from "framer-motion"
+import useGlobalTaskbarControls from "@/hooks/use-global-taskbar-controls"
+import useGlobalWindowsControls from "@/hooks/use-global-windows-controls"
+import { useTouchDevice } from "@/hooks/use-touch-device"
+import DesktopIconNameForm from "./desktop-icon-name-form"
 
 type PropTypes = {
-  ApplicationName: string;
-  Icon: string;
-  id: number;
-  customTaskbarIcon?: string;
+  ApplicationName: string
+  Icon: string
+  id: number
+  customTaskbarIcon?: string
   Style?: {
-    gridRow?: number;
-    gridColumn?: number;
-  };
-  Selected: boolean;
-  AppName: DesktopAppsList;
-  processData?: Object;
-  index?: number;
-  isMovingAnIcon?: boolean;
-};
+    gridRow?: number
+    gridColumn?: number
+  }
+  Selected: boolean
+  AppName: DesktopAppsList
+  processData?: Object
+  index?: number
+  isMovingAnIcon?: boolean
+}
 
 const AnimationFrames: Variants = {
   hover: {
@@ -55,18 +56,25 @@ const AnimationFrames: Variants = {
       ease: "easeOut",
     },
   },
-};
+}
 
 function DesktopIcon(Props: PropTypes) {
-  const [ApplicationName, SetAppName] = useState(Props.ApplicationName);
+  const [ApplicationName, SetAppName] = useState(Props.ApplicationName)
+  const [isEditingName, SetIsEditingName] = useState(false)
+  const [editedName, SetEditedName] = useState(ApplicationName)
   const [hasInitialAnimationPlayed, setHasInitialAnimationPlayed] =
-    useState(false);
-  const { openNewApplication } = useGlobalWindowsControls();
-  const { openNewTaskbarApplication } = useGlobalTaskbarControls();
-  const isTouchDevice = useTouchDevice();
+    useState(false)
+  const wasSelectedOnPointerDown = useRef(false)
+  const { openNewApplication } = useGlobalWindowsControls()
+  const { openNewTaskbarApplication } = useGlobalTaskbarControls()
+  const isTouchDevice = useTouchDevice()
+
+  useEffect(() => {
+    if (!Props.Selected && isEditingName) SetIsEditingName(false)
+  }, [Props.Selected, isEditingName])
 
   const openLinkedApplication = () => {
-    const id = +new Date();
+    const id = +new Date()
 
     const ApplicationObject: OpenApplication = {
       id,
@@ -74,26 +82,47 @@ function DesktopIcon(Props: PropTypes) {
       processIcon: Props.customTaskbarIcon ?? Props.Icon,
       processName: Props.ApplicationName,
       processData: Props.processData,
-    };
+    }
 
     const { focusWindow, bringWindowToFront, app } =
-      openNewApplication(ApplicationObject);
-    focusWindow();
-    bringWindowToFront();
+      openNewApplication(ApplicationObject)
+    focusWindow()
+    bringWindowToFront()
     openNewTaskbarApplication({
       id: app.id,
       AppId: app.id,
       Icon: Props.Icon,
       CustomTaskbarIcon: Props.customTaskbarIcon,
-    });
-  };
+    })
+  }
 
   const onClickApplication = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
-    if (!isTouchDevice && !(event.detail === 2 || event.detail === 0)) return;
-    openLinkedApplication();
-  };
+    if (!isTouchDevice && !(event.detail === 2 || event.detail === 0)) return
+    openLinkedApplication()
+  }
+
+  const onPointerDownName = () => {
+    wasSelectedOnPointerDown.current = Props.Selected
+  }
+
+  const onClickName = (
+    event: React.MouseEvent<HTMLHeadingElement, MouseEvent>,
+  ) => {
+    if (!wasSelectedOnPointerDown.current) return
+    if (!isTouchDevice && event.detail !== 1) return
+    SetIsEditingName(true)
+  }
+
+  const onChangeName = (newName: string) => {
+    SetAppName(newName)
+    SetIsEditingName(false)
+  }
+
+  const onCancelEditName = () => {
+    SetIsEditingName(false)
+  }
 
   return (
     <motion.button
@@ -101,11 +130,11 @@ function DesktopIcon(Props: PropTypes) {
       className={cn(
         "Desktop-Icon-Container",
         "relative flex flex-col w-[90px] h-[90px] pb-4 items-center justify-center text-white select-none isolate",
-        'after:content-[" "] after:pointer-events-none after:w-[98%] after:h-full after:absolute after:left-1/2 after:top-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-md after:bg-transparent after:z-[-1] after:blur-lg after:transition-opacity after:duration-200 hover:after:bg-[#00003A]/40 active:after:opacity-0',
+        'after:content-[" "] after:pointer-events-none after:w-[98%] after:h-full after:absolute after:left-1/2 after:top-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-md after:bg-transparent after:z-[-1] after:blur-lg after:transition-opacity after:duration-200 hover:after:bg-[#FFF]/25 active:after:opacity-0',
         {
-          "after:bg-gradient-to-tl after:from-[#00003A]/40 after:to-[#00003A]/40 after:blur-lg":
+          "after:bg-linear-to-tl after:from-[#FFF]/30 after:to-[#FFF]/30 after:blur-lg":
             Props.Selected,
-        }
+        },
       )}
       data-id={Props.id}
       onClick={onClickApplication}
@@ -120,22 +149,34 @@ function DesktopIcon(Props: PropTypes) {
         damping: 10,
       }}
       onAnimationComplete={() => {
-        if (!hasInitialAnimationPlayed) setHasInitialAnimationPlayed(true);
+        if (!hasInitialAnimationPlayed) setHasInitialAnimationPlayed(true)
       }}
       whileHover={"hover"}
       whileTap={"tap"}
     >
       <motion.img
         src={Props.Icon}
-        className="pointer-events-none max-h-[50px] max-w-[55px]"
+        className="max-h-[50px] max-w-[55px]"
         variants={AnimationFrames}
         animate={Props.Selected ? "selected" : "unselected"}
       />
-      <h1 className="absolute bottom-0 font-normal text-xs mt-1.5 select-none pointer-events-none uppercase text-center font-roboto-condensed">
-        {ApplicationName}
-      </h1>
+      {isEditingName ? (
+        <DesktopIconNameForm
+          value={ApplicationName}
+          onSubmit={onChangeName}
+          onCancel={onCancelEditName}
+        />
+      ) : (
+        <h1
+          className="absolute top-9/12 w-full px-1 font-normal text-xs mt-1.5 select-none uppercase text-center font-roboto-condensed break-all"
+          onPointerDown={onPointerDownName}
+          onClick={onClickName}
+        >
+          {ApplicationName}
+        </h1>
+      )}
     </motion.button>
-  );
+  )
 }
 
-export default DesktopIcon;
+export default DesktopIcon

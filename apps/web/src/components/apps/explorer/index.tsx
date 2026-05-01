@@ -54,7 +54,7 @@ function Explorer() {
       </div>
       <div className="folders-layout">
         <div className="item-listing">
-          {processData.items.map((element: FolderItem) => (
+          {processData?.items?.map((element: FolderItem) => (
             <ExplorerItem
               AppName={element.AppComponent}
               ApplicationName={element.Name}
