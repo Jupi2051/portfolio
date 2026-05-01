@@ -111,7 +111,7 @@ function DesktopIcon(Props: PropTypes) {
   ) => {
     if (!wasSelectedOnMouseDown.current) return
     if (!isTouchDevice && event.detail !== 1) return
-    SetIsEditingName(true)
+    setTimeout(() => SetIsEditingName(true), 250)
   }
 
   const onChangeName = (newName: string) => {
