@@ -507,6 +507,7 @@ function Desktop({ className }: { className?: string }) {
             processData={desktopApp.processData}
             index={index}
             isMovingAnIcon={isMovingHeldIcon}
+            onApplicationOpened={() => SelectDesktopIcon(-1)}
           />
         ))}
         <AnimatePresence>

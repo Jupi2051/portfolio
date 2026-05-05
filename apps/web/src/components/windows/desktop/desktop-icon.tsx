@@ -22,6 +22,7 @@ type PropTypes = {
   processData?: Object
   index?: number
   isMovingAnIcon?: boolean
+  onApplicationOpened?: () => void
 }
 
 const AnimationFrames: Variants = {
@@ -93,6 +94,7 @@ function DesktopIcon(Props: PropTypes) {
       Icon: Props.Icon,
       CustomTaskbarIcon: Props.customTaskbarIcon,
     })
+    Props.onApplicationOpened?.()
   }
 
   const onClickApplication = (
