@@ -1,25 +1,24 @@
 import { useState } from "react";
-import "./planet-man-scroll.css";
-import PlanetManHeader from "./planet-man-header";
+import "./gaia-scroll.css";
+import GaiaHeader from "./gaia-header";
 import UrlRow from "./url-row";
 import RequestEditor from "./request-editor";
 import ResponsePanel from "./response-panel";
-import { usePlanetManRequest } from "./use-planet-man-request";
+import { useGaiaRequest } from "./use-gaia-request";
 import type { HttpMethod } from "./types";
 
 const DEFAULT_URL = "https://jsonplaceholder.typicode.com/posts/1";
 const DEFAULT_HEADERS = '{\n  "Accept": "application/json"\n}';
 
-function PlanetMan() {
+function Gaia() {
   const [method, setMethod] = useState<HttpMethod>("GET");
   const [url, setUrl] = useState(DEFAULT_URL);
   const [headersText, setHeadersText] = useState(DEFAULT_HEADERS);
   const [bodyText, setBodyText] = useState(
-    '{\n  "title": "Planetman",\n  "body": "orbit",\n  "userId": 1\n}'
+    '{\n  "title": "Gaia",\n  "body": "orbit",\n  "userId": 1\n}'
   );
 
-  const { loading, clientError, response, send, clearError } =
-    usePlanetManRequest();
+  const { loading, clientError, response, send, clearError } = useGaiaRequest();
 
   const handleSend = () => {
     clearError();
@@ -28,7 +27,7 @@ function PlanetMan() {
 
   return (
     <div className="flex h-full min-h-0 w-full flex-col bg-ctp-base text-ctp-text">
-      <PlanetManHeader />
+      <GaiaHeader />
       <div className="flex h-full min-h-0 flex-1 flex-col gap-2 p-2 @lg/appwindow:flex-row @lg/appwindow:items-stretch">
         <section className="flex h-full min-h-0 min-w-0 flex-1 flex-col gap-2 @lg/appwindow:max-w-[50%]">
           <UrlRow
@@ -64,4 +63,4 @@ function PlanetMan() {
   );
 }
 
-export default PlanetMan;
+export default Gaia;

@@ -1,6 +1,6 @@
 /**
  * Canonical English reason phrases for common HTTP status codes (RFC / IANA).
- * When missing, callers should fall back to the server’s status line text.
+ * When missing, callers should fall back to the server's status line text.
  */
 const HTTP_STATUS_PHRASES: Partial<Record<number, string>> = {
   100: "Continue",

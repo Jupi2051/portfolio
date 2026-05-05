@@ -68,7 +68,7 @@ export default function RequestEditor({
               value={headersText}
               onChange={(e) => onHeadersChange(e.target.value)}
               spellCheck={false}
-              className="planet-man-scrollbar min-h-[120px] flex-1 resize-none rounded border border-ctp-surface1 bg-ctp-base p-2 font-mono text-xs text-ctp-text outline-none focus-visible:ring-1 focus-visible:ring-ctp-mauve/50"
+              className="gaia-scrollbar min-h-[120px] flex-1 resize-none rounded border border-ctp-surface1 bg-ctp-base p-2 font-mono text-xs text-ctp-text outline-none focus-visible:ring-1 focus-visible:ring-ctp-mauve/50"
               placeholder='{\n  "Accept": "application/json"\n}'
             />
           </div>
@@ -81,7 +81,7 @@ export default function RequestEditor({
               value={bodyText}
               onChange={(e) => onBodyChange(e.target.value)}
               spellCheck={false}
-              className="planet-man-scrollbar min-h-[120px] flex-1 resize-none rounded border border-ctp-surface1 bg-ctp-base p-2 font-mono text-xs text-ctp-text outline-none focus-visible:ring-1 focus-visible:ring-ctp-mauve/50"
+              className="gaia-scrollbar min-h-[120px] flex-1 resize-none rounded border border-ctp-surface1 bg-ctp-base p-2 font-mono text-xs text-ctp-text outline-none focus-visible:ring-1 focus-visible:ring-ctp-mauve/50"
               placeholder='{\n  "title": "foo",\n  "body": "bar",\n  "userId": 1\n}'
             />
           </div>

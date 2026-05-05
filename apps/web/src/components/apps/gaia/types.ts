@@ -10,7 +10,7 @@ export const HTTP_METHODS = [
 
 export type HttpMethod = (typeof HTTP_METHODS)[number];
 
-export type PlanetManResponse = {
+export type GaiaResponse = {
   status: number;
   statusText: string;
   headers: Record<string, string>;

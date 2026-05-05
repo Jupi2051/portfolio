@@ -444,8 +444,8 @@
   border: none;
 }
 
-/* Embedded JSON / code (e.g. Planetman response) — keeps pre/code look, drops article chrome */
-.article-content.planet-json-block {
+/* Embedded JSON / code (e.g. Gaia response) — keeps pre/code look, drops article chrome */
+.article-content.gaia-json-block {
   padding: 0;
   margin: 0;
   background: transparent;
@@ -459,7 +459,7 @@
   max-width: none;
 }
 
-/* Scroll + fill handled in Planetman (wrapper divs); do not style pre here — conflicts with SyntaxHighlighter */
+/* Scroll + fill handled in Gaia (wrapper divs); do not style pre here — conflicts with SyntaxHighlighter */
 
 /* ========================================
    BLOCKQUOTES - CUTESTY STYLES

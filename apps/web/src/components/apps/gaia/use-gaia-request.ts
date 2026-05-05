@@ -1,6 +1,6 @@
 import axios, { isAxiosError } from "axios";
 import { useCallback, useState } from "react";
-import type { HttpMethod, PlanetManResponse } from "./types";
+import type { HttpMethod, GaiaResponse } from "./types";
 
 function parseHeadersJson(raw: string): Record<string, string> {
   const t = raw.trim();
@@ -44,10 +44,10 @@ function headersRecordToPlain(
   return out;
 }
 
-export function usePlanetManRequest() {
+export function useGaiaRequest() {
   const [loading, setLoading] = useState(false);
   const [clientError, setClientError] = useState<string | null>(null);
-  const [response, setResponse] = useState<PlanetManResponse | null>(null);
+  const [response, setResponse] = useState<GaiaResponse | null>(null);
 
   const send = useCallback(
     async (input: {
@@ -67,7 +67,9 @@ export function usePlanetManRequest() {
       try {
         headers = parseHeadersJson(input.headersText);
       } catch {
-        setClientError("Headers must be valid JSON, e.g. {\"Accept\":\"application/json\"}");
+        setClientError(
+          "Headers must be valid JSON, e.g. {\"Accept\":\"application/json\"}"
+        );
         setResponse(null);
         return;
       }
@@ -156,5 +158,11 @@ export function usePlanetManRequest() {
     []
   );
 
-  return { loading, clientError, response, send, clearError: () => setClientError(null) };
+  return {
+    loading,
+    clientError,
+    response,
+    send,
+    clearError: () => setClientError(null),
+  };
 }
