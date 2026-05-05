@@ -81,7 +81,7 @@ export default function MethodSelect({ value, onChange, disabled }: Props) {
   };
 
   return (
-    <div ref={rootRef} className="relative shrink-0">
+    <div ref={rootRef} className="relative h-10 min-h-10 shrink-0 self-stretch">
       <button
         ref={triggerRef}
         type="button"
@@ -92,7 +92,7 @@ export default function MethodSelect({ value, onChange, disabled }: Props) {
         aria-controls={open ? listboxId : undefined}
         onClick={() => !disabled && setOpen((o) => !o)}
         className={cn(
-          "flex h-full min-w-23 cursor-pointer items-center justify-between gap-1 rounded-l-md border border-r-0 border-ctp-surface1 px-2.5 py-2 outline-none transition",
+          "flex h-full min-h-10 min-w-23 cursor-pointer items-center justify-between gap-1 rounded-l-md border border-r-0 border-ctp-surface1 px-2.5 py-0 outline-none transition",
           "focus-visible:ring-2 focus-visible:ring-ctp-mauve/50",
           "disabled:cursor-not-allowed disabled:opacity-50",
           tone.triggerBg
