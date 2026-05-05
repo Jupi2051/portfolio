@@ -242,7 +242,7 @@ export let DesktopIcons: DesktopIconData[] = [
   {
     id: 16,
     Name: "Gaia",
-    IconPath: "Imgs/DesktopApps/EIEN.webp",
+    IconPath: "Imgs/DesktopApps/Jenni.png",
     Style: {},
     Selected: false,
     AppComponent: DesktopAppsList.Gaia,
