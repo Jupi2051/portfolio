@@ -163,7 +163,7 @@ export default function VicoToolbar({
         </span>
         <input
           type="range"
-          title={`Brush radius (stroke width ÷ 2). Hold Shift and scroll on the canvas to resize.`}
+          title={`Brush radius (stroke width ÷ 2). Scroll on the canvas to resize.`}
           aria-label="Brush radius"
           className="h-1 min-w-0 flex-1 cursor-pointer accent-ctp-lavender"
           min={brushWeightMin}
