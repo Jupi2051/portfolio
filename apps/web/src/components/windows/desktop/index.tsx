@@ -239,6 +239,14 @@ export let DesktopIcons: DesktopIconData[] = [
     Selected: false,
     AppComponent: DesktopAppsList.Terminal,
   },
+  {
+    id: 16,
+    Name: "Planetman",
+    IconPath: "Imgs/DesktopApps/EIEN.webp",
+    Style: {},
+    Selected: false,
+    AppComponent: DesktopAppsList.PlanetMan,
+  },
   // {
   //   id: 2,
   //   Name: "EIEN",

@@ -19,6 +19,7 @@ export enum DesktopAppsList {
   Controls,
   Notification,
   Terminal,
+  PlanetMan,
 }
 
 const handleFailedLoad = () => ({ default: AppLoadingFailed });
@@ -62,6 +63,9 @@ export const DesktopAppsComponents: Record<DesktopAppsList, any> = {
   [DesktopAppsList.Notification]: NotificationWindow,
   [DesktopAppsList.Terminal]: lazy(() =>
     delayForDemo(import("@/components/apps/terminal").catch(handleFailedLoad))
+  ),
+  [DesktopAppsList.PlanetMan]: lazy(() =>
+    delayForDemo(import("@/components/apps/planet-man").catch(handleFailedLoad))
   ),
 };
 
