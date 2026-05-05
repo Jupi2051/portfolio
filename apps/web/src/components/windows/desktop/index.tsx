@@ -247,6 +247,15 @@ export let DesktopIcons: DesktopIconData[] = [
     Selected: false,
     AppComponent: DesktopAppsList.Gaia,
   },
+  {
+    id: 17,
+    Name: "Vico",
+    IconPath: "Imgs/Apps/Photos.jpg",
+    Style: {},
+    Selected: false,
+    AppComponent: DesktopAppsList.Vico,
+    customTaskbarIcon: "Imgs/Apps/Photos.jpg",
+  },
   // {
   //   id: 2,
   //   Name: "EIEN",

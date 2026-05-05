@@ -20,6 +20,7 @@ export enum DesktopAppsList {
   Notification,
   Terminal,
   Gaia,
+  Vico,
 }
 
 const handleFailedLoad = () => ({ default: AppLoadingFailed });
@@ -66,6 +67,9 @@ export const DesktopAppsComponents: Record<DesktopAppsList, any> = {
   ),
   [DesktopAppsList.Gaia]: lazy(() =>
     delayForDemo(import("@/components/apps/gaia").catch(handleFailedLoad))
+  ),
+  [DesktopAppsList.Vico]: lazy(() =>
+    delayForDemo(import("@/components/apps/vico").catch(handleFailedLoad))
   ),
 };
 
