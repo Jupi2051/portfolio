@@ -22,7 +22,7 @@ export default function ResponsePanel({ response }: Props) {
 
   if (!response) {
     return (
-      <div className="flex flex-1 items-center justify-center border border-ctp-surface1 border-dashed bg-ctp-mantle/40 p-6 text-center text-sm text-ctp-subtext0">
+      <div className="flex min-h-0 flex-1 flex-col items-center justify-center border border-ctp-surface1 border-dashed bg-ctp-mantle/40 p-6 text-center text-sm text-ctp-subtext0">
         Send a request to see status, headers, and body here.
       </div>
     );
@@ -71,7 +71,7 @@ export default function ResponsePanel({ response }: Props) {
           </button>
         </div>
       </div>
-      <div className="min-h-0 flex-1 overflow-hidden text-xs">
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden text-xs">
         <PlanetJsonBlock
           content={tab === "body" ? response.body || "—" : headersPretty}
         />

@@ -28,8 +28,8 @@ function PlanetMan() {
   return (
     <div className="flex h-full min-h-0 w-full flex-col bg-ctp-base text-ctp-text">
       <PlanetManHeader />
-      <div className="flex min-h-0 flex-1 flex-col gap-2 p-2 @lg/appwindow:flex-row">
-        <section className="flex min-h-0 min-w-0 flex-1 flex-col gap-2 @lg/appwindow:max-w-[50%]">
+      <div className="flex h-full min-h-0 flex-1 flex-col gap-2 p-2 @lg/appwindow:flex-row @lg/appwindow:items-stretch">
+        <section className="flex h-full min-h-0 min-w-0 flex-1 flex-col gap-2 @lg/appwindow:max-w-[50%]">
           <UrlRow
             method={method}
             onMethodChange={setMethod}
@@ -54,7 +54,7 @@ function PlanetMan() {
             onBodyChange={setBodyText}
           />
         </section>
-        <section className="flex min-h-0 min-w-0 flex-1 flex-col @lg/appwindow:max-w-[50%]">
+        <section className="flex h-full min-h-0 min-w-0 flex-1 flex-col @lg/appwindow:max-w-[50%]">
           <h2 className="sr-only">Response</h2>
           <ResponsePanel response={response} />
         </section>

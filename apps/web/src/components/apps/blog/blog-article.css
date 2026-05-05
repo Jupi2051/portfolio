@@ -459,13 +459,7 @@
   max-width: none;
 }
 
-.article-content.planet-json-block pre {
-  margin: 0;
-  flex: 1;
-  min-height: 0;
-  max-height: 100%;
-  overflow: auto;
-}
+/* Scroll + fill handled in Planetman (wrapper divs); do not style pre here — conflicts with SyntaxHighlighter */
 
 /* ========================================
    BLOCKQUOTES - CUTESTY STYLES
