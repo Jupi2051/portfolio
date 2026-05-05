@@ -1,4 +1,11 @@
-import { lazy, Suspense, useEffect, useRef, useState } from "react";
+import {
+  lazy,
+  Suspense,
+  useEffect,
+  useRef,
+  useState,
+  type RefObject,
+} from "react";
 import "@/Styles/Desktop.css";
 import DesktopIcon from "@/components/windows/desktop/desktop-icon";
 import DesktopTimeWidget from "@/components/widgets/time/desktop-time-widget";
@@ -317,7 +324,10 @@ function Desktop({ className }: { className?: string }) {
     y: 0,
   });
   const ref = useRef<HTMLDivElement>(null);
-  const { width = 1, height = 1 } = useResizeObserver<HTMLDivElement>({ ref, box: "border-box" });
+  const { width = 1, height = 1 } = useResizeObserver({
+    ref: ref as RefObject<HTMLDivElement>,
+    box: "border-box",
+  });
   const [HeldIconID, SetHeldIconId] = useState(-1); // -1 means no element is held atm.
   const [isMovingHeldIcon, SetMoveHeldIcon] = useState(false);
   const [ApplicationsArray, SetApplicationsArray] = useState(DesktopIcons);
