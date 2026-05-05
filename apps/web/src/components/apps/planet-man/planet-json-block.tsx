@@ -1,23 +1,23 @@
-import SyntaxHighlighter from "react-syntax-highlighter";
-import "@catppuccin/highlightjs/css/catppuccin-frappe.css";
-import "@/components/apps/blog/blog-article.css";
+import SyntaxHighlighter from "react-syntax-highlighter"
+import "@catppuccin/highlightjs/css/catppuccin-frappe.css"
+import "@/components/apps/blog/blog-article.css"
 
 type Props = {
   /** Raw text or formatted JSON string */
-  content: string;
-};
+  content: string
+}
 
 function highlightLanguage(text: string): string {
-  const t = text.trim();
-  if (!t || t === "—") return "plaintext";
+  const t = text.trim()
+  if (!t || t === "—") return "plaintext"
   if (
     (t.startsWith("{") && t.endsWith("}")) ||
     (t.startsWith("[") && t.endsWith("]"))
   ) {
-    return "json";
+    return "json"
   }
-  if (t.startsWith("<")) return "xml";
-  return "plaintext";
+  if (t.startsWith("<")) return "xml"
+  return "plaintext"
 }
 
 /**
@@ -26,12 +26,12 @@ function highlightLanguage(text: string): string {
  * `blog-article.css`, not tokens — so we use the same highlighter here.
  */
 export default function PlanetJsonBlock({ content }: Props) {
-  const text = content || "—";
-  const language = highlightLanguage(text);
+  const text = content || "—"
+  const language = highlightLanguage(text)
 
   return (
     <article className="article-content planet-json-block flex min-h-0 w-full flex-1 flex-col">
-      <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-lg bg-ctp-surface0">
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden bg-ctp-surface0">
         <div className="min-h-0 flex-1 overflow-auto">
           <SyntaxHighlighter
             language={language}
@@ -55,5 +55,5 @@ export default function PlanetJsonBlock({ content }: Props) {
         </div>
       </div>
     </article>
-  );
+  )
 }
