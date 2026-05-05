@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   faEraser,
@@ -10,6 +11,13 @@ import {
 import cn from "classnames"
 import type { SketchToolMode } from "./use-atrament-sketch"
 import type { IconDefinition } from "@fortawesome/fontawesome-svg-core"
+import {
+  hex6AndAlphaToRgba,
+  matchesOpaquePreset,
+  parseColorToRgba,
+  rgbaToCss,
+  rgbaToHex6,
+} from "./vico-color"
 
 const PRESET_COLORS = [
   "#cba6f7",
@@ -20,6 +28,18 @@ const PRESET_COLORS = [
   "#f38ba8",
   "#181825",
 ]
+
+const TRANSPARENCY_GRID: CSSProperties = {
+  backgroundColor: "#313244",
+  backgroundImage: `
+    linear-gradient(45deg, #45475a 25%, transparent 25%),
+    linear-gradient(-45deg, #45475a 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #45475a 75%),
+    linear-gradient(-45deg, transparent 75%, #45475a 75%)
+  `,
+  backgroundSize: "8px 8px",
+  backgroundPosition: "0 0, 0 4px, 4px -4px, -4px 0px",
+}
 
 type Props = {
   mode: SketchToolMode
@@ -58,6 +78,8 @@ export default function VicoToolbar({
   MODE_ERASE,
   MODE_FILL,
 }: Props) {
+  const rgba = parseColorToRgba(color)
+
   const toolBtn = (m: SketchToolMode, icon: IconDefinition, label: string) => (
     <button
       type="button"
@@ -157,7 +179,7 @@ export default function VicoToolbar({
         aria-hidden
       />
 
-      <div className="flex flex-wrap items-center gap-1.5">
+      <div className="flex flex-wrap items-center gap-2">
         {PRESET_COLORS.map((c) => (
           <button
             key={c}
@@ -167,13 +189,57 @@ export default function VicoToolbar({
             style={{ backgroundColor: c }}
             className={cn(
               "h-7 w-7 rounded-full border-2 shadow-inner transition-transform",
-              color.toLowerCase() === c.toLowerCase()
+              matchesOpaquePreset(color, c)
                 ? "border-ctp-lavender scale-110"
                 : "border-ctp-surface2 hover:scale-105",
             )}
             onClick={() => setColor(c)}
           />
         ))}
+
+        <div
+          className="flex items-center gap-2 rounded-md border border-ctp-surface1 bg-ctp-mantle px-2 py-1"
+          title="Custom color and opacity"
+        >
+          <label
+            className="relative h-8 w-8 shrink-0 cursor-pointer overflow-hidden rounded-full ring-1 ring-inset ring-ctp-surface2"
+            style={TRANSPARENCY_GRID}
+          >
+            <span
+              className="pointer-events-none absolute inset-0 rounded-full"
+              style={{ backgroundColor: color }}
+              aria-hidden
+            />
+            <input
+              type="color"
+              value={rgbaToHex6(rgba)}
+              onChange={(e) => {
+                setColor(hex6AndAlphaToRgba(e.target.value, rgba.a))
+              }}
+              className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+              aria-label="Pick custom color (hue/saturation/value)"
+            />
+          </label>
+
+          <label className="flex min-w-23 max-w-[120px] flex-1 flex-col gap-0.5">
+            <span className="text-[0.65rem] font-medium uppercase tracking-wide text-ctp-subtext0">
+              Alpha {Math.round(rgba.a * 100)}%
+            </span>
+            <input
+              type="range"
+              min={0}
+              max={100}
+              value={Math.round(rgba.a * 100)}
+              onChange={(e) => {
+                setColor(
+                  rgbaToCss({ ...rgba, a: Number(e.target.value) / 100 }),
+                )
+              }}
+              className="h-1 w-full cursor-pointer accent-ctp-lavender"
+              aria-label="Brush opacity"
+            />
+          </label>
+        </div>
       </div>
     </div>
   )

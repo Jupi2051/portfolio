@@ -1,27 +1,28 @@
-import { useMemo, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import cn from "classnames";
 import VicoBrushCursor from "./vico-brush-cursor";
 import VicoToolbar from "./vico-toolbar";
 import { useAtramentSketch } from "./use-atrament-sketch";
 
-function hexToRgbCss(hex: string): string {
-  const h = hex.replace("#", "").trim();
-  if (h.length === 3) {
-    const r = parseInt(h[0] + h[0], 16);
-    const g = parseInt(h[1] + h[1], 16);
-    const b = parseInt(h[2] + h[2], 16);
-    return `${r}, ${g}, ${b}`;
-  }
-  if (h.length === 6) {
-    const r = parseInt(h.slice(0, 2), 16);
-    const g = parseInt(h.slice(2, 4), 16);
-    const b = parseInt(h.slice(4, 6), 16);
-    return `${r}, ${g}, ${b}`;
-  }
-  return "205, 214, 244";
+function isTextLikeInput(el: EventTarget | null): boolean {
+  if (!(el instanceof HTMLElement)) return false;
+  const tag = el.tagName;
+  if (tag === "TEXTAREA") return true;
+  if (tag !== "INPUT") return el.isContentEditable;
+  const type = (el as HTMLInputElement).type;
+  return (
+    type === "text" ||
+    type === "search" ||
+    type === "url" ||
+    type === "email" ||
+    type === "password" ||
+    type === "tel" ||
+    type === "number"
+  );
 }
 
 function Vico() {
+  const rootRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [brushPointer, setBrushPointer] = useState<{ x: number; y: number } | null>(
@@ -30,13 +31,46 @@ function Vico() {
 
   const sketch = useAtramentSketch(containerRef, canvasRef);
 
-  const brushRingRgb = useMemo(() => hexToRgbCss(sketch.color), [sketch.color]);
   const showBrushFootprint =
     brushPointer != null &&
     (sketch.mode === sketch.MODE_DRAW || sketch.mode === sketch.MODE_ERASE);
 
+  const onKeyDownCapture = useCallback(
+    (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (!rootRef.current?.contains(e.target as Node)) return;
+      if (isTextLikeInput(e.target)) return;
+
+      const mod = e.metaKey || e.ctrlKey;
+      if (!mod) return;
+
+      const key = e.key.toLowerCase();
+
+      if (key === "z") {
+        e.preventDefault();
+        if (e.shiftKey) sketch.redo();
+        else sketch.undo();
+        return;
+      }
+
+      if (key === "y" && !e.shiftKey && e.ctrlKey && !e.metaKey) {
+        e.preventDefault();
+        sketch.redo();
+      }
+    },
+    [sketch.redo, sketch.undo],
+  );
+
   return (
-    <div className="flex h-full min-h-[280px] flex-col bg-ctp-base text-ctp-text">
+    <div
+      ref={rootRef}
+      tabIndex={-1}
+      className="flex h-full min-h-[280px] flex-col bg-ctp-base text-ctp-text outline-none focus-visible:ring-2 focus-visible:ring-ctp-lavender/40 focus-visible:ring-offset-2 focus-visible:ring-offset-ctp-base"
+      onPointerDownCapture={(ev) => {
+        if (isTextLikeInput(ev.target)) return;
+        rootRef.current?.focus({ preventScroll: true });
+      }}
+      onKeyDownCapture={onKeyDownCapture}
+    >
       <VicoToolbar
         mode={sketch.mode}
         setMode={sketch.setMode}
@@ -79,11 +113,11 @@ function Vico() {
           y={brushPointer?.y ?? 0}
           visible={showBrushFootprint}
           diameterPx={sketch.brushWeight}
-          accentRgb={brushRingRgb}
+          accentColor={sketch.color}
         />
       </div>
     </div>
-  );
+  )
 }
 
 export default Vico;
