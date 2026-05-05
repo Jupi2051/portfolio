@@ -133,7 +133,7 @@ export default function MethodSelect({ value, onChange, disabled }: Props) {
           onKeyDown={onListKeyDown}
           className="absolute left-0 top-[calc(100%+4px)] z-50 min-w-full overflow-hidden rounded-md border border-ctp-surface1 bg-ctp-mantle py-1 shadow-lg ring-1 ring-black/20 outline-none"
         >
-          <div className="max-h-56 overflow-y-auto py-0.5">
+          <div className="planet-man-scrollbar max-h-56 overflow-y-auto py-0.5">
             {HTTP_METHODS.map((m, index) => {
               const t = HTTP_METHOD_TONE[m];
               const selected = m === value;

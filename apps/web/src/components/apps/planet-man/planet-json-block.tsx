@@ -31,8 +31,8 @@ export default function PlanetJsonBlock({ content }: Props) {
 
   return (
     <article className="article-content planet-json-block flex min-h-0 w-full flex-1 flex-col">
-      <div className="flex min-h-0 flex-1 flex-col overflow-hidden bg-ctp-surface0">
-        <div className="min-h-0 flex-1 overflow-auto">
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-lg bg-ctp-surface0">
+        <div className="planet-man-scrollbar min-h-0 flex-1 overflow-auto rounded-lg">
           <SyntaxHighlighter
             language={language}
             customStyle={{

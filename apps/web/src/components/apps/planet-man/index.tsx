@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./planet-man-scroll.css";
 import PlanetManHeader from "./planet-man-header";
 import UrlRow from "./url-row";
 import RequestEditor from "./request-editor";
