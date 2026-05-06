@@ -93,8 +93,9 @@ export function replayFill(
       if (type !== "fill-result" || !result) return
       worker.removeEventListener("message", onMessage)
       try {
+        const pixels = new Uint8ClampedArray(result)
         ctx.putImageData(
-          new ImageData(result, canvas.width, canvas.height),
+          new ImageData(pixels, canvas.width, canvas.height),
           0,
           0,
         )
