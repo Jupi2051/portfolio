@@ -1,7 +1,6 @@
 import { motion } from "framer-motion"
 import Julogo from "@/components/apps/about-me/jupi-logo"
 import OrbitLoader from "@/components/ui/orbit-loader"
-import WavyText from "@/components/ui/wavy-text"
 
 const Intro = ({ setLoaded }: { setLoaded: (loaded: boolean) => void }) => {
   return (
