@@ -1,5 +1,10 @@
-import { publicProcedure, router } from "@/lib/trpc"
+import { router } from "@/lib/trpc"
+import getVicoSketchList from "./list"
+import getVicoSketchListUnapproved from "./list-unapproved"
+import toggleSketchApproval from "./approve"
 
 export const vicoRouter = router({
-  ping: publicProcedure.query(() => ({ ok: true as const })),
+  list: getVicoSketchList,
+  listUnapproved: getVicoSketchListUnapproved,
+  approve: toggleSketchApproval,
 })
