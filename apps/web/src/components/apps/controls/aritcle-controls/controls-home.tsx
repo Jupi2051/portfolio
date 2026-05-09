@@ -49,8 +49,8 @@ export default function ControlsHome({
           type="button"
           onClick={onSelectVico}
           className={cn(
-            "flex flex-1 cursor-pointer flex-col items-center gap-3 rounded-xl border-2 border-ctp-peach/45 bg-ctp-mantle px-6 py-8 text-center shadow-lg transition",
-            "hover:border-ctp-peach hover:bg-ctp-surface0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ctp-peach/50",
+            "flex flex-1 cursor-pointer flex-col items-center gap-3 rounded-xl border-2 border-ctp-lavender/40 bg-ctp-mantle px-6 py-8 text-center shadow-lg transition",
+            "hover:border-ctp-lavender hover:bg-ctp-surface0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ctp-lavender/50",
           )}
         >
           <img
