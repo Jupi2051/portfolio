@@ -1,7 +1,7 @@
-import { publicProcedure } from "@/lib/trpc";
-import { z } from "zod";
+import { protectedProcedure } from "@/lib/trpc"
+import { z } from "zod"
 
-const createArticle = publicProcedure
+const createArticle = protectedProcedure
   .input(
     z.object({
       title: z.string().min(1),
@@ -9,7 +9,7 @@ const createArticle = publicProcedure
       published: z.boolean().default(false),
       description: z.string().min(1),
       authorName: z.string().optional(),
-    })
+    }),
   )
   .mutation(async ({ input, ctx }) => {
     const post = await ctx.prisma.blogPost.create({
@@ -19,9 +19,9 @@ const createArticle = publicProcedure
         content: input.content,
         published: input.published,
       },
-    });
+    })
 
-    return post;
-  });
+    return post
+  })
 
-export default createArticle;
+export default createArticle

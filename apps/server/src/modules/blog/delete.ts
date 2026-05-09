@@ -1,23 +1,23 @@
-import { publicProcedure } from "@/lib/trpc";
-import { z } from "zod";
+import { protectedProcedure } from "@/lib/trpc"
+import { z } from "zod"
 
-const deleteArticle = publicProcedure
+const deleteArticle = protectedProcedure
   .input(
     z.object({
       id: z.string(),
-    })
+    }),
   )
   .mutation(async ({ ctx, input }) => {
     try {
       const posts = await ctx.prisma.blogPost.delete({
         where: { id: input.id },
-      });
+      })
 
-      return posts;
+      return posts
     } catch (error) {
-      console.log(error);
-      return null;
+      console.log(error)
+      return null
     }
-  });
+  })
 
-export default deleteArticle;
+export default deleteArticle
