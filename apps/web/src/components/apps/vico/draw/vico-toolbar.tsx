@@ -9,7 +9,7 @@ import {
   faUndo,
 } from "@fortawesome/free-solid-svg-icons"
 import cn from "classnames"
-import type { SketchToolMode } from "./use-atrament-sketch"
+import type { SketchToolMode } from "../shared/use-atrament-sketch"
 import type { IconDefinition } from "@fortawesome/fontawesome-svg-core"
 import {
   hex6AndAlphaToRgba,
@@ -17,7 +17,7 @@ import {
   parseColorToRgba,
   rgbaToCss,
   rgbaToHex6,
-} from "./vico-color"
+} from "../shared/vico-color"
 
 const PRESET_COLORS = [
   "#cba6f7",

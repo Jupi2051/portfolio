@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import cn from "classnames";
-import { useEscapeKey } from "./use-escape-key";
+import { useEscapeKey } from "../shared/use-escape-key";
 import { useVicoSketchUploadMutation } from "./use-vico-sketch-upload";
 import VicoPublishPreview from "./vico-publish-preview";
 import VicoPublishFormFields from "./vico-publish-form-fields";

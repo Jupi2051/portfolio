@@ -4,10 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPen } from "@fortawesome/free-solid-svg-icons"
 import { useTRPC } from "@/lib/trpc/trpc"
 import { useQuery } from "@tanstack/react-query"
-import { getVicoSketchWebpUrl } from "./vico-public-image-url"
+import { getVicoSketchWebpUrl } from "./public-image-url"
 import VicoSketchDetailModal, {
   type VicoSketchDetail,
-} from "./vico-sketch-detail-modal"
+} from "./sketch-detail-modal"
 
 type Props = {
   onGoDraw: () => void

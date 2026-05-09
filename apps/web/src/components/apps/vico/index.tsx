@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useApplicationData } from "@/context/app-context";
-import VicoDrawView from "./vico-draw-view";
-import VicoGalleryView from "./vico-gallery-view";
+import VicoDrawView from "./draw/draw-view";
+import VicoGalleryView from "./gallery/gallery-view";
 
 type VicoView = "draw" | "gallery";
 

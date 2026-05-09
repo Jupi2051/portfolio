@@ -9,7 +9,7 @@ import VicoToolbar from "./vico-toolbar";
 import VicoCaptureButton from "./vico-capture-button";
 import VicoPublishModal, { type VicoPublishCapture } from "./vico-publish-modal";
 import VicoLeaveStudioDialog from "./vico-leave-studio-dialog";
-import { useAtramentSketch } from "./use-atrament-sketch";
+import { useAtramentSketch } from "../shared/use-atrament-sketch";
 import { useVicoCanvasWebpCapture } from "./use-vico-canvas-capture";
 import { isTextLikeInput } from "./vico-is-text-like-input";
 

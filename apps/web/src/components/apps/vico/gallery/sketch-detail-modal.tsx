@@ -1,5 +1,5 @@
 import cn from "classnames"
-import { useEscapeKey } from "./use-escape-key"
+import { useEscapeKey } from "../shared/use-escape-key"
 
 export type VicoSketchDetail = {
   id: string

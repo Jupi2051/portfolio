@@ -1,4 +1,4 @@
-import { parseColorToRgba, rgbaToCss } from "./vico-color"
+import { parseColorToRgba, rgbaToCss } from "../shared/vico-color"
 
 type Props = {
   x: number
