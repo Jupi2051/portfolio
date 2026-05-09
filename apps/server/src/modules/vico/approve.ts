@@ -14,14 +14,16 @@ const toggleSketchApproval = protectedProcedure
         where: { id: input.id },
       })
 
-      if (!sketch) return { error: "Sketch not found" }
+      if (!sketch) return { error: "Sketch not found" as const }
+
+      const nextApproved = input.approved ?? !sketch.approved
 
       await ctx.prisma.vicoSketch.update({
         where: { id: input.id },
-        data: { approved: input.approved ?? !sketch.approved },
+        data: { approved: nextApproved },
       })
 
-      return { approved: sketch.approved }
+      return { approved: nextApproved }
     } catch (error) {
       console.log(error)
       return null

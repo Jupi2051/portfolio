@@ -3,6 +3,7 @@ import { protectedProcedure } from "@/lib/trpc"
 const getVicoSketchListUnapproved = protectedProcedure.query(
   async ({ ctx }) => {
     const sketches = await ctx.prisma.vicoSketch.findMany({
+      where: { approved: false, deletedAt: null },
       orderBy: { createdAt: "desc" },
       include: {
         image: {
@@ -17,7 +18,8 @@ const getVicoSketchListUnapproved = protectedProcedure.query(
       id: sketch.id,
       title: sketch.title,
       author: sketch.author,
-      imageId: sketch.image?.id,
+      createdAt: sketch.createdAt.toISOString(),
+      imageId: sketch.image?.id ?? null,
     }))
   },
 )
