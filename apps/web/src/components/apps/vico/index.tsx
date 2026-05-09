@@ -1,39 +1,87 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import cn from "classnames";
+import { useApplicationData } from "@/context/app-context";
+import useSystemNotification from "@/components/apps/notification/use-system-notification";
+import SuccessNotification from "@/components/apps/controls/notification";
 import VicoBrushCursor from "./vico-brush-cursor";
 import VicoToolbar from "./vico-toolbar";
+import VicoCaptureButton from "./vico-capture-button";
+import VicoPublishModal, { type VicoPublishCapture } from "./vico-publish-modal";
 import { useAtramentSketch } from "./use-atrament-sketch";
-
-function isTextLikeInput(el: EventTarget | null): boolean {
-  if (!(el instanceof HTMLElement)) return false;
-  const tag = el.tagName;
-  if (tag === "TEXTAREA") return true;
-  if (tag !== "INPUT") return el.isContentEditable;
-  const type = (el as HTMLInputElement).type;
-  return (
-    type === "text" ||
-    type === "search" ||
-    type === "url" ||
-    type === "email" ||
-    type === "password" ||
-    type === "tel" ||
-    type === "number"
-  );
-}
+import { useVicoCanvasWebpCapture } from "./use-vico-canvas-capture";
+import { isTextLikeInput } from "./vico-is-text-like-input";
 
 function Vico() {
   const rootRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const captureRef = useRef<VicoPublishCapture | null>(null);
+
   const [brushPointer, setBrushPointer] = useState<{ x: number; y: number } | null>(
     null,
   );
+  const [publishOpen, setPublishOpen] = useState(false);
+  const [capture, setCapture] = useState<VicoPublishCapture | null>(null);
+
+  const app = useApplicationData();
+  const { summonNotificationWindow } = useSystemNotification({
+    content: <SuccessNotification />,
+    parentProcess: app.AppId,
+    windowSize: { width: 450, height: 200 },
+  });
+
+  const canvasCapture = useVicoCanvasWebpCapture();
 
   const sketch = useAtramentSketch(containerRef, canvasRef);
+
+  captureRef.current = capture;
+  useEffect(() => {
+    return () => {
+      if (captureRef.current?.previewUrl) {
+        URL.revokeObjectURL(captureRef.current.previewUrl);
+      }
+    };
+  }, []);
 
   const showBrushFootprint =
     brushPointer != null &&
     (sketch.mode === sketch.MODE_DRAW || sketch.mode === sketch.MODE_ERASE);
+
+  const closePublishModal = useCallback(() => {
+    setPublishOpen(false);
+    setCapture((prev) => {
+      if (prev?.previewUrl) URL.revokeObjectURL(prev.previewUrl);
+      return null;
+    });
+  }, []);
+
+  const onUploadSuccess = useCallback(() => {
+    summonNotificationWindow({
+      title: "Your sketch was uploaded successfully!",
+    });
+  }, [summonNotificationWindow]);
+
+  const onCaptureClick = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    canvasCapture.mutate(canvas, {
+      onSuccess: (blob) => {
+        setCapture((prev) => {
+          if (prev?.previewUrl) URL.revokeObjectURL(prev.previewUrl);
+          return {
+            blob,
+            previewUrl: URL.createObjectURL(blob),
+          };
+        });
+        setPublishOpen(true);
+      },
+      onError: () => {
+        summonNotificationWindow({
+          title: "Could not capture the canvas as WebP in this browser.",
+        });
+      },
+    });
+  }, [canvasCapture, summonNotificationWindow]);
 
   const onKeyDownCapture = useCallback(
     (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -71,6 +119,12 @@ function Vico() {
       }}
       onKeyDownCapture={onKeyDownCapture}
     >
+      <VicoPublishModal
+        open={publishOpen}
+        capture={capture}
+        onClose={closePublishModal}
+        onUploadSuccess={onUploadSuccess}
+      />
       <VicoToolbar
         mode={sketch.mode}
         setMode={sketch.setMode}
@@ -101,6 +155,10 @@ function Vico() {
         }}
         onPointerLeave={() => setBrushPointer(null)}
       >
+        <VicoCaptureButton
+          onClick={() => void onCaptureClick()}
+          isCapturing={canvasCapture.isPending}
+        />
         <canvas
           ref={canvasRef}
           className={cn(
@@ -117,7 +175,7 @@ function Vico() {
         />
       </div>
     </div>
-  )
+  );
 }
 
 export default Vico;

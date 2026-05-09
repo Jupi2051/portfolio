@@ -19,7 +19,8 @@ const upload = multer({
 });
 
 /**
- * Express routes for Vico sketch image upload (multipart: field `image`, body `sketchId`).
+ * Express routes for Vico sketch image upload (multipart: field `image`).
+ * Either `sketchId` (existing sketch) or both `title` and `author` (new sketch).
  */
 export function createVicoSketchImageUploadRouter(): express.Router {
   const router = express.Router();
@@ -29,14 +30,38 @@ export function createVicoSketchImageUploadRouter(): express.Router {
     upload.single("image"),
     async (req, res) => {
       try {
-        const sketchId =
-          typeof req.body?.sketchId === "string" ? req.body.sketchId : undefined;
-        if (!sketchId) {
-          res.status(400).json({ error: "sketchId is required" });
+        if (!req.file?.buffer) {
+          res
+            .status(400)
+            .json({ error: "image file is required (field name: image)" });
           return;
         }
-        if (!req.file?.buffer) {
-          res.status(400).json({ error: "image file is required (field name: image)" });
+
+        const sketchIdRaw =
+          typeof req.body?.sketchId === "string" ? req.body.sketchId.trim() : "";
+        const title =
+          typeof req.body?.title === "string" ? req.body.title.trim() : "";
+        const author =
+          typeof req.body?.author === "string" ? req.body.author.trim() : "";
+
+        let targetSketchId: string;
+
+        if (sketchIdRaw) {
+          targetSketchId = sketchIdRaw;
+        } else if (title && author) {
+          const sketch = await prisma.vicoSketch.create({
+            data: {
+              title,
+              author,
+              approved: false,
+            },
+          });
+          targetSketchId = sketch.id;
+        } else {
+          res.status(400).json({
+            error:
+              "Provide sketchId for an existing sketch, or both title and author for a new one",
+          });
           return;
         }
 
@@ -45,7 +70,7 @@ export function createVicoSketchImageUploadRouter(): express.Router {
 
         const record = await prisma.vicoSketchImage.create({
           data: {
-            sketchId,
+            sketchId: targetSketchId,
             data: new Uint8Array(req.file.buffer),
           },
         });
