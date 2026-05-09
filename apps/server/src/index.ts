@@ -16,7 +16,7 @@ app.use(
   cors({
     origin:
       process.env.NODE_ENV === "production"
-        ? ["https://jupi.dev"]
+        ? ["https://jupi.dev", "https://api.jupi.dev"]
         : ["http://localhost:5173", "http://localhost:3000"],
     credentials: true, // Important for cookies
   }),
