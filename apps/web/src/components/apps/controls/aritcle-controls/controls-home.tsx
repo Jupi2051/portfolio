@@ -1,5 +1,9 @@
 import cn from "classnames";
 
+/** Same paths as desktop icons in `windows/desktop/index.tsx` */
+const BLOG_DESKTOP_ICON = "/Imgs/DesktopApps/Notepad.webp";
+const VICO_DESKTOP_ICON = "/Imgs/Apps/Photos.jpg";
+
 type Props = {
   onSelectArticles: () => void;
   onSelectVico: () => void;
@@ -28,9 +32,12 @@ export default function ControlsHome({
             "hover:border-ctp-lavender hover:bg-ctp-surface0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ctp-lavender/50",
           )}
         >
-          <span className="text-3xl" aria-hidden>
-            ✏️
-          </span>
+          <img
+            src={BLOG_DESKTOP_ICON}
+            alt=""
+            className="h-14 w-14 shrink-0 object-contain"
+            aria-hidden
+          />
           <span className="font-capirola text-lg font-semibold text-ctp-text">
             Blog & editor
           </span>
@@ -46,9 +53,12 @@ export default function ControlsHome({
             "hover:border-ctp-peach hover:bg-ctp-surface0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ctp-peach/50",
           )}
         >
-          <span className="text-3xl" aria-hidden>
-            🖼️
-          </span>
+          <img
+            src={VICO_DESKTOP_ICON}
+            alt=""
+            className="h-14 w-14 shrink-0 object-contain"
+            aria-hidden
+          />
           <span className="font-capirola text-lg font-semibold text-ctp-text">
             Vico approvals
           </span>
