@@ -35,3 +35,29 @@ model PinnedMessage {
   updatedAt DateTime @updatedAt
   deletedAt DateTime?
 }
+
+model VicoSketch {
+  id        String   @id @default(cuid())
+  
+  approved Boolean @default(false)
+  title String
+  author String
+  
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+
+  image VicoSketchImage?
+}
+
+model VicoSketchImage {
+  id        String   @id @default(cuid())
+  data      Bytes    @db.ByteA
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+
+  sketchId String @unique
+  sketch VicoSketch @relation(fields: [sketchId], references: [id])
+}

@@ -1,4 +1,5 @@
 import "dotenv/config";
+import path from "node:path";
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -6,8 +7,19 @@ import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { appRouter } from "./router";
 import { createContext } from "./context";
 import monitorCustomersPageRouter from "./monitor-customers-page";
+import { createVicoSketchImageUploadRouter } from "./modules/vico/create";
 
 const app = express();
+
+const imagesBucket = process.env.IMAGES_BUCKET;
+if (imagesBucket) {
+  app.use(
+    "/vico-sketch-images",
+    express.static(path.resolve(imagesBucket)),
+  );
+}
+
+app.use("/vico", createVicoSketchImageUploadRouter());
 
 app.use(
   cors({
