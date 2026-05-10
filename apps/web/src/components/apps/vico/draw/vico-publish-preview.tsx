@@ -15,12 +15,13 @@ export type VicoPublishCropPreviewHandle = {
 
 type Props = {
   previewUrl: string;
-  canvasWidth: number;
-  canvasHeight: number;
+  /** Aspect ratio for viewport — extent of drawing on canvas (not full bitmap size). */
+  cropAspectWidth: number;
+  cropAspectHeight: number;
   onCropperReady: (ready: boolean) => void;
 };
 
-/** Viewport size inside the boundary that preserves canvas aspect ratio (fits within max box). */
+/** Largest viewport that fits in the boundary while matching drawing aspect — avoids a tiny viewport over a wide boundary (which forced a crop even at min zoom). */
 function viewportForCanvasAspect(
   boundaryW: number,
   boundaryH: number,
@@ -30,8 +31,9 @@ function viewportForCanvasAspect(
   const cw = Math.max(1, canvasW);
   const ch = Math.max(1, canvasH);
   const aspect = cw / ch;
-  const maxW = Math.min(300, boundaryW - 16);
-  const maxH = Math.min(240, boundaryH - 16);
+  const pad = 16;
+  const maxW = Math.max(40, boundaryW - pad);
+  const maxH = Math.max(40, boundaryH - pad);
   let w = maxW;
   let h = w / aspect;
   if (h > maxH) {
@@ -39,8 +41,8 @@ function viewportForCanvasAspect(
     w = h * aspect;
   }
   return {
-    width: Math.max(40, Math.floor(w)),
-    height: Math.max(40, Math.floor(h)),
+    width: Math.floor(w),
+    height: Math.floor(h),
   };
 }
 
@@ -59,9 +61,33 @@ function fullResolutionResultSize(c: Croppie): { width: number; height: number }
   return { width: w, height: h };
 }
 
+/**
+ * Minimum zoom so the full bitmap fits inside the **viewport** (crop frame), not just the outer boundary.
+ * Uses min(vp/img): uniform scale to contain the image in the crop rect; max(boundary/img) was too large
+ * and kept the image zoomed in relative to the viewport.
+ */
+function applyDrawingExtentZoomFloor(instance: Croppie): void {
+  const img = instance.elements.img;
+  const vp = instance.elements.viewport.getBoundingClientRect();
+  const iw = img.naturalWidth;
+  const ih = img.naturalHeight;
+  if (!iw || !ih || vp.width <= 0 || vp.height <= 0) return;
+
+  const fitZoom = Math.min(vp.width / iw, vp.height / ih);
+  const zoomer = instance.elements.zoomer;
+  const fixedMin = fitZoom.toFixed(4);
+  let maxZ = parseFloat(zoomer.max);
+  if (!Number.isFinite(maxZ) || fitZoom >= maxZ) {
+    maxZ = fitZoom + 1;
+    zoomer.max = maxZ.toFixed(4);
+  }
+  zoomer.min = fixedMin;
+  instance.setZoom(fitZoom);
+}
+
 const VicoPublishPreview = forwardRef<VicoPublishCropPreviewHandle, Props>(
   function VicoPublishPreview(
-    { previewUrl, canvasWidth, canvasHeight, onCropperReady },
+    { previewUrl, cropAspectWidth, cropAspectHeight, onCropperReady },
     ref,
   ) {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -95,8 +121,8 @@ const VicoPublishPreview = forwardRef<VicoPublishCropPreviewHandle, Props>(
       const vp = viewportForCanvasAspect(
         boundaryPx.width,
         boundaryPx.height,
-        canvasWidth,
-        canvasHeight,
+        cropAspectWidth,
+        cropAspectHeight,
       );
 
       const instance = new Croppie(mountEl, {
@@ -113,7 +139,6 @@ const VicoPublishPreview = forwardRef<VicoPublishCropPreviewHandle, Props>(
         mouseWheelZoom: "ctrl",
         enableZoom: true,
         enforceBoundary: false,
-        minZoom: 0.01,
         maxZoom: 4,
       });
 
@@ -124,10 +149,7 @@ const VicoPublishPreview = forwardRef<VicoPublishCropPreviewHandle, Props>(
         if (cancelled) return;
         await nextFrame();
         if (cancelled) return;
-        const minZ = parseFloat(instance.elements.zoomer.min);
-        if (!Number.isNaN(minZ) && minZ > 0) {
-          instance.setZoom(minZ);
-        }
+        applyDrawingExtentZoomFloor(instance);
         if (!cancelled) {
           onCropperReady(true);
         }
@@ -144,8 +166,8 @@ const VicoPublishPreview = forwardRef<VicoPublishCropPreviewHandle, Props>(
     }, [
       boundaryPx,
       previewUrl,
-      canvasWidth,
-      canvasHeight,
+      cropAspectWidth,
+      cropAspectHeight,
       onCropperReady,
     ]);
 

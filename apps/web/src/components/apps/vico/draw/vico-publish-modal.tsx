@@ -8,10 +8,12 @@ import VicoPublishPreview, {
 import VicoPublishFormFields from "./vico-publish-form-fields";
 
 export type VicoPublishCapture = {
+  /** Cropped WebP of the drawn region only (or full canvas if no ink detected). */
   blob: Blob;
   previewUrl: string;
-  canvasWidth: number;
-  canvasHeight: number;
+  /** Matches blob pixel dimensions — drives Croppie viewport aspect. */
+  cropAspectWidth: number;
+  cropAspectHeight: number;
 };
 
 type Props = {
@@ -112,8 +114,8 @@ export default function VicoPublishModal({
           <VicoPublishPreview
             ref={cropPreviewRef}
             previewUrl={capture.previewUrl}
-            canvasWidth={capture.canvasWidth}
-            canvasHeight={capture.canvasHeight}
+            cropAspectWidth={capture.cropAspectWidth}
+            cropAspectHeight={capture.cropAspectHeight}
             onCropperReady={setCropperReady}
           />
           <VicoPublishFormFields

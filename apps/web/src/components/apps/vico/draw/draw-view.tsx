@@ -87,14 +87,14 @@ export default function VicoDrawView({
     const canvas = canvasRef.current;
     if (!canvas) return;
     canvasCapture.mutate(canvas, {
-      onSuccess: (blob) => {
+      onSuccess: ({ blob, cropAspectWidth, cropAspectHeight }) => {
         setCapture((prev) => {
           if (prev?.previewUrl) URL.revokeObjectURL(prev.previewUrl);
           return {
             blob,
             previewUrl: URL.createObjectURL(blob),
-            canvasWidth: canvas.width,
-            canvasHeight: canvas.height,
+            cropAspectWidth,
+            cropAspectHeight,
           };
         });
         setPublishOpen(true);
