@@ -12,7 +12,7 @@ type Props = {
       createdAt: string;
       imageId: string | null;
     }[],
-    Error
+    unknown
   >;
   approved: SketchWithImage[];
   onRevokeApproval: (id: string) => void;

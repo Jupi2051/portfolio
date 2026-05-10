@@ -2,7 +2,7 @@ import { publicProcedure } from "@/lib/trpc"
 
 const getVicoSketchList = publicProcedure.query(async ({ ctx }) => {
   const sketches = await ctx.prisma.vicoSketch.findMany({
-    where: { approved: true },
+    where: { approved: true, deletedAt: null },
     orderBy: { createdAt: "desc" },
     include: {
       image: {

@@ -1,7 +1,7 @@
 import type { UseQueryResult } from "@tanstack/react-query";
 import cn from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { getVicoSketchWebpUrl } from "@/components/apps/vico/gallery/public-image-url";
 
 import type { SketchWithImage } from "./sketch-types";
@@ -15,18 +15,20 @@ type Props = {
       createdAt: string;
       imageId: string | null;
     }[],
-    Error
+    unknown
   >;
   pending: SketchWithImage[];
   onApprove: (id: string) => void;
-  isApproving: boolean;
+  onDelete: (id: string) => void;
+  isBusy: boolean;
 };
 
 export default function VicoPendingSketchesColumn({
   pendingQuery,
   pending,
   onApprove,
-  isApproving,
+  onDelete,
+  isBusy,
 }: Props) {
   return (
     <section
@@ -77,18 +79,34 @@ export default function VicoPendingSketchesColumn({
                     {sketch.title}
                   </p>
                   <p className="text-xs text-ctp-subtext1">{sketch.author}</p>
-                  <button
-                    type="button"
-                    disabled={isApproving}
-                    onClick={() => onApprove(sketch.id)}
-                    className={cn(
-                      "inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-ctp-green/50 bg-ctp-green/15 px-3 py-2 text-sm font-medium text-ctp-green transition",
-                      "hover:bg-ctp-green/25 disabled:cursor-not-allowed disabled:opacity-50",
-                    )}
-                  >
-                    <FontAwesomeIcon icon={faCheck} className="text-sm" />
-                    Approve for gallery
-                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      disabled={isBusy}
+                      onClick={() => onApprove(sketch.id)}
+                      className={cn(
+                        "inline-flex min-w-0 flex-1 cursor-pointer items-center justify-center gap-2 rounded-lg border border-ctp-green/50 bg-ctp-green/15 px-3 py-2 text-sm font-medium text-ctp-green transition",
+                        "hover:bg-ctp-green/25 disabled:cursor-not-allowed disabled:opacity-50",
+                      )}
+                    >
+                      <FontAwesomeIcon icon={faCheck} className="text-sm" />
+                      Approve for gallery
+                    </button>
+                    <button
+                      type="button"
+                      disabled={isBusy}
+                      title="Delete sketch"
+                      aria-label="Delete sketch"
+                      onClick={() => onDelete(sketch.id)}
+                      className={cn(
+                        "inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-lg border border-ctp-red/45 bg-ctp-red/10 px-3 py-2 text-sm font-medium text-ctp-red transition",
+                        "hover:bg-ctp-red/20 disabled:cursor-not-allowed disabled:opacity-50",
+                      )}
+                    >
+                      <FontAwesomeIcon icon={faTrash} className="text-sm" />
+                      Delete
+                    </button>
+                  </div>
                 </div>
               </li>
             ))}

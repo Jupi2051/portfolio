@@ -22,6 +22,15 @@ export default function VicoApprovalPanel({ onBack }: Props) {
     },
   });
 
+  const deleteMutation = useMutation({
+    ...trpc.vico.delete.mutationOptions(),
+    onSuccess: (data) => {
+      if (!data || !("ok" in data)) return;
+      void approvedQuery.refetch();
+      void pendingQuery.refetch();
+    },
+  });
+
   const approved =
     approvedQuery.data?.filter((s): s is typeof s & { imageId: string } =>
       Boolean(s.imageId),
@@ -40,6 +49,13 @@ export default function VicoApprovalPanel({ onBack }: Props) {
     approveMutation.mutate({ id, approved: false });
   };
 
+  const handleDelete = (id: string) => {
+    deleteMutation.mutate({ id });
+  };
+
+  const isPendingColumnBusy =
+    approveMutation.isPending || deleteMutation.isPending;
+
   return (
     <div className="flex h-full min-h-0 flex-col gap-4 overflow-hidden bg-linear-to-br from-ctp-base to-ctp-mantle p-4">
       <VicoApprovalHeader onBack={onBack} />
@@ -49,13 +65,14 @@ export default function VicoApprovalPanel({ onBack }: Props) {
           pendingQuery={pendingQuery}
           pending={pending}
           onApprove={handleApprove}
-          isApproving={approveMutation.isPending}
+          onDelete={handleDelete}
+          isBusy={isPendingColumnBusy}
         />
         <VicoApprovedSketchesColumn
           approvedQuery={approvedQuery}
           approved={approved}
           onRevokeApproval={handleRevokeApproval}
-          isMutating={approveMutation.isPending}
+          isMutating={isPendingColumnBusy}
         />
       </div>
     </div>
