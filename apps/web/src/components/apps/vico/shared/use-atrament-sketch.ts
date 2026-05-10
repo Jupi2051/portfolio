@@ -27,6 +27,9 @@ export const VICO_BRUSH_WEIGHT_MAX = 120
 
 const BRUSH_WHEEL_STEP = 2
 
+/** Max undo steps (strokes + fills). Oldest entries are dropped when exceeded. */
+const VICO_UNDO_HISTORY_MAX = 500
+
 function syncCanvasToContainer(
   canvas: HTMLCanvasElement,
   container: HTMLDivElement,
@@ -102,6 +105,9 @@ export function useAtramentSketch(
     const pushUndoSnapshot = (entry: SketchHistoryEntry) => {
       if (replayingRef.current) return
       committedRef.current.push(entry)
+      while (committedRef.current.length > VICO_UNDO_HISTORY_MAX) {
+        committedRef.current.shift()
+      }
       redoRef.current = []
       bump()
     }
