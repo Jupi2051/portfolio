@@ -319,6 +319,8 @@ export function useAtramentSketch(
 
   const canUndo = committedRef.current.length > 0
   const canRedo = redoRef.current.length > 0
+  const strokeCount = committedRef.current.filter((e) => e.type === "stroke")
+    .length
 
   return {
     undo,
@@ -326,6 +328,7 @@ export function useAtramentSketch(
     clearAll,
     canUndo,
     canRedo,
+    strokeCount,
     mode,
     setMode,
     color,
