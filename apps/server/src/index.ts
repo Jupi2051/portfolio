@@ -26,7 +26,36 @@ app.use(cookieParser()) // Add cookie parser middleware
 
 const imagesBucket = process.env.IMAGES_BUCKET
 if (imagesBucket) {
-  app.use("/vico-sketch-images", express.static(path.resolve(imagesBucket)))
+  const imagesDir = path.resolve(imagesBucket)
+  app.use(
+    "/vico-sketch-images",
+    (req, res, next) => {
+      if (req.method !== "GET" && req.method !== "HEAD") {
+        next()
+        return
+      }
+      const stripped = path.normalize(req.path).replace(/^(\.\.(\/|\\|$))+/, "").replace(/^\//, "")
+      if (!stripped || stripped.includes("..")) {
+        next()
+        return
+      }
+      const filePath = path.join(imagesDir, stripped)
+      const fromRoot = path.relative(imagesDir, filePath)
+      if (fromRoot.startsWith("..") || path.isAbsolute(fromRoot)) {
+        next()
+        return
+      }
+      res.once("finish", () => {
+        if (res.statusCode === 200 || res.statusCode === 304) {
+          console.log(
+            `[vico image] pulled ${filePath} status=${res.statusCode} method=${req.method}`,
+          )
+        }
+      })
+      next()
+    },
+    express.static(imagesDir),
+  )
 }
 
 app.use("/vico", createVicoSketchImageUploadRouter())

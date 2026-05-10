@@ -77,6 +77,9 @@ export function createVicoSketchImageUploadRouter(): express.Router {
 
         const outPath = path.join(dir, `${record.id}.webp`);
         await sharp(req.file.buffer).webp().toFile(outPath);
+        console.log(
+          `[vico image] created on disk sketchId=${record.sketchId} imageId=${record.id} path=${outPath}`,
+        );
 
         res.status(201).json({
           id: record.id,

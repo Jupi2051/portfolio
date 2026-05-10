@@ -23,5 +23,12 @@ export async function prepareVicoSketchWebpImages(): Promise<void> {
   for (const row of images) {
     const outPath = path.join(dir, `${row.id}.webp`);
     await sharp(Buffer.from(row.data)).webp().toFile(outPath);
+    console.log(`[vico image] created on disk (prepare) imageId=${row.id} path=${outPath}`);
+  }
+
+  if (images.length > 0) {
+    console.log(
+      `[vico image] prepare finished: wrote ${images.length} file(s) under ${dir}`,
+    );
   }
 }
