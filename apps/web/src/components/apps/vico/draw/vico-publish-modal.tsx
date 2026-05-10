@@ -100,59 +100,59 @@ export default function VicoPublishModal({
           )}
           onClick={(e) => e.stopPropagation()}
         >
-        <div className="border-b border-ctp-surface1 px-4 py-3">
-          <h2
-            id="vico-publish-title"
-            className="font-capirola text-lg font-medium text-ctp-text"
-          >
-            Publish sketch
-          </h2>
-          <p className="mt-0.5 text-xs text-ctp-subtext0">
-            Add a title and author, then upload your canvas capture.
-          </p>
-        </div>
+          <div className="shrink-0 border-b border-ctp-surface1 px-4 py-3">
+            <h2
+              id="vico-publish-title"
+              className="font-capirola text-lg font-medium text-ctp-text"
+            >
+              Publish sketch
+            </h2>
+            <p className="mt-0.5 text-xs text-ctp-subtext0">
+              Add a title and author, then upload your canvas capture.
+            </p>
+          </div>
 
-        <div className="min-h-0 flex-1 overflow-y-auto p-4">
-          <VicoPublishPreview
-            ref={cropPreviewRef}
-            previewUrl={capture.previewUrl}
-            cropAspectWidth={capture.cropAspectWidth}
-            cropAspectHeight={capture.cropAspectHeight}
-            onCropperReady={setCropperReady}
-          />
-          <VicoPublishFormFields
-            title={title}
-            author={author}
-            onTitleChange={setTitle}
-            onAuthorChange={setAuthor}
-            disabled={isPending}
-            errorMessage={errorMessage}
-          />
-        </div>
+          <div className="min-h-0 flex-1 overflow-y-auto p-4">
+            <VicoPublishPreview
+              ref={cropPreviewRef}
+              previewUrl={capture.previewUrl}
+              cropAspectWidth={capture.cropAspectWidth}
+              cropAspectHeight={capture.cropAspectHeight}
+              onCropperReady={setCropperReady}
+            />
+            <VicoPublishFormFields
+              title={title}
+              author={author}
+              onTitleChange={setTitle}
+              onAuthorChange={setAuthor}
+              disabled={isPending}
+              errorMessage={errorMessage}
+            />
+          </div>
 
-        <div className="flex flex-wrap justify-end gap-2 border-t border-ctp-surface1 bg-ctp-base/50 px-4 py-3">
-          <button
-            type="button"
-            disabled={isPending}
-            className="rounded-lg border border-ctp-surface1 bg-ctp-mantle px-4 py-2 text-sm font-medium text-ctp-subtext1 transition hover:bg-ctp-surface0 hover:text-ctp-text disabled:opacity-50"
-            onClick={onClose}
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            disabled={
-              isPending ||
-              !cropperReady ||
-              !title.trim() ||
-              !author.trim()
-            }
-            className="rounded-lg border border-ctp-lavender/50 bg-ctp-lavender/20 px-4 py-2 text-sm font-medium text-ctp-lavender transition hover:bg-ctp-lavender/30 disabled:cursor-not-allowed disabled:opacity-50"
-            onClick={handleSubmit}
-          >
-            {isPending ? "Uploading…" : "Upload"}
-          </button>
-        </div>
+          <div className="flex shrink-0 flex-wrap justify-end gap-2 border-t border-ctp-surface1 bg-ctp-base/50 px-4 py-3">
+            <button
+              type="button"
+              disabled={isPending}
+              className="rounded-lg border border-ctp-surface1 bg-ctp-mantle px-4 py-2 text-sm font-medium text-ctp-subtext1 transition hover:bg-ctp-surface0 hover:text-ctp-text disabled:opacity-50"
+              onClick={onClose}
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              disabled={
+                isPending ||
+                !cropperReady ||
+                !title.trim() ||
+                !author.trim()
+              }
+              className="rounded-lg border border-ctp-lavender/50 bg-ctp-lavender/20 px-4 py-2 text-sm font-medium text-ctp-lavender transition hover:bg-ctp-lavender/30 disabled:cursor-not-allowed disabled:opacity-50"
+              onClick={handleSubmit}
+            >
+              {isPending ? "Uploading…" : "Upload"}
+            </button>
+          </div>
         </div>
       </div>
     </div>
