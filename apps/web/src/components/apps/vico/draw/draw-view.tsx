@@ -191,16 +191,6 @@ export default function VicoDrawView({
         }}
         onPointerLeave={() => setBrushPointer(null)}
       >
-        <div
-          className="pointer-events-none absolute bottom-4 left-4 z-20 select-none rounded-lg border border-ctp-surface1 bg-ctp-base/90 px-3 py-1.5 font-capirola text-xs tabular-nums text-ctp-subtext1 shadow-md backdrop-blur-sm"
-          aria-live="polite"
-          aria-label={`${sketch.strokeCount} strokes`}
-        >
-          {sketch.strokeCount}{" "}
-          <span className="text-ctp-subtext0">
-            stroke{sketch.strokeCount === 1 ? "" : "s"}
-          </span>
-        </div>
         <div className="absolute bottom-4 right-4 z-20 flex items-center gap-3">
           <button
             type="button"

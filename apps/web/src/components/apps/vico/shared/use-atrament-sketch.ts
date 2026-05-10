@@ -28,7 +28,7 @@ export const VICO_BRUSH_WEIGHT_MAX = 120
 const BRUSH_WHEEL_STEP = 2
 
 /** Max undo steps (strokes + fills). Oldest entries are dropped when exceeded. */
-const VICO_UNDO_HISTORY_MAX = 500
+const VICO_UNDO_HISTORY_MAX = 200
 
 function syncCanvasToContainer(
   canvas: HTMLCanvasElement,
@@ -156,10 +156,22 @@ export function useAtramentSketch(
       })
     }
 
-    sketch.addEventListener("strokestart", onStrokeStart as EventListener)
-    sketch.addEventListener("segmentdrawn", onSegmentDrawn as EventListener)
-    sketch.addEventListener("strokerecorded", onStrokeRecorded as EventListener)
-    sketch.addEventListener("fillstart", onFillStart as EventListener)
+    sketch.addEventListener(
+      "strokestart",
+      onStrokeStart as unknown as EventListener,
+    )
+    sketch.addEventListener(
+      "segmentdrawn",
+      onSegmentDrawn as unknown as EventListener,
+    )
+    sketch.addEventListener(
+      "strokerecorded",
+      onStrokeRecorded as unknown as EventListener,
+    )
+    sketch.addEventListener(
+      "fillstart",
+      onFillStart as unknown as EventListener,
+    )
 
     async function replay(): Promise<void> {
       const s = sketchRef.current
@@ -213,16 +225,22 @@ export function useAtramentSketch(
 
     return () => {
       ro.disconnect()
-      sketch.removeEventListener("strokestart", onStrokeStart as EventListener)
+      sketch.removeEventListener(
+        "strokestart",
+        onStrokeStart as unknown as EventListener,
+      )
       sketch.removeEventListener(
         "segmentdrawn",
-        onSegmentDrawn as EventListener,
+        onSegmentDrawn as unknown as EventListener,
       )
       sketch.removeEventListener(
         "strokerecorded",
-        onStrokeRecorded as EventListener,
+        onStrokeRecorded as unknown as EventListener,
       )
-      sketch.removeEventListener("fillstart", onFillStart as EventListener)
+      sketch.removeEventListener(
+        "fillstart",
+        onFillStart as unknown as EventListener,
+      )
       sketch.destroy()
       sketchRef.current = null
     }
@@ -319,8 +337,6 @@ export function useAtramentSketch(
 
   const canUndo = committedRef.current.length > 0
   const canRedo = redoRef.current.length > 0
-  const strokeCount = committedRef.current.filter((e) => e.type === "stroke")
-    .length
 
   return {
     undo,
@@ -328,7 +344,6 @@ export function useAtramentSketch(
     clearAll,
     canUndo,
     canRedo,
-    strokeCount,
     mode,
     setMode,
     color,
