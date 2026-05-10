@@ -1,30 +1,30 @@
-import { useState, lazy, Suspense } from "react";
-import { useTRPC } from "@/lib/trpc/trpc";
-import { useQuery } from "@tanstack/react-query";
-import UserForm from "./user-form";
-import AuthenticatedShell from "./authenticated-shell";
-import ControlsLoadingScreen from "./controls-loading-screen";
+import { useState, lazy, Suspense } from "react"
+import { useTRPC } from "@/lib/trpc/trpc"
+import { useQuery } from "@tanstack/react-query"
+import UserForm from "./user-form"
+import AuthenticatedShell from "./authenticated-shell"
+import ControlsLoadingScreen from "./controls-loading-screen"
 
 const SettingsComponent = lazy(() =>
   import("@/components/apps/controls/aritcle-controls/index").then((module) => {
-    return { default: module.default };
+    return { default: module.default }
   }),
-);
+)
 
 function Controls() {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const trpc = useTRPC();
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
+  const trpc = useTRPC()
 
   const { data: isRegistered, isLoading: isCheckingRegistration } = useQuery(
     trpc.users.isRegistered.queryOptions(),
-  );
+  )
 
   function handleAuthSuccess() {
-    setIsAuthenticated(true);
+    setIsAuthenticated(true)
   }
 
   if (isCheckingRegistration) {
-    return <ControlsLoadingScreen />;
+    return <ControlsLoadingScreen />
   }
 
   return (
@@ -46,7 +46,7 @@ function Controls() {
         )}
       </div>
     </div>
-  );
+  )
 }
 
-export default Controls;
+export default Controls
