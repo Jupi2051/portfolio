@@ -12,6 +12,7 @@ import VicoLeaveStudioDialog from "./vico-leave-studio-dialog";
 import { useAtramentSketch } from "../shared/use-atrament-sketch";
 import { useVicoCanvasWebpCapture } from "./use-vico-canvas-capture";
 import { isTextLikeInput } from "./vico-is-text-like-input";
+import { useAppCloseListener } from "@/hooks/use-app-close-listener";
 
 type Props = {
   parentProcessId: number;
@@ -43,6 +44,17 @@ export default function VicoDrawView({
   const canvasCapture = useVicoCanvasWebpCapture();
 
   const sketch = useAtramentSketch(containerRef, canvasRef);
+
+  const hasSketchHistoryRef = useRef(false);
+  hasSketchHistoryRef.current = sketch.canUndo || sketch.canRedo;
+
+  useAppCloseListener(parentProcessId, (e) => {
+    if (!hasSketchHistoryRef.current) return;
+    const ok = window.confirm(
+      "You have sketch changes that will be lost. Close this window anyway?",
+    );
+    if (!ok) e.preventDefault();
+  });
 
   captureRef.current = capture;
   useEffect(() => {

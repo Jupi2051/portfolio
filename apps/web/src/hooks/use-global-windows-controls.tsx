@@ -10,6 +10,7 @@ import {
 import { closeTaskbarApplication } from "@/storage/slices/taskbar";
 import { useRef } from "react";
 import { DesktopAppsList } from "@/components/windows/desktop/apps-list";
+import { tryDispatchAppClose } from "@/lib/app-close-bus";
 
 const useGlobalWindowsControls = () => {
   const dispatch = useDispatch();
@@ -61,6 +62,7 @@ const useGlobalWindowsControls = () => {
   };
 
   const closeApplicationAbstraction = (appId: number) => {
+    if (!tryDispatchAppClose(appId)) return;
     dispatch(closeApplication(appId));
     dispatch(closeTaskbarApplication(appId));
   };

@@ -1,30 +1,31 @@
-import { ReactNode, useRef, useState } from "react";
-import { Point, Variants, motion } from "framer-motion";
-import useMousePosition from "@/hooks/use-mouse-position";
-import { useSelector } from "react-redux";
-import { RootState } from "@/storage/store";
-import cn from "classnames";
-import AppWindowHeader from "./app-window-header";
-import useAppWindowData from "@/hooks/use-app-window-data";
-import { useResizeObserver } from "usehooks-ts";
-import useGlobalWindowsControls from "@/hooks/use-global-windows-controls";
+import { ReactNode, RefObject, useLayoutEffect, useRef, useState } from "react"
+import { Point, Variants, motion } from "framer-motion"
+import useMousePosition from "@/hooks/use-mouse-position"
+import { useSelector } from "react-redux"
+import { RootState } from "@/storage/store"
+import cn from "classnames"
+import AppWindowHeader from "./app-window-header"
+import useAppWindowData from "@/hooks/use-app-window-data"
+import { useResizeObserver } from "usehooks-ts"
+import useGlobalWindowsControls from "@/hooks/use-global-windows-controls"
+import { disposeAppCloseTarget } from "@/lib/app-close-bus"
 
 type PropType = {
-  children?: ReactNode;
-  AppId: number;
-  processName?: string;
-  processIcon?: string;
-};
+  children?: ReactNode
+  AppId: number
+  processName?: string
+  processIcon?: string
+}
 
 export type Dimensions2D = {
-  width?: number;
-  height?: number;
-};
+  width?: number
+  height?: number
+}
 
 const exitAndOpenMainContainer: Variants = {
   exit: { opacity: 0 },
   init: { opacity: 1, scale: 1 },
-};
+}
 
 function AppWindow({ AppId, processName, processIcon, children }: PropType) {
   const {
@@ -37,33 +38,33 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
     isDisabled,
     disabledByOtherApp,
     isFlashing,
-  } = useAppWindowData(AppId);
-  const { focusWindowWithId, flashWindow } = useGlobalWindowsControls();
-  const [Maximized, SetMaximized] = useState(metaData?.maximized ?? true);
-  const [MoveWindow, SetMoveWindow] = useState(false);
+  } = useAppWindowData(AppId)
+  const { focusWindowWithId, flashWindow } = useGlobalWindowsControls()
+  const [Maximized, SetMaximized] = useState(metaData?.maximized ?? true)
+  const [MoveWindow, SetMoveWindow] = useState(false)
   const [
     isMovingWindowFromMaximizedToMinimized,
     SetIsMovingWindowFromMaximizedToMinimized,
-  ] = useState(false);
+  ] = useState(false)
   const [offsetFromMaximizedToMinimized, SetOffsetFromMaximizedToMinimized] =
-    useState(0);
+    useState(0)
 
-  const CursorLocation = useMousePosition();
+  const CursorLocation = useMousePosition()
   const CursorOffset = useSelector(
-    (x: RootState) => x.desktopState.mouseMovementOffset
-  );
-  const ref = useRef<HTMLDivElement>(null);
-  const [initialPosition, setInitialPosition] = useState<null | Point>(null);
+    (x: RootState) => x.desktopState.mouseMovementOffset,
+  )
+  const ref = useRef<HTMLDivElement>(null)
+  const [initialPosition, setInitialPosition] = useState<null | Point>(null)
   const { width = 0, height = 0 } = useResizeObserver({
-    ref,
+    ref: ref as RefObject<HTMLElement>,
     box: "border-box",
-  });
+  })
   const [MinimizedDimensions, SetMinmizedDimensions] = useState<Dimensions2D>({
     width: metaData?.windowSize?.width ?? 500,
     height: metaData?.windowSize?.height ?? 500,
-  });
-  const windowLocationDataRef = useRef<Point | null>(null);
-  const windowLocationData = windowLocationDataRef.current;
+  })
+  const windowLocationDataRef = useRef<Point | null>(null)
+  const windowLocationData = windowLocationDataRef.current
 
   if (!windowLocationData) {
     windowLocationDataRef.current = metaData?.windowLocation
@@ -71,42 +72,41 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
       : {
           x: Math.floor(Math.random() * 400),
           y: Math.floor(Math.random() * 400),
-        };
+        }
   }
 
   let NewLocation: Point = {
     x: windowLocationData?.x ?? 0,
     y: windowLocationData?.y ?? 0,
-  };
+  }
 
   if (MoveWindow) {
     NewLocation = {
       x: CursorLocation.x === null ? 0 : CursorLocation.x + CursorOffset.x,
       y: CursorLocation.y === null ? 0 : CursorLocation.y + CursorOffset.y,
-    };
-    windowLocationDataRef.current = NewLocation;
+    }
+    windowLocationDataRef.current = NewLocation
 
     if (Maximized) {
       const deltaVector = {
         x: NewLocation.x - (initialPosition?.x ?? 0),
         y: NewLocation.y - (initialPosition?.y ?? 0),
-      };
+      }
 
       const movementDistance = Math.sqrt(
-        Math.pow(deltaVector.x, 2) + Math.pow(deltaVector.y, 2)
-      );
+        Math.pow(deltaVector.x, 2) + Math.pow(deltaVector.y, 2),
+      )
 
       if (movementDistance > 7) {
-        SetMaximized(false);
-        SetIsMovingWindowFromMaximizedToMinimized(true);
-        setInitialPosition?.(null);
+        SetMaximized(false)
+        SetIsMovingWindowFromMaximizedToMinimized(true)
+        setInitialPosition?.(null)
         const xOffsetPercentage = Math.min(
           (CursorLocation.x ?? 0) / (window.innerWidth ?? 1),
-          0.7
-        );
-        const finalXValue =
-          xOffsetPercentage * (MinimizedDimensions.width ?? 0);
-        SetOffsetFromMaximizedToMinimized(finalXValue);
+          0.7,
+        )
+        const finalXValue = xOffsetPercentage * (MinimizedDimensions.width ?? 0)
+        SetOffsetFromMaximizedToMinimized(finalXValue)
       }
     }
   }
@@ -115,8 +115,8 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
     NewLocation = {
       x: (CursorLocation.x ?? 0) - offsetFromMaximizedToMinimized,
       y: (CursorLocation.y ?? 0) - 15,
-    };
-    windowLocationDataRef.current = NewLocation;
+    }
+    windowLocationDataRef.current = NewLocation
   }
 
   const exitAndOpen: Variants = {
@@ -149,32 +149,38 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
       height: Maximized ? "100%" : "auto",
       zIndex: zIndexFront,
     },
-  };
+  }
 
   function onWindowMouseDown(
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) {
-    bringWindowToFront();
-    const ClickedElement = event.target as HTMLDivElement;
+    bringWindowToFront()
+    const ClickedElement = event.target as HTMLDivElement
     if (ClickedElement)
-      if (ClickedElement.classList.contains("window-dismiss-button")) return; // don't set as focus if clicking on dismiss
+      if (ClickedElement.classList.contains("window-dismiss-button")) return // don't set as focus if clicking on dismiss
 
-    focusWindow();
+    focusWindow()
   }
 
   function onInteractWithWindow() {
     if (isDisabled) {
-      focusWindowWithId(disabledByOtherApp?.id ?? -1);
-      flashWindow(disabledByOtherApp?.id ?? -1, 200);
+      focusWindowWithId(disabledByOtherApp?.id ?? -1)
+      flashWindow(disabledByOtherApp?.id ?? -1, 200)
     }
   }
+
+  useLayoutEffect(() => {
+    return () => {
+      disposeAppCloseTarget(AppId)
+    }
+  }, [AppId])
 
   const animateValue =
     isMinimized === undefined
       ? "visible"
       : isMinimized === true
-      ? "minimized"
-      : "visible";
+        ? "minimized"
+        : "visible"
 
   return (
     <motion.div
@@ -192,11 +198,11 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
         className={cn(
           `absolute border pointer-events-auto border-black border-solid mx-auto rounded-md overflow-hidden box-shadow-[0px_0px_15px_0px_rgba(0,0,0,0.4)] user-select-none transition-[box-shadow,border] duration-200 isolate ease-in-out`,
           {
-            "!border-none !rounded-none": Maximized,
+            "border-none! rounded-none!": Maximized,
             "select-auto border border-ctp-sky-400 shadow-[0px_0px_20px_0px_rgba(0,0,0,0.7)]":
               isFocused,
             "user-select-none": MoveWindow,
-          }
+          },
         )}
         variants={exitAndOpen}
         initial="hidden"
@@ -216,14 +222,14 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
           className={cn(
             "relative bg-ctp-base resize-both overflow-hidden flex flex-col z-[-1] @container/appwindow",
             {
-              "!resize-none": metaData?.disableResize,
+              "resize-none!": metaData?.disableResize,
               "pointer-events-auto": !isDisabled,
               "pointer-events-none": isDisabled,
-            }
+            },
           )}
           style={{
-            width: Maximized ? "100%" : MinimizedDimensions.width ?? "auto",
-            height: Maximized ? "100%" : MinimizedDimensions.height ?? "auto",
+            width: Maximized ? "100%" : (MinimizedDimensions.width ?? "auto"),
+            height: Maximized ? "100%" : (MinimizedDimensions.height ?? "auto"),
             resize: Maximized ? "none" : "both",
           }}
           animate={
@@ -268,7 +274,7 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
         </motion.div>
       </motion.div>
     </motion.div>
-  );
+  )
 }
 
 function getWindowLocation(
@@ -282,68 +288,68 @@ function getWindowLocation(
     | "bottom-center"
     | "left-center"
     | "right-center",
-  windowSize: Dimensions2D
+  windowSize: Dimensions2D,
 ) {
-  const { width = 0, height = 0 } = windowSize;
-  const { innerWidth, innerHeight } = window;
-  const centerX = innerWidth / 2 - width / 2;
-  const centerY = innerHeight / 2 - height / 2;
+  const { width = 0, height = 0 } = windowSize
+  const { innerWidth, innerHeight } = window
+  const centerX = innerWidth / 2 - width / 2
+  const centerY = innerHeight / 2 - height / 2
   switch (position) {
     case "center": {
       return {
         x: centerX,
         y: centerY,
-      };
+      }
     }
     case "top-left": {
       return {
         x: 0,
         y: 0,
-      };
+      }
     }
     case "top-right": {
       return {
         x: innerWidth - width,
         y: 0,
-      };
+      }
     }
     case "bottom-left": {
       return {
         x: 0,
         y: innerHeight - height,
-      };
+      }
     }
     case "bottom-right": {
       return {
         x: innerWidth - width,
         y: innerHeight - height,
-      };
+      }
     }
     case "top-center": {
       return {
         x: centerX,
         y: 0,
-      };
+      }
     }
     case "bottom-center": {
       return {
         x: centerX,
         y: innerHeight - height,
-      };
+      }
     }
     case "left-center": {
       return {
         x: 0,
         y: centerY,
-      };
+      }
     }
     case "right-center": {
       return {
         x: innerWidth - width,
         y: centerY,
-      };
+      }
     }
   }
 }
 
-export default AppWindow;
+export default AppWindow
