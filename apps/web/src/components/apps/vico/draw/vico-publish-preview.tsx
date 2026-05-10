@@ -21,7 +21,7 @@ type Props = {
   onCropperReady: (ready: boolean) => void;
 };
 
-/** Largest viewport that fits in the boundary while matching drawing aspect — avoids a tiny viewport over a wide boundary (which forced a crop even at min zoom). */
+/** Max viewport inscribed in the boundary with the image aspect ratio. */
 function viewportForCanvasAspect(
   boundaryW: number,
   boundaryH: number,
@@ -52,7 +52,7 @@ function nextFrame(): Promise<void> {
   });
 }
 
-/** Export dimensions = crop size in source pixels so Croppie scales up from preview to full-res. */
+/** Output pixel size from source crop (full-res export). */
 function fullResolutionResultSize(c: Croppie): { width: number; height: number } {
   const { points } = c.get();
   const [x1, y1, x2, y2] = points;
@@ -61,11 +61,7 @@ function fullResolutionResultSize(c: Croppie): { width: number; height: number }
   return { width: w, height: h };
 }
 
-/**
- * Minimum zoom so the full bitmap fits inside the **viewport** (crop frame), not just the outer boundary.
- * Uses min(vp/img): uniform scale to contain the image in the crop rect; max(boundary/img) was too large
- * and kept the image zoomed in relative to the viewport.
- */
+/** Min zoom / slider floor: full image contained in the viewport (min(vp/img), not boundary-based). */
 function applyDrawingExtentZoomFloor(instance: Croppie): void {
   const img = instance.elements.img;
   const vp = instance.elements.viewport.getBoundingClientRect();
@@ -138,7 +134,7 @@ const VicoPublishPreview = forwardRef<VicoPublishCropPreviewHandle, Props>(
         enableOrientation: true,
         mouseWheelZoom: "ctrl",
         enableZoom: true,
-        enforceBoundary: false,
+        enforceBoundary: true,
         maxZoom: 4,
       });
 
