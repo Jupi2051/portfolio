@@ -337,6 +337,17 @@ export function useAtramentSketch(
 
   const canUndo = committedRef.current.length > 0
   const canRedo = redoRef.current.length > 0
+  const hasUndoHistory = canUndo || canRedo
+
+  useEffect(() => {
+    if (!hasUndoHistory) return
+    const onBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault()
+      e.returnValue = ""
+    }
+    window.addEventListener("beforeunload", onBeforeUnload)
+    return () => window.removeEventListener("beforeunload", onBeforeUnload)
+  }, [hasUndoHistory])
 
   return {
     undo,
