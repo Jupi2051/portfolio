@@ -1,13 +1,17 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import cn from "classnames";
 import { useEscapeKey } from "../shared/use-escape-key";
 import { useVicoSketchUploadMutation } from "./use-vico-sketch-upload";
-import VicoPublishPreview from "./vico-publish-preview";
+import VicoPublishPreview, {
+  type VicoPublishCropPreviewHandle,
+} from "./vico-publish-preview";
 import VicoPublishFormFields from "./vico-publish-form-fields";
 
 export type VicoPublishCapture = {
   blob: Blob;
   previewUrl: string;
+  canvasWidth: number;
+  canvasHeight: number;
 };
 
 type Props = {
@@ -29,6 +33,9 @@ export default function VicoPublishModal({
 }: Props) {
   const [title, setTitle] = useState(defaultTitle);
   const [author, setAuthor] = useState(defaultAuthor);
+  const [cropperReady, setCropperReady] = useState(false);
+  const [cropError, setCropError] = useState<string | null>(null);
+  const cropPreviewRef = useRef<VicoPublishCropPreviewHandle>(null);
 
   const { mutate, reset, isPending, error } = useVicoSketchUploadMutation();
 
@@ -36,26 +43,38 @@ export default function VicoPublishModal({
     if (!open) return;
     setTitle(defaultTitle);
     setAuthor(defaultAuthor);
+    setCropperReady(false);
+    setCropError(null);
     reset();
   }, [open, defaultTitle, defaultAuthor, reset]);
 
-  const errorMessage = error?.message ?? null;
+  const errorMessage = cropError ?? error?.message ?? null;
 
   const handleSubmit = useCallback(() => {
-    if (!capture?.blob) {
+    if (!capture?.blob || !cropPreviewRef.current) {
       return;
     }
-    mutate(
-      {
-        blob: capture.blob,
-        title: title.trim(),
-        author: author.trim(),
+    setCropError(null);
+    void cropPreviewRef.current.getCroppedWebpBlob().then(
+      (blob) => {
+        mutate(
+          {
+            blob,
+            title: title.trim(),
+            author: author.trim(),
+          },
+          {
+            onSuccess: () => {
+              onUploadSuccess();
+              onClose();
+            },
+          },
+        );
       },
-      {
-        onSuccess: () => {
-          onUploadSuccess();
-          onClose();
-        },
+      (err: unknown) => {
+        setCropError(
+          err instanceof Error ? err.message : "Could not export cropped image.",
+        );
       },
     );
   }, [capture, title, author, mutate, onUploadSuccess, onClose]);
@@ -70,7 +89,6 @@ export default function VicoPublishModal({
       role="dialog"
       aria-modal="true"
       aria-labelledby="vico-publish-title"
-      onClick={isPending ? undefined : onClose}
     >
       <div
         className={cn(
@@ -91,7 +109,13 @@ export default function VicoPublishModal({
         </div>
 
         <div className="min-h-0 flex-1 overflow-y-auto p-4">
-          <VicoPublishPreview previewUrl={capture.previewUrl} />
+          <VicoPublishPreview
+            ref={cropPreviewRef}
+            previewUrl={capture.previewUrl}
+            canvasWidth={capture.canvasWidth}
+            canvasHeight={capture.canvasHeight}
+            onCropperReady={setCropperReady}
+          />
           <VicoPublishFormFields
             title={title}
             author={author}
@@ -113,7 +137,12 @@ export default function VicoPublishModal({
           </button>
           <button
             type="button"
-            disabled={isPending || !title.trim() || !author.trim()}
+            disabled={
+              isPending ||
+              !cropperReady ||
+              !title.trim() ||
+              !author.trim()
+            }
             className="rounded-lg border border-ctp-lavender/50 bg-ctp-lavender/20 px-4 py-2 text-sm font-medium text-ctp-lavender transition hover:bg-ctp-lavender/30 disabled:cursor-not-allowed disabled:opacity-50"
             onClick={handleSubmit}
           >

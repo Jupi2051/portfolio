@@ -93,6 +93,8 @@ export default function VicoDrawView({
           return {
             blob,
             previewUrl: URL.createObjectURL(blob),
+            canvasWidth: canvas.width,
+            canvasHeight: canvas.height,
           };
         });
         setPublishOpen(true);
