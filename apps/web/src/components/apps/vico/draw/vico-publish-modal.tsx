@@ -87,17 +87,19 @@ export default function VicoPublishModal({
 
   return (
     <div
-      className="absolute inset-0 z-50 flex items-center justify-center bg-ctp-crust/70 p-4 backdrop-blur-sm"
+      className="absolute inset-0 z-50 overflow-y-auto overflow-x-hidden overscroll-contain bg-ctp-crust/70 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
       aria-labelledby="vico-publish-title"
     >
-      <div
-        className={cn(
-          "flex max-h-[min(90vh,720px)] w-full max-w-lg flex-col overflow-hidden rounded-xl border border-ctp-surface1 bg-ctp-mantle shadow-xl ring-1 ring-black/20",
-        )}
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className="flex min-h-full items-center justify-center p-4">
+        <div
+          className={cn(
+            "flex w-full max-w-lg flex-col overflow-hidden rounded-xl border border-ctp-surface1 bg-ctp-mantle shadow-xl ring-1 ring-black/20",
+            "max-h-[min(90vh,720px,calc(100dvh-2rem))] min-h-0",
+          )}
+          onClick={(e) => e.stopPropagation()}
+        >
         <div className="border-b border-ctp-surface1 px-4 py-3">
           <h2
             id="vico-publish-title"
@@ -150,6 +152,7 @@ export default function VicoPublishModal({
           >
             {isPending ? "Uploading…" : "Upload"}
           </button>
+        </div>
         </div>
       </div>
     </div>
