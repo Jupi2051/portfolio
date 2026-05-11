@@ -7,6 +7,8 @@ import { getVicoSketchWebpUrl } from "@/components/apps/vico/gallery/public-imag
 import type { SketchWithImage } from "./sketch-types";
 
 type Props = {
+  /** Passed to sketch image URLs so cached WebPs reload after server-side crop. */
+  sketchImageCacheBust: number;
   pendingQuery: UseQueryResult<
     {
       id: string;
@@ -25,6 +27,7 @@ type Props = {
 };
 
 export default function VicoPendingSketchesColumn({
+  sketchImageCacheBust,
   pendingQuery,
   pending,
   onApprove,
@@ -71,7 +74,10 @@ export default function VicoPendingSketchesColumn({
               >
                 <div className="aspect-video w-full bg-ctp-crust">
                   <img
-                    src={getVicoSketchWebpUrl(sketch.imageId)}
+                    src={getVicoSketchWebpUrl(
+                      sketch.imageId,
+                      sketchImageCacheBust,
+                    )}
                     alt=""
                     className="h-full w-full object-contain"
                   />

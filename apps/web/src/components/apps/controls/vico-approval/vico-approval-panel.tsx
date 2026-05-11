@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTRPC } from "@/lib/trpc/trpc";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { getVicoSketchWebpUrl } from "@/components/apps/vico/gallery/public-image-url";
 import VicoApprovalHeader from "./vico-approval-header";
 import VicoPendingSketchesColumn from "./vico-pending-sketches-column";
@@ -13,19 +13,25 @@ type Props = {
 
 export default function VicoApprovalPanel({ onBack }: Props) {
   const trpc = useTRPC();
+  const queryClient = useQueryClient();
   const [cropTarget, setCropTarget] = useState<{
     imageId: string;
     title: string;
   } | null>(null);
+  /** Bumped after crop so `<img src>` URLs change and the browser does not show a cached WebP. */
+  const [sketchImageCacheBust, setSketchImageCacheBust] = useState(0);
 
   const approvedQuery = useQuery(trpc.vico.list.queryOptions());
   const pendingQuery = useQuery(trpc.vico.listUnapproved.queryOptions());
 
+  const invalidateVicoQueries = useCallback(async () => {
+    await queryClient.invalidateQueries(trpc.vico.pathFilter());
+  }, [queryClient, trpc]);
+
   const approveMutation = useMutation({
     ...trpc.vico.approve.mutationOptions(),
     onSuccess: () => {
-      void approvedQuery.refetch();
-      void pendingQuery.refetch();
+      void invalidateVicoQueries();
     },
   });
 
@@ -33,8 +39,7 @@ export default function VicoApprovalPanel({ onBack }: Props) {
     ...trpc.vico.delete.mutationOptions(),
     onSuccess: (data) => {
       if (!data || !("ok" in data)) return;
-      void approvedQuery.refetch();
-      void pendingQuery.refetch();
+      void invalidateVicoQueries();
     },
   });
 
@@ -60,10 +65,10 @@ export default function VicoApprovalPanel({ onBack }: Props) {
     deleteMutation.mutate({ id });
   };
 
-  const handleCropSaved = () => {
-    void approvedQuery.refetch();
-    void pendingQuery.refetch();
-  };
+  const handleCropSaved = useCallback(async () => {
+    setSketchImageCacheBust((n) => n + 1);
+    await invalidateVicoQueries();
+  }, [invalidateVicoQueries]);
 
   const isPendingColumnBusy =
     approveMutation.isPending || deleteMutation.isPending;
@@ -76,6 +81,7 @@ export default function VicoApprovalPanel({ onBack }: Props) {
         <VicoPendingSketchesColumn
           pendingQuery={pendingQuery}
           pending={pending}
+          sketchImageCacheBust={sketchImageCacheBust}
           onApprove={handleApprove}
           onDelete={handleDelete}
           onOpenCrop={(sketch) =>
@@ -86,6 +92,7 @@ export default function VicoApprovalPanel({ onBack }: Props) {
         <VicoApprovedSketchesColumn
           approvedQuery={approvedQuery}
           approved={approved}
+          sketchImageCacheBust={sketchImageCacheBust}
           onRevokeApproval={handleRevokeApproval}
           onOpenCrop={(sketch) =>
             setCropTarget({ imageId: sketch.imageId, title: sketch.title })
@@ -99,7 +106,10 @@ export default function VicoApprovalPanel({ onBack }: Props) {
           open
           imageId={cropTarget.imageId}
           title={cropTarget.title}
-          imageUrl={getVicoSketchWebpUrl(cropTarget.imageId)}
+          imageUrl={getVicoSketchWebpUrl(
+            cropTarget.imageId,
+            sketchImageCacheBust,
+          )}
           onClose={() => setCropTarget(null)}
           onSaved={handleCropSaved}
         />

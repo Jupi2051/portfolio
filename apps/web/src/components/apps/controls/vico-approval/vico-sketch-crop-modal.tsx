@@ -14,7 +14,7 @@ type Props = {
   title: string;
   imageUrl: string;
   onClose: () => void;
-  onSaved: () => void;
+  onSaved: () => void | Promise<void>;
 };
 
 export default function VicoSketchCropModal({
@@ -34,16 +34,7 @@ export default function VicoSketchCropModal({
   const [cropperReady, setCropperReady] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
 
-  const cropMutation = useMutation({
-    ...trpc.vico.cropSketchImage.mutationOptions(),
-    onSuccess: () => {
-      onSaved();
-      onClose();
-    },
-    onError: (err: Error) => {
-      setLocalError(err.message ?? "Crop failed");
-    },
-  });
+  const cropMutation = useMutation(trpc.vico.cropSketchImage.mutationOptions());
 
   useEffect(() => {
     if (!open) {
@@ -76,11 +67,25 @@ export default function VicoSketchCropModal({
     setLocalError(null);
     try {
       const crop = cropperRef.current.getSourceCropRect();
-      cropMutation.mutate({ imageId, crop });
+      cropMutation.mutate(
+        { imageId, crop },
+        {
+          onSuccess: () => {
+            void (async () => {
+              await Promise.resolve(onSaved());
+              onClose();
+            })();
+          },
+          onError: (err: unknown) => {
+            const message = err instanceof Error ? err.message : "Crop failed";
+            setLocalError(message);
+          },
+        },
+      );
     } catch {
       setLocalError("Cropper is not ready.");
     }
-  }, [imageId, cropMutation]);
+  }, [imageId, cropMutation, onSaved, onClose]);
 
   if (!open) return null;
 
@@ -133,11 +138,6 @@ export default function VicoSketchCropModal({
             {localError ? (
               <p className="mt-3 rounded-lg border border-ctp-red/40 bg-ctp-red/10 px-3 py-2 text-sm text-ctp-red">
                 {localError}
-              </p>
-            ) : null}
-            {cropMutation.error ? (
-              <p className="mt-3 rounded-lg border border-ctp-red/40 bg-ctp-red/10 px-3 py-2 text-sm text-ctp-red">
-                {cropMutation.error.message}
               </p>
             ) : null}
           </div>

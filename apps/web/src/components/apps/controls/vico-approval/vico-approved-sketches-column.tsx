@@ -6,6 +6,8 @@ import { getVicoSketchWebpUrl } from "@/components/apps/vico/gallery/public-imag
 import type { SketchWithImage } from "./sketch-types";
 
 type Props = {
+  /** Passed to sketch image URLs so cached WebPs reload after server-side crop. */
+  sketchImageCacheBust: number;
   approvedQuery: UseQueryResult<
     {
       id: string;
@@ -23,6 +25,7 @@ type Props = {
 };
 
 export default function VicoApprovedSketchesColumn({
+  sketchImageCacheBust,
   approvedQuery,
   approved,
   onRevokeApproval,
@@ -68,7 +71,10 @@ export default function VicoApprovedSketchesColumn({
               >
                 <div className="aspect-square w-full bg-ctp-crust">
                   <img
-                    src={getVicoSketchWebpUrl(sketch.imageId)}
+                      src={getVicoSketchWebpUrl(
+                        sketch.imageId,
+                        sketchImageCacheBust,
+                      )}
                     alt=""
                     className="h-full w-full object-cover"
                     loading="lazy"
