@@ -59,7 +59,7 @@ export default function VicoSketchDetailModal({
             </time>
           </p>
         </div>
-        <div className="min-h-0 flex-1 overflow-y-auto bg-ctp-crust p-3">
+        <div className="min-h-0 flex-1 overflow-y-auto bg-ctp-crust">
           <img
             src={imageUrl}
             alt=""
