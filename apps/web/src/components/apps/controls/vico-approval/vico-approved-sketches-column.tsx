@@ -1,5 +1,7 @@
 import type { UseQueryResult } from "@tanstack/react-query";
 import cn from "classnames";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCrop } from "@fortawesome/free-solid-svg-icons";
 import { getVicoSketchWebpUrl } from "@/components/apps/vico/gallery/public-image-url";
 import type { SketchWithImage } from "./sketch-types";
 
@@ -16,6 +18,7 @@ type Props = {
   >;
   approved: SketchWithImage[];
   onRevokeApproval: (id: string) => void;
+  onOpenCrop: (sketch: SketchWithImage) => void;
   isMutating: boolean;
 };
 
@@ -23,6 +26,7 @@ export default function VicoApprovedSketchesColumn({
   approvedQuery,
   approved,
   onRevokeApproval,
+  onOpenCrop,
   isMutating,
 }: Props) {
   return (
@@ -40,8 +44,8 @@ export default function VicoApprovedSketchesColumn({
           Approved / live
         </h3>
         <p className="mt-0.5 text-xs text-ctp-subtext1">
-          Sketches visible in the gallery — click one to send it back to pending
-          approval.
+          Sketches visible in the gallery — use Remove to send back to pending,
+          or Crop to adjust the image file.
         </p>
       </div>
       <div className="min-h-0 flex-1 overflow-y-auto p-4">
@@ -58,35 +62,54 @@ export default function VicoApprovedSketchesColumn({
         ) : (
           <ul className="grid grid-cols-2 gap-3 sm:grid-cols-2">
             {approved.map((sketch) => (
-              <li key={sketch.id}>
-                <button
-                  type="button"
-                  disabled={isMutating}
-                  title="Remove from gallery — send back to pending approval"
-                  onClick={() => onRevokeApproval(sketch.id)}
-                  className={cn(
-                    "w-full cursor-pointer overflow-hidden rounded-lg border border-ctp-surface1 bg-ctp-base text-left transition",
-                    "hover:border-ctp-peach/60 hover:ring-2 hover:ring-ctp-peach/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ctp-peach/50",
-                    "disabled:cursor-not-allowed disabled:opacity-60",
-                  )}
-                >
-                  <div className="aspect-square w-full bg-ctp-crust">
-                    <img
-                      src={getVicoSketchWebpUrl(sketch.imageId)}
-                      alt=""
-                      className="h-full w-full object-cover"
-                      loading="lazy"
-                    />
+              <li
+                key={sketch.id}
+                className="overflow-hidden rounded-lg border border-ctp-surface1 bg-ctp-base"
+              >
+                <div className="aspect-square w-full bg-ctp-crust">
+                  <img
+                    src={getVicoSketchWebpUrl(sketch.imageId)}
+                    alt=""
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="space-y-2 p-2">
+                  <p className="line-clamp-2 font-capirola text-xs font-medium text-ctp-text">
+                    {sketch.title}
+                  </p>
+                  <p className="truncate text-[10px] text-ctp-subtext1">
+                    {sketch.author}
+                  </p>
+                  <div className="flex gap-1.5">
+                    <button
+                      type="button"
+                      disabled={isMutating}
+                      title="Crop image"
+                      aria-label="Crop image"
+                      onClick={() => onOpenCrop(sketch)}
+                      className={cn(
+                        "inline-flex flex-1 cursor-pointer items-center justify-center gap-1 rounded-md border border-ctp-teal/45 bg-ctp-teal/10 px-2 py-1.5 text-[11px] font-medium text-ctp-teal transition",
+                        "hover:bg-ctp-teal/20 disabled:cursor-not-allowed disabled:opacity-60",
+                      )}
+                    >
+                      <FontAwesomeIcon icon={faCrop} className="text-[10px]" />
+                      Crop
+                    </button>
+                    <button
+                      type="button"
+                      disabled={isMutating}
+                      title="Remove from gallery — send back to pending approval"
+                      onClick={() => onRevokeApproval(sketch.id)}
+                      className={cn(
+                        "inline-flex flex-1 cursor-pointer items-center justify-center rounded-md border border-ctp-peach/50 bg-ctp-peach/10 px-2 py-1.5 text-[11px] font-medium text-ctp-peach transition",
+                        "hover:bg-ctp-peach/20 disabled:cursor-not-allowed disabled:opacity-60",
+                      )}
+                    >
+                      Remove
+                    </button>
                   </div>
-                  <div className="p-2">
-                    <p className="line-clamp-2 font-capirola text-xs font-medium text-ctp-text">
-                      {sketch.title}
-                    </p>
-                    <p className="truncate text-[10px] text-ctp-subtext1">
-                      {sketch.author}
-                    </p>
-                  </div>
-                </button>
+                </div>
               </li>
             ))}
           </ul>

@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { useTRPC } from "@/lib/trpc/trpc";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { getVicoSketchWebpUrl } from "@/components/apps/vico/gallery/public-image-url";
 import VicoApprovalHeader from "./vico-approval-header";
 import VicoPendingSketchesColumn from "./vico-pending-sketches-column";
 import VicoApprovedSketchesColumn from "./vico-approved-sketches-column";
+import VicoSketchCropModal from "./vico-sketch-crop-modal";
 
 type Props = {
   onBack: () => void;
@@ -10,6 +13,10 @@ type Props = {
 
 export default function VicoApprovalPanel({ onBack }: Props) {
   const trpc = useTRPC();
+  const [cropTarget, setCropTarget] = useState<{
+    imageId: string;
+    title: string;
+  } | null>(null);
 
   const approvedQuery = useQuery(trpc.vico.list.queryOptions());
   const pendingQuery = useQuery(trpc.vico.listUnapproved.queryOptions());
@@ -53,11 +60,16 @@ export default function VicoApprovalPanel({ onBack }: Props) {
     deleteMutation.mutate({ id });
   };
 
+  const handleCropSaved = () => {
+    void approvedQuery.refetch();
+    void pendingQuery.refetch();
+  };
+
   const isPendingColumnBusy =
     approveMutation.isPending || deleteMutation.isPending;
 
   return (
-    <div className="flex h-full min-h-0 flex-col gap-4 overflow-hidden bg-linear-to-br from-ctp-base to-ctp-mantle p-4">
+    <div className="relative flex h-full min-h-0 flex-col gap-4 overflow-hidden bg-linear-to-br from-ctp-base to-ctp-mantle p-4">
       <VicoApprovalHeader onBack={onBack} />
 
       <div className="grid min-h-0 flex-1 gap-4 overflow-hidden lg:grid-cols-2 lg:gap-6">
@@ -66,15 +78,32 @@ export default function VicoApprovalPanel({ onBack }: Props) {
           pending={pending}
           onApprove={handleApprove}
           onDelete={handleDelete}
+          onOpenCrop={(sketch) =>
+            setCropTarget({ imageId: sketch.imageId, title: sketch.title })
+          }
           isBusy={isPendingColumnBusy}
         />
         <VicoApprovedSketchesColumn
           approvedQuery={approvedQuery}
           approved={approved}
           onRevokeApproval={handleRevokeApproval}
+          onOpenCrop={(sketch) =>
+            setCropTarget({ imageId: sketch.imageId, title: sketch.title })
+          }
           isMutating={isPendingColumnBusy}
         />
       </div>
+
+      {cropTarget ? (
+        <VicoSketchCropModal
+          open
+          imageId={cropTarget.imageId}
+          title={cropTarget.title}
+          imageUrl={getVicoSketchWebpUrl(cropTarget.imageId)}
+          onClose={() => setCropTarget(null)}
+          onSaved={handleCropSaved}
+        />
+      ) : null}
     </div>
   );
 }

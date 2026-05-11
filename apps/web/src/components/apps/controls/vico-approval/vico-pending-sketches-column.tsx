@@ -1,7 +1,7 @@
 import type { UseQueryResult } from "@tanstack/react-query";
 import cn from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faCrop, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { getVicoSketchWebpUrl } from "@/components/apps/vico/gallery/public-image-url";
 
 import type { SketchWithImage } from "./sketch-types";
@@ -20,6 +20,7 @@ type Props = {
   pending: SketchWithImage[];
   onApprove: (id: string) => void;
   onDelete: (id: string) => void;
+  onOpenCrop: (sketch: SketchWithImage) => void;
   isBusy: boolean;
 };
 
@@ -28,6 +29,7 @@ export default function VicoPendingSketchesColumn({
   pending,
   onApprove,
   onDelete,
+  onOpenCrop,
   isBusy,
 }: Props) {
   return (
@@ -79,7 +81,7 @@ export default function VicoPendingSketchesColumn({
                     {sketch.title}
                   </p>
                   <p className="text-xs text-ctp-subtext1">{sketch.author}</p>
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap gap-2">
                     <button
                       type="button"
                       disabled={isBusy}
@@ -91,6 +93,20 @@ export default function VicoPendingSketchesColumn({
                     >
                       <FontAwesomeIcon icon={faCheck} className="text-sm" />
                       Approve for gallery
+                    </button>
+                    <button
+                      type="button"
+                      disabled={isBusy}
+                      title="Crop image"
+                      aria-label="Crop image"
+                      onClick={() => onOpenCrop(sketch)}
+                      className={cn(
+                        "inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-lg border border-ctp-teal/45 bg-ctp-teal/10 px-3 py-2 text-sm font-medium text-ctp-teal transition",
+                        "hover:bg-ctp-teal/20 disabled:cursor-not-allowed disabled:opacity-50",
+                      )}
+                    >
+                      <FontAwesomeIcon icon={faCrop} className="text-sm" />
+                      Crop
                     </button>
                     <button
                       type="button"
