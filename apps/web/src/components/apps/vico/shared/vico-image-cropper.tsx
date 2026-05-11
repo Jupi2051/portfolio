@@ -80,6 +80,73 @@ export function croppiePointsToSourceCropRect(points: number[]): SourceCropRect 
   return { left, top, width, height };
 }
 
+/**
+ * Croppie's zoom control is a native range input: clicking the track jumps the thumb.
+ * Replace that with drag-only updates relative to the value at pointerdown.
+ */
+function attachRelativeZoomSliderBehavior(zoomer: HTMLInputElement): () => void {
+  let dragPointerId: number | null = null;
+  let startClientX = 0;
+  let startValue = 0;
+
+  const syncCroppieZoom = () => {
+    zoomer.dispatchEvent(new Event("input", { bubbles: true }));
+  };
+
+  const applyClientX = (clientX: number) => {
+    const rect = zoomer.getBoundingClientRect();
+    const min = parseFloat(zoomer.min);
+    const max = parseFloat(zoomer.max);
+    const w = rect.width;
+    if (!Number.isFinite(min) || !Number.isFinite(max) || w <= 0) return;
+    const deltaX = clientX - startClientX;
+    const next = startValue + (deltaX / w) * (max - min);
+    const clamped = Math.min(max, Math.max(min, next));
+    zoomer.value = String(clamped);
+    syncCroppieZoom();
+  };
+
+  const onPointerDown = (e: PointerEvent) => {
+    if (e.button !== 0) return;
+    e.preventDefault();
+    startClientX = e.clientX;
+    startValue = parseFloat(zoomer.value);
+    dragPointerId = e.pointerId;
+    zoomer.setPointerCapture(e.pointerId);
+  };
+
+  const onPointerMove = (e: PointerEvent) => {
+    if (dragPointerId === null || e.pointerId !== dragPointerId) return;
+    applyClientX(e.clientX);
+  };
+
+  const endDrag = (e: PointerEvent) => {
+    if (dragPointerId === null || e.pointerId !== dragPointerId) return;
+    try {
+      zoomer.releasePointerCapture(e.pointerId);
+    } catch {
+      /* already released */
+    }
+    dragPointerId = null;
+  };
+
+  zoomer.addEventListener("pointerdown", onPointerDown, { capture: true });
+  zoomer.addEventListener("pointermove", onPointerMove);
+  zoomer.addEventListener("pointerup", endDrag);
+  zoomer.addEventListener("pointercancel", endDrag);
+
+  return () => {
+    zoomer.removeEventListener("pointerdown", onPointerDown, { capture: true });
+    zoomer.removeEventListener("pointermove", onPointerMove);
+    zoomer.removeEventListener("pointerup", endDrag);
+    zoomer.removeEventListener("pointercancel", endDrag);
+  };
+}
+
+/** Default Tailwind classes for Croppie chrome (layout + zoom slider cursor). */
+export const vicoImageCropperChromeClassName =
+  "w-full [&_.croppie-container]:mx-auto [&_.cr-slider-wrap]:mt-3 [&_.cr-slider-wrap]:px-1 [&_.cr-slider]:cursor-pointer [&_.cr-slider::-webkit-slider-thumb]:cursor-pointer [&_.cr-slider::-moz-range-thumb]:cursor-pointer";
+
 function applyDrawingExtentZoomFloor(instance: Croppie): void {
   const img = instance.elements.img;
   const vp = instance.elements.viewport.getBoundingClientRect();
@@ -166,11 +233,14 @@ const VicoImageCropper = forwardRef<VicoImageCropperHandle, Props>(
       croppieRef.current = instance;
 
       let cancelled = false;
+      let detachZoomSlider: (() => void) | undefined;
       void instance.bind({ url: imageUrl }).then(async () => {
         if (cancelled) return;
         await nextFrame();
         if (cancelled) return;
         applyDrawingExtentZoomFloor(instance);
+        if (cancelled) return;
+        detachZoomSlider = attachRelativeZoomSliderBehavior(instance.elements.zoomer);
         if (!cancelled) {
           onCropperReady(true);
         }
@@ -178,6 +248,7 @@ const VicoImageCropper = forwardRef<VicoImageCropperHandle, Props>(
 
       return () => {
         cancelled = true;
+        detachZoomSlider?.();
         instance.destroy();
         if (croppieRef.current === instance) {
           croppieRef.current = null;
@@ -219,10 +290,7 @@ const VicoImageCropper = forwardRef<VicoImageCropperHandle, Props>(
     return (
       <div
         ref={containerRef}
-        className={
-          className ??
-          "w-full [&_.croppie-container]:mx-auto [&_.cr-slider-wrap]:mt-3 [&_.cr-slider-wrap]:px-1"
-        }
+        className={className ?? vicoImageCropperChromeClassName}
       >
         <div
           ref={croppieMountRef}

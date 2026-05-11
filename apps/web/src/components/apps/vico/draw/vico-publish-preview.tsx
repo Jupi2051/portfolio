@@ -1,6 +1,7 @@
 import { forwardRef } from "react";
 import VicoImageCropper, {
   type VicoImageCropperHandle,
+  vicoImageCropperChromeClassName,
 } from "@/components/apps/vico/shared/vico-image-cropper";
 
 /** @deprecated Use VicoImageCropperHandle */
@@ -25,7 +26,7 @@ const VicoPublishPreview = forwardRef<VicoImageCropperHandle, Props>(
         aspectWidth={cropAspectWidth}
         aspectHeight={cropAspectHeight}
         onCropperReady={onCropperReady}
-        className="mb-4 w-full [&_.croppie-container]:mx-auto [&_.cr-slider-wrap]:mt-3 [&_.cr-slider-wrap]:px-1"
+        className={`mb-4 ${vicoImageCropperChromeClassName}`}
       />
     );
   },
