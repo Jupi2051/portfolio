@@ -1,8 +1,6 @@
 import WallpaperArtistCredit from "@/components/apps/wallpapers-rocket/wallpaper-artist-credit"
-import { galleryItemVariants } from "@/components/apps/wallpapers-rocket/animations"
 import type { WallpaperArtist, WallpaperKey } from "@/hooks/use-background"
 import cn from "classnames"
-import { motion } from "framer-motion"
 
 export type WallpaperCardItem = {
   key: WallpaperKey
@@ -19,25 +17,30 @@ type WallpaperCardProps = {
 
 function WallpaperCard({ item, isActive, onSelect }: WallpaperCardProps) {
   return (
-    <motion.button
-      type="button"
-      variants={galleryItemVariants}
-      onClick={() => onSelect(item.key)}
-      whileHover={isActive ? undefined : { scale: 1.02 }}
-      whileTap={isActive ? undefined : { scale: 0.98 }}
+    <div
+      role="button"
+      tabIndex={isActive ? -1 : 0}
       aria-pressed={isActive}
       aria-label={`Set wallpaper to ${item.title}`}
+      onClick={() => onSelect(item.key)}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault()
+          onSelect(item.key)
+        }
+      }}
       className={cn(
-        "group relative w-64 shrink-0 overflow-hidden rounded-xl border-2 text-left transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ctp-blue focus-visible:ring-offset-2 focus-visible:ring-offset-ctp-base",
+        "group relative w-64 shrink-0 select-none overflow-hidden rounded-xl border-2 text-left transition-[border-color,box-shadow,transform] duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-ctp-blue focus-visible:ring-offset-2 focus-visible:ring-offset-ctp-base",
         isActive
           ? "cursor-default border-ctp-mauve shadow-lg shadow-ctp-mauve/10"
-          : "cursor-pointer border-ctp-surface1 hover:border-ctp-surface2",
+          : "cursor-pointer border-ctp-surface1 hover:border-ctp-surface2 hover:scale-[1.02] active:scale-[0.98]",
       )}
     >
       <div className="relative aspect-video overflow-hidden bg-ctp-surface0">
         <img
           src={item.imageUrl}
           alt=""
+          draggable={false}
           className={cn(
             "h-full w-full object-cover transition-transform duration-300",
             !isActive && "group-hover:scale-105",
@@ -45,19 +48,16 @@ function WallpaperCard({ item, isActive, onSelect }: WallpaperCardProps) {
         />
         <div
           className={cn(
-            "absolute inset-0 transition-colors",
+            "pointer-events-none absolute inset-0 transition-colors",
             isActive
               ? "bg-ctp-mauve/10"
               : "bg-ctp-crust/0 group-hover:bg-ctp-crust/20",
           )}
         />
         {isActive && (
-          <motion.span
-            layoutId="wallpaper-active-badge"
-            className="absolute right-2 top-2 rounded-full border border-ctp-mauve/40 bg-ctp-mantle/90 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-ctp-mauve backdrop-blur-sm"
-          >
+          <span className="pointer-events-none absolute right-2 top-2 rounded-full border border-ctp-mauve/40 bg-ctp-mantle/90 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-ctp-mauve backdrop-blur-sm">
             Selected
-          </motion.span>
+          </span>
         )}
       </div>
       <div className="space-y-0.5 border-t border-ctp-surface1 bg-ctp-surface0/80 px-4 py-3 backdrop-blur-sm">
@@ -67,7 +67,7 @@ function WallpaperCard({ item, isActive, onSelect }: WallpaperCardProps) {
           className="text-xs text-ctp-subtext0"
         />
       </div>
-    </motion.button>
+    </div>
   )
 }
 
