@@ -1,15 +1,21 @@
-import Desktop from "@/components/windows/desktop";
-import Taskbar from "@/components/windows/taskbar";
-import StartMenu from "@/components/windows/start-menu";
+import Desktop from "@/components/windows/desktop"
+import Taskbar from "@/components/windows/taskbar"
+import StartMenu from "@/components/windows/start-menu"
+import useBackground from "@/hooks/use-background"
 
 function Surface() {
+  const { currentWallpaperImageUrl } = useBackground()
+
   return (
-    <div className="relative h-dvh bg-cover grid grid-cols-1 grid-rows-[1fr_0.01fr] sm:grid-rows-[1fr_0.07fr] overflow-hidden isolate bg-[url('/Imgs/background.webp')] isolate">
+    <div
+      className="relative h-dvh bg-cover bg-center bg-no-repeat grid grid-cols-1 grid-rows-[1fr_0.01fr] sm:grid-rows-[1fr_0.07fr] overflow-hidden isolate"
+      style={{ backgroundImage: `url(${currentWallpaperImageUrl})` }}
+    >
       <Desktop className="z-10" />
       <StartMenu className="z-20" />
       <Taskbar className="z-30 h-full self-center" />
     </div>
-  );
+  )
 }
 
-export default Surface;
+export default Surface
