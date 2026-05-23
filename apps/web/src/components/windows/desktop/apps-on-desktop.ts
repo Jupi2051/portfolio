@@ -165,4 +165,12 @@ export let DesktopIcons: DesktopIconData[] = [
   //   Selected: false,
   //   AppComponent: DesktopAppsList.AboutMe,
   // }
+  {
+    id: 18,
+    Name: "Wallpapers Rocket",
+    IconPath: "Imgs/DesktopApps/WallpapersRocket.png",
+    Style: {},
+    Selected: false,
+    AppComponent: DesktopAppsList.WallpapersRocket,
+  },
 ]
