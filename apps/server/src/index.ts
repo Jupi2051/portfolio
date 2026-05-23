@@ -6,7 +6,6 @@ import cookieParser from "cookie-parser"
 import { createExpressMiddleware } from "@trpc/server/adapters/express"
 import { appRouter } from "./router"
 import { createContext } from "./context"
-import monitorCustomersPageRouter from "./monitor-customers-page"
 import { createVicoSketchImageUploadRouter } from "./modules/vico/create"
 import { prepareVicoSketchWebpImages } from "./modules/vico/prepare-images"
 
@@ -34,7 +33,10 @@ if (imagesBucket) {
         next()
         return
       }
-      const stripped = path.normalize(req.path).replace(/^(\.\.(\/|\\|$))+/, "").replace(/^\//, "")
+      const stripped = path
+        .normalize(req.path)
+        .replace(/^(\.\.(\/|\\|$))+/, "")
+        .replace(/^\//, "")
       if (!stripped || stripped.includes("..")) {
         next()
         return
@@ -67,8 +69,6 @@ app.use(
     createContext,
   }),
 )
-
-app.use("/monitor-customers-page", monitorCustomersPageRouter)
 
 const PORT = process.env.PORT || 3000
 

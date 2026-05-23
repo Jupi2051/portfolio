@@ -4,9 +4,9 @@
   "packageManager": "pnpm@10.15.1",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "npx playwright install --with-deps chromium && npx prisma generate && npx tsc -p tsconfig.types.json && tsc && tsc-alias --resolve-full-paths --resolve-full-extension .js",
+    "build": "pnpm prisma generate && pnpm tsc -p tsconfig.types.json && tsc && tsc-alias --resolve-full-paths --resolve-full-extension .js",
     "start": "tsx dist/src/index.js",
-    "build:types": "npx prisma generate && npx tsc -p tsconfig.types.json"
+    "build:types": "pnpm prisma generate && pnpm tsc -p tsconfig.types.json"
   },
   "engines": {
     "node": "24"
@@ -27,7 +27,6 @@
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "multer": "^2.1.1",
-    "playwright": "^1.60.0",
     "prisma": "^7.8.0",
     "sharp": "^0.34.5",
     "zod": "^4.4.3"
