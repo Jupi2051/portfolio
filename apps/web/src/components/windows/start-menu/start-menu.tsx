@@ -1,14 +1,14 @@
-import { motion, Variants } from "framer-motion";
-import { DesktopIcons } from "@/components/windows/desktop";
-import StartMenuApp from "@/components/windows/start-menu/start-menu-app";
+import { motion, Variants } from "framer-motion"
+import { DesktopIcons as DesktopIconsData } from "@/components/windows/desktop/apps-on-desktop"
+import StartMenuApp from "@/components/windows/start-menu/start-menu-app"
 import SocialMedia, {
   SocialMediaTypes,
-} from "@/components/windows/start-menu/start-menu-social-media";
-import { useOnClickOutside } from "usehooks-ts";
-import { useRef } from "react";
-import cn from "classnames";
-import useStartMenu from "@/hooks/use-start-menu";
-import StartMenuFooter from "./start-menu-footer";
+} from "@/components/windows/start-menu/start-menu-social-media"
+import { useOnClickOutside } from "usehooks-ts"
+import { RefObject, useRef } from "react"
+import cn from "classnames"
+import useStartMenu from "@/hooks/use-start-menu"
+import StartMenuFooter from "./start-menu-footer"
 
 export const BottomAnimationVariants: Variants = {
   hidden: {
@@ -35,21 +35,21 @@ export const BottomAnimationVariants: Variants = {
       duration: 0.2,
     },
   },
-};
+}
 
 const StartMenuComponent = ({ className }: { className?: string }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const { setRenderStartMenu } = useStartMenu();
-  useOnClickOutside(ref, (e) => {
-    if ((e.target as HTMLDivElement).dataset.isWindowsIcon) return;
-    setRenderStartMenu(false);
-  });
+  const ref = useRef<HTMLDivElement>(null)
+  const { setRenderStartMenu } = useStartMenu()
+  useOnClickOutside(ref as RefObject<HTMLDivElement>, (e) => {
+    if ((e.target as HTMLDivElement).dataset.isWindowsIcon) return
+    setRenderStartMenu(false)
+  })
 
   return (
     <motion.div
       className={cn(
-        "absolute grid -bottom-1.5 left-1/2 sm:bottom-3 sm:left-5 sm:translate-x-1/2 rounded-md px-9 pt-8 pb-0 sm:pb-5 font-sans text-gray-200 font-light overflow-hidden grid-cols-1 max-h-[600px] h-full sm:min-h-[700px] w-full sm:w-[600px] bg-gradient-to-r from-ctp-blue-950/80 to-ctp-lavender-300/60 backdrop-blur-md shadow-[0px_0px_15px_0px_rgba(0,0,0,0.4)] grid-rows-[0.1fr_1.7fr_1fr]",
-        className
+        "absolute grid -bottom-1.5 left-1/2 sm:bottom-3 sm:left-5 sm:translate-x-1/2 rounded-md px-9 pt-8 pb-0 sm:pb-5 font-sans text-gray-200 font-light overflow-hidden grid-cols-1 max-h-[600px] h-full sm:min-h-[700px] w-full sm:w-[600px] bg-linear-to-r from-ctp-blue-950/80 to-ctp-lavender-300/60 backdrop-blur-md shadow-[0px_0px_15px_0px_rgba(0,0,0,0.4)] grid-rows-[0.1fr_1.7fr_1fr]",
+        className,
       )}
       variants={BottomAnimationVariants}
       initial="hidden"
@@ -66,7 +66,7 @@ const StartMenuComponent = ({ className }: { className?: string }) => {
       <div className="flex flex-col gap-0 sm:gap-5 self-center">
         <p className="text-xs sm:text-base">Pinned</p>
         <div className="grid w-full grid-cols-6 grid-rows-3 gap-x-6 gap-y-5 self-center items-center justify-items-center justify-between">
-          {DesktopIcons.map((element) => (
+          {DesktopIconsData.map((element) => (
             <StartMenuApp
               App={element.AppComponent}
               ApplicationName={element.Name}
@@ -97,6 +97,6 @@ const StartMenuComponent = ({ className }: { className?: string }) => {
       </div>
       <StartMenuFooter />
     </motion.div>
-  );
-};
-export default StartMenuComponent;
+  )
+}
+export default StartMenuComponent

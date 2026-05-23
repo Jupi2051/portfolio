@@ -5,363 +5,109 @@ import {
   useRef,
   useState,
   type RefObject,
-} from "react";
-import "@/Styles/Desktop.css";
-import DesktopIcon from "@/components/windows/desktop/desktop-icon";
-import DesktopTimeWidget from "@/components/widgets/time/desktop-time-widget";
-import MovingDesktopIcon from "@/components/windows/desktop/moving-desktop-icon";
-import ApplicationsContainer from "@/components/windows/desktop/applications-container";
+} from "react"
+import "@/Styles/Desktop.css"
+import DesktopIcon from "@/components/windows/desktop/desktop-icon"
+import DesktopTimeWidget from "@/components/widgets/time/desktop-time-widget"
+import MovingDesktopIcon from "@/components/windows/desktop/moving-desktop-icon"
+import ApplicationsContainer from "@/components/windows/desktop/applications-container"
 import {
   DesktopAppsList,
   toAppFromName,
-} from "@/components/windows/desktop/apps-list";
-import { AnimatePresence } from "framer-motion";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/storage/store";
-import { setFocusedApp } from "@/storage/slices/desktop";
-import { FolderItem } from "@/components/apps/explorer";
-import { useResizeObserver } from "usehooks-ts";
-import cn from "classnames";
-import { Dimensions2D } from "@/components/windows/app-window";
-import useApplicationURLParams from "@/hooks/use-application-url-params";
-import useGlobalWindowsControls from "@/hooks/use-global-windows-controls";
-import useGlobalTaskbarControls from "@/hooks/use-global-taskbar-controls";
+} from "@/components/windows/desktop/apps-list"
+import { AnimatePresence } from "framer-motion"
+import { useDispatch, useSelector } from "react-redux"
+import { RootState } from "@/storage/store"
+import { setFocusedApp } from "@/storage/slices/desktop"
+import { useResizeObserver } from "usehooks-ts"
+import cn from "classnames"
+import { Dimensions2D } from "@/components/windows/app-window"
+import useApplicationURLParams from "@/hooks/use-application-url-params"
+import useGlobalWindowsControls from "@/hooks/use-global-windows-controls"
+import useGlobalTaskbarControls from "@/hooks/use-global-taskbar-controls"
+import { DesktopIcons as DesktopIconsData } from "@/components/windows/desktop/apps-on-desktop"
 
 const SystemNotifications = lazy(
-  () => import("@/components/windows/system-notifications")
-);
+  () => import("@/components/windows/system-notifications"),
+)
 
 type Point = {
-  x: number;
-  y: number;
-};
-
-export type openApplicationMetaData = {
-  hiddenButtons?: ("minimize" | "maximize" | "close")[];
-  forceView?: boolean;
-  windowSize?: Dimensions2D;
-  maximized?: boolean;
-  windowLocation?:
-  | "center"
-  | "top-left"
-  | "top-right"
-  | "bottom-left"
-  | "bottom-right"
-  | "top-center"
-  | "bottom-center"
-  | "left-center"
-  | "right-center";
-  disableMaximize?: boolean;
-  disableMinimize?: boolean;
-  disableResize?: boolean;
-  disableOtherAppsPointerEvents?: boolean;
-  disabledByOtherApp?: OpenApplication;
-};
-
-export interface OpenApplication {
-  id: number;
-  App: DesktopAppsList;
-  metaData?: openApplicationMetaData;
-  processName: string;
-  processIcon: string;
-  taskbarIcon?: string;
-  processData?: Object;
-  parentProcess?: number;
-  childrenProcess?: number[];
-  URLSavable?: boolean;
-  URLParams?: Record<string, string>;
+  x: number
+  y: number
 }
 
-export type DesktopIconData = {
-  id: number;
-  Name: string;
-  IconPath: string;
-  Style: {
-    gridRow?: number;
-    gridColumn?: number;
-  };
-  Selected: boolean;
-  AppComponent: DesktopAppsList;
-  customTaskbarIcon?: string;
-  processData?: any;
-  URLSavable?: boolean;
-};
+export type openApplicationMetaData = {
+  hiddenButtons?: ("minimize" | "maximize" | "close")[]
+  forceView?: boolean
+  windowSize?: Dimensions2D
+  maximized?: boolean
+  windowLocation?:
+    | "center"
+    | "top-left"
+    | "top-right"
+    | "bottom-left"
+    | "bottom-right"
+    | "top-center"
+    | "bottom-center"
+    | "left-center"
+    | "right-center"
+  disableMaximize?: boolean
+  disableMinimize?: boolean
+  disableResize?: boolean
+  disableOtherAppsPointerEvents?: boolean
+  disabledByOtherApp?: OpenApplication
+}
 
-let DesktopData: DesktopIconData[] = [
-  {
-    id: 1,
-    Name: "Recycle Bin",
-    IconPath: "Imgs/DesktopApps/RecycleBin.webp",
-    Style: {},
-    Selected: false,
-    AppComponent: DesktopAppsList.DummyApp,
-  },
-  {
-    id: 2,
-    Name: "EIEN",
-    IconPath: "Imgs/DesktopApps/EIEN.webp",
-    Style: {},
-    Selected: false,
-    AppComponent: DesktopAppsList.EIEN,
-  },
-  // {id: 3, Name: "Oni", IconPath: "Imgs/DesktopApps/Oni.png", Style: {}, Selected: false, AppComponent: DesktopAppsList.Oni},
-  {
-    id: 4,
-    Name: "Jenni",
-    IconPath: "Imgs/DesktopApps/Jenni.png",
-    Style: {},
-    Selected: false,
-    AppComponent: DesktopAppsList.Jenni,
-  },
-  {
-    id: 5,
-    Name: "Galaxy Gym",
-    IconPath: "Imgs/DesktopApps/Galaxygym.webp",
-    Style: {},
-    Selected: false,
-    AppComponent: DesktopAppsList.GalaxyGym,
-  },
-  // {
-  //   id: 6,
-  //   Name: "Steam",
-  //   IconPath: "Imgs/DesktopApps/Steam.png",
-  //   Style: {},
-  //   Selected: false,
-  //   AppComponent: DesktopAppsList.DummyApp,
-  // },
-  // {
-  //   id: 7,
-  //   Name: "Chloe",
-  //   IconPath: "Imgs/Images/Chloe.png",
-  //   Style: {},
-  //   Selected: false,
-  //   AppComponent: DesktopAppsList.Photos,
-  //   customTaskbarIcon: "Imgs/Apps/Photos.jpg",
-  //   processData: { openedImage: "Imgs/Images/Chloe.png" },
-  // },
-  // {
-  //   id: 8,
-  //   Name: "Friends",
-  //   IconPath: "Imgs/Images/Friends.webp",
-  //   Style: {},
-  //   Selected: false,
-  //   AppComponent: DesktopAppsList.Photos,
-  //   customTaskbarIcon: "Imgs/Apps/Photos.jpg",
-  //   processData: { openedImage: "Imgs/Images/Friends.webp" },
-  // },
-];
+export interface OpenApplication {
+  id: number
+  App: DesktopAppsList
+  metaData?: openApplicationMetaData
+  processName: string
+  processIcon: string
+  taskbarIcon?: string
+  processData?: Object
+  parentProcess?: number
+  childrenProcess?: number[]
+  URLSavable?: boolean
+  URLParams?: Record<string, string>
+}
 
-const ProjectsFolder: FolderItem[] = [
-  {
-    id: 2,
-    Name: "EIEN",
-    IconPath: "Imgs/DesktopApps/EIEN.webp",
-    AppComponent: DesktopAppsList.EIEN,
-  },
-  // {id: 3, Name: "Oni", IconPath: "Imgs/DesktopApps/Oni.png", AppComponent: DesktopAppsList.Oni},
-  {
-    id: 4,
-    Name: "Jenni",
-    IconPath: "Imgs/DesktopApps/Jenni.png",
-    AppComponent: DesktopAppsList.Jenni,
-  },
-  {
-    id: 5,
-    Name: "Galaxy Gym",
-    IconPath: "Imgs/DesktopApps/Galaxygym.webp",
-    AppComponent: DesktopAppsList.GalaxyGym,
-  },
-  // {
-  //   id: 6,
-  //   Name: "Steam",
-  //   IconPath: "Imgs/DesktopApps/Steam.png",
-  //   AppComponent: DesktopAppsList.DummyApp,
-  // },
-];
-
-export let DesktopIcons: DesktopIconData[] = [
-  {
-    id: 9,
-    Name: "Home",
-    IconPath: "Imgs/DesktopApps/Folder.webp",
-    Style: {},
-    Selected: false,
-    AppComponent: DesktopAppsList.Explorer,
-    processData: { items: DesktopData },
-  },
-  {
-    id: 10,
-    Name: "Projects",
-    IconPath: "Imgs/DesktopApps/Folder.webp",
-    Style: {},
-    Selected: false,
-    AppComponent: DesktopAppsList.Explorer,
-    processData: { items: ProjectsFolder },
-  },
-  {
-    id: 11,
-    Name: "Pinboard",
-    IconPath: "Imgs/DesktopApps/Pinboard.webp",
-    Style: {},
-    Selected: false,
-    AppComponent: DesktopAppsList.Pinboard,
-  },
-  {
-    id: 13,
-    Name: "Blog",
-    IconPath: "Imgs/DesktopApps/Notepad.webp",
-    Style: {},
-    Selected: false,
-    AppComponent: DesktopAppsList.Blog,
-    URLSavable: true,
-  },
-  {
-    id: 14,
-    Name: "Controls",
-    IconPath: "Imgs/DesktopApps/Controls.webp",
-    Style: {},
-    Selected: false,
-    AppComponent: DesktopAppsList.Controls,
-  },
-  {
-    id: 1,
-    Name: "Recycle Bin",
-    IconPath: "Imgs/DesktopApps/RecycleBin.webp",
-    Style: {},
-    Selected: false,
-    AppComponent: DesktopAppsList.DummyApp,
-  },
-  {
-    id: 15,
-    Name: "Terminal",
-    IconPath: "Imgs/DesktopApps/Terminal.webp",
-    Style: {},
-    Selected: false,
-    AppComponent: DesktopAppsList.Terminal,
-  },
-  {
-    id: 16,
-    Name: "Gaia",
-    IconPath: "Imgs/DesktopApps/Jenni.png",
-    Style: {},
-    Selected: false,
-    AppComponent: DesktopAppsList.Gaia,
-  },
-  {
-    id: 17,
-    Name: "Vico",
-    IconPath: "Imgs/Apps/Photos.jpg",
-    Style: {},
-    Selected: false,
-    AppComponent: DesktopAppsList.Vico,
-    customTaskbarIcon: "Imgs/Apps/Photos.jpg",
-  },
-  // {
-  //   id: 2,
-  //   Name: "EIEN",
-  //   IconPath: "Imgs/DesktopApps/EIEN.webp",
-  //   Style: {},
-  //   Selected: false,
-  //   AppComponent: DesktopAppsList.EIEN,
-  // },
-  {
-    id: 3,
-    Name: "Instatus Inspace",
-    IconPath: "Imgs/DesktopApps/astronaut.webp",
-    Style: {},
-    Selected: false,
-    AppComponent: DesktopAppsList.InstatusInspace,
-  },
-  // {
-  //   id: 4,
-  //   Name: "Jenni",
-  //   IconPath: "Imgs/DesktopApps/Jenni.png",
-  //   Style: {},
-  //   Selected: false,
-  //   AppComponent: DesktopAppsList.Jenni,
-  // },
-  // {
-  //   id: 5,
-  //   Name: "Galaxy Gym",
-  //   IconPath: "Imgs/DesktopApps/Galaxygym.webp",
-  //   Style: {},
-  //   Selected: false,
-  //   AppComponent: DesktopAppsList.GalaxyGym,
-  // },
-  // {
-  //   id: 6,
-  //   Name: "Steam",
-  //   IconPath: "Imgs/DesktopApps/Steam.png",
-  //   Style: {},
-  //   Selected: false,
-  //   AppComponent: DesktopAppsList.DummyApp,
-  // },
-  // {
-  //   id: 7,
-  //   Name: "Chloe",
-  //   IconPath: "Imgs/Images/Chloe.png",
-  //   Style: {},
-  //   Selected: false,
-  //   AppComponent: DesktopAppsList.Photos,
-  //   customTaskbarIcon: "Imgs/Apps/Photos.jpg",
-  //   processData: { openedImage: "Imgs/Images/Chloe.png" },
-  // },
-  // {
-  //   id: 8,
-  //   Name: "Friends",
-  //   IconPath: "Imgs/Images/Friends.webp",
-  //   Style: {},
-  //   Selected: false,
-  //   AppComponent: DesktopAppsList.Photos,
-  //   customTaskbarIcon: "Imgs/Apps/Photos.jpg",
-  //   processData: { openedImage: "Imgs/Images/Friends.webp" },
-  // },
-
-  // {
-  //   id: 12,
-  //   Name: "About Me",
-  //   IconPath: "Imgs/DesktopApps/User.webp",
-  //   Style: {},
-  //   Selected: false,
-  //   AppComponent: DesktopAppsList.AboutMe,
-  // }
-];
-
-const MaxDistanceBeforeMovementTrigger = 10;
-let LocalMousePosition: { x: number; y: number } = { x: 0, y: 0 };
+const MaxDistanceBeforeMovementTrigger = 10
+let LocalMousePosition: { x: number; y: number } = { x: 0, y: 0 }
+let DesktopIcons: typeof DesktopIconsData = DesktopIconsData
 
 function Desktop({ className }: { className?: string }) {
-  const urlParams = useApplicationURLParams();
-  const { openNewApplication } = useGlobalWindowsControls();
-  const { openNewTaskbarApplication } = useGlobalTaskbarControls();
-  const dispatch = useDispatch();
-  const startedURLApps = useRef(false);
+  const urlParams = useApplicationURLParams()
+  const { openNewApplication } = useGlobalWindowsControls()
+  const { openNewTaskbarApplication } = useGlobalTaskbarControls()
+  const dispatch = useDispatch()
+  const startedURLApps = useRef(false)
   const [HoldClickInitPosition, SetHoldClickInitPosition] = useState({
     x: 0,
     y: 0,
-  });
-  const ref = useRef<HTMLDivElement>(null);
+  })
+  const ref = useRef<HTMLDivElement>(null)
   const { width = 1, height = 1 } = useResizeObserver({
     ref: ref as RefObject<HTMLDivElement>,
     box: "border-box",
-  });
-  const [HeldIconID, SetHeldIconId] = useState(-1); // -1 means no element is held atm.
-  const [isMovingHeldIcon, SetMoveHeldIcon] = useState(false);
-  const [ApplicationsArray, SetApplicationsArray] = useState(DesktopIcons);
-  const focusedApp = useSelector((x: RootState) => x.desktopState.focusedAppId);
+  })
+  const [HeldIconID, SetHeldIconId] = useState(-1) // -1 means no element is held atm.
+  const [isMovingHeldIcon, SetMoveHeldIcon] = useState(false)
+  const [ApplicationsArray, SetApplicationsArray] = useState(DesktopIcons)
+  const focusedApp = useSelector((x: RootState) => x.desktopState.focusedAppId)
   const OpenApplications = useSelector(
-    (x: RootState) => x.mainState.OpenApplications
-  );
+    (x: RootState) => x.mainState.OpenApplications,
+  )
 
   useEffect(() => {
-    if (startedURLApps.current) return;
-    startedURLApps.current = true;
+    if (startedURLApps.current) return
+    startedURLApps.current = true
 
     urlParams.forEach((appState) => {
-      const AppKey = toAppFromName(appState.app);
+      const AppKey = toAppFromName(appState.app)
       const foundIconData = DesktopIcons.find(
-        (desktopIcon) => desktopIcon.AppComponent === AppKey
-      );
+        (desktopIcon) => desktopIcon.AppComponent === AppKey,
+      )
 
       const { focusWindow, bringWindowToFront, app } = openNewApplication({
         App: AppKey,
@@ -370,43 +116,43 @@ function Desktop({ className }: { className?: string }) {
         processData: appState.value,
         URLParams: appState.value as unknown as Record<string, string>,
         URLSavable: foundIconData?.URLSavable ?? false,
-      });
+      })
 
-      focusWindow();
-      bringWindowToFront();
+      focusWindow()
+      bringWindowToFront()
       openNewTaskbarApplication({
         id: app.id,
         AppId: app.id,
         Icon: foundIconData?.IconPath ?? "",
-      });
-    });
-  }, []);
+      })
+    })
+  }, [])
 
   useEffect(() => {
     if (focusedApp === -1)
-      history.replaceState(null, "", window.location.pathname);
-  }, [focusedApp]);
+      history.replaceState(null, "", window.location.pathname)
+  }, [focusedApp])
 
   function onMouseMove(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const newX = event.clientX - rect.left;
-    const newY = event.clientY - rect.top;
-    const initX = HoldClickInitPosition.x;
-    const initY = HoldClickInitPosition.y;
-    LocalMousePosition = { x: newX, y: newY };
+    const rect = event.currentTarget.getBoundingClientRect()
+    const newX = event.clientX - rect.left
+    const newY = event.clientY - rect.top
+    const initX = HoldClickInitPosition.x
+    const initY = HoldClickInitPosition.y
+    LocalMousePosition = { x: newX, y: newY }
     if (HeldIconID != -1) {
       const DistanceMoved = Math.sqrt(
-        Math.pow(newX - initX, 2) + Math.pow(newY - initY, 2)
-      );
+        Math.pow(newX - initX, 2) + Math.pow(newY - initY, 2),
+      )
       if (DistanceMoved >= MaxDistanceBeforeMovementTrigger)
-        SetMoveHeldIcon(true);
+        SetMoveHeldIcon(true)
     }
   }
 
   function moveHeldElement() {
     if (isMovingHeldIcon) {
-      const GridLocation = GetGridLocationFromMousePosition();
-      UpdateElementGridLocation(HeldIconID, GridLocation);
+      const GridLocation = GetGridLocationFromMousePosition()
+      UpdateElementGridLocation(HeldIconID, GridLocation)
       // SelectDesktopIcon(Number(HeldIconID), true);
     }
   }
@@ -417,92 +163,90 @@ function Desktop({ className }: { className?: string }) {
         return {
           ...element,
           Style: { gridColumn: NewLocation.y, gridRow: NewLocation.x },
-        };
-      else return { ...element };
-    });
-    SetApplicationsArray(DesktopIcons);
+        }
+      else return { ...element }
+    })
+    SetApplicationsArray(DesktopIcons)
   }
 
   function GetGridLocationFromMousePosition(): Point {
-    const itemMinHeight = 90;
-    const itemMinWidth = 90;
+    const itemMinHeight = 90
+    const itemMinWidth = 90
 
-    let CalculatedColumn = Math.round(LocalMousePosition.x / itemMinWidth);
-    let CalculatedRow = Math.round(LocalMousePosition.y / itemMinHeight);
+    let CalculatedColumn = Math.round(LocalMousePosition.x / itemMinWidth)
+    let CalculatedRow = Math.round(LocalMousePosition.y / itemMinHeight)
 
-    const gridCountHorizontal = Math.round(width / itemMinWidth);
-    const gridCountVertical = Math.round(height / itemMinHeight);
+    const gridCountHorizontal = Math.round(width / itemMinWidth)
+    const gridCountVertical = Math.round(height / itemMinHeight)
 
     CalculatedColumn =
       CalculatedColumn >= gridCountHorizontal
         ? gridCountHorizontal - 1
-        : CalculatedColumn;
+        : CalculatedColumn
     CalculatedRow =
-      CalculatedRow >= gridCountVertical
-        ? gridCountVertical - 1
-        : CalculatedRow;
+      CalculatedRow >= gridCountVertical ? gridCountVertical - 1 : CalculatedRow
 
     return {
       x: CalculatedRow <= 0 ? 1 : CalculatedRow,
       y: CalculatedColumn <= 0 ? 1 : CalculatedColumn,
-    };
+    }
   }
 
   function SelectDesktopIcon(IconId: number) {
     DesktopIcons = DesktopIcons.map((element) => {
-      return { ...element, Selected: element.id === IconId };
-    });
-    SetApplicationsArray(DesktopIcons);
+      return { ...element, Selected: element.id === IconId }
+    })
+    SetApplicationsArray(DesktopIcons)
   }
 
   function onMouseDown(
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ): void {
-    SetHoldClickInitPosition({ x: event.clientX, y: event.clientY });
-    const DesktopClickedElement = event.target as Element;
+    SetHoldClickInitPosition({ x: event.clientX, y: event.clientY })
+    const DesktopClickedElement = event.target as Element
     const clickedIconContainer = DesktopClickedElement.closest(
-      ".Desktop-Icon-Container"
-    );
+      ".Desktop-Icon-Container",
+    )
     if (clickedIconContainer) {
       const ElementId =
         clickedIconContainer.getAttribute("data-id") === undefined
           ? -1
-          : Number(clickedIconContainer.getAttribute("data-id"));
-      SetHeldIconId(ElementId);
+          : Number(clickedIconContainer.getAttribute("data-id"))
+      SetHeldIconId(ElementId)
     } else if (DesktopClickedElement.id === "Desktop")
-      dispatch(setFocusedApp(-1));
+      dispatch(setFocusedApp(-1))
   }
 
   function EndClick() {
-    moveHeldElement();
+    moveHeldElement()
     if (isMovingHeldIcon) {
-      SetMoveHeldIcon(false);
-      SelectDesktopIcon(-1);
+      SetMoveHeldIcon(false)
+      SelectDesktopIcon(-1)
     }
-    SetHeldIconId(-1);
+    SetHeldIconId(-1)
   }
 
   function onMouseUp(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-    const DesktopIconElement = event.target as Element;
+    const DesktopIconElement = event.target as Element
     const clickedIconContainer = DesktopIconElement.closest(
-      ".Desktop-Icon-Container"
-    );
+      ".Desktop-Icon-Container",
+    )
     if (clickedIconContainer) {
-      const ElementId = clickedIconContainer.getAttribute("data-id");
-      if (ElementId) SelectDesktopIcon(Number(ElementId));
+      const ElementId = clickedIconContainer.getAttribute("data-id")
+      if (ElementId) SelectDesktopIcon(Number(ElementId))
     } else {
       if (!isMovingHeldIcon) {
         DesktopIcons = DesktopIcons.map((e) => {
-          return { ...e, Selected: false };
-        });
-        SetApplicationsArray(DesktopIcons);
+          return { ...e, Selected: false }
+        })
+        SetApplicationsArray(DesktopIcons)
       }
     }
 
-    EndClick();
+    EndClick()
   }
 
-  const MovingAppObject = DesktopIcons.find((e) => e.id === HeldIconID);
+  const MovingAppObject = DesktopIcons.find((e) => e.id === HeldIconID)
 
   return (
     <>
@@ -550,7 +294,7 @@ function Desktop({ className }: { className?: string }) {
         />
       ) : null}
     </>
-  );
+  )
 }
 
-export default Desktop;
+export default Desktop

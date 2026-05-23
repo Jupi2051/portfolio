@@ -1,9 +1,9 @@
-import { lazy } from "react";
-import AppLoadingFailed from "@/components/ui/app-foundation/app-loading-failed";
-import NotificationWindow from "@/components/apps/notification/index";
-type AppKey = keyof typeof DesktopAppsList;
+import { lazy } from "react"
+import AppLoadingFailed from "@/components/ui/app-foundation/app-loading-failed"
+import NotificationWindow from "@/components/apps/notification/index"
+type AppKey = keyof typeof DesktopAppsList
 export const toAppFromName = (k: string): DesktopAppsList =>
-  DesktopAppsList[k as AppKey] as DesktopAppsList;
+  DesktopAppsList[k as AppKey] as DesktopAppsList
 
 export enum DesktopAppsList {
   DummyApp,
@@ -21,60 +21,68 @@ export enum DesktopAppsList {
   Terminal,
   Gaia,
   Vico,
+  WallpapersRocket,
 }
 
-const handleFailedLoad = () => ({ default: AppLoadingFailed });
+const handleFailedLoad = () => ({ default: AppLoadingFailed })
 
 export const DesktopAppsComponents: Record<DesktopAppsList, any> = {
   [DesktopAppsList.DummyApp]: lazy(() =>
-    delayForDemo(import("@/components/apps/dummy-app").catch(handleFailedLoad))
+    delayForDemo(import("@/components/apps/dummy-app").catch(handleFailedLoad)),
   ),
   [DesktopAppsList.InstatusInspace]: lazy(() =>
     delayForDemo(
-      import("@/components/apps/instatus-inspace").catch(handleFailedLoad)
-    )
+      import("@/components/apps/instatus-inspace").catch(handleFailedLoad),
+    ),
   ),
   [DesktopAppsList.Jenni]: lazy(() =>
-    delayForDemo(import("@/components/apps/jenni").catch(handleFailedLoad))
+    delayForDemo(import("@/components/apps/jenni").catch(handleFailedLoad)),
   ),
   [DesktopAppsList.EIEN]: lazy(() =>
-    delayForDemo(import("@/components/apps/eien").catch(handleFailedLoad))
+    delayForDemo(import("@/components/apps/eien").catch(handleFailedLoad)),
   ),
   [DesktopAppsList.GalaxyGym]: lazy(() =>
-    delayForDemo(import("@/components/apps/galaxy-gym").catch(handleFailedLoad))
+    delayForDemo(
+      import("@/components/apps/galaxy-gym").catch(handleFailedLoad),
+    ),
   ),
   [DesktopAppsList.Blog]: lazy(() =>
-    import("@/components/apps/blog").catch(handleFailedLoad)
+    import("@/components/apps/blog").catch(handleFailedLoad),
   ),
   [DesktopAppsList.Controls]: lazy(() =>
-    delayForDemo(import("@/components/apps/controls").catch(handleFailedLoad))
+    delayForDemo(import("@/components/apps/controls").catch(handleFailedLoad)),
   ),
   [DesktopAppsList.Pinboard]: lazy(() =>
-    delayForDemo(import("@/components/apps/pinboard").catch(handleFailedLoad))
+    delayForDemo(import("@/components/apps/pinboard").catch(handleFailedLoad)),
   ),
   [DesktopAppsList.AboutMe]: lazy(() =>
-    delayForDemo(import("@/components/apps/about-me").catch(handleFailedLoad))
+    delayForDemo(import("@/components/apps/about-me").catch(handleFailedLoad)),
   ),
   [DesktopAppsList.Photos]: lazy(() =>
-    delayForDemo(import("@/components/apps/photos").catch(handleFailedLoad))
+    delayForDemo(import("@/components/apps/photos").catch(handleFailedLoad)),
   ),
   [DesktopAppsList.Explorer]: lazy(() =>
-    delayForDemo(import("@/components/apps/explorer").catch(handleFailedLoad))
+    delayForDemo(import("@/components/apps/explorer").catch(handleFailedLoad)),
   ),
   [DesktopAppsList.Notification]: NotificationWindow,
   [DesktopAppsList.Terminal]: lazy(() =>
-    delayForDemo(import("@/components/apps/terminal").catch(handleFailedLoad))
+    delayForDemo(import("@/components/apps/terminal").catch(handleFailedLoad)),
   ),
   [DesktopAppsList.Gaia]: lazy(() =>
-    delayForDemo(import("@/components/apps/gaia").catch(handleFailedLoad))
+    delayForDemo(import("@/components/apps/gaia").catch(handleFailedLoad)),
   ),
   [DesktopAppsList.Vico]: lazy(() =>
-    delayForDemo(import("@/components/apps/vico").catch(handleFailedLoad))
+    delayForDemo(import("@/components/apps/vico").catch(handleFailedLoad)),
   ),
-};
+  [DesktopAppsList.WallpapersRocket]: lazy(() =>
+    delayForDemo(
+      import("@/components/apps/wallpapers-rocket").catch(handleFailedLoad),
+    ),
+  ),
+}
 
 function delayForDemo(promise: Promise<any>) {
   return new Promise((resolve) => {
-    setTimeout(resolve, 1000);
-  }).then(() => promise);
+    setTimeout(resolve, 1000)
+  }).then(() => promise)
 }
