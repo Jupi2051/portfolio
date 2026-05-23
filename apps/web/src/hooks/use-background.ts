@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react"
+import { useCallback, useEffect, useMemo } from "react"
 import { useLocalStorage } from "usehooks-ts"
 
 const Wallpapers = {
@@ -6,7 +6,28 @@ const Wallpapers = {
   "space-chloe": "chloe.webp",
 } as const
 
-type WallpaperKey = keyof typeof Wallpapers
+export type WallpaperKey = keyof typeof Wallpapers
+
+export type WallpaperArtist = {
+  name: string
+  url?: string
+  /** Shown as @{handle} on the link; falls back to a slug of `name` */
+  handle?: string
+}
+
+const WallpaperMeta: Record<
+  WallpaperKey,
+  { title: string; artist: WallpaperArtist }
+> = {
+  default: {
+    title: "Default",
+    artist: { name: "Portfolio" },
+  },
+  "space-chloe": {
+    title: "Space Chloe",
+    artist: { name: "Chloe" },
+  },
+}
 
 const isWallpaperKey = (value: string): value is WallpaperKey =>
   value in Wallpapers
@@ -35,11 +56,25 @@ const useBackground = () => {
     if (!isWallpaperKey(wallpaper)) setWallpaper("default")
   }, [wallpaper, setWallpaper])
 
+  const wallpaperList = useMemo(
+    () =>
+      (Object.keys(Wallpapers) as WallpaperKey[]).map((key) => ({
+        key,
+        title: WallpaperMeta[key].title,
+        artist: WallpaperMeta[key].artist,
+        imageUrl: getWallpaperImageUrl(key),
+      })),
+    [getWallpaperImageUrl],
+  )
+
   return {
     wallpaper,
     setWallpaper,
     getWallpaperImageUrl,
     currentWallpaperImageUrl: getWallpaperImageUrl(wallpaper),
+    currentWallpaperTitle: WallpaperMeta[wallpaper].title,
+    currentWallpaperArtist: WallpaperMeta[wallpaper].artist,
+    wallpaperList,
   }
 }
 
