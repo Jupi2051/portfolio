@@ -10,7 +10,7 @@ import cn from "classnames"
 import useStartMenu from "@/hooks/use-start-menu"
 import StartMenuFooter from "./start-menu-footer"
 
-export const BottomAnimationVariants: Variants = {
+const BottomAnimationVariants: Variants = {
   hidden: {
     y: "110%",
     x: "-50%",
