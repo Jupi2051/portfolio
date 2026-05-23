@@ -32,9 +32,7 @@ const useBackground = () => {
   )
 
   useEffect(() => {
-    if (!isWallpaperKey(wallpaper)) {
-      setWallpaper("default")
-    }
+    if (!isWallpaperKey(wallpaper)) setWallpaper("default")
   }, [wallpaper, setWallpaper])
 
   return {
