@@ -14,8 +14,7 @@ function WallpaperArtistCredit({
 }: WallpaperArtistCreditProps) {
   return (
     <p className={className}>
-      <span>{artist.name}</span>
-      {artist.url && (
+      {artist.url ? (
         <>
           {" "}
           <a
@@ -28,6 +27,8 @@ function WallpaperArtistCredit({
             @{artistHandle(artist)}
           </a>
         </>
+      ) : (
+        <span>{artist.name}</span>
       )}
     </p>
   )

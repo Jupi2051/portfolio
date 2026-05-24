@@ -21,11 +21,11 @@ const WallpaperMeta: Record<
 > = {
   default: {
     title: "Default",
-    artist: { name: "Portfolio" },
+    artist: { name: "Jennixdraws", url: "https://www.jennixdraws.com/" },
   },
   "space-chloe": {
     title: "Space Chloe",
-    artist: { name: "Chloe" },
+    artist: { name: "Jennixdraws", url: "https://www.jennixdraws.com/" },
   },
 }
 
