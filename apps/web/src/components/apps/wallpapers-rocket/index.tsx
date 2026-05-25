@@ -20,7 +20,7 @@ function WallpapersRocket() {
   return (
     <div className="flex h-full w-full min-h-0 flex-col overflow-hidden bg-linear-to-br from-ctp-base via-ctp-mantle to-ctp-crust">
       <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-        <div className="flex w-full flex-col items-start gap-8 p-6">
+        <div className="flex w-full flex-col items-start gap-8 p-6 pb-8">
           <WallpapersRocketHeader />
           <CurrentWallpaperPreview
             wallpaperKey={wallpaper}

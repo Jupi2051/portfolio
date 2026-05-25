@@ -30,13 +30,13 @@ function WallpaperCard({ item, isActive, onSelect }: WallpaperCardProps) {
         }
       }}
       className={cn(
-        "group relative w-64 shrink-0 select-none overflow-hidden rounded-xl border-2 text-left transition-[border-color,box-shadow,transform] duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-ctp-blue focus-visible:ring-offset-2 focus-visible:ring-offset-ctp-base",
+        "group relative w-64 shrink-0 select-none rounded-xl border-2 text-left transition-[border-color,box-shadow] duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-ctp-blue focus-visible:ring-offset-2 focus-visible:ring-offset-ctp-base",
         isActive
           ? "cursor-default border-ctp-mauve shadow-lg shadow-ctp-mauve/10"
-          : "cursor-pointer border-ctp-surface1 hover:border-ctp-surface2 hover:scale-[1.02] active:scale-[0.98]",
+          : "cursor-pointer border-ctp-surface1 hover:border-ctp-surface2",
       )}
     >
-      <div className="relative aspect-video overflow-hidden bg-ctp-surface0">
+      <div className="relative aspect-video overflow-hidden rounded-t-[10px] bg-ctp-surface0">
         <img
           src={item.imageUrl}
           alt=""
@@ -60,7 +60,7 @@ function WallpaperCard({ item, isActive, onSelect }: WallpaperCardProps) {
           </span>
         )}
       </div>
-      <div className="space-y-0.5 border-t border-ctp-surface1 bg-ctp-surface0/80 px-4 py-3 backdrop-blur-sm">
+      <div className="space-y-0.5 rounded-b-[10px] border-t border-ctp-surface1 bg-ctp-surface0/80 px-4 py-3 backdrop-blur-sm">
         <p className="font-medium text-ctp-text">{item.title}</p>
         <WallpaperArtistCredit
           artist={item.artist}

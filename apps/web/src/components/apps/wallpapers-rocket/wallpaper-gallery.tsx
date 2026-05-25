@@ -15,9 +15,9 @@ function WallpaperGallery({
   onSelect,
 }: WallpaperGalleryProps) {
   return (
-    <section className="w-full space-y-4 pb-2 text-left">
+    <section className="w-full space-y-4 text-left">
       <h2 className="text-sm font-semibold text-ctp-text">All wallpapers</h2>
-      <div className="flex flex-wrap justify-start gap-4">
+      <div className="flex flex-wrap justify-start gap-4 pb-1">
         {wallpapers.map((item) => (
           <WallpaperCard
             key={item.key}
