@@ -9,6 +9,16 @@ import useAppWindowData from "@/hooks/use-app-window-data"
 import { useResizeObserver } from "usehooks-ts"
 import useGlobalWindowsControls from "@/hooks/use-global-windows-controls"
 import { disposeAppCloseTarget } from "@/lib/app-close-bus"
+import { useTouchDevice } from "@/hooks/use-touch-device"
+import useTailwindMediaQuery from "@/hooks/use-tailwind-media-query"
+
+import {
+  registerAppWindowBounds,
+  resolveInitialWindowPlacement,
+  toWindowRect,
+  unregisterAppWindowBounds,
+  type InitialWindowPlacement,
+} from "@/lib/app-window-placement"
 
 type PropType = {
   children?: ReactNode
@@ -27,6 +37,19 @@ const exitAndOpenMainContainer: Variants = {
   init: { opacity: 1, scale: 1 },
 }
 
+function getOrCreateInitialPlacement(
+  placementRef: RefObject<InitialWindowPlacement | null>,
+
+  appId: number,
+
+  metaData: ReturnType<typeof useAppWindowData>["metaData"],
+) {
+  if (!placementRef.current) {
+    placementRef.current = resolveInitialWindowPlacement(appId, metaData)
+  }
+  return placementRef.current
+}
+
 function AppWindow({ AppId, processName, processIcon, children }: PropType) {
   const {
     isMinimized,
@@ -39,8 +62,24 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
     disabledByOtherApp,
     isFlashing,
   } = useAppWindowData(AppId)
+  const isTouchDevice = useTouchDevice()
+  const { isPastPoint } = useTailwindMediaQuery()
   const { focusWindowWithId, flashWindow } = useGlobalWindowsControls()
-  const [Maximized, SetMaximized] = useState(metaData?.maximized ?? true)
+
+  const initialPlacementRef = useRef<InitialWindowPlacement | null>(null)
+
+  const initialPlacement = getOrCreateInitialPlacement(
+    initialPlacementRef,
+
+    AppId,
+
+    metaData,
+  )
+
+  const [Maximized, SetMaximized] = useState(
+    metaData?.maximized ?? (!isPastPoint("md") || isTouchDevice),
+  )
+
   const [MoveWindow, SetMoveWindow] = useState(false)
   const [
     isMovingWindowFromMaximizedToMinimized,
@@ -59,25 +98,16 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
     ref: ref as RefObject<HTMLElement>,
     box: "border-box",
   })
-  const [MinimizedDimensions, SetMinmizedDimensions] = useState<Dimensions2D>({
-    width: metaData?.windowSize?.width ?? 500,
-    height: metaData?.windowSize?.height ?? 500,
-  })
-  const windowLocationDataRef = useRef<Point | null>(null)
-  const windowLocationData = windowLocationDataRef.current
 
-  if (!windowLocationData) {
-    windowLocationDataRef.current = metaData?.windowLocation
-      ? getWindowLocation(metaData.windowLocation, MinimizedDimensions)
-      : {
-          x: Math.floor(Math.random() * 400),
-          y: Math.floor(Math.random() * 400),
-        }
-  }
+  const [MinimizedDimensions, SetMinmizedDimensions] = useState<Dimensions2D>(
+    () => initialPlacement.size,
+  )
+
+  const windowLocationDataRef = useRef<Point | null>(initialPlacement.position)
 
   let NewLocation: Point = {
-    x: windowLocationData?.x ?? 0,
-    y: windowLocationData?.y ?? 0,
+    x: windowLocationDataRef.current?.x ?? 0,
+    y: windowLocationDataRef.current?.y ?? 0,
   }
 
   if (MoveWindow) {
@@ -118,6 +148,29 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
     }
     windowLocationDataRef.current = NewLocation
   }
+
+  useLayoutEffect(() => {
+    if (Maximized) {
+      unregisterAppWindowBounds(AppId)
+      return
+    }
+
+    registerAppWindowBounds(
+      AppId,
+      toWindowRect(NewLocation, MinimizedDimensions),
+    )
+
+    return () => {
+      unregisterAppWindowBounds(AppId)
+    }
+  }, [
+    AppId,
+    Maximized,
+    NewLocation.x,
+    NewLocation.y,
+    MinimizedDimensions.width,
+    MinimizedDimensions.height,
+  ])
 
   const exitAndOpen: Variants = {
     hidden: {
@@ -275,81 +328,6 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
       </motion.div>
     </motion.div>
   )
-}
-
-function getWindowLocation(
-  position:
-    | "top-left"
-    | "top-right"
-    | "bottom-left"
-    | "bottom-right"
-    | "center"
-    | "top-center"
-    | "bottom-center"
-    | "left-center"
-    | "right-center",
-  windowSize: Dimensions2D,
-) {
-  const { width = 0, height = 0 } = windowSize
-  const { innerWidth, innerHeight } = window
-  const centerX = innerWidth / 2 - width / 2
-  const centerY = innerHeight / 2 - height / 2
-  switch (position) {
-    case "center": {
-      return {
-        x: centerX,
-        y: centerY,
-      }
-    }
-    case "top-left": {
-      return {
-        x: 0,
-        y: 0,
-      }
-    }
-    case "top-right": {
-      return {
-        x: innerWidth - width,
-        y: 0,
-      }
-    }
-    case "bottom-left": {
-      return {
-        x: 0,
-        y: innerHeight - height,
-      }
-    }
-    case "bottom-right": {
-      return {
-        x: innerWidth - width,
-        y: innerHeight - height,
-      }
-    }
-    case "top-center": {
-      return {
-        x: centerX,
-        y: 0,
-      }
-    }
-    case "bottom-center": {
-      return {
-        x: centerX,
-        y: innerHeight - height,
-      }
-    }
-    case "left-center": {
-      return {
-        x: 0,
-        y: centerY,
-      }
-    }
-    case "right-center": {
-      return {
-        x: innerWidth - width,
-        y: centerY,
-      }
-    }
-  }
 }
 
 export default AppWindow
