@@ -44,10 +44,6 @@ export interface TerminalProps {
 }
 
 const Terminal = () => {
-  const touchDevice = useTouchDevice()
-  console.log(touchDevice)
-  const useTextBased = touchDevice
-
   // Default history initialization
   const defaultHistory = [
     "\x1b[36mJupi Terminal [Version 1.0.0]\x1b[0m",

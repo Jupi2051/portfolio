@@ -127,7 +127,7 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
         Math.pow(deltaVector.x, 2) + Math.pow(deltaVector.y, 2),
       )
 
-      if (movementDistance > 7) {
+      if (movementDistance > 7 && !isTouchDevice) {
         SetMaximized(false)
         SetIsMovingWindowFromMaximizedToMinimized(true)
         setInitialPosition?.(null)
