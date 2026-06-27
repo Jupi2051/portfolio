@@ -20,7 +20,11 @@ import {
   unregisterAppWindowBounds,
   type InitialWindowPlacement,
 } from "@/lib/app-window-placement"
-import { isCursorInMaximizeSnapZone } from "@/lib/app-window-snap"
+import {
+  getSnapLayoutRect,
+  resolveCursorSnapLayout,
+  type WindowSnapLayout,
+} from "@/lib/app-window-snap"
 
 type PropType = {
   children?: ReactNode
@@ -239,17 +243,23 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
         ? "minimized"
         : "visible"
 
-  const canUseMaximizeSnap =
+  const canUseWindowSnap =
     MoveWindow &&
     !Maximized &&
     !isMovingWindowFromMaximizedToMinimized &&
-    !isTouchDevice &&
-    !metaData?.disableMaximize
+    !isTouchDevice
 
-  const showMaximizeSnapPreview =
-    canUseMaximizeSnap &&
-    CursorLocation.y !== null &&
-    isCursorInMaximizeSnapZone(CursorLocation.y)
+  const activeSnapLayout: WindowSnapLayout | null =
+    canUseWindowSnap &&
+    CursorLocation.x !== null &&
+    CursorLocation.y !== null
+      ? resolveCursorSnapLayout(CursorLocation.x, CursorLocation.y)
+      : null
+
+  const effectiveSnapLayout =
+    activeSnapLayout === "maximize" && metaData?.disableMaximize
+      ? null
+      : activeSnapLayout
 
   const snapPreviewWindowRect = {
     x: NewLocation.x,
@@ -258,22 +268,52 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
     height: height || MinimizedDimensions.height || 0,
   }
 
+  const snapPreviewTargetRect = effectiveSnapLayout
+    ? getSnapLayoutRect(effectiveSnapLayout)
+    : null
+
+  const applySnapLayout = useCallback(
+    (layout: WindowSnapLayout) => {
+      if (layout === "maximize") {
+        SetMinmizedDimensions({
+          width: width ?? MinimizedDimensions.width ?? 0,
+          height: height ?? MinimizedDimensions.height ?? 0,
+        })
+        SetMaximized(true)
+        return
+      }
+
+      const snapRect = getSnapLayoutRect(layout)
+      windowLocationDataRef.current = { x: snapRect.x, y: snapRect.y }
+      SetMinmizedDimensions({
+        width: snapRect.width,
+        height: snapRect.height,
+      })
+      SetMaximized(false)
+    },
+    [
+      width,
+      height,
+      MinimizedDimensions.width,
+      MinimizedDimensions.height,
+    ],
+  )
+
   const onWindowMoveEnd = useCallback(() => {
-    const cursorY = cursorLocationRef.current.y
+    const { x: cursorX, y: cursorY } = cursorLocationRef.current
 
     if (
       MoveWindow &&
       !Maximized &&
       !isTouchDevice &&
-      !metaData?.disableMaximize &&
-      cursorY !== null &&
-      isCursorInMaximizeSnapZone(cursorY)
+      cursorX !== null &&
+      cursorY !== null
     ) {
-      SetMinmizedDimensions({
-        width: width ?? MinimizedDimensions.width ?? 0,
-        height: height ?? MinimizedDimensions.height ?? 0,
-      })
-      SetMaximized(true)
+      const layout = resolveCursorSnapLayout(cursorX, cursorY)
+
+      if (layout && !(layout === "maximize" && metaData?.disableMaximize)) {
+        applySnapLayout(layout)
+      }
     }
 
     SetMoveWindow(false)
@@ -284,10 +324,7 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
     Maximized,
     isTouchDevice,
     metaData?.disableMaximize,
-    width,
-    height,
-    MinimizedDimensions.width,
-    MinimizedDimensions.height,
+    applySnapLayout,
   ])
 
   return (
@@ -303,10 +340,10 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
       className="absolute top-0 left-0 w-full h-full pointer-events-none"
     >
       <AnimatePresence>
-        {canUseMaximizeSnap ? (
+        {canUseWindowSnap ? (
           <AppWindowSnapPreview
             windowRect={snapPreviewWindowRect}
-            active={showMaximizeSnapPreview}
+            targetRect={snapPreviewTargetRect}
           />
         ) : null}
       </AnimatePresence>

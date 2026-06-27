@@ -1,5 +1,4 @@
 import { motion } from "framer-motion"
-import { getMaximizeSnapPreviewRect } from "@/lib/app-window-snap"
 
 type WindowRect = {
   x: number
@@ -10,25 +9,21 @@ type WindowRect = {
 
 type Props = {
   windowRect: WindowRect
-  active: boolean
+  targetRect: WindowRect | null
 }
 
-function AppWindowSnapPreview({ windowRect, active }: Props) {
-  const target = getMaximizeSnapPreviewRect()
-  const windowFrame = {
-    left: windowRect.x,
-    top: windowRect.y,
-    width: windowRect.width,
-    height: windowRect.height,
-    borderRadius: 6,
-  }
-  const maximizeFrame = {
-    left: target.x,
-    top: target.y,
-    width: target.width,
-    height: target.height,
-    borderRadius: 0,
-  }
+const toMotionFrame = (rect: WindowRect, borderRadius: number) => ({
+  left: rect.x,
+  top: rect.y,
+  width: rect.width,
+  height: rect.height,
+  borderRadius,
+})
+
+const AppWindowSnapPreview = ({ windowRect, targetRect }: Props) => {
+  const windowFrame = toMotionFrame(windowRect, 6)
+  const snapFrame = targetRect ? toMotionFrame(targetRect, 0) : windowFrame
+  const active = targetRect !== null
 
   return (
     <motion.div
@@ -38,9 +33,7 @@ function AppWindowSnapPreview({ windowRect, active }: Props) {
         opacity: 0,
       }}
       animate={
-        active
-          ? { ...maximizeFrame, opacity: 1 }
-          : { ...windowFrame, opacity: 0 }
+        active ? { ...snapFrame, opacity: 1 } : { ...windowFrame, opacity: 0 }
       }
       exit={{
         ...windowFrame,
