@@ -6,8 +6,8 @@ export function getTopMaximizeSnapZoneHeight(): number {
   return TOP_MAXIMIZE_SNAP_ZONE_PX
 }
 
-export function isWindowTopInMaximizeSnapZone(windowTopY: number): boolean {
-  return windowTopY <= TOP_MAXIMIZE_SNAP_ZONE_PX
+export function isCursorInMaximizeSnapZone(cursorY: number): boolean {
+  return cursorY <= TOP_MAXIMIZE_SNAP_ZONE_PX
 }
 
 export function getMaximizeSnapPreviewRect(): WindowRect {

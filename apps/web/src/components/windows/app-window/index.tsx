@@ -20,7 +20,7 @@ import {
   unregisterAppWindowBounds,
   type InitialWindowPlacement,
 } from "@/lib/app-window-placement"
-import { isWindowTopInMaximizeSnapZone } from "@/lib/app-window-snap"
+import { isCursorInMaximizeSnapZone } from "@/lib/app-window-snap"
 
 type PropType = {
   children?: ReactNode
@@ -106,6 +106,8 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
   )
 
   const windowLocationDataRef = useRef<Point | null>(initialPlacement.position)
+  const cursorLocationRef = useRef(CursorLocation)
+  cursorLocationRef.current = CursorLocation
 
   let NewLocation: Point = {
     x: windowLocationDataRef.current?.x ?? 0,
@@ -245,7 +247,9 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
     !metaData?.disableMaximize
 
   const showMaximizeSnapPreview =
-    canUseMaximizeSnap && isWindowTopInMaximizeSnapZone(NewLocation.y)
+    canUseMaximizeSnap &&
+    CursorLocation.y !== null &&
+    isCursorInMaximizeSnapZone(CursorLocation.y)
 
   const snapPreviewWindowRect = {
     x: NewLocation.x,
@@ -255,14 +259,15 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
   }
 
   const onWindowMoveEnd = useCallback(() => {
-    const windowTopY = windowLocationDataRef.current?.y ?? NewLocation.y
+    const cursorY = cursorLocationRef.current.y
 
     if (
       MoveWindow &&
       !Maximized &&
       !isTouchDevice &&
       !metaData?.disableMaximize &&
-      isWindowTopInMaximizeSnapZone(windowTopY)
+      cursorY !== null &&
+      isCursorInMaximizeSnapZone(cursorY)
     ) {
       SetMinmizedDimensions({
         width: width ?? MinimizedDimensions.width ?? 0,
@@ -279,7 +284,6 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
     Maximized,
     isTouchDevice,
     metaData?.disableMaximize,
-    NewLocation.y,
     width,
     height,
     MinimizedDimensions.width,
