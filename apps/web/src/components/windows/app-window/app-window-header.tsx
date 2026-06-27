@@ -2,36 +2,37 @@ import {
   setFocusedApp,
   setMinimizedState,
   setMouseMovementOffset,
-} from "@/storage/slices/desktop";
-import { useDispatch } from "react-redux";
-import { Dimensions2D } from ".";
-import useMousePosition from "@/hooks/use-mouse-position";
-import { motion, Point } from "framer-motion";
-import AppWindowHeaderButton from "./app-window-header-button";
-import { useEventListener } from "usehooks-ts";
-import useAppWindowControls from "@/hooks/use-app-window-data";
-import useGlobalWindowsControls from "@/hooks/use-global-windows-controls";
-import useMediaQuery from "@/hooks/use-media-query";
+} from "@/storage/slices/desktop"
+import { useDispatch } from "react-redux"
+import { Dimensions2D } from "."
+import useMousePosition from "@/hooks/use-mouse-position"
+import { motion, Point } from "framer-motion"
+import AppWindowHeaderButton from "./app-window-header-button"
+import { useEventListener } from "usehooks-ts"
+import useAppWindowControls from "@/hooks/use-app-window-data"
+import useGlobalWindowsControls from "@/hooks/use-global-windows-controls"
+import useMediaQuery from "@/hooks/use-media-query"
 
 interface AppWindowHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
-  processName?: string;
-  processIcon?: string;
-  maximized: boolean;
-  AppId: number;
-  setMaximized: (maximized: boolean) => void;
-  setMoveWindow: (moveWindow: boolean) => void;
-  SetMinmizedDimensions: (newDimensions: Dimensions2D) => void;
-  windowWidth: number;
-  windowHeight: number;
-  NewLocation: Point;
-  hiddenButtons: ("minimize" | "maximize" | "close")[];
-  disableMaximize?: boolean;
-  disableMinimize?: boolean;
-  isFlashing: boolean;
-  isDisabled: boolean;
-  initialPosition?: Point;
-  setInitialPosition?: (position: Point | null) => void;
-  setIsMovingWindowFromMaximizedToMinimized?: (isMoving: boolean) => void;
+  processName?: string
+  processIcon?: string
+  maximized: boolean
+  AppId: number
+  setMaximized: (maximized: boolean) => void
+  setMoveWindow: (moveWindow: boolean) => void
+  SetMinmizedDimensions: (newDimensions: Dimensions2D) => void
+  windowWidth: number
+  windowHeight: number
+  NewLocation: Point
+  hiddenButtons: ("minimize" | "maximize" | "close")[]
+  disableMaximize?: boolean
+  disableMinimize?: boolean
+  isFlashing: boolean
+  isDisabled: boolean
+  initialPosition?: Point
+  setInitialPosition?: (position: Point | null) => void
+  setIsMovingWindowFromMaximizedToMinimized?: (isMoving: boolean) => void
+  onWindowMoveEnd?: () => void
 }
 
 const AppWindowHeader = ({
@@ -50,75 +51,74 @@ const AppWindowHeader = ({
   disableMinimize = false,
   setInitialPosition,
   setIsMovingWindowFromMaximizedToMinimized,
+  onWindowMoveEnd,
 }: AppWindowHeaderProps) => {
-  const isPhone = useMediaQuery("sm");
-  const dispatch = useDispatch();
-  const { isFocused } = useAppWindowControls(AppId);
-  const { unFocusAllWindows, closeApplication } = useGlobalWindowsControls();
-  const CursorLocation = useMousePosition();
+  const isPhone = useMediaQuery("sm")
+  const dispatch = useDispatch()
+  const { isFocused } = useAppWindowControls(AppId)
+  const { unFocusAllWindows, closeApplication } = useGlobalWindowsControls()
+  const CursorLocation = useMousePosition()
 
   const onDismissButton = () => {
-    dispatch(setMinimizedState({ id: AppId, state: true }));
-    dispatch(setFocusedApp(-1));
-  };
+    dispatch(setMinimizedState({ id: AppId, state: true }))
+    dispatch(setFocusedApp(-1))
+  }
 
   const onDoubleClick = (
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
-    if (isPhone) return;
-    event.preventDefault();
-    const newMaximizedState = !maximized;
-    if (newMaximizedState && disableMaximize) return;
-    if (!newMaximizedState && disableMinimize) return;
-    setMaximized(!maximized);
-  };
+    if (isPhone) return
+    event.preventDefault()
+    const newMaximizedState = !maximized
+    if (newMaximizedState && disableMaximize) return
+    if (!newMaximizedState && disableMinimize) return
+    setMaximized(!maximized)
+  }
 
   const CloseApplication = () => {
-    if (isFocused) unFocusAllWindows();
+    if (isFocused) unFocusAllWindows()
 
-    closeApplication(AppId);
-  };
+    closeApplication(AppId)
+  }
 
   useEventListener("mouseup", () => {
-    setMoveWindow(false);
-    setInitialPosition?.(null);
-    setIsMovingWindowFromMaximizedToMinimized?.(false);
-  });
+    onWindowMoveEnd?.()
+  })
 
   function onMouseDown(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-    const ClickedElement = event.target as HTMLDivElement;
+    const ClickedElement = event.target as HTMLDivElement
     if (ClickedElement) {
       if (ClickedElement.classList.contains("window-header")) {
         dispatch(
           setMouseMovementOffset({
             x: NewLocation.x - (CursorLocation.x ?? 0),
             y: NewLocation.y - (CursorLocation.y ?? 0),
-          })
-        );
-        setInitialPosition?.(NewLocation);
-        setMoveWindow(true);
+          }),
+        )
+        setInitialPosition?.(NewLocation)
+        setMoveWindow(true)
       }
     }
   }
 
   function MaximizeWindow() {
-    const newMaximizedState = !maximized;
+    const newMaximizedState = !maximized
 
-    if (newMaximizedState && disableMaximize) return;
-    if (!newMaximizedState && disableMinimize) return;
+    if (newMaximizedState && disableMaximize) return
+    if (!newMaximizedState && disableMinimize) return
 
     if (newMaximizedState)
       SetMinmizedDimensions({
         width: windowWidth ?? 0,
         height: windowHeight ?? 0,
-      });
+      })
 
-    setMaximized(newMaximizedState);
+    setMaximized(newMaximizedState)
   }
 
   return (
     <motion.div
-      className="window-header flex text-center justify-end min-h-[30px] h-[30px] text-white bg-gradient-to-r from-ctp-blue-950 to-ctp-mauve-900/60 min-w-max"
+      className="window-header flex text-center justify-end min-h-[30px] h-[30px] text-white bg-linear-to-r from-ctp-blue-950 to-ctp-mauve-900/60 min-w-max"
       onMouseDown={onMouseDown}
       onDoubleClick={onDoubleClick}
     >
@@ -149,7 +149,7 @@ const AppWindowHeader = ({
         )}
       </div>
     </motion.div>
-  );
-};
+  )
+}
 
-export default AppWindowHeader;
+export default AppWindowHeader

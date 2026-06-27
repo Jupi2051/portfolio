@@ -1,10 +1,11 @@
-import { ReactNode, RefObject, useLayoutEffect, useRef, useState } from "react"
-import { Point, Variants, motion } from "framer-motion"
+import { ReactNode, RefObject, useCallback, useLayoutEffect, useRef, useState } from "react"
+import { AnimatePresence, Point, Variants, motion } from "framer-motion"
 import useMousePosition from "@/hooks/use-mouse-position"
 import { useSelector } from "react-redux"
 import { RootState } from "@/storage/store"
 import cn from "classnames"
 import AppWindowHeader from "./app-window-header"
+import AppWindowSnapPreview from "./app-window-snap-preview"
 import useAppWindowData from "@/hooks/use-app-window-data"
 import { useResizeObserver } from "usehooks-ts"
 import useGlobalWindowsControls from "@/hooks/use-global-windows-controls"
@@ -19,6 +20,7 @@ import {
   unregisterAppWindowBounds,
   type InitialWindowPlacement,
 } from "@/lib/app-window-placement"
+import { isWindowTopInMaximizeSnapZone } from "@/lib/app-window-snap"
 
 type PropType = {
   children?: ReactNode
@@ -235,6 +237,46 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
         ? "minimized"
         : "visible"
 
+  const showMaximizeSnapPreview =
+    MoveWindow &&
+    !Maximized &&
+    !isMovingWindowFromMaximizedToMinimized &&
+    !isTouchDevice &&
+    !metaData?.disableMaximize &&
+    isWindowTopInMaximizeSnapZone(NewLocation.y)
+
+  const onWindowMoveEnd = useCallback(() => {
+    const windowTopY = windowLocationDataRef.current?.y ?? NewLocation.y
+
+    if (
+      MoveWindow &&
+      !Maximized &&
+      !isTouchDevice &&
+      !metaData?.disableMaximize &&
+      isWindowTopInMaximizeSnapZone(windowTopY)
+    ) {
+      SetMinmizedDimensions({
+        width: width ?? MinimizedDimensions.width ?? 0,
+        height: height ?? MinimizedDimensions.height ?? 0,
+      })
+      SetMaximized(true)
+    }
+
+    SetMoveWindow(false)
+    setInitialPosition(null)
+    SetIsMovingWindowFromMaximizedToMinimized(false)
+  }, [
+    MoveWindow,
+    Maximized,
+    isTouchDevice,
+    metaData?.disableMaximize,
+    NewLocation.y,
+    width,
+    height,
+    MinimizedDimensions.width,
+    MinimizedDimensions.height,
+  ])
+
   return (
     <motion.div
       variants={exitAndOpenMainContainer}
@@ -247,6 +289,9 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
       }}
       className="absolute top-0 left-0 w-full h-full pointer-events-none"
     >
+      <AnimatePresence>
+        {showMaximizeSnapPreview ? <AppWindowSnapPreview /> : null}
+      </AnimatePresence>
       <motion.div
         className={cn(
           `absolute border pointer-events-auto border-black border-solid mx-auto rounded-md overflow-hidden box-shadow-[0px_0px_15px_0px_rgba(0,0,0,0.4)] user-select-none transition-[box-shadow,border] duration-200 isolate ease-in-out`,
@@ -320,6 +365,7 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
             setIsMovingWindowFromMaximizedToMinimized={
               SetIsMovingWindowFromMaximizedToMinimized
             }
+            onWindowMoveEnd={onWindowMoveEnd}
           />
           <div className="flex flex-col w-full h-full border-none overflow-hidden">
             {children}
