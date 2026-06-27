@@ -56,6 +56,9 @@ export type openApplicationMetaData = {
   disableResize?: boolean
   disableOtherAppsPointerEvents?: boolean
   disabledByOtherApp?: OpenApplication
+  snapped?: boolean
+  presnapWidth?: number
+  presnapHeight?: number
 }
 
 export interface OpenApplication {

@@ -32,6 +32,7 @@ interface AppWindowHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   initialPosition?: Point
   setInitialPosition?: (position: Point | null) => void
   setIsMovingWindowFromMaximizedToMinimized?: (isMoving: boolean) => void
+  onWindowMoveStart?: () => void
   onWindowMoveEnd?: () => void
 }
 
@@ -51,6 +52,7 @@ const AppWindowHeader = ({
   disableMinimize = false,
   setInitialPosition,
   setIsMovingWindowFromMaximizedToMinimized,
+  onWindowMoveStart,
   onWindowMoveEnd,
 }: AppWindowHeaderProps) => {
   const isPhone = useMediaQuery("sm")
@@ -96,6 +98,7 @@ const AppWindowHeader = ({
           }),
         )
         setInitialPosition?.(NewLocation)
+        onWindowMoveStart?.()
         setMoveWindow(true)
       }
     }

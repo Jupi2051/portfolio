@@ -135,6 +135,31 @@ const mainStateReducer = createSlice({
       });
       return state;
     },
+    setAppWindowSnapState: (
+      state,
+      action: PayloadAction<{
+        id: number;
+        snapped: boolean;
+        presnapWidth?: number;
+        presnapHeight?: number;
+      }>,
+    ) => {
+      state.OpenApplications = state.OpenApplications.map((element) => {
+        if (element.id === action.payload.id) {
+          return {
+            ...element,
+            metaData: {
+              ...element.metaData,
+              snapped: action.payload.snapped,
+              presnapWidth: action.payload.presnapWidth,
+              presnapHeight: action.payload.presnapHeight,
+            },
+          };
+        }
+        return element;
+      });
+      return state;
+    },
   },
 });
 
@@ -147,6 +172,7 @@ export const {
   openApplication,
   setURLParams,
   deleteURLParams,
+  setAppWindowSnapState,
 } = mainStateReducer.actions;
 
 export default mainStateReducer.reducer;

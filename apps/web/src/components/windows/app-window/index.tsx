@@ -1,7 +1,7 @@
 import { ReactNode, RefObject, useCallback, useLayoutEffect, useRef, useState } from "react"
 import { AnimatePresence, Point, Variants, motion } from "framer-motion"
 import useMousePosition from "@/hooks/use-mouse-position"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/storage/store"
 import cn from "classnames"
 import AppWindowHeader from "./app-window-header"
@@ -12,6 +12,7 @@ import useGlobalWindowsControls from "@/hooks/use-global-windows-controls"
 import { disposeAppCloseTarget } from "@/lib/app-close-bus"
 import { useTouchDevice } from "@/hooks/use-touch-device"
 import useTailwindMediaQuery from "@/hooks/use-tailwind-media-query"
+import { setAppWindowSnapState } from "@/storage/slices/main"
 
 import {
   registerAppWindowBounds,
@@ -68,6 +69,7 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
     disabledByOtherApp,
     isFlashing,
   } = useAppWindowData(AppId)
+  const dispatch = useDispatch()
   const isTouchDevice = useTouchDevice()
   const { isPastPoint } = useTailwindMediaQuery()
   const { focusWindowWithId, flashWindow } = useGlobalWindowsControls()
@@ -113,6 +115,68 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
   const cursorLocationRef = useRef(CursorLocation)
   cursorLocationRef.current = CursorLocation
 
+  const clearSnapState = useCallback(() => {
+    dispatch(
+      setAppWindowSnapState({
+        id: AppId,
+        snapped: false,
+        presnapWidth: undefined,
+        presnapHeight: undefined,
+      }),
+    )
+  }, [AppId, dispatch])
+
+  const restorePresnapDimensions = useCallback(() => {
+    if (!metaData?.snapped) return false
+
+    if (
+      metaData.presnapWidth !== undefined &&
+      metaData.presnapHeight !== undefined
+    ) {
+      SetMinmizedDimensions({
+        width: metaData.presnapWidth,
+        height: metaData.presnapHeight,
+      })
+    }
+
+    clearSnapState()
+    return true
+  }, [
+    metaData?.snapped,
+    metaData?.presnapWidth,
+    metaData?.presnapHeight,
+    clearSnapState,
+  ])
+
+  const saveSnapState = useCallback(
+    (presnapWidth: number, presnapHeight: number) => {
+      dispatch(
+        setAppWindowSnapState({
+          id: AppId,
+          snapped: true,
+          presnapWidth,
+          presnapHeight,
+        }),
+      )
+    },
+    [AppId, dispatch],
+  )
+
+  const handleSetMaximized = useCallback(
+    (value: boolean) => {
+      if (!value) {
+        restorePresnapDimensions()
+      }
+      SetMaximized(value)
+    },
+    [restorePresnapDimensions],
+  )
+
+  const onWindowMoveStart = useCallback(() => {
+    if (Maximized) return
+    restorePresnapDimensions()
+  }, [Maximized, restorePresnapDimensions])
+
   let NewLocation: Point = {
     x: windowLocationDataRef.current?.x ?? 0,
     y: windowLocationDataRef.current?.y ?? 0,
@@ -136,6 +200,7 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
       )
 
       if (movementDistance > 7 && !isTouchDevice) {
+        restorePresnapDimensions()
         SetMaximized(false)
         SetIsMovingWindowFromMaximizedToMinimized(true)
         setInitialPosition?.(null)
@@ -274,10 +339,15 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
 
   const applySnapLayout = useCallback(
     (layout: WindowSnapLayout) => {
+      const presnapWidth = width ?? MinimizedDimensions.width ?? 0
+      const presnapHeight = height ?? MinimizedDimensions.height ?? 0
+
+      saveSnapState(presnapWidth, presnapHeight)
+
       if (layout === "maximize") {
         SetMinmizedDimensions({
-          width: width ?? MinimizedDimensions.width ?? 0,
-          height: height ?? MinimizedDimensions.height ?? 0,
+          width: presnapWidth,
+          height: presnapHeight,
         })
         SetMaximized(true)
         return
@@ -296,6 +366,7 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
       height,
       MinimizedDimensions.width,
       MinimizedDimensions.height,
+      saveSnapState,
     ],
   )
 
@@ -403,7 +474,7 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
           <AppWindowHeader
             processName={processName}
             processIcon={processIcon}
-            setMaximized={SetMaximized}
+            setMaximized={handleSetMaximized}
             SetMinmizedDimensions={SetMinmizedDimensions}
             maximized={Maximized}
             setMoveWindow={SetMoveWindow}
@@ -420,6 +491,7 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
             setIsMovingWindowFromMaximizedToMinimized={
               SetIsMovingWindowFromMaximizedToMinimized
             }
+            onWindowMoveStart={onWindowMoveStart}
             onWindowMoveEnd={onWindowMoveEnd}
           />
           <div className="flex flex-col w-full h-full border-none overflow-hidden">
