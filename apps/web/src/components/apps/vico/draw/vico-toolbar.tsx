@@ -127,15 +127,6 @@ export default function VicoToolbar({
         >
           <FontAwesomeIcon icon={faRedo} />
         </button>
-        <button
-          type="button"
-          title="Clear canvas"
-          aria-label="Clear canvas"
-          className="flex h-9 w-9 items-center justify-center rounded-md border border-ctp-surface1 bg-ctp-mantle text-ctp-subtext1 hover:bg-ctp-surface0"
-          onClick={clearAll}
-        >
-          <FontAwesomeIcon icon={faTrash} />
-        </button>
       </div>
 
       <div
