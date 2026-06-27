@@ -1,6 +1,6 @@
 import { getDesktopViewport, type WindowRect } from "@/lib/app-window-placement"
 
-export const TOP_SNAP_ZONE_PX = 20
+export const TOP_SNAP_ZONE_PX = 10
 export const BOTTOM_SNAP_ZONE_PX = 50
 export const SIDE_SNAP_ZONE_PX = 50
 
