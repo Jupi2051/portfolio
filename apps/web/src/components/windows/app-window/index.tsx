@@ -237,13 +237,22 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
         ? "minimized"
         : "visible"
 
-  const showMaximizeSnapPreview =
+  const canUseMaximizeSnap =
     MoveWindow &&
     !Maximized &&
     !isMovingWindowFromMaximizedToMinimized &&
     !isTouchDevice &&
-    !metaData?.disableMaximize &&
-    isWindowTopInMaximizeSnapZone(NewLocation.y)
+    !metaData?.disableMaximize
+
+  const showMaximizeSnapPreview =
+    canUseMaximizeSnap && isWindowTopInMaximizeSnapZone(NewLocation.y)
+
+  const snapPreviewWindowRect = {
+    x: NewLocation.x,
+    y: NewLocation.y,
+    width: width || MinimizedDimensions.width || 0,
+    height: height || MinimizedDimensions.height || 0,
+  }
 
   const onWindowMoveEnd = useCallback(() => {
     const windowTopY = windowLocationDataRef.current?.y ?? NewLocation.y
@@ -290,7 +299,12 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
       className="absolute top-0 left-0 w-full h-full pointer-events-none"
     >
       <AnimatePresence>
-        {showMaximizeSnapPreview ? <AppWindowSnapPreview /> : null}
+        {canUseMaximizeSnap ? (
+          <AppWindowSnapPreview
+            windowRect={snapPreviewWindowRect}
+            active={showMaximizeSnapPreview}
+          />
+        ) : null}
       </AnimatePresence>
       <motion.div
         className={cn(
