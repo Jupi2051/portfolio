@@ -22,6 +22,6 @@
       "@/lib/*": ["./src/lib/*"]
     }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "prisma.config.ts"],
   "exclude": ["node_modules", "dist"]
 }
