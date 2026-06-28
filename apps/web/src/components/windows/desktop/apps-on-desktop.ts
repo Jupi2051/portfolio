@@ -173,4 +173,12 @@ export let DesktopIcons: DesktopIconData[] = [
     Selected: false,
     AppComponent: DesktopAppsList.WallpapersRocket,
   },
+  {
+    id: 19,
+    Name: "Rivals Randomizer",
+    IconPath: "Imgs/DesktopApps/Rivals.webp",
+    Style: {},
+    Selected: false,
+    AppComponent: DesktopAppsList.RivalsRandomizer,
+  },
 ]

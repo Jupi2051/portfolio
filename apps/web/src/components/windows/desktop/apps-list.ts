@@ -22,6 +22,7 @@ export enum DesktopAppsList {
   Gaia,
   Vico,
   WallpapersRocket,
+  RivalsRandomizer,
 }
 
 const handleFailedLoad = () => ({ default: AppLoadingFailed })
@@ -77,6 +78,11 @@ export const DesktopAppsComponents: Record<DesktopAppsList, any> = {
   [DesktopAppsList.WallpapersRocket]: lazy(() =>
     delayForDemo(
       import("@/components/apps/wallpapers-rocket").catch(handleFailedLoad),
+    ),
+  ),
+  [DesktopAppsList.RivalsRandomizer]: lazy(() =>
+    delayForDemo(
+      import("@/components/apps/rivals-randomizer").catch(handleFailedLoad),
     ),
   ),
 }
