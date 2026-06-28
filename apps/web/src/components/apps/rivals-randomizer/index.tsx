@@ -1,4 +1,5 @@
 import { useCallback, useState } from "react"
+import { injectGuangGuangEasterEgg } from "./guang-guang"
 import { RIVALS_PLAYERS } from "./players"
 import { TeamRosterReveal } from "./team-roster"
 import { generateBalancedTeams } from "./team-balancer"
@@ -8,11 +9,18 @@ function RivalsRandomizer() {
   const [result, setResult] = useState<TeamSplitResult | null>(null)
   const [isRevealing, setIsRevealing] = useState(false)
   const [revealKey, setRevealKey] = useState(0)
+  const [hasGuangGuangEasterEgg, setHasGuangGuangEasterEgg] = useState(true)
 
   const randomizeTeams = () => {
     if (isRevealing) return
 
-    setResult(generateBalancedTeams(RIVALS_PLAYERS))
+    const showGuangGuang = hasGuangGuangEasterEgg
+    if (showGuangGuang) {
+      setHasGuangGuangEasterEgg(false)
+    }
+
+    const generated = generateBalancedTeams(RIVALS_PLAYERS)
+    setResult(showGuangGuang ? injectGuangGuangEasterEgg(generated) : generated)
     setRevealKey((current) => current + 1)
     setIsRevealing(true)
   }
