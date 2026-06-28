@@ -6,6 +6,12 @@
 @import "tailwindcss";
 @import "@catppuccin/tailwindcss/frappe.css";
 
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+}
+
 * {
   box-sizing: border-box;
 }
