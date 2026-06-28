@@ -6,6 +6,7 @@
     "dev": "tsx watch src/index.ts",
     "build": "pnpm prisma generate && pnpm tsc -p tsconfig.types.json && tsc && tsc-alias --resolve-full-paths --resolve-full-extension .js",
     "start": "tsx dist/src/index.js",
+    "start:prod": "node dist/src/index.js",
     "build:types": "pnpm prisma generate && pnpm tsc -p tsconfig.types.json"
   },
   "engines": {
