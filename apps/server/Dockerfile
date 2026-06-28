@@ -26,7 +26,7 @@ RUN pnpm install --frozen-lockfile --filter @portfolio/server...
 RUN pnpm --filter @portfolio/shared build
 RUN pnpm --filter @portfolio/types build
 RUN pnpm --filter @portfolio/server build
-RUN pnpm --filter @portfolio/server --prod deploy /app/deploy
+RUN pnpm --filter @portfolio/server --prod deploy --legacy /app/deploy
 
 FROM base AS runner
 
