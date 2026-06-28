@@ -308,11 +308,7 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
         ? "minimized"
         : "visible"
 
-  const canUseWindowSnap =
-    MoveWindow &&
-    !Maximized &&
-    !isMovingWindowFromMaximizedToMinimized &&
-    !isTouchDevice
+  const canUseWindowSnap = MoveWindow && !isTouchDevice
 
   const activeSnapLayout: WindowSnapLayout | null =
     canUseWindowSnap &&
@@ -326,12 +322,14 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
       ? null
       : activeSnapLayout
 
-  const snapPreviewWindowRect = {
-    x: NewLocation.x,
-    y: NewLocation.y,
-    width: width || MinimizedDimensions.width || 0,
-    height: height || MinimizedDimensions.height || 0,
-  }
+  const snapPreviewWindowRect = Maximized
+    ? getSnapLayoutRect("maximize")
+    : {
+        x: NewLocation.x,
+        y: NewLocation.y,
+        width: width || MinimizedDimensions.width || 0,
+        height: height || MinimizedDimensions.height || 0,
+      }
 
   const snapPreviewTargetRect = effectiveSnapLayout
     ? getSnapLayoutRect(effectiveSnapLayout)
@@ -375,7 +373,6 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
 
     if (
       MoveWindow &&
-      !Maximized &&
       !isTouchDevice &&
       cursorX !== null &&
       cursorY !== null
@@ -392,7 +389,6 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
     SetIsMovingWindowFromMaximizedToMinimized(false)
   }, [
     MoveWindow,
-    Maximized,
     isTouchDevice,
     metaData?.disableMaximize,
     applySnapLayout,
