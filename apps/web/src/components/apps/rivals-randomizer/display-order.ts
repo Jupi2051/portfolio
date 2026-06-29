@@ -21,5 +21,3 @@ export function getRosterRows(result: TeamSplitResult): AssignedPlayer[] {
     ...sortPlayersForDisplay(result.teamB.players),
   ]
 }
-
-export const FINAL_ROW_INDEX = 5
