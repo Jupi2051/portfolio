@@ -7,12 +7,12 @@ import cn from "classnames"
 import AppWindowHeader from "./app-window-header"
 import AppWindowSnapPreview from "./app-window-snap-preview"
 import useAppWindowData from "@/hooks/use-app-window-data"
-import { useResizeObserver } from "usehooks-ts"
 import useGlobalWindowsControls from "@/hooks/use-global-windows-controls"
 import { disposeAppCloseTarget } from "@/lib/app-close-bus"
 import { useTouchDevice } from "@/hooks/use-touch-device"
 import useTailwindMediaQuery from "@/hooks/use-tailwind-media-query"
 import { setAppWindowSnapState } from "@/storage/slices/main"
+import { Resizable, type NumberSize, type ResizeDirection } from "re-resizable"
 
 import {
   registerAppWindowBounds,
@@ -42,6 +42,20 @@ export type Dimensions2D = {
 const exitAndOpenMainContainer: Variants = {
   exit: { opacity: 0 },
   init: { opacity: 1, scale: 1 },
+}
+
+function resizeDirectionAffectsLeft(direction: ResizeDirection) {
+  return (
+    direction === "left" ||
+    direction === "topLeft" ||
+    direction === "bottomLeft"
+  )
+}
+
+function resizeDirectionAffectsTop(direction: ResizeDirection) {
+  return (
+    direction === "top" || direction === "topLeft" || direction === "topRight"
+  )
 }
 
 function getOrCreateInitialPlacement(
@@ -100,18 +114,14 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
   const CursorOffset = useSelector(
     (x: RootState) => x.desktopState.mouseMovementOffset,
   )
-  const ref = useRef<HTMLDivElement>(null)
   const [initialPosition, setInitialPosition] = useState<null | Point>(null)
-  const { width = 0, height = 0 } = useResizeObserver({
-    ref: ref as RefObject<HTMLElement>,
-    box: "border-box",
-  })
 
   const [MinimizedDimensions, SetMinmizedDimensions] = useState<Dimensions2D>(
     () => initialPlacement.size,
   )
 
   const windowLocationDataRef = useRef<Point | null>(initialPlacement.position)
+  const resizeStartLocationRef = useRef<Point | null>(null)
   const cursorLocationRef = useRef(CursorLocation)
   cursorLocationRef.current = CursorLocation
 
@@ -311,9 +321,7 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
   const canUseWindowSnap = MoveWindow && !isTouchDevice
 
   const activeSnapLayout: WindowSnapLayout | null =
-    canUseWindowSnap &&
-    CursorLocation.x !== null &&
-    CursorLocation.y !== null
+    canUseWindowSnap && CursorLocation.x !== null && CursorLocation.y !== null
       ? resolveCursorSnapLayout(CursorLocation.x, CursorLocation.y)
       : null
 
@@ -322,13 +330,16 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
       ? null
       : activeSnapLayout
 
+  const windowWidth = MinimizedDimensions.width ?? 0
+  const windowHeight = MinimizedDimensions.height ?? 0
+
   const snapPreviewWindowRect = Maximized
     ? getSnapLayoutRect("maximize")
     : {
         x: NewLocation.x,
         y: NewLocation.y,
-        width: width || MinimizedDimensions.width || 0,
-        height: height || MinimizedDimensions.height || 0,
+        width: windowWidth,
+        height: windowHeight,
       }
 
   const snapPreviewTargetRect = effectiveSnapLayout
@@ -337,15 +348,12 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
 
   const applySnapLayout = useCallback(
     (layout: WindowSnapLayout) => {
-      const presnapWidth = width ?? MinimizedDimensions.width ?? 0
-      const presnapHeight = height ?? MinimizedDimensions.height ?? 0
-
-      saveSnapState(presnapWidth, presnapHeight)
+      saveSnapState(windowWidth, windowHeight)
 
       if (layout === "maximize") {
         SetMinmizedDimensions({
-          width: presnapWidth,
-          height: presnapHeight,
+          width: windowWidth,
+          height: windowHeight,
         })
         SetMaximized(true)
         return
@@ -359,24 +367,56 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
       })
       SetMaximized(false)
     },
-    [
-      width,
-      height,
-      MinimizedDimensions.width,
-      MinimizedDimensions.height,
-      saveSnapState,
-    ],
+    [windowWidth, windowHeight, saveSnapState],
+  )
+
+  const canResize = !Maximized && !metaData?.disableResize && !MoveWindow
+
+  const handleResizeStart = useCallback(
+    (
+      _event: React.MouseEvent<HTMLElement> | React.TouchEvent<HTMLElement>,
+      _direction: ResizeDirection,
+      _elementRef: HTMLElement,
+    ) => {
+      resizeStartLocationRef.current = {
+        x: windowLocationDataRef.current?.x ?? 0,
+        y: windowLocationDataRef.current?.y ?? 0,
+      }
+    },
+    [],
+  )
+
+  const handleResize = useCallback(
+    (
+      _event: MouseEvent | TouchEvent,
+      direction: ResizeDirection,
+      elementRef: HTMLElement,
+      delta: NumberSize,
+    ) => {
+      SetMinmizedDimensions({
+        width: elementRef.offsetWidth,
+        height: elementRef.offsetHeight,
+      })
+
+      const start = resizeStartLocationRef.current
+      if (!start) return
+
+      windowLocationDataRef.current = {
+        x: resizeDirectionAffectsLeft(direction)
+          ? start.x - delta.width
+          : start.x,
+        y: resizeDirectionAffectsTop(direction)
+          ? start.y - delta.height
+          : start.y,
+      }
+    },
+    [],
   )
 
   const onWindowMoveEnd = useCallback(() => {
     const { x: cursorX, y: cursorY } = cursorLocationRef.current
 
-    if (
-      MoveWindow &&
-      !isTouchDevice &&
-      cursorX !== null &&
-      cursorY !== null
-    ) {
+    if (MoveWindow && !isTouchDevice && cursorX !== null && cursorY !== null) {
       const layout = resolveCursorSnapLayout(cursorX, cursorY)
 
       if (layout && !(layout === "maximize" && metaData?.disableMaximize)) {
@@ -387,12 +427,7 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
     SetMoveWindow(false)
     setInitialPosition(null)
     SetIsMovingWindowFromMaximizedToMinimized(false)
-  }, [
-    MoveWindow,
-    isTouchDevice,
-    metaData?.disableMaximize,
-    applySnapLayout,
-  ])
+  }, [MoveWindow, isTouchDevice, metaData?.disableMaximize, applySnapLayout])
 
   return (
     <motion.div
@@ -438,62 +473,83 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
         onMouseDown={onWindowMouseDown}
         onClick={onInteractWithWindow}
       >
-        <motion.div
+        <Resizable
           className={cn(
-            "relative bg-ctp-base resize-both overflow-hidden flex flex-col z-[-1] @container/appwindow",
+            "relative bg-ctp-base overflow-hidden flex flex-col z-[-1] @container/appwindow",
             {
-              "resize-none!": metaData?.disableResize,
               "pointer-events-auto": !isDisabled,
               "pointer-events-none": isDisabled,
             },
           )}
-          style={{
-            width: Maximized ? "100%" : (MinimizedDimensions.width ?? "auto"),
-            height: Maximized ? "100%" : (MinimizedDimensions.height ?? "auto"),
-            resize: Maximized ? "none" : "both",
+          size={{
+            width: Maximized ? "100%" : windowWidth,
+            height: Maximized ? "100%" : windowHeight,
           }}
-          animate={
-            isFlashing
+          enable={
+            canResize
               ? {
-                  x: [0, -3, 0, 3, 0],
-                  y: [0, -3, 0, 3, 0],
-                  transition: {
-                    delay: 0,
-                    repeat: Infinity,
-                    duration: 0.1,
-                  },
+                  top: true,
+                  right: true,
+                  bottom: true,
+                  left: true,
+                  topRight: true,
+                  bottomRight: true,
+                  bottomLeft: true,
+                  topLeft: true,
                 }
-              : { transition: { duration: 0 } }
+              : false
           }
-          ref={ref}
+          bounds="window"
+          minWidth={280}
+          minHeight={220}
+          onResizeStart={handleResizeStart}
+          onResize={handleResize}
+          onResizeStop={handleResize}
         >
-          <AppWindowHeader
-            processName={processName}
-            processIcon={processIcon}
-            setMaximized={handleSetMaximized}
-            SetMinmizedDimensions={SetMinmizedDimensions}
-            maximized={Maximized}
-            setMoveWindow={SetMoveWindow}
-            AppId={AppId}
-            windowWidth={width ?? 0}
-            windowHeight={height ?? 0}
-            NewLocation={NewLocation}
-            hiddenButtons={metaData?.hiddenButtons ?? []}
-            disableMaximize={metaData?.disableMaximize}
-            disableMinimize={metaData?.disableMinimize}
-            isFlashing={isFlashing}
-            isDisabled={isDisabled}
-            setInitialPosition={setInitialPosition}
-            setIsMovingWindowFromMaximizedToMinimized={
-              SetIsMovingWindowFromMaximizedToMinimized
+          <motion.div
+            className="flex flex-col h-full w-full"
+            animate={
+              isFlashing
+                ? {
+                    x: [0, -3, 0, 3, 0],
+                    y: [0, -3, 0, 3, 0],
+                    transition: {
+                      delay: 0,
+                      repeat: Infinity,
+                      duration: 0.1,
+                    },
+                  }
+                : { transition: { duration: 0 } }
             }
-            onWindowMoveStart={onWindowMoveStart}
-            onWindowMoveEnd={onWindowMoveEnd}
-          />
-          <div className="flex flex-col w-full h-full border-none overflow-hidden">
-            {children}
-          </div>
-        </motion.div>
+          >
+            <AppWindowHeader
+              processName={processName}
+              processIcon={processIcon}
+              setMaximized={handleSetMaximized}
+              SetMinmizedDimensions={SetMinmizedDimensions}
+              maximized={Maximized}
+              setMoveWindow={SetMoveWindow}
+              AppId={AppId}
+              windowWidth={windowWidth}
+              windowHeight={windowHeight}
+              NewLocation={NewLocation}
+              hiddenButtons={metaData?.hiddenButtons ?? []}
+              disableMaximize={metaData?.disableMaximize}
+              disableMinimize={metaData?.disableMinimize}
+              isFlashing={isFlashing}
+              isDisabled={isDisabled}
+              setInitialPosition={setInitialPosition}
+              setIsMovingWindowFromMaximizedToMinimized={
+                SetIsMovingWindowFromMaximizedToMinimized
+              }
+              onWindowMoveStart={onWindowMoveStart}
+              onWindowMoveEnd={onWindowMoveEnd}
+            />
+            <div className="flex flex-col w-full h-full border-none overflow-hidden">
+              {children}
+            </div>
+          </motion.div>
+        </Resizable>
       </motion.div>
     </motion.div>
   )
