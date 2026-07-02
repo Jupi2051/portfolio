@@ -1,4 +1,11 @@
-import { ReactNode, RefObject, useCallback, useLayoutEffect, useRef, useState } from "react"
+import {
+  ReactNode,
+  RefObject,
+  useCallback,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react"
 import { AnimatePresence, Point, Variants, motion } from "framer-motion"
 import useMousePosition from "@/hooks/use-mouse-position"
 import { useDispatch, useSelector } from "react-redux"
@@ -378,12 +385,14 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
       _direction: ResizeDirection,
       _elementRef: HTMLElement,
     ) => {
+      if (!Maximized && metaData?.snapped) clearSnapState()
+
       resizeStartLocationRef.current = {
         x: windowLocationDataRef.current?.x ?? 0,
         y: windowLocationDataRef.current?.y ?? 0,
       }
     },
-    [],
+    [Maximized, metaData?.snapped, clearSnapState],
   )
 
   const handleResize = useCallback(
