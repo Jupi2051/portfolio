@@ -20,11 +20,11 @@ const WINDOW_SIZE_RATIO_PRESETS: Array<{
   widthRatio: number
   heightRatio: number
 }> = [
-  { widthRatio: 0.62, heightRatio: 0.68 },
-  { widthRatio: 0.7, heightRatio: 0.75 },
-  { widthRatio: 0.78, heightRatio: 0.82 },
-  { widthRatio: 0.85, heightRatio: 0.88 },
-  { widthRatio: 0.92, heightRatio: 0.92 },
+  { widthRatio: 0.42, heightRatio: 0.38 },
+  { widthRatio: 0.3, heightRatio: 0.45 },
+  { widthRatio: 0.38, heightRatio: 0.52 },
+  { widthRatio: 0.65, heightRatio: 0.58 },
+  { widthRatio: 0.62, heightRatio: 0.62 },
 ]
 
 const windowBoundsRegistry = new Map<number, WindowRect>()
@@ -44,7 +44,9 @@ function getOtherAppWindowBounds(excludeAppId: number): WindowRect[] {
 }
 
 export function getDesktopViewport(): WindowDimensions {
-  const taskbarRatio = window.matchMedia("(min-width: 40rem)").matches ? 0.07 : 0.01
+  const taskbarRatio = window.matchMedia("(min-width: 40rem)").matches
+    ? 0.07
+    : 0.01
 
   return {
     width: window.innerWidth,
@@ -75,7 +77,10 @@ function sizeFromViewportRatios(
   return clampDimensionsToViewport(
     {
       width: Math.max(minWidth, Math.round(viewport.width * ratios.widthRatio)),
-      height: Math.max(minHeight, Math.round(viewport.height * ratios.heightRatio)),
+      height: Math.max(
+        minHeight,
+        Math.round(viewport.height * ratios.heightRatio),
+      ),
     },
     viewport,
   )
@@ -97,8 +102,14 @@ function clampPositionToViewport(
   size: WindowDimensions,
   viewport: WindowDimensions,
 ): WindowPoint {
-  const maxX = Math.max(WINDOW_MARGIN, viewport.width - size.width - WINDOW_MARGIN)
-  const maxY = Math.max(WINDOW_MARGIN, viewport.height - size.height - WINDOW_MARGIN)
+  const maxX = Math.max(
+    WINDOW_MARGIN,
+    viewport.width - size.width - WINDOW_MARGIN,
+  )
+  const maxY = Math.max(
+    WINDOW_MARGIN,
+    viewport.height - size.height - WINDOW_MARGIN,
+  )
 
   return {
     x: Math.min(Math.max(WINDOW_MARGIN, position.x), maxX),
@@ -123,8 +134,14 @@ function generateCandidatePositions(
   size: WindowDimensions,
   viewport: WindowDimensions,
 ): WindowPoint[] {
-  const maxX = Math.max(WINDOW_MARGIN, viewport.width - size.width - WINDOW_MARGIN)
-  const maxY = Math.max(WINDOW_MARGIN, viewport.height - size.height - WINDOW_MARGIN)
+  const maxX = Math.max(
+    WINDOW_MARGIN,
+    viewport.width - size.width - WINDOW_MARGIN,
+  )
+  const maxY = Math.max(
+    WINDOW_MARGIN,
+    viewport.height - size.height - WINDOW_MARGIN,
+  )
   const candidates: WindowPoint[] = []
 
   const gridCols = 5
@@ -151,10 +168,15 @@ function generateCandidatePositions(
     })
   }
 
-  return candidates.map((position) => clampPositionToViewport(position, size, viewport))
+  return candidates.map((position) =>
+    clampPositionToViewport(position, size, viewport),
+  )
 }
 
-function scoreWindowPosition(candidate: WindowRect, others: WindowRect[]): number {
+function scoreWindowPosition(
+  candidate: WindowRect,
+  others: WindowRect[],
+): number {
   let score = 0
 
   for (const other of others) {
@@ -172,12 +194,16 @@ function scoreWindowPosition(candidate: WindowRect, others: WindowRect[]): numbe
 
     score += Math.min(
       400,
-      Math.hypot(candidateCenterX - otherCenterX, candidateCenterY - otherCenterY),
+      Math.hypot(
+        candidateCenterX - otherCenterX,
+        candidateCenterY - otherCenterY,
+      ),
     )
   }
 
   if (others.length === 0) {
-    score += 50 - Math.hypot(candidate.x - WINDOW_MARGIN, candidate.y - WINDOW_MARGIN)
+    score +=
+      50 - Math.hypot(candidate.x - WINDOW_MARGIN, candidate.y - WINDOW_MARGIN)
   }
 
   return score
@@ -221,7 +247,10 @@ export function findOptimalWindowPosition(
     return score >= bestScore - 1
   })
 
-  return topCandidates[Math.floor(Math.random() * topCandidates.length)] ?? bestPosition
+  return (
+    topCandidates[Math.floor(Math.random() * topCandidates.length)] ??
+    bestPosition
+  )
 }
 
 export function getAnchoredWindowLocation(
@@ -239,9 +268,17 @@ export function getAnchoredWindowLocation(
     case "top-left":
       return clampPositionToViewport({ x: 0, y: 0 }, size, viewport)
     case "top-right":
-      return clampPositionToViewport({ x: viewport.width - width, y: 0 }, size, viewport)
+      return clampPositionToViewport(
+        { x: viewport.width - width, y: 0 },
+        size,
+        viewport,
+      )
     case "bottom-left":
-      return clampPositionToViewport({ x: 0, y: viewport.height - height }, size, viewport)
+      return clampPositionToViewport(
+        { x: 0, y: viewport.height - height },
+        size,
+        viewport,
+      )
     case "bottom-right":
       return clampPositionToViewport(
         { x: viewport.width - width, y: viewport.height - height },
