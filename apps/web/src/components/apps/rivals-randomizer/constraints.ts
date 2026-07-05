@@ -2,6 +2,7 @@
 export const MUST_SPLIT_PAIRS: [string, string][] = [
   ["jupi", "filip"],
   ["bonnie", "yuu"],
+  ["jupi", "yuu"],
 ]
 
 export function violatesSplitConstraints(

@@ -53,7 +53,7 @@ export const RIVALS_PLAYERS: RivalsPlayer[] = [
     id: "thomas",
     name: "Thomas",
     image: thomas,
-    peakRank: { label: "Beginner 3", skillLevel: 0 },
+    peakRank: { label: "Bronze 3", skillLevel: 0 },
     skillLevel: 0.1,
     roleSkills: [
       { weight: 0.1, role: 1 },
