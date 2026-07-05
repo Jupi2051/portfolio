@@ -1,7 +1,8 @@
 import bonnie from "@/assets/rivals-players/bonnie.png"
 import burger from "@/assets/rivals-players/burger.png"
 import filip from "@/assets/rivals-players/filip.png"
-import jenni from "@/assets/rivals-players/jenni.gif"
+// import jenni from "@/assets/rivals-players/jenni.gif"
+import chonkymouse from "@/assets/rivals-players/chonkymouse.png"
 import jupi from "@/assets/rivals-players/jupi.png"
 import kek from "@/assets/rivals-players/kek.png"
 import mimi from "@/assets/rivals-players/mimi.png"
@@ -87,7 +88,7 @@ export const RIVALS_PLAYERS: RivalsPlayer[] = [
   },
   {
     id: "burger",
-    name: "Burger",
+    name: "Burger Reviewer",
     image: burger,
     peakRank: { label: "Grandmaster 2", skillLevel: 5 },
     skillLevel: 0.75,
@@ -121,16 +122,28 @@ export const RIVALS_PLAYERS: RivalsPlayer[] = [
       { weight: 0.1, role: 1 },
     ],
   },
+  // {
+  //   id: "jenni",
+  //   name: "Jenni",
+  //   image: jenni,
+  //   peakRank: { label: "Diamond 2", skillLevel: 1 },
+  //   skillLevel: 0.3,
+  //   roleSkills: [
+  //     { weight: 0.4, role: 0 },
+  //     { weight: 0.3, role: 1 },
+  //     { weight: 0.1, role: 2 },
+  //   ],
+  // },
   {
-    id: "jenni",
-    name: "Jenni",
-    image: jenni,
-    peakRank: { label: "Diamond 2", skillLevel: 1 },
-    skillLevel: 0.3,
+    id: "chonkymouse",
+    name: "ChonkyMouse",
+    image: chonkymouse,
+    peakRank: { label: "Silver 3", skillLevel: 0.5 },
+    skillLevel: 0.1,
     roleSkills: [
-      { weight: 0.4, role: 0 },
-      { weight: 0.3, role: 1 },
-      { weight: 0.1, role: 2 },
+      { weight: 0.1, role: 1 },
+      { weight: 0.08, role: 0 },
+      { weight: 0.05, role: 2 },
     ],
   },
   {
