@@ -1,9 +1,5 @@
 /** Pairs that must land on opposite teams. */
-export const MUST_SPLIT_PAIRS: [string, string][] = [
-  ["jupi", "filip"],
-  ["bonnie", "yuu"],
-  ["jupi", "yuu"],
-]
+export const MUST_SPLIT_PAIRS: [string, string][] = []
 
 export function violatesSplitConstraints(
   teamAIds: ReadonlySet<string>,

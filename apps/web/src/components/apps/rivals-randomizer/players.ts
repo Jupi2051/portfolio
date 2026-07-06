@@ -1,11 +1,12 @@
 import bonnie from "@/assets/rivals-players/bonnie.png"
 import burger from "@/assets/rivals-players/burger.png"
 import filip from "@/assets/rivals-players/filip.png"
-// import jenni from "@/assets/rivals-players/jenni.gif"
-import chonkymouse from "@/assets/rivals-players/chonkymouse.png"
+import jenni from "@/assets/rivals-players/jenni.gif"
+// import chonkymouse from "@/assets/rivals-players/chonkymouse.png"
 import jupi from "@/assets/rivals-players/jupi.png"
 import kek from "@/assets/rivals-players/kek.png"
-import mimi from "@/assets/rivals-players/mimi.png"
+// import mimi from "@/assets/rivals-players/mimi.png"
+import viggo from "@/assets/rivals-players/viggo.webp"
 import n0rieth from "@/assets/rivals-players/noreith.png"
 import oranthur from "@/assets/rivals-players/oranthur.png"
 import sage from "@/assets/rivals-players/sage.png"
@@ -122,40 +123,52 @@ export const RIVALS_PLAYERS: RivalsPlayer[] = [
       { weight: 0.1, role: 1 },
     ],
   },
+  {
+    id: "jenni",
+    name: "Jenni",
+    image: jenni,
+    peakRank: { label: "Diamond 2", skillLevel: 1 },
+    skillLevel: 0.3,
+    roleSkills: [
+      { weight: 0.4, role: 0 },
+      { weight: 0.3, role: 1 },
+      { weight: 0.1, role: 2 },
+    ],
+  },
   // {
-  //   id: "jenni",
-  //   name: "Jenni",
-  //   image: jenni,
-  //   peakRank: { label: "Diamond 2", skillLevel: 1 },
+  //   id: "chonkymouse",
+  //   name: "ChonkyMouse",
+  //   image: chonkymouse,
+  //   peakRank: { label: "Silver 3", skillLevel: 0.5 },
+  //   skillLevel: 0.1,
+  //   roleSkills: [
+  //     { weight: 0.1, role: 1 },
+  //     { weight: 0.08, role: 0 },
+  //     { weight: 0.05, role: 2 },
+  //   ],
+  // },
+  // {
+  //   id: "mimi",
+  //   name: "Mimi",
+  //   image: mimi,
+  //   peakRank: { label: "Gold 3", skillLevel: 1 },
   //   skillLevel: 0.3,
   //   roleSkills: [
-  //     { weight: 0.4, role: 0 },
-  //     { weight: 0.3, role: 1 },
-  //     { weight: 0.1, role: 2 },
+  //     { weight: 0.5, role: 0 },
+  //     { weight: 0.4, role: 1 },
+  //     { weight: 0.3, role: 2 },
   //   ],
   // },
   {
-    id: "chonkymouse",
-    name: "ChonkyMouse",
-    image: chonkymouse,
-    peakRank: { label: "Silver 3", skillLevel: 0.5 },
+    id: "viggo",
+    name: "Viggo",
+    image: viggo,
+    peakRank: { label: "Bronze 3", skillLevel: 0 },
     skillLevel: 0.1,
     roleSkills: [
       { weight: 0.1, role: 1 },
       { weight: 0.08, role: 0 },
       { weight: 0.05, role: 2 },
-    ],
-  },
-  {
-    id: "mimi",
-    name: "Mimi",
-    image: mimi,
-    peakRank: { label: "Gold 3", skillLevel: 1 },
-    skillLevel: 0.3,
-    roleSkills: [
-      { weight: 0.5, role: 0 },
-      { weight: 0.4, role: 1 },
-      { weight: 0.3, role: 2 },
     ],
   },
   {

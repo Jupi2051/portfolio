@@ -150,6 +150,13 @@ function shuffle<T>(items: T[]): T[] {
 }
 
 export function generateBalancedTeams(players: RivalsPlayer[]): TeamSplitResult {
+  const requiredPlayers = TEAM_SIZE * 2
+  if (players.length !== requiredPlayers) {
+    throw new Error(
+      `Expected ${requiredPlayers} players for ${TEAM_SIZE}v${TEAM_SIZE}, got ${players.length}.`,
+    )
+  }
+
   const candidates: TeamSplitResult[] = []
 
   for (let attempt = 0; attempt < ATTEMPTS; attempt++) {
