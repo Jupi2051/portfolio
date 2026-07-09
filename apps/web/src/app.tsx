@@ -1,30 +1,33 @@
-import Surface from "@/components/surface";
-import { AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
-import LoadingScreen from "@/components/intro";
-import useApplicationURLParams from "./hooks/use-application-url-params";
+import Surface from "@/components/surface"
+import { AnimatePresence } from "framer-motion"
+import { useEffect, useState } from "react"
+import LoadingScreen from "@/components/intro"
+import useApplicationURLParams from "./hooks/use-application-url-params"
+import useAnimationsSignals from "./hooks/use-animations-signals"
 
 function app() {
-  const urlParams = useApplicationURLParams();
-  const [loaded, setLoaded] = useState(urlParams.length > 0);
+  const urlParams = useApplicationURLParams()
+  const { animateIntro, setAnimateIntroDone } = useAnimationsSignals()
 
   useEffect(() => {
-    setTimeout(() => {
-      setLoaded(true);
-    }, 3000);
-  }, []);
+    if (urlParams.length > 0) {
+      setAnimateIntroDone(true)
+      return
+    }
+
+    setTimeout(() => setAnimateIntroDone(true), 3000)
+  }, [])
 
   return (
     <AnimatePresence>
-      {loaded ? (
-        <div className={"App"}>
-          <Surface key={"surfaces"} />
-        </div>
-      ) : (
-        <LoadingScreen key={"loading-screen"} setLoaded={setLoaded} />
+      <div className={"App"}>
+        <Surface key={"surfaces"} />
+      </div>
+      {!animateIntro && (
+        <LoadingScreen key={"loading-screen"} setLoaded={setAnimateIntroDone} />
       )}
     </AnimatePresence>
-  );
+  )
 }
 
-export default app;
+export default app

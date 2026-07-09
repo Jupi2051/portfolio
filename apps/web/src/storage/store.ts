@@ -1,13 +1,15 @@
-import { configureStore } from "@reduxjs/toolkit";
-import mainState from "@/storage/slices/main";
-import TaskbarState from "@/storage/slices/taskbar";
-import DesktopState from "@/storage/slices/desktop";
+import { configureStore } from "@reduxjs/toolkit"
+import mainState from "@/storage/slices/main"
+import TaskbarState from "@/storage/slices/taskbar"
+import DesktopState from "@/storage/slices/desktop"
+import AnimationsSignalsState from "@/storage/slices/animation-signals"
 
 const store = configureStore({
   reducer: {
     mainState: mainState,
     taskbarState: TaskbarState,
     desktopState: DesktopState,
+    animationsSignalsState: AnimationsSignalsState,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -22,9 +24,9 @@ const store = configureStore({
         ],
       },
     }),
-});
+})
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
 
-export default store;
+export default store

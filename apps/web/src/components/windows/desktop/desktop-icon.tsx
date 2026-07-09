@@ -7,6 +7,7 @@ import useGlobalTaskbarControls from "@/hooks/use-global-taskbar-controls"
 import useGlobalWindowsControls from "@/hooks/use-global-windows-controls"
 import { useTouchDevice } from "@/hooks/use-touch-device"
 import DesktopIconNameForm from "./desktop-icon-name-form"
+import useAnimationsSignals from "@/hooks/use-animations-signals"
 
 type PropTypes = {
   ApplicationName: string
@@ -68,6 +69,7 @@ function DesktopIcon(Props: PropTypes) {
   const { openNewApplication } = useGlobalWindowsControls()
   const { openNewTaskbarApplication } = useGlobalTaskbarControls()
   const isTouchDevice = useTouchDevice()
+  const { animateIntro } = useAnimationsSignals()
 
   useEffect(() => {
     if (!Props.Selected && isEditingName) SetIsEditingName(false)
@@ -140,10 +142,13 @@ function DesktopIcon(Props: PropTypes) {
       data-id={Props.id}
       onClick={onClickApplication}
       initial={{ scale: 0 }}
-      animate={{ scale: 1 }}
+      animate={animateIntro ? { scale: 1 } : { scale: 0 }}
       transition={{
         duration: 0.3,
-        delay: hasInitialAnimationPlayed ? 0 : (Props.index || 0) * 0.15,
+        delay:
+          hasInitialAnimationPlayed && !animateIntro
+            ? 0
+            : (Props.index || 0) * 0.15,
         ease: "easeOut",
         type: "spring",
         stiffness: 100,

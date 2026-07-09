@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import useAnimationsSignals from "@/hooks/use-animations-signals"
 
 function DesktopTimeWidget() {
   // Helper function to format time without leading zero for single-digit hours
@@ -8,59 +9,65 @@ function DesktopTimeWidget() {
       hour: "numeric", // Use "numeric" instead of "2-digit" to remove leading zero
       minute: "2-digit",
       hour12: true,
-    });
-    return timeString;
-  };
+    })
+    return timeString
+  }
+
+  const { animateIntro } = useAnimationsSignals()
 
   // State variables for day, date components, and time with AM/PM
   const [dayText, setDayText] = useState(
-    new Date().toLocaleDateString("en-US", { weekday: "long" })
-  );
+    new Date().toLocaleDateString("en-US", { weekday: "long" }),
+  )
 
   // Separate state variables for date components
   const [dayNumber, setDayNumber] = useState(
-    new Date().toLocaleDateString("en-US", { day: "2-digit" })
-  );
+    new Date().toLocaleDateString("en-US", { day: "2-digit" }),
+  )
 
   const [monthName, setMonthName] = useState(
-    new Date().toLocaleDateString("en-US", { month: "long" })
-  );
+    new Date().toLocaleDateString("en-US", { month: "long" }),
+  )
 
   const [year, setYear] = useState(
-    new Date().toLocaleDateString("en-US", { year: "numeric" })
-  );
+    new Date().toLocaleDateString("en-US", { year: "numeric" }),
+  )
 
   const [timeWithAMPM, setTimeWithAMPM] = useState(
-    formatTimeWithoutLeadingZero(new Date())
-  );
+    formatTimeWithoutLeadingZero(new Date()),
+  )
 
   // Track previous time to compare changes
   const [previousTime, setPreviousTime] = useState(
-    formatTimeWithoutLeadingZero(new Date())
-  );
+    formatTimeWithoutLeadingZero(new Date()),
+  )
 
   useEffect(() => {
     const IntervalContainer = setInterval(() => {
-      const now = new Date();
-      setDayText(now.toLocaleDateString("en-US", { weekday: "long" }));
-      setDayNumber(now.toLocaleDateString("en-US", { day: "2-digit" }));
-      setMonthName(now.toLocaleDateString("en-US", { month: "long" }));
-      setYear(now.toLocaleDateString("en-US", { year: "numeric" }));
+      const now = new Date()
+      setDayText(now.toLocaleDateString("en-US", { weekday: "long" }))
+      setDayNumber(now.toLocaleDateString("en-US", { day: "2-digit" }))
+      setMonthName(now.toLocaleDateString("en-US", { month: "long" }))
+      setYear(now.toLocaleDateString("en-US", { year: "numeric" }))
 
-      const newTime = formatTimeWithoutLeadingZero(now);
-      setPreviousTime(timeWithAMPM);
-      setTimeWithAMPM(newTime);
-    }, 1000);
+      const newTime = formatTimeWithoutLeadingZero(now)
+      setPreviousTime(timeWithAMPM)
+      setTimeWithAMPM(newTime)
+    }, 1000)
 
-    return () => clearInterval(IntervalContainer);
-  }, [timeWithAMPM]);
+    return () => clearInterval(IntervalContainer)
+  }, [timeWithAMPM])
 
   return (
     <div className="w-full h-full absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none">
       <motion.div
-        className="absolute bottom-2 right-4 sm:right-auto sm:bottom-auto sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-[120%] flex flex-col items-end sm:items-center sm:justify-center sm:text-center text-white"
+        className="absolute bottom-2 right-4 sm:right-auto sm:bottom-auto sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:translate-y-[-120%] flex flex-col items-end sm:items-center sm:justify-center sm:text-center text-white"
         initial={{ opacity: 0, filter: "blur(10px)", scale: 0.8, y: 20 }}
-        animate={{ opacity: 1, filter: "blur(0px)", scale: 1, y: 0 }}
+        animate={
+          animateIntro
+            ? { opacity: 1, filter: "blur(0px)", scale: 1, y: 0 }
+            : { opacity: 0, filter: "blur(10px)", scale: 0.8, y: 20 }
+        }
         transition={{ duration: 1, ease: "easeOut" }}
       >
         <AnimatePresence>
@@ -92,9 +99,9 @@ function DesktopTimeWidget() {
               .split(" ")[0]
               .split("")
               .map((char, index) => {
-                const timePart = timeWithAMPM.split(" ")[0];
-                const prevTimePart = previousTime.split(" ")[0];
-                const hasChanged = timePart[index] !== prevTimePart[index];
+                const timePart = timeWithAMPM.split(" ")[0]
+                const prevTimePart = previousTime.split(" ")[0]
+                const hasChanged = timePart[index] !== prevTimePart[index]
 
                 return (
                   <motion.span
@@ -122,14 +129,14 @@ function DesktopTimeWidget() {
                   >
                     {char === " " ? "\u00A0" : char}
                   </motion.span>
-                );
+                )
               })}
             <span className="ml-3">{timeWithAMPM.split(" ")[1]}</span>
           </motion.h1>
         </AnimatePresence>
       </motion.div>
     </div>
-  );
+  )
 }
 
-export default DesktopTimeWidget;
+export default DesktopTimeWidget
