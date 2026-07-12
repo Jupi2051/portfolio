@@ -6,7 +6,7 @@ import chonkymouse from "@/assets/rivals-players/chonkymouse.png"
 import jupi from "@/assets/rivals-players/jupi.png"
 import kek from "@/assets/rivals-players/kek.png"
 import mimi from "@/assets/rivals-players/mimi.png"
-// import viggo from "@/assets/rivals-players/viggo.webp"
+import viggo from "@/assets/rivals-players/viggo.webp"
 import n0rieth from "@/assets/rivals-players/noreith.png"
 import oranthur from "@/assets/rivals-players/oranthur.png"
 // import sage from "@/assets/rivals-players/sage.png"
@@ -175,18 +175,18 @@ export const RIVALS_PLAYERS: RivalsPlayer[] = [
       { weight: 0.3, role: 2 },
     ],
   },
-  // {
-  //   id: "viggo",
-  //   name: "Viggo",
-  //   image: viggo,
-  //   peakRank: { label: "Silver 3", skillLevel: 0 },
-  //   skillLevel: 0.1,
-  //   roleSkills: [
-  //     { weight: 0.1, role: 1 },
-  //     { weight: 0.08, role: 0 },
-  //     { weight: 0.05, role: 2 },
-  //   ],
-  // },
+  {
+    id: "viggo",
+    name: "Viggo",
+    image: viggo,
+    peakRank: { label: "Silver 3", skillLevel: 0 },
+    skillLevel: 0.1,
+    roleSkills: [
+      { weight: 0.1, role: 1 },
+      { weight: 0.08, role: 0 },
+      { weight: 0.05, role: 2 },
+    ],
+  },
   {
     id: "yuu",
     name: "Yuu",
