@@ -11,6 +11,8 @@ import { prepareVicoSketchWebpImages } from "./modules/vico/prepare-images"
 
 const app = express()
 
+console.log("process.env.NODE_ENV", process.env.NODE_ENV)
+
 app.use(
   cors({
     origin:
