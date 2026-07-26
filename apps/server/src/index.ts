@@ -11,11 +11,13 @@ import { prepareVicoSketchWebpImages } from "./modules/vico/prepare-images"
 
 const app = express()
 
+console.log("process.env.NODE_ENV", process.env.NODE_ENV)
+
 app.use(
   cors({
     origin:
       process.env.NODE_ENV === "production"
-        ? ["https://jupi.dev", "https://api.jupi.dev"]
+        ? ["https://jupi.dev", "https://www.jupi.dev", "https://api.jupi.dev"]
         : ["http://localhost:5173", "http://localhost:3000"],
     credentials: true, // Important for cookies
   }),
