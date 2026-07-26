@@ -9,7 +9,7 @@ import jupi from "@/assets/rivals-players/jupi.png"
 // import viggo from "@/assets/rivals-players/viggo.webp"
 import n0rieth from "@/assets/rivals-players/noreith.png"
 import oranthur from "@/assets/rivals-players/oranthur.png"
-// import sage from "@/assets/rivals-players/sage.png"
+import sage from "@/assets/rivals-players/sage.png"
 // import shonareru from "@/assets/rivals-players/shonareru.png"
 import thomas from "@/assets/rivals-players/thomas.webp"
 import yuu from "@/assets/rivals-players/yuu.png"
@@ -92,18 +92,18 @@ export const RIVALS_PLAYERS: RivalsPlayer[] = [
   //     { weight: 0.5, role: 0 },
   //   ],
   // },
-  {
-    id: "burger",
-    name: "Burger Reviewer",
-    image: burger,
-    peakRank: { label: "Grandmaster 2", skillLevel: 5 },
-    skillLevel: 0.75,
-    roleSkills: [
-      { weight: 0.85, role: 1 },
-      { weight: 0.7, role: 2 },
-      { weight: 0.3, role: 0 },
-    ],
-  },
+  // {
+  //   id: "burger",
+  //   name: "Burger Reviewer",
+  //   image: burger,
+  //   peakRank: { label: "Grandmaster 2", skillLevel: 5 },
+  //   skillLevel: 0.75,
+  //   roleSkills: [
+  //     { weight: 0.85, role: 1 },
+  //     { weight: 0.7, role: 2 },
+  //     { weight: 0.3, role: 0 },
+  //   ],
+  // },
   {
     id: "oranthur",
     name: "Oranthur",
@@ -116,18 +116,18 @@ export const RIVALS_PLAYERS: RivalsPlayer[] = [
       { weight: 0.5, role: 1 },
     ],
   },
-  // {
-  //   id: "sage",
-  //   name: "Sage",
-  //   image: sage,
-  //   peakRank: { label: "Platinum 3", skillLevel: 2 },
-  //   skillLevel: 0.45,
-  //   roleSkills: [
-  //     { weight: 0.45, role: 2 },
-  //     { weight: 0.45, role: 0 },
-  //     { weight: 0.1, role: 1 },
-  //   ],
-  // },
+  {
+    id: "sage",
+    name: "Sage",
+    image: sage,
+    peakRank: { label: "Platinum 3", skillLevel: 2 },
+    skillLevel: 0.45,
+    roleSkills: [
+      { weight: 0.45, role: 2 },
+      { weight: 0.45, role: 0 },
+      { weight: 0.1, role: 1 },
+    ],
+  },
   // {
   //   id: "shonareru",
   //   name: "Shonareru",
