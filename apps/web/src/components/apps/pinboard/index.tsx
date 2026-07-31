@@ -1,57 +1,70 @@
-import { useState, useRef } from "react";
-import Board from "./board";
-import BoardMessage from "./board-message";
-import PinForm from "./pin-form";
-import { useTRPC } from "@/lib/trpc/trpc";
-import { useMutation, useQueries, useQuery } from "@tanstack/react-query";
+import { useState, useRef } from "react"
+import Board from "./board"
+import BoardMessage from "./board-message"
+import PinForm from "./pin-form"
+import { useTRPC } from "@/lib/trpc/trpc"
+import { useMutation, useQueries, useQuery } from "@tanstack/react-query"
 
 interface PendingMessage {
-  name: string;
-  message: string;
-  color: string;
+  name: string
+  message: string
+  color:
+    | "white"
+    | "black"
+    | "blue"
+    | "green"
+    | "red"
+    | "pink"
+    | "yellow"
+    | "gray"
+    | "purple"
 }
 
 function Pinboard() {
-  const trpc = useTRPC();
+  const trpc = useTRPC()
   const { data: pinnedMessages = [], refetch: refetchPinnedMessages } =
-    useQuery(trpc.pinboard.getPinnedMessageList.queryOptions());
+    useQuery(trpc.pinboard.getPinnedMessageList.queryOptions())
   const createPinnedMessage = useMutation(
-    trpc.pinboard.createPinnedMessage.mutationOptions()
-  );
+    trpc.pinboard.createPinnedMessage.mutationOptions(),
+  )
   const [pendingMessage, setPendingMessage] = useState<PendingMessage | null>(
-    null
-  );
-  const boardRef = useRef<HTMLDivElement>(null);
+    null,
+  )
+  const boardRef = useRef<HTMLDivElement>(null)
 
   const handleFormSubmit = (data: {
-    name: string;
-    message: string;
-    color: string;
+    name: string
+    message: string
+    color: string
   }) => {
-    setPendingMessage(data);
-  };
+    setPendingMessage({
+      name: data.name,
+      message: data.message,
+      color: data.color as any,
+    })
+  }
 
   const handleFormCancel = () => {
-    setPendingMessage(null);
-  };
+    setPendingMessage(null)
+  }
 
   const handleBoardClick = (event: React.MouseEvent<Element, MouseEvent>) => {
     if (!pendingMessage || !boardRef.current || createPinnedMessage.isPending)
-      return;
+      return
 
     const scrollContainer = boardRef.current.querySelector(
-      ".react-indiana-drag-scroll"
-    );
+      ".react-indiana-drag-scroll",
+    )
 
-    if (!scrollContainer) return;
+    if (!scrollContainer) return
 
-    const scrollRect = scrollContainer.getBoundingClientRect();
-    const scrollLeft = scrollContainer.scrollLeft;
-    const scrollTop = scrollContainer.scrollTop;
+    const scrollRect = scrollContainer.getBoundingClientRect()
+    const scrollLeft = scrollContainer.scrollLeft
+    const scrollTop = scrollContainer.scrollTop
 
     // Calculate position relative to scroll container + scroll offset
-    const positionX = event.clientX - scrollRect.left + scrollLeft;
-    const positionY = event.clientY - scrollRect.top + scrollTop;
+    const positionX = event.clientX - scrollRect.left + scrollLeft
+    const positionY = event.clientY - scrollRect.top + scrollTop
 
     // Send TRPC request
     createPinnedMessage.mutate(
@@ -64,13 +77,13 @@ function Pinboard() {
       },
       {
         onSuccess: () => {
-          setPendingMessage(null);
-          refetchPinnedMessages();
+          setPendingMessage(null)
+          refetchPinnedMessages()
         },
         onError: console.error,
-      }
-    );
-  };
+      },
+    )
+  }
 
   return (
     <div className="w-full h-full relative overflow-hidden">
@@ -96,7 +109,7 @@ function Pinboard() {
               !createPinnedMessage.isPending && !createPinnedMessage.isError
             }
             isPending={createPinnedMessage.isPending}
-            boardRef={boardRef}
+            boardRef={boardRef as React.RefObject<HTMLDivElement>}
           />
         )}
       </Board>
@@ -106,7 +119,7 @@ function Pinboard() {
         type={pendingMessage ? "edit" : "create"}
       />
     </div>
-  );
+  )
 }
 
-export default Pinboard;
+export default Pinboard

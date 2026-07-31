@@ -1,11 +1,11 @@
-import ScrollContainer from "react-indiana-drag-scroll";
-import { forwardRef } from "react";
+import ScrollContainer from "react-indiana-drag-scroll"
+import { forwardRef } from "react"
 
 const Board = forwardRef<
   HTMLDivElement,
   {
-    children?: React.ReactNode;
-    onClick?: (event: React.MouseEvent<Element, MouseEvent>) => void;
+    children?: React.ReactNode
+    onClick?: (event: React.MouseEvent<Element, MouseEvent>) => void
   }
 >(({ children, onClick }, ref) => {
   return (
@@ -25,7 +25,7 @@ const Board = forwardRef<
         onClick={onClick}
       >
         <div
-          className="absolute bg-repeat bg-left-top top-0 left-0"
+          className="absolute bg-repeat bg-top-left top-0 left-0"
           style={{
             backgroundImage: "url(/Imgs/Apps/Backgrounds/pinboard-texture.jpg)",
             backgroundSize: "auto",
@@ -47,9 +47,9 @@ const Board = forwardRef<
         </div>
       </ScrollContainer>
     </div>
-  );
-});
+  )
+})
 
-Board.displayName = "Board";
+Board.displayName = "Board"
 
-export default Board;
+export default Board
