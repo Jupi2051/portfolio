@@ -19,7 +19,8 @@ import lownex from "@/assets/rivals-players/Lownex.webp"
 import mem from "@/assets/rivals-players/Mem.webp"
 import stuartLake from "@/assets/rivals-players/stuart-lake.webp"
 import iwiska from "@/assets/rivals-players/iwiska.png"
-import lokibush from "@/assets/rivals-players/lokibush.webp"
+// import lokibush from "@/assets/rivals-players/lokibush.webp"
+import sungJinWoo from "@/assets/rivals-players/rest.webp"
 import type { RivalsPlayer } from "./types"
 
 export const RIVALS_PLAYERS: RivalsPlayer[] = [
@@ -71,18 +72,18 @@ export const RIVALS_PLAYERS: RivalsPlayer[] = [
       { weight: 0.05, role: 2 },
     ],
   },
-  {
-    id: "n0rieth",
-    name: "N0rieth",
-    image: n0rieth,
-    peakRank: { label: "Diamond 2", skillLevel: 3 },
-    skillLevel: 0.7,
-    roleSkills: [
-      { weight: 0.7, role: 1 },
-      { weight: 0.6, role: 2 },
-      { weight: 0.5, role: 0 },
-    ],
-  },
+  // {
+  //   id: "n0rieth",
+  //   name: "N0rieth",
+  //   image: n0rieth,
+  //   peakRank: { label: "Diamond 2", skillLevel: 3 },
+  //   skillLevel: 0.7,
+  //   roleSkills: [
+  //     { weight: 0.7, role: 1 },
+  //     { weight: 0.6, role: 2 },
+  //     { weight: 0.5, role: 0 },
+  //   ],
+  // },
   {
     id: "kek",
     name: "Kek",
@@ -251,28 +252,40 @@ export const RIVALS_PLAYERS: RivalsPlayer[] = [
       { weight: 0.05, role: 2 },
     ],
   },
+  {
+    id: "iwiska",
+    name: "iwiska",
+    image: iwiska,
+    peakRank: { label: "Gold 3", skillLevel: 4 },
+    skillLevel: 0.75,
+    roleSkills: [
+      { weight: 0.75, role: 2 },
+      { weight: 0.6, role: 1 },
+      { weight: 0.5, role: 0 },
+    ],
+  },
   // {
-  //   id: "iwiska",
-  //   name: "iwiska",
-  //   image: iwiska,
-  //   peakRank: { label: "Gold 3", skillLevel: 4 },
-  //   skillLevel: 0.75,
+  //   id: "lok1sbush",
+  //   name: "Lok1sbush",
+  //   image: lokibush,
+  //   peakRank: { label: "Platinum 3", skillLevel: 2 },
+  //   skillLevel: 0.45,
   //   roleSkills: [
-  //     { weight: 0.75, role: 2 },
-  //     { weight: 0.6, role: 1 },
-  //     { weight: 0.5, role: 0 },
+  //     { weight: 0.45, role: 2 },
+  //     { weight: 0.4, role: 1 },
+  //     { weight: 0.35, role: 0 },
   //   ],
   // },
   {
-    id: "lok1sbush",
-    name: "Lok1sbush",
-    image: lokibush,
-    peakRank: { label: "Platinum 3", skillLevel: 2 },
-    skillLevel: 0.45,
+    id: "sung-jin-woo",
+    name: "Sung Jin Woo",
+    image: sungJinWoo,
+    peakRank: { label: "Celestial 3", skillLevel: 7 },
+    skillLevel: 1,
     roleSkills: [
-      { weight: 0.45, role: 2 },
-      { weight: 0.4, role: 1 },
-      { weight: 0.35, role: 0 },
+      { weight: 1.0, role: 2 },
+      { weight: 0.7, role: 1 },
+      { weight: 0.5, role: 0 },
     ],
   },
 ]
