@@ -3,12 +3,12 @@ import burger from "@/assets/rivals-players/burger.png"
 import filip from "@/assets/rivals-players/filip.png"
 import jenni from "@/assets/rivals-players/jenni.gif"
 // import chonkymouse from "@/assets/rivals-players/chonkymouse.png"
-import jupi from "@/assets/rivals-players/jupi.png"
-import kek from "@/assets/rivals-players/kek.png"
+import jupi from "@/assets/rivals-players/jupi.webp"
+import kek from "@/assets/rivals-players/kek.webp"
 import mimi from "@/assets/rivals-players/mimi.png"
 // import viggo from "@/assets/rivals-players/viggo.webp"
 import n0rieth from "@/assets/rivals-players/noreith.png"
-import oranthur from "@/assets/rivals-players/oranthur.png"
+import oranthur from "@/assets/rivals-players/oranthur.webp"
 import sage from "@/assets/rivals-players/sage.png"
 // import shonareru from "@/assets/rivals-players/shonareru.png"
 import thomas from "@/assets/rivals-players/thomas.webp"
@@ -18,6 +18,8 @@ import vaeel from "@/assets/rivals-players/Vaeel.webp"
 import lownex from "@/assets/rivals-players/Lownex.webp"
 import mem from "@/assets/rivals-players/Mem.webp"
 import stuartLake from "@/assets/rivals-players/stuart-lake.webp"
+import iwiska from "@/assets/rivals-players/iwiska.png"
+import lokibush from "@/assets/rivals-players/lokibush.webp"
 import type { RivalsPlayer } from "./types"
 
 export const RIVALS_PLAYERS: RivalsPlayer[] = [
@@ -35,7 +37,7 @@ export const RIVALS_PLAYERS: RivalsPlayer[] = [
   },
   {
     id: "filip",
-    name: "Filip",
+    name: "Fhilipes",
     image: filip,
     peakRank: { label: "Celestial 1", skillLevel: 9 },
     skillLevel: 1,
@@ -93,18 +95,18 @@ export const RIVALS_PLAYERS: RivalsPlayer[] = [
       { weight: 0.5, role: 0 },
     ],
   },
-  // {
-  //   id: "burger",
-  //   name: "Burger Reviewer",
-  //   image: burger,
-  //   peakRank: { label: "Grandmaster 2", skillLevel: 5 },
-  //   skillLevel: 0.75,
-  //   roleSkills: [
-  //     { weight: 0.85, role: 1 },
-  //     { weight: 0.7, role: 2 },
-  //     { weight: 0.3, role: 0 },
-  //   ],
-  // },
+  {
+    id: "burger",
+    name: "Burger Reviewer",
+    image: burger,
+    peakRank: { label: "Grandmaster 2", skillLevel: 5 },
+    skillLevel: 0.75,
+    roleSkills: [
+      { weight: 0.85, role: 1 },
+      { weight: 0.7, role: 2 },
+      { weight: 0.3, role: 0 },
+    ],
+  },
   {
     id: "oranthur",
     name: "Oranthur",
@@ -117,18 +119,18 @@ export const RIVALS_PLAYERS: RivalsPlayer[] = [
       { weight: 0.5, role: 1 },
     ],
   },
-  {
-    id: "sage",
-    name: "Sage",
-    image: sage,
-    peakRank: { label: "Platinum 3", skillLevel: 2 },
-    skillLevel: 0.45,
-    roleSkills: [
-      { weight: 0.45, role: 2 },
-      { weight: 0.45, role: 0 },
-      { weight: 0.1, role: 1 },
-    ],
-  },
+  // {
+  //   id: "sage",
+  //   name: "Sage",
+  //   image: sage,
+  //   peakRank: { label: "Platinum 3", skillLevel: 2 },
+  //   skillLevel: 0.45,
+  //   roleSkills: [
+  //     { weight: 0.45, role: 2 },
+  //     { weight: 0.45, role: 0 },
+  //     { weight: 0.1, role: 1 },
+  //   ],
+  // },
   // {
   //   id: "shonareru",
   //   name: "Shonareru",
@@ -189,18 +191,18 @@ export const RIVALS_PLAYERS: RivalsPlayer[] = [
   //     { weight: 0.05, role: 2 },
   //   ],
   // },
-  {
-    id: "yuu",
-    name: "Yuu",
-    image: yuu,
-    peakRank: { label: "Grandmaster 1", skillLevel: 6 },
-    skillLevel: 0.9,
-    roleSkills: [
-      { weight: 1.0, role: 0 },
-      { weight: 0.45, role: 1 },
-      { weight: 0.4, role: 2 },
-    ],
-  },
+  // {
+  //   id: "yuu",
+  //   name: "Yuu",
+  //   image: yuu,
+  //   peakRank: { label: "Grandmaster 1", skillLevel: 6 },
+  //   skillLevel: 0.9,
+  //   roleSkills: [
+  //     { weight: 1.0, role: 0 },
+  //     { weight: 0.45, role: 1 },
+  //     { weight: 0.4, role: 2 },
+  //   ],
+  // },
   // {
   //   id: "vaeel",
   //   name: "Vaeel",
@@ -211,18 +213,6 @@ export const RIVALS_PLAYERS: RivalsPlayer[] = [
   //     { weight: 0.9, role: 2 },
   //     { weight: 0.7, role: 0 },
   //     { weight: 0.55, role: 1 },
-  //   ],
-  // },
-  // {
-  //   id: "andrespirat",
-  //   name: "Andrespirat",
-  //   image: andrespirat,
-  //   peakRank: { label: "Celestial 1", skillLevel: 9 },
-  //   skillLevel: 1,
-  //   roleSkills: [
-  //     { weight: 1.0, role: 2 },
-  //     { weight: 0.8, role: 1 },
-  //     { weight: 0.6, role: 0 },
   //   ],
   // },
   // {
@@ -259,6 +249,30 @@ export const RIVALS_PLAYERS: RivalsPlayer[] = [
       { weight: 0.1, role: 1 },
       { weight: 0.08, role: 0 },
       { weight: 0.05, role: 2 },
+    ],
+  },
+  // {
+  //   id: "iwiska",
+  //   name: "iwiska",
+  //   image: iwiska,
+  //   peakRank: { label: "Gold 3", skillLevel: 4 },
+  //   skillLevel: 0.75,
+  //   roleSkills: [
+  //     { weight: 0.75, role: 2 },
+  //     { weight: 0.6, role: 1 },
+  //     { weight: 0.5, role: 0 },
+  //   ],
+  // },
+  {
+    id: "lok1sbush",
+    name: "Lok1sbush",
+    image: lokibush,
+    peakRank: { label: "Platinum 3", skillLevel: 2 },
+    skillLevel: 0.45,
+    roleSkills: [
+      { weight: 0.45, role: 2 },
+      { weight: 0.4, role: 1 },
+      { weight: 0.35, role: 0 },
     ],
   },
 ]
