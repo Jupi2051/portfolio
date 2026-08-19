@@ -23,6 +23,7 @@ export enum DesktopAppsList {
   Vico,
   WallpapersRocket,
   RivalsRandomizer,
+  JenniSmpB,
 }
 
 const handleFailedLoad = () => ({ default: AppLoadingFailed })
@@ -83,6 +84,11 @@ export const DesktopAppsComponents: Record<DesktopAppsList, any> = {
   [DesktopAppsList.RivalsRandomizer]: lazy(() =>
     delayForDemo(
       import("@/components/apps/rivals-randomizer").catch(handleFailedLoad),
+    ),
+  ),
+  [DesktopAppsList.JenniSmpB]: lazy(() =>
+    delayForDemo(
+      import("@/components/apps/jenni-smp-b").catch(handleFailedLoad),
     ),
   ),
 }

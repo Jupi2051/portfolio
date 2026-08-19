@@ -181,4 +181,12 @@ export let DesktopIcons: DesktopIconData[] = [
     Selected: false,
     AppComponent: DesktopAppsList.RivalsRandomizer,
   },
+  {
+    id: 20,
+    Name: "Jenni SMP B",
+    IconPath: "Imgs/DesktopApps/GoldIngot.png",
+    Style: {},
+    Selected: false,
+    AppComponent: DesktopAppsList.JenniSmpB,
+  },
 ]
