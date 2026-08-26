@@ -73,6 +73,8 @@ export function useAtramentSketch(
   /** Index of the next segment Atrament will append (from `segmentdrawn`). */
   const nextKeyframeSegmentIndexRef = useRef(0)
   const replayFnRef = useRef<() => Promise<void>>(async () => {})
+  /** Set when replay() is (re-)requested while one is already running; consumed once the in-flight pass finishes. */
+  const replayQueuedRef = useRef(false)
   const modeRef = useRef<SketchToolMode>(MODE_DRAW)
 
   const [, bump] = useReducer((n: number) => n + 1, 0)
@@ -178,6 +180,18 @@ export function useAtramentSketch(
       const c = canvasRef.current
       if (!s || !c) return
 
+      // A replay (e.g. a fill's worker round-trip) can already be mid-flight when
+      // another one is requested (rapid undo/redo, or a resize firing repeatedly
+      // during a window drag). Running two overlapping passes both `clear()` the
+      // canvas and redraw from `committedRef.current`, and the earlier pass can
+      // finish (and paint) after the later one already has — visibly reintroducing
+      // undone content. Queue instead of overlapping; the trailing pass below
+      // always redraws the latest state once the running one is done.
+      if (replayingRef.current) {
+        replayQueuedRef.current = true
+        return
+      }
+
       replayingRef.current = true
       const restoreMode = modeRef.current
       s.recordStrokes = false
@@ -208,6 +222,10 @@ export function useAtramentSketch(
         s.color = colorRef.current
         replayingRef.current = false
         bump()
+        if (replayQueuedRef.current) {
+          replayQueuedRef.current = false
+          void replay()
+        }
       }
     }
 
