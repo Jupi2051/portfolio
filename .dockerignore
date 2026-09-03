@@ -1,13 +1,14 @@
 node_modules
 **/node_modules
 **/dist
+!apps/web/dist
+!apps/web/dist/**
 **/dist-types
 .git
 .gitignore
 **/.env
 **/.env.*
 !**/.env.example
-apps/web
 .cursor
 **/.cursor
 **/agent-transcripts
