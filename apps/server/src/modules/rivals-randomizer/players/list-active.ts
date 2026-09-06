@@ -6,7 +6,9 @@ const getRivalsActivePlayers = publicProcedure.query(async ({ ctx }) => {
   const players = await ctx.prisma.rivalsPlayer.findMany({
     where: { isActive: true },
     orderBy: { order: "asc" },
-    include: { mainHero: { select: { id: true, slug: true, name: true } } },
+    include: {
+      mainHero: { select: { id: true, slug: true, name: true, color: true } },
+    },
   })
 
   return players.map((player) => ({

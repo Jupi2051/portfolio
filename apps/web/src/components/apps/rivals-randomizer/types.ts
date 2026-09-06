@@ -20,6 +20,8 @@ export type RivalsMainHero = {
   id: string
   slug: string
   name: string
+  /** Average color sampled from the hero's icon, e.g. "#a12b3c"; used as a background accent. */
+  color?: string | null
 }
 
 export type RivalsPlayer = {

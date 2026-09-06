@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { getRankIconUrl } from "./rank-icons"
 import { heroPrestigeUrl } from "./image-urls"
 import type { RivalsPlayer } from "./types"
@@ -19,7 +20,9 @@ type TeamPlayerRowProps = {
 }
 
 function TeamPlayerRow({ player }: TeamPlayerRowProps) {
+  const [bannerFailed, setBannerFailed] = useState(false)
   const rankIcon = getRankIconUrl(player.peakRank.label)
+  const heroColor = player.mainHero?.color
 
   return (
     <div
@@ -29,18 +32,28 @@ function TeamPlayerRow({ player }: TeamPlayerRowProps) {
         clipPath: `polygon(${ROW_SKEW_PX}px 0, 100% 0, calc(100% - ${ROW_SKEW_PX}px) 100%, 0 100%)`,
       }}
     >
-      {player.banner ? (
+      {player.banner && !bannerFailed ? (
         <img
           src={player.banner}
           alt=""
           className="absolute inset-0 h-full w-full object-cover"
           draggable={false}
-          onError={hideOnError}
+          onError={() => setBannerFailed(true)}
+        />
+      ) : heroColor ? (
+        // No (working) Discord banner — fall back to a tint pulled from the hero's own art.
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `radial-gradient(130% 130% at 100% 0%, ${heroColor}, transparent 70%), linear-gradient(135deg, ${heroColor}CC, transparent 85%)`,
+            // The stored color is an average over a whole icon, which trends muddy/gray — punch it back up for display.
+            filter: "saturate(3) brightness(1.15) contrast(1.1)",
+          }}
         />
       ) : null}
 
       {/* Legibility scrim: strong behind the name/avatar, fading out toward the hero art. */}
-      <div className="absolute inset-0 bg-linear-to-r from-ctp-crust/90 via-ctp-crust/55 to-ctp-crust/15" />
+      <div className="absolute inset-0 bg-linear-to-r from-ctp-crust/90 via-ctp-crust/45 to-ctp-crust/5" />
 
       {player.mainHero ? (
         <img
@@ -50,8 +63,7 @@ function TeamPlayerRow({ player }: TeamPlayerRowProps) {
           style={{
             objectFit: "cover",
             objectPosition: "50% 0%",
-            WebkitMaskImage:
-              "linear-gradient(to right, transparent, black 60%)",
+            WebkitMaskImage: "linear-gradient(to right, transparent, black 60%)",
             maskImage: "linear-gradient(to right, transparent, black 60%)",
           }}
           draggable={false}
