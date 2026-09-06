@@ -1,5 +1,6 @@
 import axios from "axios"
 import sharp from "sharp"
+import { Vibrant } from "node-vibrant/node"
 
 /**
  * Prisma's generated `Bytes` type pins `Uint8Array<ArrayBuffer>`, which the
@@ -43,11 +44,37 @@ export async function downloadAndConvertToWebp(
   return convertToWebp(sourceBuffer, isAnimated)
 }
 
-/** Average color of an image as `#rrggbb`, for UI accents. */
-export async function computeAverageColorHex(buffer: Buffer): Promise<string> {
-  const { channels } = await sharp(buffer).stats()
-  const toHex = (value: number) =>
-    Math.max(0, Math.min(255, Math.round(value))).toString(16).padStart(2, "0")
+/**
+ * A representative accent color for an image, as `#rrggbb`. Uses node-vibrant's
+ * palette (color quantization + saturation/population scoring) rather than a
+ * flat pixel average, so a plain background is much less likely to wash out a
+ * saturated foreground subject the way a straight mean would.
+ */
+export async function computeAccentColorHex(buffer: Buffer): Promise<string | null> {
+  // node-vibrant's Node backend decodes via Jimp, whose bundled decoders don't
+  // include webp (or several other formats) — normalize to PNG first so it
+  // doesn't matter what format the source actually is. `sharp` takes the first
+  // frame of an animated source by default, which is what we want here anyway.
+  const pngBuffer = await sharp(buffer).png().toBuffer()
 
-  return `#${toHex(channels[0].mean)}${toHex(channels[1].mean)}${toHex(channels[2].mean)}`
+  // node-vibrant's alpha/white filter doesn't know or care about thin, fully-
+  // opaque outline/rim-light strokes artists add along a character's silhouette
+  // — a small but highly saturated stroke can still win a swatch slot over the
+  // costume's own (larger, less saturated) fill color at the default colorCount
+  // of 64. Capping it much lower forces MMCQ to work with far fewer, broader
+  // clusters, so a handful of outline pixels get absorbed into a neighboring
+  // color mass instead of surviving as their own distinct swatch. Verified
+  // against real prestige art: at 64 a character's small brown belt/pouch won
+  // over her actual (much larger) green costume; at 16 the costume wins.
+  const palette = await Vibrant.from(pngBuffer).maxColorCount(16).getPalette()
+  const swatch =
+    palette.Vibrant ??
+    palette.LightVibrant ??
+    palette.DarkVibrant ??
+    palette.Muted ??
+    palette.LightMuted ??
+    palette.DarkMuted ??
+    null
+
+  return swatch?.hex ?? null
 }

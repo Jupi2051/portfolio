@@ -1,6 +1,6 @@
 import { protectedProcedure } from "@/lib/trpc"
 import {
-  computeAverageColorHex,
+  computeAccentColorHex,
   convertToWebp,
   downloadImageBuffer,
 } from "../image"
@@ -35,7 +35,7 @@ type SyncOutcome = "added" | "updated" | "failed"
 /**
  * Re-scrapes the live rivalskins.com hero roster and upserts a `RivalsMainHero`
  * per hero: icon (small avatar), prestige art (falls back to costume art when
- * no dedicated prestige image exists), and an average-color accent.
+ * no dedicated prestige image exists), and a palette-derived accent color.
  */
 const syncRivalsHeroes = protectedProcedure.mutation(async ({ ctx }) => {
   console.log("[rivals heroes] sync starting: scraping rivalskins.com/heroes/...")
@@ -57,7 +57,10 @@ const syncRivalsHeroes = protectedProcedure.mutation(async ({ ctx }) => {
 
       const iconWebp = iconSource ? await convertToWebp(iconSource, false) : null
       const prestigeWebp = prestigeSource ? await convertToWebp(prestigeSource, false) : null
-      const color = iconSource ? await computeAverageColorHex(iconSource) : null
+      // The icon is a tight headshot crop dominated by skin/face; the prestige art
+      // actually shows the costume, which is what we want a theme color from.
+      const colorSource = prestigeSource ?? iconSource
+      const color = colorSource ? await computeAccentColorHex(colorSource) : null
 
       const hero = await ctx.prisma.rivalsMainHero.upsert({
         where: { slug: scraped.slug },
