@@ -32,8 +32,8 @@ function RivalsRandomizer() {
 
   return (
     <div className="flex h-full w-full min-h-0 flex-col overflow-hidden bg-linear-to-br from-ctp-base via-ctp-mantle to-ctp-crust text-ctp-text">
-      <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-4 sm:p-6">
-        <div className="mx-auto flex w-full max-w-5xl flex-col gap-6">
+      <div className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain p-4 sm:p-6">
+        <div className="mx-auto flex w-full max-w-[120rem] flex-col gap-6">
           <header className="text-center">
             <h1 className="font-jockey-one text-3xl tracking-wide text-ctp-lavender">
               Rivals Randomizer
@@ -62,9 +62,7 @@ function RivalsRandomizer() {
             <TeamRosterReveal
               teamA={result.teamA}
               teamB={result.teamB}
-              spinPool={players}
               revealKey={revealKey}
-              isRevealing={isRevealing}
               onRevealComplete={handleRevealComplete}
             />
           ) : (
