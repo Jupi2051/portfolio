@@ -13,7 +13,7 @@ function getClient(): Promise<Client> {
   const client = new Client({ intents: [GatewayIntentBits.Guilds] })
 
   const pending = new Promise<Client>((resolve, reject) => {
-    client.once("ready", () => resolve(client))
+    client.once("clientReady", () => resolve(client))
     client.once("error", reject)
     client.login(token).catch(reject)
   })
