@@ -1,6 +1,6 @@
 import { useMemo } from "react"
 import { motion } from "framer-motion"
-import TeamPlayerRow from "./team-player-row"
+import TeamPlayerRow, { ROW_HEIGHT_PX, ROW_SKEW_PX } from "./team-player-row"
 import { sortPlayersForDisplay } from "./display-order"
 import type { AssignedPlayer, BalancedTeam } from "./types"
 
@@ -9,6 +9,15 @@ const ROW_DURATION_SECONDS = 0.32
 /** Fast deceleration ("snappy") rather than a gentle ease-out. */
 const ROW_EASE = [0.16, 1, 0.3, 1] as const
 const SLIDE_DISTANCE_PX = 220
+const ROW_GAP_PX = 10
+
+/**
+ * Each row's edges are cut at ROW_SKEW_PX of horizontal shift over its own
+ * height. Shifting every next row by that same slope projected across the gap
+ * keeps the cut continuing at the same angle, so the edges chain into one
+ * unbroken diagonal line down the whole column instead of a zigzag.
+ */
+const CONTINUOUS_EDGE_STEP_PX = ROW_SKEW_PX * (1 + ROW_GAP_PX / ROW_HEIGHT_PX)
 
 type TeamSide = "A" | "B"
 
@@ -36,24 +45,28 @@ function TeamRoster({
       <div className={`rounded-t-xl border-b-2 px-4 py-3 ${accentClass}`}>
         <h2 className="font-jockey-one text-xl tracking-wide">{name}</h2>
       </div>
-      <ul className="flex flex-col gap-2 px-1">
-        {entries.map((entry, index) => (
-          <motion.li
-            key={`${revealKey}-${entry.player.id}`}
-            initial={{ opacity: 0, x: SLIDE_DISTANCE_PX * fromDirection }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{
-              delay: index * ROW_STAGGER_SECONDS,
-              duration: ROW_DURATION_SECONDS,
-              ease: ROW_EASE,
-            }}
-            onAnimationComplete={
-              index === entries.length - 1 ? onLastRowComplete : undefined
-            }
-          >
-            <TeamPlayerRow player={entry.player} />
-          </motion.li>
-        ))}
+      <ul className="flex flex-col px-1" style={{ gap: ROW_GAP_PX }}>
+        {entries.map((entry, index) => {
+          const restingX = -index * CONTINUOUS_EDGE_STEP_PX
+
+          return (
+            <motion.li
+              key={`${revealKey}-${entry.player.id}`}
+              initial={{ opacity: 0, x: restingX + SLIDE_DISTANCE_PX * fromDirection }}
+              animate={{ opacity: 1, x: restingX }}
+              transition={{
+                delay: index * ROW_STAGGER_SECONDS,
+                duration: ROW_DURATION_SECONDS,
+                ease: ROW_EASE,
+              }}
+              onAnimationComplete={
+                index === entries.length - 1 ? onLastRowComplete : undefined
+              }
+            >
+              <TeamPlayerRow player={entry.player} />
+            </motion.li>
+          )
+        })}
       </ul>
     </section>
   )
