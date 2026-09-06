@@ -8,6 +8,7 @@ import { appRouter } from "./router"
 import { createContext } from "./context"
 import { createVicoSketchImageUploadRouter } from "./modules/vico/create"
 import { prepareVicoSketchWebpImages } from "./modules/vico/prepare-images"
+import { prepareRivalsRandomizerImages } from "./modules/rivals-randomizer/prepare-images"
 
 const app = express()
 
@@ -64,6 +65,11 @@ if (imagesBucket) {
 
 app.use("/vico", createVicoSketchImageUploadRouter())
 
+if (imagesBucket) {
+  const rivalsImagesDir = path.join(path.resolve(imagesBucket), "rivals-images")
+  app.use("/rivals-randomizer-images", express.static(rivalsImagesDir))
+}
+
 app.use(
   "/trpc",
   createExpressMiddleware({
@@ -77,4 +83,5 @@ const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
   prepareVicoSketchWebpImages()
+  prepareRivalsRandomizerImages()
 })

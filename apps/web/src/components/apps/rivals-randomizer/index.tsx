@@ -1,18 +1,27 @@
 import { useCallback, useState } from "react"
-import { RIVALS_PLAYERS } from "./players"
+import { useRivalsPlayers } from "./players"
+import { EMPTY_CONSTRAINTS, useRivalsConstraints } from "./constraints"
 import { TeamRosterReveal } from "./team-roster"
 import { generateBalancedTeams } from "./team-balancer"
 import type { TeamSplitResult } from "./types"
+
+const REQUIRED_PLAYER_COUNT = 12
 
 function RivalsRandomizer() {
   const [result, setResult] = useState<TeamSplitResult | null>(null)
   const [isRevealing, setIsRevealing] = useState(false)
   const [revealKey, setRevealKey] = useState(0)
 
-  const randomizeTeams = () => {
-    if (isRevealing) return
+  const { players, isLoading: isLoadingPlayers } = useRivalsPlayers()
+  const { data: constraints, isLoading: isLoadingConstraints } = useRivalsConstraints()
 
-    setResult(generateBalancedTeams(RIVALS_PLAYERS))
+  const isLoading = isLoadingPlayers || isLoadingConstraints
+  const hasFullRoster = players.length === REQUIRED_PLAYER_COUNT
+
+  const randomizeTeams = () => {
+    if (isRevealing || !hasFullRoster) return
+
+    setResult(generateBalancedTeams(players, constraints ?? EMPTY_CONSTRAINTS))
     setRevealKey((current) => current + 1)
     setIsRevealing(true)
   }
@@ -38,7 +47,7 @@ function RivalsRandomizer() {
             <button
               type="button"
               onClick={randomizeTeams}
-              disabled={isRevealing}
+              disabled={isRevealing || isLoading || !hasFullRoster}
               className="rounded-full cursor-pointer bg-ctp-lavender px-8 py-3 font-jockey-one text-lg tracking-wide text-ctp-crust transition hover:bg-ctp-mauve disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isRevealing
@@ -53,7 +62,7 @@ function RivalsRandomizer() {
             <TeamRosterReveal
               teamA={result.teamA}
               teamB={result.teamB}
-              spinPool={RIVALS_PLAYERS}
+              spinPool={players}
               revealKey={revealKey}
               isRevealing={isRevealing}
               onRevealComplete={handleRevealComplete}
@@ -61,8 +70,11 @@ function RivalsRandomizer() {
           ) : (
             <div className="rounded-xl border border-dashed border-ctp-surface2 bg-ctp-surface0/30 px-6 py-10 text-center">
               <p className="text-sm text-ctp-subtext0">
-                Hit Randomize Teams to split 12 players into two balanced
-                6-stacks with healer, tank, and dps roles assigned.
+                {isLoading
+                  ? "Loading the player pool..."
+                  : hasFullRoster
+                    ? "Hit Randomize Teams to split 12 players into two balanced 6-stacks with healer, tank, and dps roles assigned."
+                    : `Waiting on a full 12-player pool (currently ${players.length}). Add or activate players from Controls.`}
               </p>
             </div>
           )}

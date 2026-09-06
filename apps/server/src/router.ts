@@ -5,6 +5,7 @@ import { pinboardRouter } from "./modules/pinboard/router"
 import { usersRouter } from "./modules/users/router"
 import { terminalRouter } from "./modules/terminal/router"
 import { vicoRouter } from "./modules/vico/router"
+import { rivalsRandomizerRouter } from "./modules/rivals-randomizer/router"
 
 export const appRouter = router({
   blog: blogRouter,
@@ -12,6 +13,7 @@ export const appRouter = router({
   users: usersRouter,
   terminal: terminalRouter,
   vico: vicoRouter,
+  rivalsRandomizer: rivalsRandomizerRouter,
 })
 
 export type AppRouter = typeof appRouter

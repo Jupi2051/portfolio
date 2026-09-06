@@ -61,3 +61,99 @@ model VicoSketchImage {
   sketchId String @unique
   sketch VicoSketch @relation(fields: [sketchId], references: [id])
 }
+
+enum RivalsRank {
+  BRONZE_3
+  BRONZE_2
+  BRONZE_1
+  SILVER_3
+  SILVER_2
+  SILVER_1
+  GOLD_3
+  GOLD_2
+  GOLD_1
+  PLATINUM_3
+  PLATINUM_2
+  PLATINUM_1
+  DIAMOND_3
+  DIAMOND_2
+  DIAMOND_1
+  GRANDMASTER_3
+  GRANDMASTER_2
+  GRANDMASTER_1
+  CELESTIAL_3
+  CELESTIAL_2
+  CELESTIAL_1
+  ETERNITY
+  ONE_ABOVE_ALL
+}
+
+enum RivalsConstraintType {
+  MUST_PAIR
+  MUST_SPLIT
+}
+
+model RivalsMainHero {
+  id   String @id @default(cuid())
+  slug String @unique
+  name String
+
+  /** Small square avatar, shown in pickers. */
+  iconWebp Bytes? @db.ByteA
+  /** Larger key art; falls back to the site's costume art when no dedicated prestige image exists. */
+  prestigeWebp Bytes? @db.ByteA
+  /** Average color sampled from the icon, e.g. "#a12b3c", for UI accents. */
+  color String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  players RivalsPlayer[]
+}
+
+model RivalsPlayer {
+  id          String     @id @default(cuid())
+  discordId   String     @unique
+
+  displayName String
+  username    String
+
+  avatarWebp       Bytes?  @db.ByteA
+  avatarIsAnimated Boolean @default(false)
+  bannerWebp       Bytes?  @db.ByteA
+  bannerIsAnimated Boolean @default(false)
+
+  rank RivalsRank @default(BRONZE_3)
+
+  mainHeroId String?
+  mainHero   RivalsMainHero? @relation(fields: [mainHeroId], references: [id], onDelete: SetNull)
+
+  /** Overall skill weight (0-1) used by the frontend balancer. */
+  skillLevel Float @default(0.5)
+  /** Exactly 3 entries `{ role: 0|1|2, weight: 0-1 }`, ordered by role preference (best first). */
+  roleSkills Json
+
+  /** Whether this player is one of the current 12 the randomizer draws from. */
+  isActive Boolean @default(false)
+  order    Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  constraintsAsA RivalsPlayerConstraint[] @relation("RivalsConstraintPlayerA")
+  constraintsAsB RivalsPlayerConstraint[] @relation("RivalsConstraintPlayerB")
+}
+
+model RivalsPlayerConstraint {
+  id   String               @id @default(cuid())
+  type RivalsConstraintType
+
+  playerAId String
+  playerBId String
+  playerA   RivalsPlayer @relation("RivalsConstraintPlayerA", fields: [playerAId], references: [id], onDelete: Cascade)
+  playerB   RivalsPlayer @relation("RivalsConstraintPlayerB", fields: [playerBId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([type, playerAId, playerBId])
+}

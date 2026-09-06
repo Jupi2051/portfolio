@@ -5,7 +5,8 @@ import type {
   RivalsPlayer,
   TeamSplitResult,
 } from "./types"
-import { violatesSplitConstraints } from "./constraints"
+import type { RivalsConstraints } from "./constraints"
+import { violatesPairConstraints, violatesSplitConstraints } from "./constraints"
 
 const TEAM_SIZE = 6
 const ATTEMPTS = 1200
@@ -120,13 +121,15 @@ function assignRoles(team: RivalsPlayer[]): BalancedTeam {
 function evaluateSplit(
   teamA: RivalsPlayer[],
   teamB: RivalsPlayer[],
+  constraints: RivalsConstraints,
 ): TeamSplitResult | null {
   if (teamA.length !== TEAM_SIZE || teamB.length !== TEAM_SIZE) return null
 
   const teamAIds = new Set(teamA.map((player) => player.id))
   const teamBIds = new Set(teamB.map((player) => player.id))
 
-  if (violatesSplitConstraints(teamAIds, teamBIds)) return null
+  if (violatesSplitConstraints(teamAIds, teamBIds, constraints.mustSplit)) return null
+  if (violatesPairConstraints(teamAIds, teamBIds, constraints.mustPair)) return null
 
   const balancedA = assignRoles(teamA)
   const balancedB = assignRoles(teamB)
@@ -149,7 +152,10 @@ function shuffle<T>(items: T[]): T[] {
   return copy
 }
 
-export function generateBalancedTeams(players: RivalsPlayer[]): TeamSplitResult {
+export function generateBalancedTeams(
+  players: RivalsPlayer[],
+  constraints: RivalsConstraints,
+): TeamSplitResult {
   const requiredPlayers = TEAM_SIZE * 2
   if (players.length !== requiredPlayers) {
     throw new Error(
@@ -164,6 +170,7 @@ export function generateBalancedTeams(players: RivalsPlayer[]): TeamSplitResult 
     const split = evaluateSplit(
       shuffled.slice(0, TEAM_SIZE),
       shuffled.slice(TEAM_SIZE),
+      constraints,
     )
 
     if (split) candidates.push(split)

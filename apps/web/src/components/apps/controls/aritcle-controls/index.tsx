@@ -1,9 +1,14 @@
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import ControlsHome from "./controls-home";
 import ArticlesEditorView from "./articles-editor-view";
 import VicoApprovalPanel from "../vico-approval/vico-approval-panel";
+import ControlsLoadingScreen from "../controls-loading-screen";
 import { useArticlePublishFlow } from "./use-article-publish-flow";
 import type { ControlsPanel } from "./controls-panel-types";
+
+const RivalsRandomizerControlsPanel = lazy(
+  () => import("../rivals-randomizer-controls/rivals-randomizer-controls-panel"),
+);
 
 const ArticleControls = () => {
   const [panel, setPanel] = useState<ControlsPanel>("home");
@@ -14,12 +19,21 @@ const ArticleControls = () => {
       <ControlsHome
         onSelectArticles={() => setPanel("articles")}
         onSelectVico={() => setPanel("vico")}
+        onSelectRivalsRandomizer={() => setPanel("rivals-randomizer")}
       />
     );
   }
 
   if (panel === "vico") {
     return <VicoApprovalPanel onBack={() => setPanel("home")} />;
+  }
+
+  if (panel === "rivals-randomizer") {
+    return (
+      <Suspense fallback={<ControlsLoadingScreen />}>
+        <RivalsRandomizerControlsPanel onBack={() => setPanel("home")} />
+      </Suspense>
+    );
   }
 
   return (

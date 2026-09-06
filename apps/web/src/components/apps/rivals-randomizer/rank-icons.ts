@@ -4,6 +4,7 @@ import celestial from "@/assets/ranks/Celestial.webp"
 import diamond from "@/assets/ranks/Diamond.webp"
 import gold from "@/assets/ranks/Gold.webp"
 import grandmaster from "@/assets/ranks/Grandmaster.webp"
+import oneAboveAll from "@/assets/ranks/OneAboveAll.webp"
 import platinum from "@/assets/ranks/Platnium.webp"
 import silver from "@/assets/ranks/Silver.webp"
 
@@ -25,6 +26,8 @@ export function getRankIconUrl(rankLabel: string): string {
       return silver
     case "bronze":
       return bronze
+    case "one":
+      return oneAboveAll
     default:
       return cardboard
   }

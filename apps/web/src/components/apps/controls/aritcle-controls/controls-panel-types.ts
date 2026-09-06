@@ -1,1 +1,1 @@
-export type ControlsPanel = "home" | "articles" | "vico";
+export type ControlsPanel = "home" | "articles" | "vico" | "rivals-randomizer";

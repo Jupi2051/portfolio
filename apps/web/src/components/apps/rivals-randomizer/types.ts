@@ -16,6 +16,12 @@ export type RoleSkill = {
   role: Role
 }
 
+export type RivalsMainHero = {
+  id: string
+  slug: string
+  name: string
+}
+
 export type RivalsPlayer = {
   id: string
   name: string
@@ -25,6 +31,7 @@ export type RivalsPlayer = {
   skillLevel: number
   /** Best role first; weight is comfort on that role (display / assignment only). */
   roleSkills: [RoleSkill, RoleSkill, RoleSkill]
+  mainHero?: RivalsMainHero | null
 }
 
 export type AssignedPlayer = {
