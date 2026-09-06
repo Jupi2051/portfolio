@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react"
 import { useRivalsPlayers } from "./players"
 import { EMPTY_CONSTRAINTS, useRivalsConstraints } from "./constraints"
+import { DEFAULT_BALANCING_SETTINGS, useRivalsBalancingSettings } from "./settings"
 import { TeamRosterReveal } from "./team-roster"
 import { generateBalancedTeams } from "./team-balancer"
 import RandomizeButton from "./randomize-button"
@@ -16,14 +17,22 @@ function RivalsRandomizer() {
   const { players, isLoading: isLoadingPlayers } = useRivalsPlayers()
   const { data: constraints, isLoading: isLoadingConstraints } =
     useRivalsConstraints()
+  const { data: balancingSettings, isLoading: isLoadingSettings } =
+    useRivalsBalancingSettings()
 
-  const isLoading = isLoadingPlayers || isLoadingConstraints
+  const isLoading = isLoadingPlayers || isLoadingConstraints || isLoadingSettings
   const hasFullRoster = players.length === REQUIRED_PLAYER_COUNT
 
   const randomizeTeams = () => {
     if (isRevealing || !hasFullRoster) return
 
-    setResult(generateBalancedTeams(players, constraints ?? EMPTY_CONSTRAINTS))
+    setResult(
+      generateBalancedTeams(
+        players,
+        constraints ?? EMPTY_CONSTRAINTS,
+        balancingSettings ?? DEFAULT_BALANCING_SETTINGS,
+      ),
+    )
     setRevealKey((current) => current + 1)
     setIsRevealing(true)
   }

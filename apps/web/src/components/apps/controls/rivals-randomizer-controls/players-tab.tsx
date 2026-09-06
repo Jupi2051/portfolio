@@ -7,6 +7,7 @@ import AddPlayerForm from "./add-player-form"
 import PlayerRosterRow from "./player-roster-row"
 import PlayerStatsEditor from "./player-stats-editor"
 import ConstraintsDropZone from "./constraints-drop-zone"
+import BalancingSettings from "./balancing-settings"
 import { rivalsHeroIconUrl } from "./image-urls"
 import type { RivalsPlayerRow } from "./types"
 
@@ -16,6 +17,7 @@ export default function PlayersTab() {
   const trpc = useTRPC()
   const queryClient = useQueryClient()
   const [syncMessage, setSyncMessage] = useState<string | null>(null)
+  const [refreshAllMessage, setRefreshAllMessage] = useState<string | null>(null)
   const [expandedId, setExpandedId] = useState<string | null>(null)
 
   const playersQuery = useQuery(trpc.rivalsRandomizer.players.listAll.queryOptions())
@@ -47,6 +49,18 @@ export default function PlayersTab() {
       void invalidate()
     },
     onError: (error) => setSyncMessage(`Sync failed: ${error.message}`),
+  })
+  const refreshAllPlayers = useMutation({
+    ...trpc.rivalsRandomizer.players.refreshAll.mutationOptions(),
+    onSuccess: (result) => {
+      setRefreshAllMessage(
+        `Refreshed ${result.updated}/${result.total} player(s)${
+          result.failed.length ? `, ${result.failed.length} failed` : ""
+        }.`,
+      )
+      void invalidate()
+    },
+    onError: (error) => setRefreshAllMessage(`Refresh failed: ${error.message}`),
   })
 
   const players = playersQuery.data ?? []
@@ -122,20 +136,40 @@ export default function PlayersTab() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <AddPlayerForm />
         <div className="flex flex-col items-end gap-1">
-          <button
-            type="button"
-            onClick={() => {
-              setSyncMessage(null)
-              syncHeroes.mutate()
-            }}
-            disabled={syncHeroes.isPending}
-            className="cursor-pointer rounded-lg border border-ctp-surface1 bg-ctp-mantle px-3 py-1.5 text-xs font-medium text-ctp-subtext1 transition hover:bg-ctp-surface0 hover:text-ctp-text disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {syncHeroes.isPending ? "Updating characters..." : "Update game characters list"}
-          </button>
+          <div className="flex flex-wrap justify-end gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setSyncMessage(null)
+                syncHeroes.mutate()
+              }}
+              disabled={syncHeroes.isPending}
+              className="cursor-pointer rounded-lg border border-ctp-surface1 bg-ctp-mantle px-3 py-1.5 text-xs font-medium text-ctp-subtext1 transition hover:bg-ctp-surface0 hover:text-ctp-text disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {syncHeroes.isPending ? "Updating characters..." : "Update game characters list"}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setRefreshAllMessage(null)
+                refreshAllPlayers.mutate()
+              }}
+              disabled={refreshAllPlayers.isPending}
+              className="cursor-pointer rounded-lg border border-ctp-surface1 bg-ctp-mantle px-3 py-1.5 text-xs font-medium text-ctp-subtext1 transition hover:bg-ctp-surface0 hover:text-ctp-text disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {refreshAllPlayers.isPending
+                ? "Updating profiles..."
+                : "Update all discord profiles"}
+            </button>
+          </div>
           {syncMessage ? <span className="text-xs text-ctp-subtext0">{syncMessage}</span> : null}
+          {refreshAllMessage ? (
+            <span className="text-xs text-ctp-subtext0">{refreshAllMessage}</span>
+          ) : null}
         </div>
       </div>
+
+      <BalancingSettings />
 
       {playersQuery.isLoading ? (
         <p className="text-sm text-ctp-subtext0">Loading players...</p>

@@ -157,3 +157,14 @@ model RivalsPlayerConstraint {
 
   @@unique([type, playerAId, playerBId])
 }
+
+/** Single-row table (fixed id) for the randomizer's team-balancing toggles. */
+model RivalsSettings {
+  id String @id @default("singleton")
+
+  useSkillLevel  Boolean @default(true)
+  useRoleSkills  Boolean @default(true)
+  useConstraints Boolean @default(true)
+
+  updatedAt DateTime @updatedAt
+}

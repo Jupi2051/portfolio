@@ -7,6 +7,7 @@ import type {
 } from "./types"
 import type { RivalsConstraints } from "./constraints"
 import { violatesPairConstraints, violatesSplitConstraints } from "./constraints"
+import type { RivalsBalancingSettings } from "./settings"
 
 const TEAM_SIZE = 6
 const ATTEMPTS = 1200
@@ -66,7 +67,17 @@ function getHealerComfort(player: RivalsPlayer): number {
   return player.roleSkills.find((roleSkill) => roleSkill.role === HEALER_ROLE)?.weight ?? 0
 }
 
-function assignRoles(team: RivalsPlayer[]): BalancedTeam {
+/** Ignores role preference entirely — whoever landed where in the (already shuffled) team stays there. */
+function assignRolesArbitrarily(team: RivalsPlayer[]): BalancedTeam {
+  const assignments = new Map<string, Role>()
+  team.forEach((player, index) => {
+    const role: Role = index < 2 ? 0 : index < 4 ? 1 : 2
+    assignments.set(player.id, role)
+  })
+  return buildAssignedTeam(team, assignments)
+}
+
+function assignRolesByPreference(team: RivalsPlayer[]): BalancedTeam {
   let bestTeam: BalancedTeam | null = null
 
   for (const healers of combinations(team, 2)) {
@@ -122,15 +133,19 @@ function evaluateSplit(
   teamA: RivalsPlayer[],
   teamB: RivalsPlayer[],
   constraints: RivalsConstraints,
+  settings: RivalsBalancingSettings,
 ): TeamSplitResult | null {
   if (teamA.length !== TEAM_SIZE || teamB.length !== TEAM_SIZE) return null
 
-  const teamAIds = new Set(teamA.map((player) => player.id))
-  const teamBIds = new Set(teamB.map((player) => player.id))
+  if (settings.useConstraints) {
+    const teamAIds = new Set(teamA.map((player) => player.id))
+    const teamBIds = new Set(teamB.map((player) => player.id))
 
-  if (violatesSplitConstraints(teamAIds, teamBIds, constraints.mustSplit)) return null
-  if (violatesPairConstraints(teamAIds, teamBIds, constraints.mustPair)) return null
+    if (violatesSplitConstraints(teamAIds, teamBIds, constraints.mustSplit)) return null
+    if (violatesPairConstraints(teamAIds, teamBIds, constraints.mustPair)) return null
+  }
 
+  const assignRoles = settings.useRoleSkills ? assignRolesByPreference : assignRolesArbitrarily
   const balancedA = assignRoles(teamA)
   const balancedB = assignRoles(teamB)
   const skillDifference = Math.abs(balancedA.totalSkill - balancedB.totalSkill)
@@ -155,6 +170,7 @@ function shuffle<T>(items: T[]): T[] {
 export function generateBalancedTeams(
   players: RivalsPlayer[],
   constraints: RivalsConstraints,
+  settings: RivalsBalancingSettings,
 ): TeamSplitResult {
   const requiredPlayers = TEAM_SIZE * 2
   if (players.length !== requiredPlayers) {
@@ -171,6 +187,7 @@ export function generateBalancedTeams(
       shuffled.slice(0, TEAM_SIZE),
       shuffled.slice(TEAM_SIZE),
       constraints,
+      settings,
     )
 
     if (split) candidates.push(split)
@@ -178,6 +195,10 @@ export function generateBalancedTeams(
 
   if (candidates.length === 0) {
     throw new Error("Could not generate a balanced team split.")
+  }
+
+  if (!settings.useSkillLevel) {
+    return candidates[Math.floor(Math.random() * candidates.length)]!
   }
 
   candidates.sort((left, right) => left.balanceScore - right.balanceScore)
