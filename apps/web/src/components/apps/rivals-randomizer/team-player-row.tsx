@@ -1,9 +1,14 @@
 import { getRankIconUrl } from "./rank-icons"
+import { heroPrestigeUrl } from "./image-urls"
 import type { RivalsPlayer } from "./types"
 
 /** Shared with team-roster.tsx so the per-row stagger offset can keep this edge continuous across the gap. */
-export const ROW_HEIGHT_PX = 76
-export const ROW_SKEW_PX = 18
+export const ROW_HEIGHT_PX = 92
+export const ROW_SKEW_PX = 20
+
+function hideOnError(event: React.SyntheticEvent<HTMLImageElement>) {
+  event.currentTarget.style.visibility = "hidden"
+}
 
 type TeamPlayerRowProps = {
   player: RivalsPlayer
@@ -14,14 +19,47 @@ function TeamPlayerRow({ player }: TeamPlayerRowProps) {
 
   return (
     <div
-      className="flex items-center gap-4 bg-ctp-surface0/60 pr-6"
+      className="relative flex items-center gap-4 overflow-hidden bg-ctp-surface0 pr-6"
       style={{
         height: ROW_HEIGHT_PX,
         paddingLeft: ROW_SKEW_PX + 20,
         clipPath: `polygon(${ROW_SKEW_PX}px 0, 100% 0, calc(100% - ${ROW_SKEW_PX}px) 100%, 0 100%)`,
       }}
     >
-      <div className="relative h-14 w-14 shrink-0 overflow-hidden bg-ctp-surface1">
+      {player.banner ? (
+        <img
+          src={player.banner}
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover"
+          draggable={false}
+          onError={hideOnError}
+        />
+      ) : null}
+
+      {/* Legibility scrim: strong behind the name/avatar, fading out toward the hero art. */}
+      <div className="absolute inset-0 bg-linear-to-r from-ctp-crust/90 via-ctp-crust/55 to-ctp-crust/15" />
+
+      {player.mainHero ? (
+        <img
+          src={heroPrestigeUrl(player.mainHero.id)}
+          alt=""
+          className="absolute inset-y-0 -right-10 w-[60%] -top-20"
+          style={{
+            objectFit: "cover",
+            // The source art has empty space above the head; shifting the anchor
+            // down through the image (not up the box) crops that out so the face
+            // itself sits near the top instead of ~23% down.
+            objectPosition: "50% 0%",
+            WebkitMaskImage:
+              "linear-gradient(to right, transparent, black 60%)",
+            maskImage: "linear-gradient(to right, transparent, black 60%)",
+          }}
+          draggable={false}
+          onError={hideOnError}
+        />
+      ) : null}
+
+      <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full bg-ctp-surface1 ring-2 ring-ctp-crust/70">
         <img
           src={player.image}
           alt={player.name}
@@ -29,12 +67,12 @@ function TeamPlayerRow({ player }: TeamPlayerRowProps) {
           draggable={false}
         />
       </div>
-      <div className="min-w-0 flex-1">
-        <p className="truncate font-jockey-one text-xl tracking-wide text-ctp-text">
+      <div className="relative min-w-0 flex-1">
+        <p className="truncate font-jockey-one text-xl tracking-wide text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">
           {player.name}
         </p>
       </div>
-      <div className="relative h-11 w-11 shrink-0 overflow-hidden">
+      <div className="relative h-11 w-11 shrink-0 overflow-hidden drop-shadow-[0_1px_3px_rgba(0,0,0,0.6)]">
         <img
           src={rankIcon}
           alt=""

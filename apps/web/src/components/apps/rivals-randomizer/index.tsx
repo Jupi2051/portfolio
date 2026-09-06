@@ -13,7 +13,8 @@ function RivalsRandomizer() {
   const [revealKey, setRevealKey] = useState(0)
 
   const { players, isLoading: isLoadingPlayers } = useRivalsPlayers()
-  const { data: constraints, isLoading: isLoadingConstraints } = useRivalsConstraints()
+  const { data: constraints, isLoading: isLoadingConstraints } =
+    useRivalsConstraints()
 
   const isLoading = isLoadingPlayers || isLoadingConstraints
   const hasFullRoster = players.length === REQUIRED_PLAYER_COUNT
@@ -34,14 +35,14 @@ function RivalsRandomizer() {
     <div className="flex h-full w-full min-h-0 flex-col overflow-hidden bg-linear-to-br from-ctp-base via-ctp-mantle to-ctp-crust text-ctp-text">
       <div className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain p-4 sm:p-6">
         <div className="mx-auto flex w-full max-w-340 flex-col gap-6">
-          <header className="text-center">
+          {/* <header className="text-center">
             <h1 className="font-jockey-one text-3xl tracking-wide text-ctp-lavender">
               Rivals Randomizer
             </h1>
             <p className="mt-1 text-sm text-ctp-subtext0">
               Balanced 6v6 teams by rank, role, and skill weight
             </p>
-          </header>
+          </header> */}
 
           <div className="flex flex-col items-center gap-2">
             <button

@@ -26,6 +26,8 @@ export type RivalsPlayer = {
   id: string
   name: string
   image: string
+  /** Discord banner, if the player has one; used as a per-row background accent. */
+  banner?: string
   peakRank: PeakRank
   /** Overall player skill (0–1), used for team balance. */
   skillLevel: number
