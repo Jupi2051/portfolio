@@ -8,17 +8,17 @@ import { writeHeroImagesToDisk } from "../prepare-images"
 import { scrapeHeroList } from "./scrape"
 
 const ICON_BASE = "https://rivalskins.com/wp-content/uploads/marvel-assets/ui/heroes/avatar"
-const PRESTIGE_BASE =
-  "https://rivalskins.com/wp-content/uploads/marvel-assets/assets/hero-prestige-images"
-
-/** The prestige folder has one filename typo among otherwise-consistent `{slug}_prestige.png` names. */
-const PRESTIGE_FILENAME_OVERRIDES: Record<string, string> = {
-  angela: "angela_restige.png",
-}
+/**
+ * The site's original `assets/hero-prestige-images/` batch only ever covered the
+ * first ~43 heroes (confirmed missing: Black Cat, Jubilee, Deadpool, Cyclops,
+ * Rogue, The Hood, White Fox, Devil Dinosaur, Elsa Bloodstone). Each hero's own
+ * page instead links to this newer `ui/heroes/prestige/` path, which covers all
+ * of them (verified against every hero above plus a sample of the original 43).
+ */
+const PRESTIGE_BASE = "https://rivalskins.com/wp-content/uploads/marvel-assets/ui/heroes/prestige"
 
 function prestigeUrlFor(slug: string): string {
-  const filename = PRESTIGE_FILENAME_OVERRIDES[slug] ?? `${slug}_prestige.png`
-  return `${PRESTIGE_BASE}/${filename}`
+  return `${PRESTIGE_BASE}/${slug}_prestige.webp`
 }
 
 async function tryDownloadBuffer(url: string | null): Promise<Buffer | null> {
