@@ -33,8 +33,8 @@ function RivalsRandomizer() {
 
   return (
     <div className="flex h-full w-full min-h-0 flex-col overflow-hidden bg-linear-to-br from-ctp-base via-ctp-mantle to-ctp-crust text-ctp-text">
-      <div className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain p-4 sm:p-6">
-        <div className="mx-auto flex w-full max-w-340 flex-col gap-6">
+      <div className="flex min-h-0 flex-1 flex-col overflow-x-hidden overflow-y-auto overscroll-contain p-4 sm:p-6">
+        <div className="mx-auto flex h-full w-full min-h-0 max-w-340 flex-col gap-3">
           {/* <header className="text-center">
             <h1 className="font-jockey-one text-3xl tracking-wide text-ctp-lavender">
               Rivals Randomizer
@@ -44,7 +44,7 @@ function RivalsRandomizer() {
             </p>
           </header> */}
 
-          <div className="flex flex-col items-center gap-2">
+          <div className="flex shrink-0 flex-col items-center gap-1">
             <button
               type="button"
               onClick={randomizeTeams}

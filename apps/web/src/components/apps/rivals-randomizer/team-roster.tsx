@@ -4,18 +4,19 @@ import TeamPlayerRow, { ROW_HEIGHT_PX, ROW_SKEW_PX } from "./team-player-row"
 import { sortPlayersForDisplay } from "./display-order"
 import type { AssignedPlayer, BalancedTeam } from "./types"
 
-const ROW_STAGGER_SECONDS = 0.6
+const ROW_STAGGER_SECONDS = 0.4
 const ROW_DURATION_SECONDS = 0.32
 /** Fast deceleration ("snappy") rather than a gentle ease-out. */
 const ROW_EASE = [0.16, 1, 0.3, 1] as const
 const SLIDE_DISTANCE_PX = 220
-const ROW_GAP_PX = 10
+const ROW_GAP_PX = 8
 
 /**
  * Each row's edges are cut at ROW_SKEW_PX of horizontal shift over its own
  * height. Shifting every next row by that same slope projected across the gap
  * keeps the cut continuing at the same angle, so the edges chain into one
- * unbroken diagonal line down the whole column instead of a zigzag.
+ * unbroken diagonal line down the whole column instead of a zigzag. Rows are
+ * flex-filled now (see below), so ROW_HEIGHT_PX is an estimate here, not exact.
  */
 const CONTINUOUS_EDGE_STEP_PX = ROW_SKEW_PX * (1 + ROW_GAP_PX / ROW_HEIGHT_PX)
 
@@ -41,18 +42,27 @@ function TeamRoster({
   const fromDirection = teamSide === "A" ? -1 : 1
 
   return (
-    <section className="flex min-w-0 flex-1 flex-col gap-3">
-      <div className={`rounded-t-xl border-b-2 px-4 py-3 ${accentClass}`}>
+    <section className="flex h-full min-h-0 min-w-0 flex-col gap-3">
+      <div
+        className={`shrink-0 rounded-t-xl border-b-2 px-4 py-2 ${accentClass}`}
+      >
         <h2 className="font-jockey-one text-xl tracking-wide">{name}</h2>
       </div>
-      <ul className="flex flex-col px-1" style={{ gap: ROW_GAP_PX }}>
+      <ul
+        className="flex min-h-0 flex-1 flex-col px-1"
+        style={{ gap: ROW_GAP_PX }}
+      >
         {entries.map((entry, index) => {
           const restingX = -index * CONTINUOUS_EDGE_STEP_PX
 
           return (
             <motion.li
               key={`${revealKey}-${entry.player.id}`}
-              initial={{ opacity: 0, x: restingX + SLIDE_DISTANCE_PX * fromDirection }}
+              className="min-h-0 flex-1"
+              initial={{
+                opacity: 0,
+                x: restingX + SLIDE_DISTANCE_PX * fromDirection,
+              }}
               animate={{ opacity: 1, x: restingX }}
               transition={{
                 delay: index * ROW_STAGGER_SECONDS,
@@ -95,7 +105,7 @@ export function TeamRosterReveal({
   )
 
   return (
-    <div className="grid gap-4 lg:grid-cols-2">
+    <div className="grid min-h-0 flex-1 gap-4 lg:grid-cols-2">
       <TeamRoster
         name="Team A"
         teamSide="A"
