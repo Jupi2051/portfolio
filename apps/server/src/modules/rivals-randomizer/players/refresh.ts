@@ -16,6 +16,10 @@ const refreshRivalsPlayer = protectedProcedure
       throw new TRPCError({ code: "NOT_FOUND", message: "Player not found" })
     }
 
+    console.log(
+      `[rivals players] refreshing ${player.displayName} (discordId=${player.discordId})...`,
+    )
+
     const profile = await fetchDiscordProfile(player.discordId)
 
     const [avatarWebp, bannerWebp] = await Promise.all([
@@ -41,6 +45,8 @@ const refreshRivalsPlayer = protectedProcedure
     })
 
     await writePlayerImagesToDisk({ id: updated.id, avatarWebp, bannerWebp })
+
+    console.log(`[rivals players] refreshed ${updated.displayName} (id=${updated.id})`)
 
     return updated
   })

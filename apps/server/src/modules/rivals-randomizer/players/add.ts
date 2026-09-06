@@ -20,15 +20,22 @@ const addRivalsPlayer = protectedProcedure
       })
     }
 
+    console.log(`[rivals players] fetching Discord profile for ${input.discordId}...`)
+
     let profile
     try {
       profile = await fetchDiscordProfile(input.discordId)
-    } catch {
+    } catch (error) {
+      console.error(`[rivals players] Discord lookup failed for ${input.discordId}:`, error)
       throw new TRPCError({
         code: "BAD_REQUEST",
         message: "Could not find a Discord user with that ID",
       })
     }
+
+    console.log(
+      `[rivals players] found ${profile.displayName} (@${profile.username}), downloading avatar/banner...`,
+    )
 
     const [avatarWebp, bannerWebp] = await Promise.all([
       profile.avatarUrl
@@ -60,6 +67,8 @@ const addRivalsPlayer = protectedProcedure
     })
 
     await writePlayerImagesToDisk({ id: created.id, avatarWebp, bannerWebp })
+
+    console.log(`[rivals players] added ${created.displayName} (id=${created.id})`)
 
     return created
   })

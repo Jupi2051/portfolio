@@ -38,7 +38,9 @@ type SyncOutcome = "added" | "updated" | "failed"
  * no dedicated prestige image exists), and an average-color accent.
  */
 const syncRivalsHeroes = protectedProcedure.mutation(async ({ ctx }) => {
+  console.log("[rivals heroes] sync starting: scraping rivalskins.com/heroes/...")
   const scrapedHeroes = await scrapeHeroList()
+  console.log(`[rivals heroes] found ${scrapedHeroes.length} heroes on the site`)
   const results: { name: string; outcome: SyncOutcome }[] = []
 
   for (const scraped of scrapedHeroes) {
@@ -77,19 +79,31 @@ const syncRivalsHeroes = protectedProcedure.mutation(async ({ ctx }) => {
 
       await writeHeroImagesToDisk(hero)
 
-      results.push({ name: scraped.name, outcome: existing ? "updated" : "added" })
+      const outcome: SyncOutcome = existing ? "updated" : "added"
+      console.log(
+        `[rivals heroes] ${outcome} ${scraped.name} (icon=${iconWebp ? "ok" : "missing"}, prestige=${prestigeWebp ? "ok" : "missing"}, color=${color ?? "n/a"})`,
+      )
+      results.push({ name: scraped.name, outcome })
     } catch (error) {
       console.error(`[rivals heroes] failed to sync "${scraped.name}":`, error)
       results.push({ name: scraped.name, outcome: "failed" })
     }
   }
 
-  return {
+  const summary = {
     total: scrapedHeroes.length,
     added: results.filter((r) => r.outcome === "added").length,
     updated: results.filter((r) => r.outcome === "updated").length,
     failed: results.filter((r) => r.outcome === "failed").map((r) => r.name),
   }
+
+  console.log(
+    `[rivals heroes] sync complete: ${summary.added} added, ${summary.updated} updated, ${summary.failed.length} failed${
+      summary.failed.length ? ` (${summary.failed.join(", ")})` : ""
+    }`,
+  )
+
+  return summary
 })
 
 export default syncRivalsHeroes
