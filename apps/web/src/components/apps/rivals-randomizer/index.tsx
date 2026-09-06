@@ -3,6 +3,7 @@ import { useRivalsPlayers } from "./players"
 import { EMPTY_CONSTRAINTS, useRivalsConstraints } from "./constraints"
 import { TeamRosterReveal } from "./team-roster"
 import { generateBalancedTeams } from "./team-balancer"
+import RandomizeButton from "./randomize-button"
 import type { TeamSplitResult } from "./types"
 
 const REQUIRED_PLAYER_COUNT = 12
@@ -33,9 +34,12 @@ function RivalsRandomizer() {
 
   return (
     <div className="relative flex h-full w-full min-h-0 flex-col overflow-hidden text-ctp-text">
-      {/* Oversized so the blur's edge falloff doesn't reveal a sharp, unblurred boundary. */}
+      {/* Oversized so the blur's edge falloff doesn't reveal a sharp, unblurred boundary.
+          Explicit h/w (not just -inset-6 on all sides) because replaced elements like
+          <video> don't reliably stretch to fill inset-only positioning the way a plain
+          div does — some browsers keep the intrinsic aspect ratio instead. */}
       <video
-        className="absolute -inset-6 object-cover"
+        className="absolute -top-6 -left-6 h-[calc(100%+3rem)] w-[calc(100%+3rem)] object-cover"
         src="/Imgs/Images/cinematic.mp4"
         autoPlay
         loop
@@ -56,18 +60,17 @@ function RivalsRandomizer() {
           </header> */}
 
           <div className="flex shrink-0 flex-col items-center gap-1">
-            <button
-              type="button"
+            <RandomizeButton
               onClick={randomizeTeams}
               disabled={isRevealing || isLoading || !hasFullRoster}
-              className="rounded-full cursor-pointer bg-ctp-lavender px-8 py-3 font-jockey-one text-lg tracking-wide text-ctp-crust transition hover:bg-ctp-mauve disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              {isRevealing
-                ? "Rolling teams..."
-                : result
-                  ? "Randomize Again"
-                  : "Randomize Teams"}
-            </button>
+              label={
+                isRevealing
+                  ? "Rolling teams..."
+                  : result
+                    ? "Randomize Again"
+                    : "Randomize Teams"
+              }
+            />
           </div>
 
           {result ? (

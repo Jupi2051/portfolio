@@ -48,6 +48,56 @@
   src: local("Caveat"), url("/src/fonts/Caveat.ttf") format("truetype");
 }
 
+/** Digital-glitch flicker for the Rivals Randomizer button, played once on click. */
+@keyframes rivals-glitch {
+  0%,
+  100% {
+    transform: translate(0, 0) skew(0deg);
+    filter: hue-rotate(0deg) saturate(1);
+    text-shadow: none;
+  }
+  10% {
+    transform: translate(-4px, 2px) skew(-4deg);
+    filter: hue-rotate(50deg) saturate(2.2);
+    text-shadow:
+      -3px 0 #ff2b4a,
+      3px 0 #2bd4ff;
+  }
+  22% {
+    transform: translate(3px, -2px) skew(3deg);
+    filter: hue-rotate(-40deg) saturate(1.8);
+    text-shadow:
+      3px 0 #ff2b4a,
+      -3px 0 #2bd4ff;
+  }
+  34% {
+    transform: translate(-3px, 1px) skew(-2deg);
+    filter: hue-rotate(25deg);
+    text-shadow: none;
+  }
+  46% {
+    transform: translate(2px, -1px) skew(2deg);
+    text-shadow:
+      -2px 0 #ff2b4a,
+      2px 0 #2bd4ff;
+  }
+  58% {
+    transform: translate(0, 0) skew(0deg);
+    filter: hue-rotate(0deg) saturate(1);
+    text-shadow: none;
+  }
+  70% {
+    transform: translate(-2px, 2px);
+    text-shadow:
+      2px 0 #ff2b4a,
+      -2px 0 #2bd4ff;
+  }
+  82% {
+    transform: translate(2px, -1px);
+    text-shadow: none;
+  }
+}
+
 @theme {
   --font-open-sans: "Open Sans", sans-serif;
   --font-segoe-ui: "Segoe UI", sans-serif;
