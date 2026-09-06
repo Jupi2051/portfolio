@@ -32,8 +32,19 @@ function RivalsRandomizer() {
   }, [])
 
   return (
-    <div className="flex h-full w-full min-h-0 flex-col overflow-hidden bg-linear-to-br from-ctp-base via-ctp-mantle to-ctp-crust text-ctp-text">
-      <div className="flex min-h-0 flex-1 flex-col overflow-x-hidden overflow-y-auto overscroll-contain p-4 sm:p-6">
+    <div className="relative flex h-full w-full min-h-0 flex-col overflow-hidden text-ctp-text">
+      {/* Oversized so the blur's edge falloff doesn't reveal a sharp, unblurred boundary. */}
+      <video
+        className="absolute -inset-6 object-cover"
+        src="/Imgs/Images/cinematic.mp4"
+        autoPlay
+        loop
+        muted
+        playsInline
+      />
+      <div className="absolute inset-0 bg-linear-to-br from-ctp-base/85 via-ctp-mantle/80 to-ctp-crust/90" />
+
+      <div className="relative flex min-h-0 flex-1 flex-col overflow-x-hidden overflow-y-auto overscroll-contain p-4 sm:p-6">
         <div className="mx-auto flex h-full w-full min-h-0 max-w-340 flex-col gap-3">
           {/* <header className="text-center">
             <h1 className="font-jockey-one text-3xl tracking-wide text-ctp-lavender">
