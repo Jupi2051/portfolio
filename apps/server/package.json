@@ -1,6 +1,7 @@
 {
   "name": "@portfolio/server",
   "version": "0.0.0",
+  "type": "module",
   "packageManager": "pnpm@11.9.0",
   "scripts": {
     "dev": "tsx watch src/index.ts",
