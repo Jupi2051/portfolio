@@ -73,7 +73,10 @@ function TeamRoster({
                 index === entries.length - 1 ? onLastRowComplete : undefined
               }
             >
-              <TeamPlayerRow player={entry.player} />
+              <TeamPlayerRow
+                player={entry.player}
+                revealDelaySeconds={index * ROW_STAGGER_SECONDS + ROW_DURATION_SECONDS}
+              />
             </motion.li>
           )
         })}
