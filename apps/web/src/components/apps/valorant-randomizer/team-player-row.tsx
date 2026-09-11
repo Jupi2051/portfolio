@@ -14,6 +14,24 @@ export const ROW_SKEW_PX = 20
 
 const FALLBACK_OUTLINE_COLOR = "#ff4655"
 
+/**
+ * The row crops each agent's full-body art down to a headshot by shifting the
+ * whole image up (via a negative `top`) so the tall row-clip window lands on
+ * the face instead of empty headroom above it. -160px works for most agents'
+ * art, but how much headroom an agent's source art has above their head isn't
+ * consistent — Gekko's head sits almost at the very top of his canvas, so the
+ * same shift dives straight past his face into his shoulder. Per-agent
+ * overrides go here as they're spotted; unlisted agents use the default.
+ */
+const DEFAULT_ART_TOP_PX = -160
+const AGENT_ART_TOP_OVERRIDE_PX: Record<string, number> = {
+  gekko: -30,
+}
+
+function getArtTopPx(slug: string): number {
+  return AGENT_ART_TOP_OVERRIDE_PX[slug] ?? DEFAULT_ART_TOP_PX
+}
+
 function hideOnError(event: React.SyntheticEvent<HTMLImageElement>) {
   event.currentTarget.style.visibility = "hidden"
 }
@@ -102,8 +120,9 @@ function TeamPlayerRow({ player, revealDelaySeconds = 0 }: TeamPlayerRowProps) {
           <motion.img
             src={agentFullArtUrl(mainAgent.id)}
             alt=""
-            className="absolute inset-y-0 right-[-60%] -top-40 min-w-[180%]"
+            className="absolute right-[-40%] translate-y-13 min-w-[130%]"
             style={{
+              top: getArtTopPx(mainAgent.slug),
               objectFit: "cover",
               objectPosition: "50% 0%",
               WebkitMaskImage:

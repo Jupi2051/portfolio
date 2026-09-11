@@ -42,6 +42,16 @@ async function tryDownloadBuffer(url: string | null): Promise<Buffer | null> {
 type SyncOutcome = "added" | "updated" | "failed"
 
 /**
+ * The wiki serves icons at 1024x1024 and full art at 2048x1860 — far larger
+ * than this app ever renders them at (a ~60px avatar, a row-height background
+ * image). Capping here keeps both the transfer size and the per-frame cost of
+ * the reveal animation's SVG outline filter (which scales with pixel count)
+ * in the same ballpark as Rivals' equivalents (136px icons, 1200px prestige art).
+ */
+const ICON_MAX_WIDTH = 150
+const FULL_ART_MAX_WIDTH = 1200
+
+/**
  * Re-scrapes the live valorant.fandom.com agent roster and upserts a
  * `ValorantAgent` per agent: icon, full art, and a palette-derived accent color.
  */
@@ -61,8 +71,10 @@ const syncValorantAgents = protectedProcedure.mutation(async ({ ctx }) => {
       const iconSource = await tryDownloadBuffer(scraped.iconUrl)
       const fullArtSource = await tryDownloadBuffer(scraped.fullArtUrl)
 
-      const iconWebp = iconSource ? await convertToWebp(iconSource, false) : null
-      const fullArtWebp = fullArtSource ? await convertToWebp(fullArtSource, false) : null
+      const iconWebp = iconSource ? await convertToWebp(iconSource, false, ICON_MAX_WIDTH) : null
+      const fullArtWebp = fullArtSource
+        ? await convertToWebp(fullArtSource, false, FULL_ART_MAX_WIDTH)
+        : null
       // The icon is a tight headshot crop; the full art actually shows the
       // agent's costume/palette, which is what we want a theme color from.
       const colorSource = fullArtSource ?? iconSource

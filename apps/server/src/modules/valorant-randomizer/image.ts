@@ -34,16 +34,26 @@ export async function downloadImageBuffer(
 /**
  * Converts a Discord CDN image to webp. Animated sources (Discord only serves
  * those as gif) are re-encoded as animated webp so the motion survives.
+ *
+ * `maxWidth` downscales oversized sources before encoding (never enlarges) —
+ * the wiki serves agent art at native resolution (2048x1860 full art, 1024x1024
+ * icons) which is far more than this app ever displays. That excess resolution
+ * still has to be decoded and pushed through the per-row SVG outline filter
+ * (`feMorphology`) on every reveal-animation frame, which is a much heavier
+ * cost proportional to pixel count — capping it here is what keeps the reveal
+ * smooth instead of janky.
  */
 export async function convertToWebp(
   sourceBuffer: Buffer,
   isAnimated: boolean,
+  maxWidth?: number,
 ): Promise<PrismaBytes> {
+  const pipeline = isAnimated ? sharp(sourceBuffer, { animated: true }) : sharp(sourceBuffer)
+  if (maxWidth) pipeline.resize({ width: maxWidth, withoutEnlargement: true })
+
   const webp = isAnimated
-    ? await sharp(sourceBuffer, { animated: true })
-        .webp({ quality: 85, effort: 4 })
-        .toBuffer()
-    : await sharp(sourceBuffer).webp({ quality: 90 }).toBuffer()
+    ? await pipeline.webp({ quality: 85, effort: 4 }).toBuffer()
+    : await pipeline.webp({ quality: 90 }).toBuffer()
 
   const bytes = new Uint8Array(webp.length)
   bytes.set(webp)
@@ -53,9 +63,10 @@ export async function convertToWebp(
 export async function downloadAndConvertToWebp(
   url: string,
   isAnimated: boolean,
+  maxWidth?: number,
 ): Promise<PrismaBytes> {
   const sourceBuffer = await downloadImageBuffer(url)
-  return convertToWebp(sourceBuffer, isAnimated)
+  return convertToWebp(sourceBuffer, isAnimated, maxWidth)
 }
 
 /**
