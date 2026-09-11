@@ -1,52 +1,52 @@
-import { DesktopAppsList } from "@/components/windows/desktop/apps-list";
-import cn from "classnames";
-import useGlobalWindowsControls from "@/hooks/use-global-windows-controls";
-import useGlobalTaskbarControls from "@/hooks/use-global-taskbar-controls";
+import { DesktopAppsList } from "@/components/windows/desktop/apps-list"
+import cn from "classnames"
+import useGlobalWindowsControls from "@/hooks/use-global-windows-controls"
+import useGlobalTaskbarControls from "@/hooks/use-global-taskbar-controls"
 export interface ExplorerItemData {
-  ApplicationName: string;
-  Icon: string;
-  id: number;
-  customTaskbarIcon?: string;
-  Selected?: boolean;
-  AppName: DesktopAppsList;
-  processData?: Object;
+  ApplicationName: string
+  Icon: string
+  id: number
+  customTaskbarIcon?: string
+  Selected?: boolean
+  AppName: DesktopAppsList
+  processData?: Object
 }
 
 function ExplorerItem(Props: ExplorerItemData) {
-  const { openNewApplication } = useGlobalWindowsControls();
-  const { openNewTaskbarApplication } = useGlobalTaskbarControls();
+  const { openNewApplication } = useGlobalWindowsControls()
+  const { openNewTaskbarApplication } = useGlobalTaskbarControls()
 
   function onClickApplication(
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) {
-    if (event.detail !== 2) return;
+    if (event.detail !== 2) return
 
     const ApplicationObject = {
       App: Props.AppName,
       processIcon: Props.customTaskbarIcon ?? Props.Icon,
       processName: Props.ApplicationName,
       processData: Props.processData,
-    };
+    }
 
     const { focusWindow, bringWindowToFront, app } =
-      openNewApplication(ApplicationObject);
+      openNewApplication(ApplicationObject)
 
-    focusWindow();
-    bringWindowToFront();
+    focusWindow()
+    bringWindowToFront()
     openNewTaskbarApplication({
       id: app.id,
       AppId: app.id,
       Icon: Props.Icon,
       CustomTaskbarIcon: Props.customTaskbarIcon,
-    });
+    })
   }
 
   return (
     <div
       className={cn(
-        "relative flex flex-col w-[100px] h-[100px] pt-3 items-center gap-1 text-white select-none isolate",
+        "relative flex flex-col w-25 h-25 pt-3 items-center gap-1 text-white select-none isolate",
         'after:content-[" "] after:pointer-events-none after:w-full after:h-full after:absolute after:left-1/2 after:top-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-md after:bg-transparent after:z-[-1] hover:after:bg-white/15',
-        { "after:bg-white/15": Props.Selected }
+        { "after:bg-white/15": Props.Selected },
       )}
       onClick={onClickApplication}
     >
@@ -62,7 +62,7 @@ function ExplorerItem(Props: ExplorerItemData) {
         {Props.ApplicationName}
       </h1>
     </div>
-  );
+  )
 }
 
-export default ExplorerItem;
+export default ExplorerItem
