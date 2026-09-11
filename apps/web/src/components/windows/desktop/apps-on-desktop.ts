@@ -2,6 +2,7 @@ import { DesktopAppsList } from "@/components/windows/desktop/apps-list"
 import {
   DesktopData,
   ProjectsFolder,
+  RandomizersFolder,
 } from "@/components/apps/explorer/folders-items"
 
 export type DesktopIconData = {
@@ -174,19 +175,20 @@ export let DesktopIcons: DesktopIconData[] = [
     AppComponent: DesktopAppsList.WallpapersRocket,
   },
   {
-    id: 19,
-    Name: "Rivals Randomizer",
-    IconPath: "Imgs/DesktopApps/Rivals.webp",
-    Style: {},
-    Selected: false,
-    AppComponent: DesktopAppsList.RivalsRandomizer,
-  },
-  {
     id: 20,
     Name: "Jenni SMP B",
     IconPath: "Imgs/DesktopApps/GoldIngot.png",
     Style: {},
     Selected: false,
     AppComponent: DesktopAppsList.JenniSmpB,
+  },
+  {
+    id: 21,
+    Name: "Randomizers",
+    IconPath: "Imgs/DesktopApps/Folder.webp",
+    Style: {},
+    Selected: false,
+    AppComponent: DesktopAppsList.Explorer,
+    processData: { items: RandomizersFolder },
   },
 ]

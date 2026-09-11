@@ -4,17 +4,20 @@ import cn from "classnames";
 const BLOG_DESKTOP_ICON = "/Imgs/DesktopApps/Notepad.webp";
 const VICO_DESKTOP_ICON = "/Imgs/Apps/Photos.jpg";
 const RIVALS_DESKTOP_ICON = "/Imgs/DesktopApps/Rivals.webp";
+const VALORANT_DESKTOP_ICON = "/Imgs/DesktopApps/ValorantRandomizer.webp";
 
 type Props = {
   onSelectArticles: () => void;
   onSelectVico: () => void;
   onSelectRivalsRandomizer: () => void;
+  onSelectValorantRandomizer: () => void;
 };
 
 export default function ControlsHome({
   onSelectArticles,
   onSelectVico,
   onSelectRivalsRandomizer,
+  onSelectValorantRandomizer,
 }: Props) {
   return (
     <div className="flex min-h-full w-full flex-col items-center justify-center gap-8 bg-linear-to-br from-ctp-base to-ctp-mantle p-8">
@@ -88,6 +91,27 @@ export default function ControlsHome({
           </span>
           <span className="text-xs text-ctp-subtext1">
             Manage the player pool, ranks, heroes, and pairing constraints.
+          </span>
+        </button>
+        <button
+          type="button"
+          onClick={onSelectValorantRandomizer}
+          className={cn(
+            "flex flex-1 cursor-pointer flex-col items-center gap-3 rounded-xl border-2 border-ctp-lavender/40 bg-ctp-mantle px-6 py-8 text-center shadow-lg transition",
+            "hover:border-ctp-lavender hover:bg-ctp-surface0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ctp-lavender/50",
+          )}
+        >
+          <img
+            src={VALORANT_DESKTOP_ICON}
+            alt=""
+            className="h-14 w-14 shrink-0 object-contain"
+            aria-hidden
+          />
+          <span className="font-capirola text-lg font-semibold text-ctp-text">
+            Valorant Randomizer
+          </span>
+          <span className="text-xs text-ctp-subtext1">
+            Manage the player pool, ranks, agent mains, and pairing constraints.
           </span>
         </button>
       </div>

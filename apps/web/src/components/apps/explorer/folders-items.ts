@@ -94,4 +94,19 @@ const ProjectsFolder: FolderItem[] = [
   // },
 ]
 
-export { DesktopData, ProjectsFolder }
+const RandomizersFolder: FolderItem[] = [
+  {
+    id: 30,
+    Name: "Rivals Randomizer",
+    IconPath: "Imgs/DesktopApps/Rivals.webp",
+    AppComponent: DesktopAppsList.RivalsRandomizer,
+  },
+  {
+    id: 31,
+    Name: "Valorant Randomizer",
+    IconPath: "Imgs/DesktopApps/ValorantRandomizer.webp",
+    AppComponent: DesktopAppsList.ValorantRandomizer,
+  },
+]
+
+export { DesktopData, ProjectsFolder, RandomizersFolder }

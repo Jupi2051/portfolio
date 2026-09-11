@@ -4,13 +4,12 @@ import { z } from "zod"
 import { fetchDiscordProfile } from "@/lib/discord-client"
 import { downloadAndConvertToWebp } from "../image"
 import { writePlayerImagesToDisk } from "../prepare-images"
-import { LOWEST_RIVALS_RANK } from "../rank-labels"
-import { DEFAULT_ROLE_SKILLS } from "../validators"
+import { LOWEST_VALORANT_RANK } from "../rank-labels"
 
-const addRivalsPlayer = protectedProcedure
+const addValorantPlayer = protectedProcedure
   .input(z.object({ discordId: z.string().trim().min(1).max(32) }))
   .mutation(async ({ ctx, input }) => {
-    const existing = await ctx.prisma.rivalsPlayer.findUnique({
+    const existing = await ctx.prisma.valorantPlayer.findUnique({
       where: { discordId: input.discordId },
     })
     if (existing) {
@@ -20,13 +19,13 @@ const addRivalsPlayer = protectedProcedure
       })
     }
 
-    console.log(`[rivals players] fetching Discord profile for ${input.discordId}...`)
+    console.log(`[valorant players] fetching Discord profile for ${input.discordId}...`)
 
     let profile
     try {
       profile = await fetchDiscordProfile(input.discordId)
     } catch (error) {
-      console.error(`[rivals players] Discord lookup failed for ${input.discordId}:`, error)
+      console.error(`[valorant players] Discord lookup failed for ${input.discordId}:`, error)
       throw new TRPCError({
         code: "BAD_REQUEST",
         message: "Could not find a Discord user with that ID",
@@ -34,7 +33,7 @@ const addRivalsPlayer = protectedProcedure
     }
 
     console.log(
-      `[rivals players] found ${profile.displayName} (@${profile.username}), downloading avatar/banner...`,
+      `[valorant players] found ${profile.displayName} (@${profile.username}), downloading avatar/banner...`,
     )
 
     const [avatarWebp, bannerWebp] = await Promise.all([
@@ -46,11 +45,11 @@ const addRivalsPlayer = protectedProcedure
         : Promise.resolve(null),
     ])
 
-    const { _max } = await ctx.prisma.rivalsPlayer.aggregate({
+    const { _max } = await ctx.prisma.valorantPlayer.aggregate({
       _max: { order: true },
     })
 
-    const created = await ctx.prisma.rivalsPlayer.create({
+    const created = await ctx.prisma.valorantPlayer.create({
       data: {
         discordId: profile.discordId,
         displayName: profile.displayName,
@@ -59,8 +58,7 @@ const addRivalsPlayer = protectedProcedure
         avatarIsAnimated: profile.avatarIsAnimated,
         bannerWebp,
         bannerIsAnimated: profile.bannerIsAnimated,
-        rank: LOWEST_RIVALS_RANK,
-        roleSkills: DEFAULT_ROLE_SKILLS,
+        rank: LOWEST_VALORANT_RANK,
         order: (_max.order ?? 0) + 1,
       },
       select: { id: true, discordId: true, displayName: true, username: true },
@@ -68,9 +66,9 @@ const addRivalsPlayer = protectedProcedure
 
     await writePlayerImagesToDisk({ id: created.id, avatarWebp, bannerWebp })
 
-    console.log(`[rivals players] added ${created.displayName} (id=${created.id})`)
+    console.log(`[valorant players] added ${created.displayName} (id=${created.id})`)
 
     return created
   })
 
-export default addRivalsPlayer
+export default addValorantPlayer

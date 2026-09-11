@@ -168,3 +168,104 @@ model RivalsSettings {
 
   updatedAt DateTime @updatedAt
 }
+
+enum ValorantRank {
+  IRON_3
+  IRON_2
+  IRON_1
+  BRONZE_3
+  BRONZE_2
+  BRONZE_1
+  SILVER_3
+  SILVER_2
+  SILVER_1
+  GOLD_3
+  GOLD_2
+  GOLD_1
+  PLATINUM_3
+  PLATINUM_2
+  PLATINUM_1
+  DIAMOND_3
+  DIAMOND_2
+  DIAMOND_1
+  ASCENDANT_3
+  ASCENDANT_2
+  ASCENDANT_1
+  IMMORTAL_3
+  IMMORTAL_2
+  IMMORTAL_1
+  RADIANT
+}
+
+enum ValorantConstraintType {
+  MUST_PAIR
+  MUST_SPLIT
+}
+
+model ValorantAgent {
+  id   String @id @default(cuid())
+  slug String @unique
+  name String
+
+  iconWebp    Bytes? @db.ByteA
+  fullArtWebp Bytes? @db.ByteA
+  color       String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  players ValorantPlayer[]
+}
+
+model ValorantPlayer {
+  id        String @id @default(cuid())
+  discordId String @unique
+
+  displayName String
+  username    String
+
+  avatarWebp       Bytes?  @db.ByteA
+  avatarIsAnimated Boolean @default(false)
+  bannerWebp       Bytes?  @db.ByteA
+  bannerIsAnimated Boolean @default(false)
+
+  rank ValorantRank @default(IRON_3)
+
+  mainAgentId String?
+  mainAgent   ValorantAgent? @relation(fields: [mainAgentId], references: [id], onDelete: SetNull)
+
+  /** Overall skill weight (0-1) used by the frontend balancer. */
+  skillLevel Float @default(0.5)
+
+  isActive Boolean @default(false)
+  order    Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  constraintsAsA ValorantPlayerConstraint[] @relation("ValorantConstraintPlayerA")
+  constraintsAsB ValorantPlayerConstraint[] @relation("ValorantConstraintPlayerB")
+}
+
+model ValorantPlayerConstraint {
+  id   String                 @id @default(cuid())
+  type ValorantConstraintType
+
+  playerAId String
+  playerBId String
+  playerA   ValorantPlayer @relation("ValorantConstraintPlayerA", fields: [playerAId], references: [id], onDelete: Cascade)
+  playerB   ValorantPlayer @relation("ValorantConstraintPlayerB", fields: [playerBId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([type, playerAId, playerBId])
+}
+
+model ValorantSettings {
+  id String @id @default("singleton")
+
+  useSkillLevel  Boolean @default(true)
+  useConstraints Boolean @default(true)
+
+  updatedAt DateTime @updatedAt
+}

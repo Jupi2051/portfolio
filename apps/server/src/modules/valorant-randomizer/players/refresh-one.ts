@@ -23,7 +23,7 @@ export async function refreshPlayerFromDiscord(player: {
       : Promise.resolve(null),
   ])
 
-  const updated = await prisma.rivalsPlayer.update({
+  const updated = await prisma.valorantPlayer.update({
     where: { id: player.id },
     data: {
       displayName: profile.displayName,

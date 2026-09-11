@@ -9,6 +9,9 @@ import type { ControlsPanel } from "./controls-panel-types";
 const RivalsRandomizerControlsPanel = lazy(
   () => import("../rivals-randomizer-controls/rivals-randomizer-controls-panel"),
 );
+const ValorantRandomizerControlsPanel = lazy(
+  () => import("../valorant-randomizer-controls/valorant-randomizer-controls-panel"),
+);
 
 const ArticleControls = () => {
   const [panel, setPanel] = useState<ControlsPanel>("home");
@@ -20,6 +23,7 @@ const ArticleControls = () => {
         onSelectArticles={() => setPanel("articles")}
         onSelectVico={() => setPanel("vico")}
         onSelectRivalsRandomizer={() => setPanel("rivals-randomizer")}
+        onSelectValorantRandomizer={() => setPanel("valorant-randomizer")}
       />
     );
   }
@@ -32,6 +36,14 @@ const ArticleControls = () => {
     return (
       <Suspense fallback={<ControlsLoadingScreen />}>
         <RivalsRandomizerControlsPanel onBack={() => setPanel("home")} />
+      </Suspense>
+    );
+  }
+
+  if (panel === "valorant-randomizer") {
+    return (
+      <Suspense fallback={<ControlsLoadingScreen />}>
+        <ValorantRandomizerControlsPanel onBack={() => setPanel("home")} />
       </Suspense>
     );
   }
