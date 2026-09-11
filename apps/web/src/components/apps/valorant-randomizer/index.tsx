@@ -43,7 +43,19 @@ function ValorantRandomizer() {
 
   return (
     <div className="relative flex h-full w-full min-h-0 flex-col overflow-hidden text-ctp-text">
-      <div className="absolute inset-0 bg-linear-to-br from-ctp-crust via-ctp-mantle to-ctp-base" />
+      {/* Oversized so the blur's edge falloff doesn't reveal a sharp, unblurred boundary.
+          Explicit h/w (not just -inset-6 on all sides) because replaced elements like
+          <video> don't reliably stretch to fill inset-only positioning the way a plain
+          div does — some browsers keep the intrinsic aspect ratio instead. */}
+      <video
+        className="absolute -top-6 -left-6 h-[calc(100%+3rem)] w-[calc(100%+3rem)] object-cover"
+        src="/Imgs/Images/valorantcinematic.mp4"
+        autoPlay
+        loop
+        muted
+        playsInline
+      />
+      <div className="absolute inset-0 bg-linear-to-br from-ctp-crust/90 via-ctp-mantle/80 to-ctp-base/85" />
       <div className="absolute inset-0 bg-linear-to-br from-ctp-red/10 via-transparent to-ctp-blue/10" />
 
       <div className="relative flex min-h-0 flex-1 flex-col overflow-x-hidden overflow-y-auto overscroll-contain p-4 sm:p-6">
