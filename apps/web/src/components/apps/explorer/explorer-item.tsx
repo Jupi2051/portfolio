@@ -44,15 +44,15 @@ function ExplorerItem(Props: ExplorerItemData) {
   return (
     <div
       className={cn(
-        "relative flex flex-col w-[100px] h-[100px] pb-4 items-center justify-center text-white select-none isolate",
+        "relative flex flex-col w-[100px] h-[100px] pt-3 items-center gap-1 text-white select-none isolate",
         'after:content-[" "] after:pointer-events-none after:w-full after:h-full after:absolute after:left-1/2 after:top-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-md after:bg-transparent after:z-[-1] hover:after:bg-white/15',
         { "after:bg-white/15": Props.Selected }
       )}
       onClick={onClickApplication}
     >
-      <img src={Props.Icon} className="w-3/5 pointer-events-none" />
+      <img src={Props.Icon} className="w-3/5 shrink-0 pointer-events-none" />
       <h1
-        className="absolute bottom-1 font-segoe-ui-light font-thin text-xs mt-1.5 select-none pointer-events-none"
+        className="w-full shrink-0 px-1 text-center leading-tight font-segoe-ui-light font-thin text-xs select-none pointer-events-none"
         style={{
           textShadow:
             "-1px -1px 1px #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000",
