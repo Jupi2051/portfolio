@@ -3,17 +3,40 @@ import { computeAccentColorHex, convertToWebp, downloadImageBuffer } from "../im
 import { writeAgentImagesToDisk } from "../prepare-images"
 import { scrapeAgentList } from "./scrape"
 
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+const DOWNLOAD_ATTEMPTS = 3
+
+/**
+ * The CDN's bot-management occasionally 403s an individual request under
+ * rapid back-to-back hits from the same IP (a real browser UA is necessary
+ * but not always sufficient) even though the file itself is fine — retrying
+ * after a short pause reliably gets it through. Verified: a one-off failure
+ * on a specific agent (e.g. Chamber's icon) was not reproducible in isolation,
+ * only under the sync's tight per-agent request loop.
+ */
 async function tryDownloadBuffer(url: string | null): Promise<Buffer | null> {
   if (!url) return null
-  try {
-    return await downloadImageBuffer(url, { Referer: "https://valorant.fandom.com/" })
-  } catch (error) {
-    console.error(
-      `[valorant agents] image download failed for ${url}:`,
-      error instanceof Error ? error.message : error,
-    )
-    return null
+
+  for (let attempt = 1; attempt <= DOWNLOAD_ATTEMPTS; attempt++) {
+    try {
+      return await downloadImageBuffer(url, { Referer: "https://valorant.fandom.com/" })
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error)
+      if (attempt === DOWNLOAD_ATTEMPTS) {
+        console.error(`[valorant agents] image download failed for ${url}: ${message}`)
+        return null
+      }
+      console.warn(
+        `[valorant agents] image download attempt ${attempt} failed for ${url} (${message}), retrying...`,
+      )
+      await sleep(500 * attempt)
+    }
   }
+
+  return null
 }
 
 type SyncOutcome = "added" | "updated" | "failed"
@@ -74,6 +97,9 @@ const syncValorantAgents = protectedProcedure.mutation(async ({ ctx }) => {
       console.error(`[valorant agents] failed to sync "${scraped.name}":`, error)
       results.push({ name: scraped.name, outcome: "failed" })
     }
+
+    // Be a well-behaved scraper: a small pause between agents' image downloads too.
+    await sleep(150)
   }
 
   const summary = {
