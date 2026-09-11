@@ -6,8 +6,12 @@ import { scrapeAgentList } from "./scrape"
 async function tryDownloadBuffer(url: string | null): Promise<Buffer | null> {
   if (!url) return null
   try {
-    return await downloadImageBuffer(url)
-  } catch {
+    return await downloadImageBuffer(url, { Referer: "https://valorant.fandom.com/" })
+  } catch (error) {
+    console.error(
+      `[valorant agents] image download failed for ${url}:`,
+      error instanceof Error ? error.message : error,
+    )
     return null
   }
 }

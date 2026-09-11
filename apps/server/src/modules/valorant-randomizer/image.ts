@@ -10,9 +10,23 @@ import { Vibrant } from "node-vibrant/node"
  */
 export type PrismaBytes = Uint8Array<ArrayBuffer>
 
-export async function downloadImageBuffer(url: string): Promise<Buffer> {
+/**
+ * static.wikia.nocookie.net (the wiki's Cloudflare-fronted image CDN) 403s any
+ * non-browser User-Agent — confirmed directly: axios's default UA (and even a
+ * blank one) gets rejected, a real browser UA is let through. Discord's CDN
+ * doesn't care either way, so this is applied unconditionally rather than only
+ * for wiki downloads.
+ */
+const BROWSER_USER_AGENT =
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+
+export async function downloadImageBuffer(
+  url: string,
+  extraHeaders?: Record<string, string>,
+): Promise<Buffer> {
   const response = await axios.get<ArrayBuffer>(url, {
     responseType: "arraybuffer",
+    headers: { "User-Agent": BROWSER_USER_AGENT, ...extraHeaders },
   })
   return Buffer.from(response.data)
 }

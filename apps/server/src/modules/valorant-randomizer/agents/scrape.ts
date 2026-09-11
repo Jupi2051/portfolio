@@ -2,6 +2,8 @@ import axios from "axios"
 
 const API_BASE = "https://valorant.fandom.com/api.php"
 const CATEGORY_TITLE = "Category:Agents"
+/** MediaWiki's API etiquette asks for a descriptive UA; api.php isn't Cloudflare-gated like the CDN, but this is cheap insurance against future throttling. */
+const API_HEADERS = { "User-Agent": "ValorantRandomizerBot/1.0 (+https://jupi.dev)" }
 
 export type ScrapedAgent = {
   slug: string
@@ -77,6 +79,7 @@ export async function scrapeAgentList(): Promise<ScrapedAgent[]> {
       cmlimit: 500,
       format: "json",
     },
+    headers: API_HEADERS,
     timeout: 15000,
   })
 
@@ -95,6 +98,7 @@ export async function scrapeAgentList(): Promise<ScrapedAgent[]> {
           prop: "pageprops",
           format: "json",
         },
+        headers: API_HEADERS,
         timeout: 15000,
       })
 
