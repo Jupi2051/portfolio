@@ -75,9 +75,23 @@ function TeamPlayerRow({ player, revealDelaySeconds = 0 }: TeamPlayerRowProps) {
               height="140%"
               colorInterpolationFilters="sRGB"
             >
-              <feMorphology in="SourceAlpha" operator="dilate" radius="3" result="dilated" />
-              <feFlood floodColor={mainColor ?? FALLBACK_OUTLINE_COLOR} floodOpacity="1" result="outlineColor" />
-              <feComposite in="outlineColor" in2="dilated" operator="in" result="outline" />
+              <feMorphology
+                in="SourceAlpha"
+                operator="dilate"
+                radius="3"
+                result="dilated"
+              />
+              <feFlood
+                floodColor={mainColor ?? FALLBACK_OUTLINE_COLOR}
+                floodOpacity="1"
+                result="outlineColor"
+              />
+              <feComposite
+                in="outlineColor"
+                in2="dilated"
+                operator="in"
+                result="outline"
+              />
               <feMerge>
                 <feMergeNode in="outline" />
                 <feMergeNode in="SourceGraphic" />
@@ -88,11 +102,12 @@ function TeamPlayerRow({ player, revealDelaySeconds = 0 }: TeamPlayerRowProps) {
           <motion.img
             src={agentFullArtUrl(mainAgent.id)}
             alt=""
-            className="absolute inset-y-0 right-0 -top-14 w-[50%]"
+            className="absolute inset-y-0 right-[-60%] -top-40 min-w-[180%]"
             style={{
               objectFit: "cover",
               objectPosition: "50% 0%",
-              WebkitMaskImage: "linear-gradient(to right, transparent, black 60%)",
+              WebkitMaskImage:
+                "linear-gradient(to right, transparent, black 60%)",
               maskImage: "linear-gradient(to right, transparent, black 60%)",
               filter: `url(#${outlineFilterId})`,
             }}
