@@ -132,8 +132,8 @@ function DesktopIcon(Props: PropTypes) {
       style={{ ...Props.Style }}
       className={cn(
         "Desktop-Icon-Container",
-        "relative flex flex-col w-[90px] h-[90px] pb-4 items-center justify-center text-white select-none isolate",
-        'after:content-[" "] after:pointer-events-none after:w-[98%] after:h-full after:absolute after:left-1/2 after:top-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-md after:bg-transparent after:z-[-1] after:blur-lg after:transition-opacity after:duration-200 hover:after:bg-[#FFF]/25 active:after:opacity-0',
+        "relative flex flex-col w-22.5 h-22.5 pb-4 items-center justify-center text-white select-none isolate",
+        'after:content-[" "] after:pointer-events-none after:w-[98%] after:h-full after:absolute after:left-1/2 after:top-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-md after:bg-transparent after:z-[-1] after:blur-lg after:transition-opacity after:duration-200 hover:after:bg-white/25 active:after:opacity-0',
         {
           "z-999 after:bg-linear-to-tl after:from-[#FFF]/30 after:to-[#FFF]/30 after:blur-lg":
             Props.Selected,
@@ -162,7 +162,7 @@ function DesktopIcon(Props: PropTypes) {
     >
       <motion.img
         src={Props.Icon}
-        className="max-h-[50px] max-w-[55px]"
+        className="max-h-12.5 max-w-13.75"
         variants={AnimationFrames}
         animate={Props.Selected ? "selected" : "unselected"}
         draggable={false}
