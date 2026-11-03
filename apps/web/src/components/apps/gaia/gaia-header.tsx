@@ -9,7 +9,7 @@ export default function GaiaHeader() {
         <h1 className="text-sm font-semibold tracking-tight text-ctp-text">
           Gaia
         </h1>
-        <span className="text-[10px] font-medium uppercase tracking-widest text-ctp-subtext0">
+        <span className="text-2xs font-medium uppercase tracking-widest text-ctp-subtext0">
           HTTP client
         </span>
       </div>

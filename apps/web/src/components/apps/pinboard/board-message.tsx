@@ -92,23 +92,23 @@ function BoardMessage({
         className={cn(
           "backdrop-blur-sm p-8 shadow-2xl max-w-sm border-4 relative transform hover:scale-105 transition-all duration-300 rounded-tl-3xl rounded-tr-xl rounded-bl-xl rounded-br-3xl",
           {
-            "bg-gradient-to-br from-blue-50/95 to-blue-100/90 border-blue-300 shadow-blue-200/50":
+            "bg-linear-to-br from-blue-50/95 to-blue-100/90 border-blue-300 shadow-blue-200/50":
               color === "blue",
-            "bg-gradient-to-br from-white/95 to-gray-50/90 border-gray-300 shadow-gray-200/50":
+            "bg-linear-to-br from-white/95 to-gray-50/90 border-gray-300 shadow-gray-200/50":
               color === "white",
-            "bg-gradient-to-br from-gray-800/95 to-gray-900/90 border-gray-600 shadow-gray-800/50":
+            "bg-linear-to-br from-gray-800/95 to-gray-900/90 border-gray-600 shadow-gray-800/50":
               color === "black",
-            "bg-gradient-to-br from-green-50/95 to-green-100/90 border-green-300 shadow-green-200/50":
+            "bg-linear-to-br from-green-50/95 to-green-100/90 border-green-300 shadow-green-200/50":
               color === "green",
-            "bg-gradient-to-br from-red-50/95 to-red-100/90 border-red-300 shadow-red-200/50":
+            "bg-linear-to-br from-red-50/95 to-red-100/90 border-red-300 shadow-red-200/50":
               color === "red",
-            "bg-gradient-to-br from-pink-50/95 to-pink-100/90 border-pink-300 shadow-pink-200/50":
+            "bg-linear-to-br from-pink-50/95 to-pink-100/90 border-pink-300 shadow-pink-200/50":
               color === "pink",
-            "bg-gradient-to-br from-yellow-50/95 to-yellow-100/90 border-yellow-300 shadow-yellow-200/50":
+            "bg-linear-to-br from-yellow-50/95 to-yellow-100/90 border-yellow-300 shadow-yellow-200/50":
               color === "yellow",
-            "bg-gradient-to-br from-gray-50/95 to-gray-100/90 border-gray-300 shadow-gray-200/50":
+            "bg-linear-to-br from-gray-50/95 to-gray-100/90 border-gray-300 shadow-gray-200/50":
               color === "gray",
-            "bg-gradient-to-br from-ctp-mauve/20 to-ctp-mauve/30 border-ctp-mauve/40 shadow-ctp-mauve/30":
+            "bg-linear-to-br from-ctp-mauve/20 to-ctp-mauve/30 border-ctp-mauve/40 shadow-ctp-mauve/30":
               color === "purple",
           }
         )}

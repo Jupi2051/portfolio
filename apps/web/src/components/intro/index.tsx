@@ -30,7 +30,7 @@ const Intro = ({ setLoaded }: { setLoaded: (loaded: boolean) => void }) => {
               Size={210}
               skipEnterAnimation={true}
             />
-            <OrbitLoader className="absolute top-1/2" moonClassName="!w-4" />
+            <OrbitLoader className="absolute top-1/2" moonClassName="w-4!" />
           </div>
           {/* <WavyText
             text="Welcome"

@@ -1,5 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { TaskbarOpenApplication } from "@/components/windows/taskbar/taskbar-open-apps";
+
+export type TaskbarOpenApplication = {
+  Icon: string;
+  id: number;
+  AppId: number;
+};
 
 type InitState = {
   TaskbarOpenApplications: TaskbarOpenApplication[];

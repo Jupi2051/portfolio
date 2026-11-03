@@ -94,7 +94,7 @@ const TerminalTextBased: React.FC<TerminalProps> = ({
       "\x1b[1m": '<span style="font-weight: bold">',
       "\x1b[2m": '<span style="opacity: 0.5">',
       "\x1b[4m": '<span style="text-decoration: underline">',
-      "\x1b[5m": '<span style="animation: blink 1s infinite">',
+      "\x1b[5m": '<span class="animate-blink">',
       "\x1b[7m": `<span style="background-color: currentColor; color: ${theme.colors.background}">`,
       "\x1b[8m": '<span style="color: transparent">',
 
@@ -156,102 +156,39 @@ const TerminalTextBased: React.FC<TerminalProps> = ({
     return processed;
   };
 
-  useEffect(() => {
-    const theme = getTheme(currentTheme);
-    const style = document.createElement("style");
-    style.textContent = `
-      .terminal-selection ::selection {
-        background-color: ${theme.colors.selection};
-        color: ${theme.colors.selectionText};
-      }
-      .terminal-selection ::-moz-selection {
-        background-color: ${theme.colors.selection};
-        color: ${theme.colors.selectionText};
-      }
-      .terminal-selection a {
-        color: ${theme.colors.link} !important;
-        text-decoration: underline !important;
-        cursor: pointer;
-      }
-      .terminal-selection a:hover {
-        color: ${theme.colors.linkHover} !important;
-        text-decoration: underline !important;
-      }
-      @keyframes blink {
-        0%, 50% { opacity: 1; }
-        51%, 100% { opacity: 0; }
-      }
-      
-      .terminal-selection::-webkit-scrollbar {
-        width: 8px;
-      }
-      .terminal-selection::-webkit-scrollbar-track {
-        background: transparent;
-      }
-      .terminal-selection::-webkit-scrollbar-thumb {
-        background: ${theme.colors.scrollbar};
-        border-radius: 4px;
-        border: none;
-      }
-      .terminal-selection::-webkit-scrollbar-thumb:hover {
-        background: ${theme.colors.scrollbarHover};
-      }
-      .terminal-selection::-webkit-scrollbar-corner {
-        background: transparent;
-      }
-      
-      .terminal-selection {
-        scrollbar-width: thin;
-        scrollbar-color: ${theme.colors.scrollbar} transparent;
-      }
-      
-      .terminal-selection div {
-        margin: 0 !important;
-        padding: 0 !important;
-        line-height: 1 !important;
-      }
-    `;
-    document.head.appendChild(style);
-
-    return () => {
-      document.head.removeChild(style);
-    };
-  }, [currentTheme]);
-
   const theme = getTheme(currentTheme);
+
+  // Theme colours flow in as CSS variables so selection, links and the
+  // scrollbar can be styled with Tailwind instead of an injected <style> tag.
+  const themeVars = {
+    "--term-bg": theme.colors.background,
+    "--term-fg": theme.colors.foreground,
+    "--term-selection": theme.colors.selection,
+    "--term-selection-text": theme.colors.selectionText,
+    "--term-link": theme.colors.link,
+    "--term-link-hover": theme.colors.linkHover,
+    "--term-scrollbar": theme.colors.scrollbar,
+    "--term-prompt": theme.colors.blue,
+    "--term-muted": theme.colors.gray,
+  } as React.CSSProperties;
 
   return (
     <div
       ref={terminalRef}
-      className="w-full h-full font-roboto font-normal @lg/appwindow:p-6 p-3 overflow-y-auto terminal-selection"
-      style={{
-        background: theme.colors.background,
-        color: theme.colors.foreground,
-      }}
+      className={[
+        "h-full w-full overflow-y-auto [background:var(--term-bg)] px-4 py-3.5 font-mono text-[13px] leading-5 text-(--term-fg) @lg/appwindow:px-5 @lg/appwindow:py-4.5",
+        "selection:bg-(--term-selection) selection:text-(--term-selection-text) **:selection:bg-(--term-selection) **:selection:text-(--term-selection-text)",
+        "[&_a]:cursor-pointer [&_a]:text-(--term-link)! [&_a]:underline [&_a:hover]:text-(--term-link-hover)!",
+        "[scrollbar-color:var(--term-scrollbar)_transparent] scrollbar-thin",
+      ].join(" ")}
+      style={themeVars}
       onClick={handleTerminalClick}
       onContextMenu={handleTerminalContextMenu}
     >
-      <div
-        className="whitespace-pre-wrap break-words"
-        style={{
-          fontFamily: "monospace",
-          fontSize: "16px",
-          lineHeight: 1,
-          margin: 0,
-          padding: 0,
-        }}
-      >
+      <div className="wrap-break-word whitespace-pre-wrap">
         {history.slice(-MAX_HISTORY_LINES).map((line, i) => (
           <div
             key={i}
-            style={{
-              fontFamily: "monospace",
-              fontSize: "12px",
-              lineHeight: 1,
-              margin: 0,
-              padding: 0,
-              color: theme.colors.foreground,
-            }}
             dangerouslySetInnerHTML={{
               __html: line === "" ? "&nbsp;" : processEscapeSequences(line),
             }}
@@ -261,31 +198,27 @@ const TerminalTextBased: React.FC<TerminalProps> = ({
 
       <form
         onSubmit={onSubmit}
-        className="flex items-center relative bottom-1"
+        className="flex items-center gap-2"
         style={{ opacity: isCommandRunning && !isWaitingForInput ? 0 : 1 }}
       >
-        <span
-          style={{
-            fontFamily: "monospace",
-            color: theme.colors.foreground,
-            fontSize: "12px",
-            lineHeight: 1,
-          }}
-        >
-          {isWaitingForInput ? inputPrompt : `${currentPath}>`}
-        </span>
+        {isWaitingForInput ? (
+          inputPrompt && <span>{inputPrompt}</span>
+        ) : (
+          <span className="shrink-0 whitespace-pre">
+            <span className="text-(--term-prompt)">jupi@desk</span>{" "}
+            <span className="text-(--term-muted)">~ $</span>
+          </span>
+        )}
         <input
           ref={inputRef}
-          className="bg-transparent outline-none flex-1 text-xs"
-          style={{
-            fontFamily: "monospace",
-            caretShape: "block",
-            color: theme.colors.foreground,
-          }}
+          aria-label="Terminal input"
+          className="min-w-0 flex-1 bg-transparent text-(--term-fg) caret-melon outline-none [caret-shape:block]"
           type={isPasswordInput ? "password" : "text"}
           value={input}
           onChange={onInputChange}
           onKeyDown={handleKeyDown}
+          autoComplete="off"
+          spellCheck={false}
           autoFocus
         />
       </form>

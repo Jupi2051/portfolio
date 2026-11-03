@@ -43,14 +43,20 @@ function getOtherAppWindowBounds(excludeAppId: number): WindowRect[] {
     .map(([, bounds]) => bounds)
 }
 
+/**
+ * Height of the dock row at the bottom of the surface. Must match the
+ * `grid-rows-[1fr_68px] sm:grid-rows-[1fr_92px]` classes in surface.tsx.
+ */
+export const DOCK_RESERVE_PX = { base: 68, sm: 92 } as const
+
 export function getDesktopViewport(): WindowDimensions {
-  const taskbarRatio = window.matchMedia("(min-width: 40rem)").matches
-    ? 0.07
-    : 0.01
+  const dockReserve = window.matchMedia("(min-width: 40rem)").matches
+    ? DOCK_RESERVE_PX.sm
+    : DOCK_RESERVE_PX.base
 
   return {
     width: window.innerWidth,
-    height: Math.floor(window.innerHeight * (1 - taskbarRatio)),
+    height: window.innerHeight - dockReserve,
   }
 }
 

@@ -6,7 +6,6 @@ import {
   useState,
   type RefObject,
 } from "react"
-import "@/Styles/Desktop.css"
 import DesktopIcon from "@/components/windows/desktop/desktop-icon"
 import DesktopTimeWidget from "@/components/widgets/time/desktop-time-widget"
 import MovingDesktopIcon from "@/components/windows/desktop/moving-desktop-icon"
@@ -76,6 +75,9 @@ export interface OpenApplication {
 }
 
 const MaxDistanceBeforeMovementTrigger = 10
+/** Grid tracks: 100×110 icon cells plus the 4px / 6px gutters from the design. */
+const GRID_CELL_WIDTH = 104
+const GRID_CELL_HEIGHT = 116
 let LocalMousePosition: { x: number; y: number } = { x: 0, y: 0 }
 let DesktopIcons: typeof DesktopIconsData = DesktopIconsData
 
@@ -173,25 +175,27 @@ function Desktop({ className }: { className?: string }) {
   }
 
   function GetGridLocationFromMousePosition(): Point {
-    const itemMinHeight = 90
-    const itemMinWidth = 90
+    const styles = ref.current ? getComputedStyle(ref.current) : null
+    const paddingLeft = styles ? parseFloat(styles.paddingLeft) : 0
+    const paddingTop = styles ? parseFloat(styles.paddingTop) : 0
 
-    let CalculatedColumn = Math.round(LocalMousePosition.x / itemMinWidth)
-    let CalculatedRow = Math.round(LocalMousePosition.y / itemMinHeight)
+    const gridCountHorizontal = Math.max(
+      1,
+      Math.floor((width - paddingLeft) / GRID_CELL_WIDTH),
+    )
+    const gridCountVertical = Math.max(
+      1,
+      Math.floor((height - paddingTop) / GRID_CELL_HEIGHT),
+    )
 
-    const gridCountHorizontal = Math.round(width / itemMinWidth)
-    const gridCountVertical = Math.round(height / itemMinHeight)
-
-    CalculatedColumn =
-      CalculatedColumn >= gridCountHorizontal
-        ? gridCountHorizontal - 1
-        : CalculatedColumn
-    CalculatedRow =
-      CalculatedRow >= gridCountVertical ? gridCountVertical - 1 : CalculatedRow
+    const column = Math.floor(
+      (LocalMousePosition.x - paddingLeft) / GRID_CELL_WIDTH,
+    )
+    const row = Math.floor((LocalMousePosition.y - paddingTop) / GRID_CELL_HEIGHT)
 
     return {
-      x: CalculatedRow <= 0 ? 1 : CalculatedRow,
-      y: CalculatedColumn <= 0 ? 1 : CalculatedColumn,
+      x: Math.min(Math.max(row, 0), gridCountVertical - 1) + 1,
+      y: Math.min(Math.max(column, 0), gridCountHorizontal - 1) + 1,
     }
   }
 
@@ -260,7 +264,11 @@ function Desktop({ className }: { className?: string }) {
         // onResize={onDesktopResize}
         onMouseDown={onMouseDown}
         onMouseUp={onMouseUp}
-        className={cn(className, "grid-flow-row sm:grid-flow-col")}
+        className={cn(
+          className,
+          "relative grid h-full w-full grid-flow-row content-start justify-start justify-items-center items-start p-3 sm:grid-flow-col sm:pt-7 sm:pl-6",
+          "grid-cols-[repeat(auto-fill,104px)] grid-rows-[repeat(auto-fill,116px)]",
+        )}
       >
         <div className="absolute w-full h-full pointer-events-none">
           <DesktopTimeWidget />
@@ -272,6 +280,7 @@ function Desktop({ className }: { className?: string }) {
           <DesktopIcon
             ApplicationName={desktopApp.Name}
             Icon={desktopApp.IconPath}
+            iconFill={desktopApp.IconFill}
             id={desktopApp.id}
             Style={desktopApp.Style}
             Selected={desktopApp.Selected}
@@ -293,6 +302,7 @@ function Desktop({ className }: { className?: string }) {
           MouseLocation={LocalMousePosition}
           ApplicationName={MovingAppObject?.Name}
           Icon={MovingAppObject?.IconPath}
+          iconFill={MovingAppObject?.IconFill}
           id={MovingAppObject?.id}
         />
       ) : null}

@@ -76,7 +76,7 @@ function TradeSell() {
 
       <section className="flex min-w-0 flex-1 flex-col gap-3">
         <div className="rounded-xl border border-ctp-yellow/35 bg-ctp-yellow/10 px-4 py-3">
-          <p className="text-[10px] font-medium uppercase tracking-widest text-ctp-yellow">
+          <p className="text-2xs font-medium uppercase tracking-widest text-ctp-yellow">
             Worth
           </p>
           <p className="font-jockey-one text-3xl tracking-wide text-ctp-text">
@@ -107,7 +107,7 @@ function TradeSell() {
                         alt={mineral.name}
                         size="md"
                       />
-                      <span className="absolute -right-1 -bottom-1 rounded bg-ctp-crust/90 px-1 text-[10px] font-semibold text-ctp-yellow">
+                      <span className="absolute -right-1 -bottom-1 rounded bg-ctp-crust/90 px-1 text-2xs font-semibold text-ctp-yellow">
                         {qty}
                       </span>
                     </div>

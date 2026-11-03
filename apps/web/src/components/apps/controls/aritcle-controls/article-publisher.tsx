@@ -88,7 +88,7 @@ function ArticlePublisher({
     return (
       <motion.div className="bg-ctp-surface0/50 backdrop-blur-sm rounded-2xl p-4 shadow-xl border border-ctp-surface1/20 h-full overflow-hidden">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-8 h-8 bg-gradient-to-br from-ctp-blue to-ctp-sapphire rounded-full flex items-center justify-center">
+          <div className="w-8 h-8 bg-linear-to-br from-ctp-blue to-ctp-sapphire rounded-full flex items-center justify-center">
             <span className="text-sm">👁️</span>
           </div>
           <h3 className="text-lg font-bold text-ctp-text font-capirola">
@@ -104,7 +104,7 @@ function ArticlePublisher({
   };
 
   return (
-    <div className="w-full h-full bg-gradient-to-br from-ctp-base to-ctp-mantle p-4">
+    <div className="w-full h-full bg-linear-to-br from-ctp-base to-ctp-mantle p-4">
       <motion.div
         variants={containerVariants}
         initial="hidden"
@@ -117,7 +117,7 @@ function ArticlePublisher({
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.2 }}
           >
-            <div className="w-6 h-6 bg-gradient-to-br from-ctp-pink to-ctp-mauve rounded-full flex items-center justify-center mx-auto mb-1 shadow-lg">
+            <div className="w-6 h-6 bg-linear-to-br from-ctp-pink to-ctp-mauve rounded-full flex items-center justify-center mx-auto mb-1 shadow-lg">
               <span className="text-xs">📝</span>
             </div>
           </motion.div>
@@ -149,7 +149,7 @@ function ArticlePublisher({
             variants={itemVariants}
           >
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-br from-ctp-green to-ctp-teal rounded-full flex items-center justify-center">
+              <div className="w-8 h-8 bg-linear-to-br from-ctp-green to-ctp-teal rounded-full flex items-center justify-center">
                 <span className="text-sm">✏️</span>
               </div>
               <h3 className="text-lg font-bold text-ctp-text font-capirola">
@@ -216,7 +216,7 @@ function ArticlePublisher({
               <motion.div variants={itemVariants} className="pt-4">
                 <motion.button
                   type="submit"
-                  className="w-full cursor-pointer bg-gradient-to-r from-ctp-pink to-ctp-mauve text-ctp-base font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed font-lato"
+                  className="w-full cursor-pointer bg-linear-to-r from-ctp-pink to-ctp-mauve text-ctp-base font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed font-lato"
                   disabled={isCreating}
                   variants={buttonVariants}
                   initial="idle"

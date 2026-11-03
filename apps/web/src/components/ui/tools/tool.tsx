@@ -27,7 +27,7 @@ function Tool(Props: PropTypes) {
 
   return (
     <motion.div
-      className="text-2xs flex w-fit pl-0.5 pr-2.5 gap-[var(--gap-value)] items-center justify-center bg-gray-900 overflow-hidden border border-solid border-gray-700 select-none cursor-pointer"
+      className="text-2xs flex w-fit pl-0.5 pr-2.5 gap-(--gap-value) items-center justify-center bg-gray-900 overflow-hidden border border-solid border-gray-700 select-none cursor-pointer"
       onClick={onClickTool}
       variants={ContainerAnimationsVariants}
       initial="init"

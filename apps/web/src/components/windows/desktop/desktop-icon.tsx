@@ -2,16 +2,19 @@ import { useEffect, useRef, useState } from "react"
 import { OpenApplication } from "@/components/windows/desktop"
 import { DesktopAppsList } from "@/components/windows/desktop/apps-list"
 import cn from "classnames"
-import { motion, Variants } from "framer-motion"
+import { motion, useReducedMotion } from "framer-motion"
 import useGlobalTaskbarControls from "@/hooks/use-global-taskbar-controls"
 import useGlobalWindowsControls from "@/hooks/use-global-windows-controls"
 import { useTouchDevice } from "@/hooks/use-touch-device"
 import DesktopIconNameForm from "./desktop-icon-name-form"
 import useAnimationsSignals from "@/hooks/use-animations-signals"
+import AppTileIcon from "@/components/ui/app-tile-icon"
+import { EASE_OUT } from "@/lib/motion"
 
 type PropTypes = {
   ApplicationName: string
   Icon: string
+  iconFill?: boolean
   id: number
   customTaskbarIcon?: string
   Style?: {
@@ -26,40 +29,6 @@ type PropTypes = {
   onApplicationOpened?: () => void
 }
 
-const AnimationFrames: Variants = {
-  hover: {
-    scale: 1.2,
-    transition: {
-      type: "spring",
-      stiffness: 600,
-      damping: 10,
-    },
-  },
-  tap: {
-    scale: 0.95,
-    transition: {
-      type: "spring",
-      stiffness: 600,
-      damping: 10,
-    },
-  },
-  selected: {
-    y: [-0, -5, -0],
-    transition: {
-      duration: 0.6,
-      repeat: Infinity,
-      ease: "easeInOut",
-    },
-  },
-  unselected: {
-    y: 0,
-    transition: {
-      duration: 0.3,
-      ease: "easeOut",
-    },
-  },
-}
-
 function DesktopIcon(Props: PropTypes) {
   const [ApplicationName, SetAppName] = useState(Props.ApplicationName)
   const [isEditingName, SetIsEditingName] = useState(false)
@@ -70,6 +39,7 @@ function DesktopIcon(Props: PropTypes) {
   const { openNewTaskbarApplication } = useGlobalTaskbarControls()
   const isTouchDevice = useTouchDevice()
   const { animateIntro } = useAnimationsSignals()
+  const reduceMotion = useReducedMotion()
 
   useEffect(() => {
     if (!Props.Selected && isEditingName) SetIsEditingName(false)
@@ -127,45 +97,38 @@ function DesktopIcon(Props: PropTypes) {
     SetIsEditingName(false)
   }
 
+  const hiddenState = { opacity: 0, y: reduceMotion ? 0 : 8, scale: 0.96 }
+
   return (
     <motion.button
       style={{ ...Props.Style }}
       className={cn(
-        "Desktop-Icon-Container",
-        "relative flex flex-col w-22.5 h-22.5 pb-4 items-center justify-center text-white select-none isolate",
-        'after:content-[" "] after:pointer-events-none after:w-[98%] after:h-full after:absolute after:left-1/2 after:top-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-md after:bg-transparent after:z-[-1] after:blur-lg after:transition-opacity after:duration-200 hover:after:bg-white/25 active:after:opacity-0',
-        {
-          "z-999 after:bg-linear-to-tl after:from-[#FFF]/30 after:to-[#FFF]/30 after:blur-lg":
-            Props.Selected,
-        },
+        "Desktop-Icon-Container group relative flex h-27.5 w-25 flex-col items-center gap-2 rounded-2xl border px-1 pt-2.5 pb-1.5 select-none isolate outline-none",
+        "transition-[background-color,border-color] duration-150 ease-out-strong focus-visible:border-holo-soft/60",
+        Props.Selected
+          ? "z-999 border-holo/38 bg-holo/16 backdrop-blur-[10px]"
+          : "border-transparent",
       )}
       data-id={Props.id}
       onClick={onClickApplication}
-      initial={{ scale: 0 }}
-      animate={animateIntro ? { scale: 1 } : { scale: 0 }}
+      initial={hiddenState}
+      animate={animateIntro ? { opacity: 1, y: 0, scale: 1 } : hiddenState}
       transition={{
-        duration: 0.3,
+        duration: 0.4,
+        ease: EASE_OUT,
         delay:
           hasInitialAnimationPlayed && !animateIntro
             ? 0
-            : (Props.index || 0) * 0.15,
-        ease: "easeOut",
-        type: "spring",
-        stiffness: 100,
-        damping: 10,
+            : (Props.index || 0) * 0.05,
       }}
       onAnimationComplete={() => {
         if (!hasInitialAnimationPlayed) setHasInitialAnimationPlayed(true)
       }}
-      whileHover={"hover"}
-      whileTap={"tap"}
     >
-      <motion.img
+      <AppTileIcon
         src={Props.Icon}
-        className="max-h-12.5 max-w-13.75"
-        variants={AnimationFrames}
-        animate={Props.Selected ? "selected" : "unselected"}
-        draggable={false}
+        fill={Props.iconFill}
+        selected={Props.Selected}
       />
       {isEditingName ? (
         <DesktopIconNameForm
@@ -176,21 +139,9 @@ function DesktopIcon(Props: PropTypes) {
       ) : (
         <h1
           className={cn(
-            "absolute top-9/12 w-full px-1 font-normal text-xs mt-1.5 select-none uppercase text-center font-roboto-condensed wrap-break-word",
-            {
-              "overflow-visible": Props.Selected,
-              "overflow-hidden": !Props.Selected,
-            },
+            "w-full shrink-0 text-center font-sans text-[13px] leading-4 font-medium wrap-break-word text-moon select-none [text-shadow:0_1px_3px_rgba(8,7,20,0.7)]",
+            { "line-clamp-2": !Props.Selected, "text-white": Props.Selected },
           )}
-          style={
-            Props.Selected
-              ? undefined
-              : {
-                  display: "-webkit-box",
-                  WebkitLineClamp: 2,
-                  WebkitBoxOrient: "vertical",
-                }
-          }
           onMouseDown={onMouseDownName}
           onClick={onClickName}
         >

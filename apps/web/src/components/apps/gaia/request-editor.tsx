@@ -60,28 +60,28 @@ export default function RequestEditor({
       </div>
       <div className="min-h-0 flex-1 p-2">
         {tab === "headers" ? (
-          <div className="flex h-full min-h-[140px] flex-col gap-1">
-            <p className="text-[10px] uppercase tracking-wider text-ctp-subtext0">
+          <div className="flex h-full min-h-35 flex-col gap-1">
+            <p className="text-2xs uppercase tracking-wider text-ctp-subtext0">
               JSON object (merged with request)
             </p>
             <textarea
               value={headersText}
               onChange={(e) => onHeadersChange(e.target.value)}
               spellCheck={false}
-              className="gaia-scrollbar min-h-[120px] flex-1 resize-none rounded border border-ctp-surface1 bg-ctp-base p-2 font-mono text-xs text-ctp-text outline-none focus-visible:ring-1 focus-visible:ring-ctp-mauve/50"
+              className="gaia-scrollbar min-h-30 flex-1 resize-none rounded border border-ctp-surface1 bg-ctp-base p-2 font-mono text-xs text-ctp-text outline-none focus-visible:ring-1 focus-visible:ring-ctp-mauve/50"
               placeholder='{\n  "Accept": "application/json"\n}'
             />
           </div>
         ) : showBody ? (
-          <div className="flex h-full min-h-[140px] flex-col gap-1">
-            <p className="text-[10px] uppercase tracking-wider text-ctp-subtext0">
+          <div className="flex h-full min-h-35 flex-col gap-1">
+            <p className="text-2xs uppercase tracking-wider text-ctp-subtext0">
               JSON or raw text
             </p>
             <textarea
               value={bodyText}
               onChange={(e) => onBodyChange(e.target.value)}
               spellCheck={false}
-              className="gaia-scrollbar min-h-[120px] flex-1 resize-none rounded border border-ctp-surface1 bg-ctp-base p-2 font-mono text-xs text-ctp-text outline-none focus-visible:ring-1 focus-visible:ring-ctp-mauve/50"
+              className="gaia-scrollbar min-h-30 flex-1 resize-none rounded border border-ctp-surface1 bg-ctp-base p-2 font-mono text-xs text-ctp-text outline-none focus-visible:ring-1 focus-visible:ring-ctp-mauve/50"
               placeholder='{\n  "title": "foo",\n  "body": "bar",\n  "userId": 1\n}'
             />
           </div>

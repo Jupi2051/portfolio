@@ -77,7 +77,7 @@ const PinForm = ({ onSubmit, onCancel, type = "create" }: PinFormProps) => {
       case "gray":
         return "bg-gray-100/80";
       case "purple":
-        return "bg-gradient-to-br from-ctp-mauve/20 to-ctp-mauve/30 border-ctp-mauve/40";
+        return "bg-linear-to-br from-ctp-mauve/20 to-ctp-mauve/30 border-ctp-mauve/40";
       default:
         return "bg-blue-100/80";
     }

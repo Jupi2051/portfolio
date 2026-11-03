@@ -1,6 +1,16 @@
 import { motion } from "framer-motion";
+import cn from "classnames";
+import { CloseIcon } from "@/components/ui/icons";
+import { EASE_OUT } from "@/lib/motion";
 import { useState, useEffect } from "react";
 import { NotificationItem } from "./types";
+
+const TYPE_ACCENT: Record<string, string> = {
+  success: "bg-[#9be3b4]",
+  error: "bg-melon",
+  warning: "bg-spark",
+  info: "bg-holo",
+};
 
 interface NotificationProps {
   notification: NotificationItem;
@@ -35,20 +45,7 @@ export default function Notification({
     setTimeout(() => onDismiss(notification.id), 300);
   };
 
-  const getTypeStyles = () => {
-    switch (notification.type) {
-      case "success":
-        return "border-l-ctp-green bg-ctp-green/10 dark:bg-ctp-green/20";
-      case "error":
-        return "border-l-ctp-red bg-ctp-red/10 dark:bg-ctp-red/20";
-      case "warning":
-        return "border-l-ctp-yellow bg-ctp-yellow/10 dark:bg-ctp-yellow/20";
-      case "info":
-        return "border-l-ctp-blue bg-ctp-blue/10 dark:bg-ctp-blue/20";
-      default:
-        return "border-l-ctp-surface1 bg-ctp-base dark:bg-ctp-mantle";
-    }
-  };
+  const typeAccent = TYPE_ACCENT[notification.type ?? ""] ?? "bg-holo"
 
   const formatTime = (dateString?: string) => {
     if (!dateString) return "";
@@ -56,150 +53,102 @@ export default function Notification({
     return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   };
 
+  const offscreen = isMobile ? { x: 0, y: -16 } : { x: 24, y: 0 }
+
   return (
     <motion.div
-      initial={{
-        opacity: 0,
-        x: isMobile ? 0 : 400,
-        y: isMobile ? -50 : 0,
-        scale: 0.8,
-        rotateY: 15,
-      }}
-      animate={{
-        opacity: isVisible ? 1 : 0,
-        x: isVisible ? 0 : isMobile ? 0 : 400,
-        y: isVisible ? 0 : isMobile ? -50 : 0,
-        scale: isVisible ? 1 : 0.8,
-        rotateY: isVisible ? 0 : 15,
-      }}
-      exit={{
-        opacity: 0,
-        x: isMobile ? 0 : 400,
-        y: isMobile ? -50 : 0,
-        scale: 0.8,
-        rotateY: 15,
-      }}
-      transition={{
-        type: "spring",
-        stiffness: 200,
-        damping: 20,
-        duration: 0.4,
-      }}
-      className={`
-        relative w-full mx-auto rounded-2xl shadow-xl border-l-4
-        ${isMobile ? "max-w-xs p-3 mb-2" : "max-w-sm p-5 mb-3"}
-        ${getTypeStyles()}
-        backdrop-blur-sm bg-ctp-base/95 dark:bg-ctp-mantle/95
-        border border-ctp-surface1 dark:border-ctp-surface2
-        cursor-pointer select-none
-        hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-out
-        touch-manipulation pointer-events-auto
-        transform-gpu
-      `}
+      layout
+      initial={{ opacity: 0, scale: 0.97, ...offscreen }}
+      animate={
+        isVisible
+          ? { opacity: 1, scale: 1, x: 0, y: 0 }
+          : { opacity: 0, scale: 0.97, ...offscreen }
+      }
+      exit={{ opacity: 0, scale: 0.97, ...offscreen }}
+      transition={{ duration: 0.25, ease: EASE_OUT }}
+      className={cn(
+        "pointer-events-auto relative mx-auto w-full cursor-pointer touch-manipulation overflow-hidden rounded-2xl border border-white/12 bg-ink/72 backdrop-blur-xl select-none",
+        "shadow-[0_16px_40px_rgba(6,5,16,0.45)] transition-[border-color] duration-150 ease-out-strong hover:border-white/20",
+        isMobile ? "mb-2 max-w-xs p-3" : "mb-3 max-w-sm p-4",
+      )}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={handleDismiss}
-      style={{
-        zIndex: 1000 - index,
-        marginBottom: isMobile ? `${index * 4}px` : `${index * 8}px`,
-      }}
+      style={{ zIndex: 1000 - index }}
     >
-      <motion.button
-        className={`absolute top-2 right-2 rounded-full bg-ctp-surface1 dark:bg-ctp-surface2 hover:bg-ctp-red/20 dark:hover:bg-ctp-red/20 flex items-center justify-center text-ctp-text dark:text-ctp-text cursor-pointer group
-          ${isMobile ? "w-6 h-6 text-sm" : "w-7 h-7 text-lg"}
-        `}
+      <button
+        type="button"
+        aria-label="Dismiss"
+        className="absolute top-2.5 right-2.5 flex size-7 items-center justify-center rounded-lg text-haze transition-colors duration-150 ease-out-strong hover:bg-melon hover:text-white active:scale-[0.94]"
         onClick={(e) => {
-          e.stopPropagation();
-          handleDismiss();
+          e.stopPropagation()
+          handleDismiss()
         }}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.85 }}
-        transition={{ type: "spring", stiffness: 400, damping: 25 }}
       >
-        <span className="group-hover:text-ctp-red transition-colors duration-200">
-          X
-        </span>
-      </motion.button>
+        <CloseIcon className="size-3" />
+      </button>
 
-      <div
-        className={`flex items-start space-x-3 ${isMobile ? "pr-6" : "pr-8"}`}
-      >
-        {notification.avatar && (
-          <motion.div
-            className={`flex-shrink-0 rounded-full overflow-hidden bg-ctp-surface1 dark:bg-ctp-surface2 ring-2 ring-ctp-surface1 dark:ring-ctp-surface2 shadow-lg
-              ${isMobile ? "w-8 h-8" : "w-12 h-12"}
-            `}
-            initial={{ scale: 0, rotate: -180 }}
-            animate={{ scale: 1, rotate: 0 }}
-            transition={{
-              delay: 0.1,
-              type: "spring",
-              stiffness: 200,
-              damping: 15,
-            }}
+      <div className={cn("flex items-start gap-3", isMobile ? "pr-7" : "pr-8")}>
+        {notification.avatar ? (
+          <div
+            className={cn(
+              "shrink-0 overflow-hidden rounded-xl border border-white/14 bg-panel",
+              isMobile ? "size-8" : "size-11",
+            )}
           >
             <img
               src={notification.avatar}
-              alt={notification.title || "Notification"}
-              className="w-full h-full object-cover"
+              alt=""
+              className="size-full object-cover"
               onError={(e) => {
-                e.currentTarget.style.display = "none";
+                e.currentTarget.style.display = "none"
               }}
             />
-          </motion.div>
+          </div>
+        ) : (
+          <span
+            className={cn("mt-1.5 size-2 shrink-0 rounded-full", typeAccent)}
+          />
         )}
 
-        <div className="flex-1 min-w-0">
+        <div className="min-w-0 flex-1">
           {notification.title && (
-            <motion.h3
-              className={`font-bold text-ctp-text dark:text-ctp-text leading-tight
-                ${isMobile ? "text-sm mb-1" : "text-base mb-2"}
-              `}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+            <h3
+              className={cn(
+                "leading-tight font-semibold text-moon",
+                isMobile ? "mb-0.5 text-sm" : "mb-1 text-sm",
+              )}
             >
               {notification.title}
-            </motion.h3>
+            </h3>
           )}
-
           {notification.message && (
-            <motion.p
-              className={`text-ctp-subtext1 dark:text-ctp-subtext1 leading-relaxed
-                ${isMobile ? "text-xs" : "text-sm"}
-              `}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
+            <p
+              className={cn(
+                "leading-relaxed text-haze",
+                isMobile ? "text-xs" : "text-[13px]",
+              )}
             >
               {notification.message}
-            </motion.p>
+            </p>
           )}
-
           {notification.date && (
-            <motion.div
-              className={`text-ctp-subtext0 dark:text-ctp-subtext0
-                ${isMobile ? "text-xs mt-2" : "text-xs mt-3"}
-              `}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4, type: "spring", stiffness: 200 }}
-            >
+            <div className="mt-2 text-xs text-haze-dim">
               {formatTime(notification.date)}
-            </motion.div>
+            </div>
           )}
         </div>
       </div>
 
       <motion.div
-        className="absolute bottom-0 left-0 h-1.5 bg-gradient-to-r from-ctp-pink via-ctp-mauve to-ctp-blue rounded-b-2xl shadow-inner"
-        initial={{ width: "100%" }}
-        animate={{ width: "0%" }}
+        className={cn("absolute bottom-0 left-0 h-0.5 w-full origin-left", typeAccent)}
+        initial={{ scaleX: 1 }}
+        animate={{ scaleX: 0 }}
         transition={{
           duration: (notification.duration || 5000) / 1000,
           ease: "linear",
         }}
       />
     </motion.div>
-  );
+  )
 }

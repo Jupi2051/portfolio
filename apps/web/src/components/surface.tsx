@@ -1,19 +1,19 @@
 import Desktop from "@/components/windows/desktop"
-import Taskbar from "@/components/windows/taskbar"
-import StartMenu from "@/components/windows/start-menu"
+import Dock from "@/components/windows/dock"
+import Launcher from "@/components/windows/launcher"
+import Wallpaper from "@/components/windows/wallpaper"
 import useBackground from "@/hooks/use-background"
 
 function Surface() {
   const { currentWallpaperImageUrl } = useBackground()
 
   return (
-    <div
-      className="relative h-dvh bg-cover bg-center bg-no-repeat grid grid-cols-1 grid-rows-[1fr_0.01fr] sm:grid-rows-[1fr_0.07fr] overflow-hidden isolate"
-      style={{ backgroundImage: `url(${currentWallpaperImageUrl})` }}
-    >
+    // Row heights mirror DOCK_RESERVE_PX in lib/app-window-placement.ts
+    <div className="relative isolate grid h-dvh grid-cols-1 grid-rows-[1fr_68px] overflow-hidden bg-ink-deep sm:grid-rows-[1fr_92px]">
+      <Wallpaper url={currentWallpaperImageUrl} />
       <Desktop className="z-10" />
-      <StartMenu className="z-20" />
-      <Taskbar className="z-30 h-full self-center" />
+      <Launcher className="z-20" />
+      <Dock className="z-30" />
     </div>
   )
 }

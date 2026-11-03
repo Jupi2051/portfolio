@@ -104,7 +104,7 @@ function UserForm({ type, onSuccess }: UserFormProps) {
   };
 
   return (
-    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-ctp-base to-ctp-mantle p-4">
+    <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-ctp-base to-ctp-mantle p-4">
       <motion.div
         className="w-full max-w-md"
         variants={containerVariants}
@@ -118,7 +118,7 @@ function UserForm({ type, onSuccess }: UserFormProps) {
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.2 }}
           >
-            <div className="w-16 h-16 bg-gradient-to-br from-ctp-pink to-ctp-mauve rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+            <div className="w-16 h-16 bg-linear-to-br from-ctp-pink to-ctp-mauve rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
               <span className="text-2xl">{isLogin ? "🔑" : "✨"}</span>
             </div>
           </motion.div>
@@ -266,7 +266,7 @@ function UserForm({ type, onSuccess }: UserFormProps) {
             {/* Action Button */}
             <motion.div variants={itemVariants}>
               <motion.button
-                className="w-full cursor-pointer h-14 bg-gradient-to-r from-ctp-pink to-ctp-mauve text-ctp-base font-semibold rounded-xl shadow-lg disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden"
+                className="w-full cursor-pointer h-14 bg-linear-to-r from-ctp-pink to-ctp-mauve text-ctp-base font-semibold rounded-xl shadow-lg disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden"
                 type="submit"
                 disabled={isLoading}
                 variants={buttonVariants}
@@ -275,7 +275,7 @@ function UserForm({ type, onSuccess }: UserFormProps) {
                 whileTap="tap"
               >
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-ctp-mauve to-ctp-pink opacity-0"
+                  className="absolute inset-0 bg-linear-to-r from-ctp-mauve to-ctp-pink opacity-0"
                   whileHover={{ opacity: 0.2 }}
                   transition={{ duration: 0.3 }}
                 />

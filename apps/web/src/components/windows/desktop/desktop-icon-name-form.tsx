@@ -32,7 +32,7 @@ function DesktopIconNameForm({ value, onSubmit, onCancel }: PropTypes) {
 
   return (
     <form
-      className="absolute top-[calc(75%+0.22rem)] w-full"
+      className="flex w-full justify-center"
       onSubmit={(event) => {
         event.preventDefault()
         event.stopPropagation()
@@ -68,7 +68,7 @@ function DesktopIconNameForm({ value, onSubmit, onCancel }: PropTypes) {
             }}
             autoFocus
             rows={1}
-            className="w-fit max-w-full border bg-white border-white/50 rounded-sm font-normal text-xs select-none uppercase text-center font-roboto-condensed text-black outline-none focus:border-white px-1 py-0.5 leading-4 resize-none overflow-hidden whitespace-pre-wrap wrap-break-word field-sizing-content"
+            className="w-fit max-w-full resize-none overflow-hidden rounded-md border border-holo-soft/60 bg-ink-deep px-1.5 py-0.5 text-center font-sans text-[13px] leading-4 font-medium whitespace-pre-wrap wrap-break-word text-moon outline-none field-sizing-content selection:bg-holo/40 focus:border-holo-soft"
           />
         )}
       />

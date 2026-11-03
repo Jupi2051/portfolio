@@ -6,7 +6,13 @@ import {
   useRef,
   useState,
 } from "react"
-import { AnimatePresence, Point, Variants, motion } from "framer-motion"
+import {
+  AnimatePresence,
+  Point,
+  Variants,
+  motion,
+  useReducedMotion,
+} from "framer-motion"
 import useMousePosition from "@/hooks/use-mouse-position"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/storage/store"
@@ -21,7 +27,9 @@ import useTailwindMediaQuery from "@/hooks/use-tailwind-media-query"
 import { setAppWindowSnapState } from "@/storage/slices/main"
 import { Resizable, type NumberSize, type ResizeDirection } from "re-resizable"
 
+import { EASE_OUT } from "@/lib/motion"
 import {
+  getDesktopViewport,
   registerAppWindowBounds,
   resolveInitialWindowPlacement,
   toWindowRect,
@@ -47,8 +55,9 @@ export type Dimensions2D = {
 }
 
 const exitAndOpenMainContainer: Variants = {
-  exit: { opacity: 0 },
-  init: { opacity: 1, scale: 1 },
+  // The frame inside runs the visible exit; this layer just waits for it.
+  exit: { opacity: 1, transition: { duration: 0.15 } },
+  init: { opacity: 1 },
 }
 
 function resizeDirectionAffectsLeft(direction: ResizeDirection) {
@@ -110,6 +119,8 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
   )
 
   const [MoveWindow, SetMoveWindow] = useState(false)
+  const [isResizing, setIsResizing] = useState(false)
+  const reduceMotion = useReducedMotion()
   const [
     isMovingWindowFromMaximizedToMinimized,
     SetIsMovingWindowFromMaximizedToMinimized,
@@ -262,35 +273,45 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
     MinimizedDimensions.height,
   ])
 
+  // Minimising flies the window toward the dock (bottom-centre) at half
+  // scale; never scale(0) — nothing in the real world appears from nothing.
+  const viewport = getDesktopViewport()
+  const minimizedX = Maximized
+    ? 0
+    : viewport.width / 2 - (MinimizedDimensions.width ?? 0) / 2
+  const minimizedY = Maximized
+    ? viewport.height / 2
+    : viewport.height - (MinimizedDimensions.height ?? 0) / 2
+
   const exitAndOpen: Variants = {
     hidden: {
-      scale: 0.9,
-      filter: "blur(1px)",
+      scale: reduceMotion ? 1 : 0.96,
       opacity: 0,
+      x: Maximized ? 0 : NewLocation.x,
+      y: Maximized ? 0 : NewLocation.y,
     },
     visible: {
       scale: 1,
-      filter: "blur(0px)",
       opacity: 1,
       x: Maximized ? 0 : NewLocation.x,
       y: Maximized ? 0 : NewLocation.y,
       zIndex: zIndexFront,
       width: Maximized ? "100%" : "auto",
       height: Maximized ? "100%" : "auto",
-      left: Maximized ? "0" : undefined,
-      top: Maximized ? "0" : undefined,
     },
     minimized: {
-      filter: "blur(1px)",
-      x: Maximized ? 0 : NewLocation.x,
-      y: Maximized ? 0 : NewLocation.y,
-      left: "0%",
-      top: "100%",
-      scale: 0,
+      x: reduceMotion ? (Maximized ? 0 : NewLocation.x) : minimizedX,
+      y: reduceMotion ? (Maximized ? 0 : NewLocation.y) : minimizedY,
+      scale: reduceMotion ? 1 : 0.5,
       opacity: 0,
       width: Maximized ? "100%" : "auto",
       height: Maximized ? "100%" : "auto",
       zIndex: zIndexFront,
+    },
+    exit: {
+      scale: reduceMotion ? 1 : 0.96,
+      opacity: 0,
+      transition: { duration: 0.15, ease: EASE_OUT },
     },
   }
 
@@ -298,9 +319,9 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) {
     bringWindowToFront()
-    const ClickedElement = event.target as HTMLDivElement
-    if (ClickedElement)
-      if (ClickedElement.classList.contains("window-dismiss-button")) return // don't set as focus if clicking on dismiss
+    const ClickedElement = event.target as Element | null
+    // don't set as focus if clicking on dismiss
+    if (ClickedElement?.closest(".window-dismiss-button")) return
 
     focusWindow()
   }
@@ -386,6 +407,7 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
       _elementRef: HTMLElement,
     ) => {
       if (!Maximized && metaData?.snapped) clearSnapState()
+      setIsResizing(true)
 
       resizeStartLocationRef.current = {
         x: windowLocationDataRef.current?.x ?? 0,
@@ -460,31 +482,45 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
       </AnimatePresence>
       <motion.div
         className={cn(
-          `absolute border pointer-events-auto border-black border-solid mx-auto rounded-md overflow-hidden box-shadow-[0px_0px_15px_0px_rgba(0,0,0,0.4)] user-select-none transition-[box-shadow,border] duration-200 isolate ease-in-out`,
-          {
-            "border-none! rounded-none!": Maximized,
-            "select-auto border border-ctp-sky-400 shadow-[0px_0px_20px_0px_rgba(0,0,0,0.7)]":
-              isFocused,
-            "user-select-none": MoveWindow,
-          },
+          "absolute top-0 left-0 isolate overflow-hidden border",
+          "transition-[border-color,box-shadow] duration-200 ease-out-strong",
+          isMinimized ? "pointer-events-none" : "pointer-events-auto",
+          Maximized
+            ? "rounded-none border-transparent"
+            : "rounded-2xl",
+          !Maximized &&
+            (isDisabled
+              ? "border-melon/55 shadow-[0_18px_44px_rgba(6,5,16,0.42),0_0_0_4px_rgba(255,93,126,0.12)]"
+              : isFocused
+                ? "border-[rgba(160,162,255,0.32)] shadow-[0_40px_100px_rgba(6,5,16,0.62),0_12px_30px_rgba(6,5,16,0.35)]"
+                : "border-white/8 shadow-[0_18px_44px_rgba(6,5,16,0.42)]"),
+          isFocused && !MoveWindow ? "select-auto" : "select-none",
         )}
         variants={exitAndOpen}
         initial="hidden"
         animate={animateValue}
         transition={{
-          duration: MoveWindow ? 0 : 0.1,
-          delay: MoveWindow ? 0 : undefined,
+          duration: 0.22,
+          ease: EASE_OUT,
           width: { duration: 0.125 },
           height: { duration: 0.125 },
-          x: { duration: 0 },
-          y: { duration: 0 },
+          zIndex: { duration: 0 },
+          // Drag and resize write x/y every frame — those must not tween.
+          x:
+            MoveWindow || isResizing || isMovingWindowFromMaximizedToMinimized
+              ? { duration: 0 }
+              : { duration: 0.25, ease: EASE_OUT },
+          y:
+            MoveWindow || isResizing || isMovingWindowFromMaximizedToMinimized
+              ? { duration: 0 }
+              : { duration: 0.25, ease: EASE_OUT },
         }}
         onMouseDown={onWindowMouseDown}
         onClick={onInteractWithWindow}
       >
         <Resizable
           className={cn(
-            "relative bg-ctp-base overflow-hidden flex flex-col z-[-1] @container/appwindow",
+            "relative bg-panel overflow-hidden flex flex-col z-[-1] @container/appwindow",
             {
               "pointer-events-auto": !isDisabled,
               "pointer-events-none": isDisabled,
@@ -513,23 +549,19 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
           minHeight={220}
           onResizeStart={handleResizeStart}
           onResize={handleResize}
-          onResizeStop={handleResize}
+          onResizeStop={(...args) => {
+            handleResize(...args)
+            setIsResizing(false)
+          }}
         >
           <motion.div
             className="flex flex-col h-full w-full"
             animate={
-              isFlashing
-                ? {
-                    x: [0, -3, 0, 3, 0],
-                    y: [0, -3, 0, 3, 0],
-                    transition: {
-                      delay: 0,
-                      repeat: Infinity,
-                      duration: 0.1,
-                    },
-                  }
-                : { transition: { duration: 0 } }
+              isFlashing && !reduceMotion
+                ? { x: [0, -5, 5, -3, 3, 0] }
+                : { x: 0 }
             }
+            transition={{ duration: 0.3, ease: EASE_OUT }}
           >
             <AppWindowHeader
               processName={processName}

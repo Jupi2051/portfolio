@@ -37,19 +37,17 @@ const createParserOptions = (): HTMLReactParserOptions => ({
         const language = detectLanguage(codeElement.attribs?.class);
 
         return (
-          <div className="max-w-full overflow-x-auto my-4 bg-ctp-surface0 rounded-lg">
+          <div className="not-prose my-5 max-w-full overflow-x-auto rounded-xl border border-white/8 bg-ink-deep font-mono text-[13px] leading-5 scrollbar-thin [scrollbar-color:rgba(255,255,255,0.14)_transparent]">
             <SyntaxHighlighter
               language={language}
               customStyle={{
                 margin: 0,
-                padding: "1rem",
-                borderRadius: "0.5rem",
+                padding: "1rem 1.25rem",
                 background: "transparent",
-                lineHeight: 1.1,
               }}
               codeTagProps={{
-                className: `hljs`,
-                style: { background: "var(--ctp-surface0)" },
+                className: `hljs font-mono`,
+                style: { background: "transparent" },
               }}
               useInlineStyles={false}
               showLineNumbers={false}

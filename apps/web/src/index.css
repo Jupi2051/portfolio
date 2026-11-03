@@ -3,8 +3,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Anek+Telugu:wght@100..800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap");
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/geist-mono";
+@import "@fontsource/instrument-serif/400.css";
+@import "@fontsource/instrument-serif/400-italic.css";
 @import "tailwindcss";
 @import "@catppuccin/tailwindcss/frappe.css";
+@plugin "@tailwindcss/typography";
 
 @layer base {
   html {
@@ -98,7 +103,49 @@
   }
 }
 
+/** Terminal cursor / ANSI blink (\x1b[5m). */
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
 @theme {
+  /* Hologram desktop — palette lifted from the wallpaper */
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, monospace;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
+
+  --color-ink: #12111f;
+  --color-ink-deep: #0e0d1a;
+  --color-ink-shadow: #060510;
+  --color-panel: #17162a;
+  --color-panel-sunken: #131225;
+  --color-chrome: #1c1b30;
+  --color-chrome-dim: #161526;
+  --color-moon: #f1efff;
+  --color-moon-bright: #f6f4ff;
+  --color-lilac: #d9d6ff;
+  --color-haze: #b9b6da;
+  --color-haze-dim: #8f8cb3;
+  --color-holo: #8c8eff;
+  --color-holo-soft: #a9aaff;
+  --color-melon: #ff5d7e;
+  --color-spark: #ffd98a;
+  --color-paper: #f6f4ff;
+
+  /* Strong curves (Emil Kowalski) — never ease-in on UI */
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out-strong: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+
+  --animate-blink: blink 1s step-end infinite;
+
   --font-open-sans: "Open Sans", sans-serif;
   --font-segoe-ui: "Segoe UI", sans-serif;
   --font-segoe-ui-light: "Segoe UI Light", sans-serif;

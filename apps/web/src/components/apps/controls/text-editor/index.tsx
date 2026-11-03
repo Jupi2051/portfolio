@@ -121,7 +121,7 @@ function TextEditor(props: propTypes) {
     editorProps: {
       attributes: {
         class:
-          "prose prose-invert max-w-none focus:outline-none px-4 py-3 min-h-[200px]",
+          "prose prose-invert max-w-none focus:outline-none px-4 py-3 min-h-50",
       },
     },
   });

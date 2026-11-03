@@ -1,141 +1,87 @@
-import { useEffect, useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { useEffect, useRef, useState } from "react"
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import useAnimationsSignals from "@/hooks/use-animations-signals"
+import { EASE_OUT } from "@/lib/motion"
 
-function DesktopTimeWidget() {
-  // Helper function to format time without leading zero for single-digit hours
-  const formatTimeWithoutLeadingZero = (date: Date) => {
-    const timeString = date.toLocaleString("en-US", {
-      hour: "numeric", // Use "numeric" instead of "2-digit" to remove leading zero
-      minute: "2-digit",
-      hour12: true,
-    })
-    return timeString
-  }
+const formatTime = (date: Date) =>
+  date.toLocaleString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  })
 
-  const { animateIntro } = useAnimationsSignals()
+const formatDate = (date: Date) => {
+  const weekday = date.toLocaleDateString("en-US", { weekday: "long" })
+  const day = date.toLocaleDateString("en-US", { day: "numeric" })
+  const month = date.toLocaleDateString("en-US", { month: "long" })
+  return `${weekday}, ${day} ${month}`
+}
 
-  // State variables for day, date components, and time with AM/PM
-  const [dayText, setDayText] = useState(
-    new Date().toLocaleDateString("en-US", { weekday: "long" }),
-  )
-
-  // Separate state variables for date components
-  const [dayNumber, setDayNumber] = useState(
-    new Date().toLocaleDateString("en-US", { day: "2-digit" }),
-  )
-
-  const [monthName, setMonthName] = useState(
-    new Date().toLocaleDateString("en-US", { month: "long" }),
-  )
-
-  const [year, setYear] = useState(
-    new Date().toLocaleDateString("en-US", { year: "numeric" }),
-  )
-
-  const [timeWithAMPM, setTimeWithAMPM] = useState(
-    formatTimeWithoutLeadingZero(new Date()),
-  )
-
-  // Track previous time to compare changes
-  const [previousTime, setPreviousTime] = useState(
-    formatTimeWithoutLeadingZero(new Date()),
-  )
-
-  useEffect(() => {
-    const IntervalContainer = setInterval(() => {
-      const now = new Date()
-      setDayText(now.toLocaleDateString("en-US", { weekday: "long" }))
-      setDayNumber(now.toLocaleDateString("en-US", { day: "2-digit" }))
-      setMonthName(now.toLocaleDateString("en-US", { month: "long" }))
-      setYear(now.toLocaleDateString("en-US", { year: "numeric" }))
-
-      const newTime = formatTimeWithoutLeadingZero(now)
-      setPreviousTime(timeWithAMPM)
-      setTimeWithAMPM(newTime)
-    }, 1000)
-
-    return () => clearInterval(IntervalContainer)
-  }, [timeWithAMPM])
+/** One digit that rolls up into place when its value changes. */
+function Digit({ char }: { char: string }) {
+  const reduceMotion = useReducedMotion()
 
   return (
-    <div className="w-full h-full absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none">
-      <motion.div
-        className="absolute bottom-2 right-4 sm:right-auto sm:bottom-auto sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:translate-y-[-120%] flex flex-col items-end sm:items-center sm:justify-center sm:text-center text-white"
-        initial={{ opacity: 0, filter: "blur(10px)", scale: 0.8, y: 20 }}
-        animate={
-          animateIntro
-            ? { opacity: 1, filter: "blur(0px)", scale: 1, y: 0 }
-            : { opacity: 0, filter: "blur(10px)", scale: 0.8, y: 20 }
-        }
-        transition={{ duration: 1, ease: "easeOut" }}
-      >
-        <AnimatePresence>
-          <motion.h1
-            className="font-lato uppercase font-extrabold text-3xl sm:text-8.5xl leading-none"
-            key="dayText"
-          >
-            {dayText}
-          </motion.h1>
-          <motion.h1
-            className="flex gap-2 text-xl sm:text-[1.775rem] font-anek-telugu font-extralight relative sm:top-4"
-            key="dayNumber"
-          >
-            <span>{dayNumber}</span>
-            <span className="uppercase">{monthName}</span>
-            <span>{year}</span>
-          </motion.h1>
-          <motion.h1
-            className="text-lg sm:text-3xl font-roboto font-light flex sm:py-5 relative"
-            key="timeWithAMPM"
-          >
-            <span className="hidden sm:block absolute w-fit top-1/2 -translate-y-1/2 left-full translate-x-full text-left font-capirola text-sm font-thin">
-              -
-            </span>
-            <span className="hidden sm:block absolute w-fit top-1/2 -translate-y-1/2 right-full -translate-x-full font-capirola text-sm font-thin">
-              -
-            </span>
-            {timeWithAMPM
-              .split(" ")[0]
-              .split("")
-              .map((char, index) => {
-                const timePart = timeWithAMPM.split(" ")[0]
-                const prevTimePart = previousTime.split(" ")[0]
-                const hasChanged = timePart[index] !== prevTimePart[index]
+    <span className="relative inline-block overflow-hidden">
+      <AnimatePresence initial={false} mode="popLayout">
+        <motion.span
+          key={char}
+          className="inline-block"
+          initial={{ opacity: 0, y: reduceMotion ? 0 : "40%" }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: reduceMotion ? 0 : "-40%" }}
+          transition={{ duration: 0.3, ease: EASE_OUT }}
+        >
+          {char}
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  )
+}
 
-                return (
-                  <motion.span
-                    key={`${timeWithAMPM}-${index}`}
-                    initial={
-                      hasChanged
-                        ? { opacity: 0, scale: 0.5, y: 30, rotateX: -90 }
-                        : undefined
-                    }
-                    animate={{ opacity: 1, scale: 1, y: 0, rotateX: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={
-                      hasChanged
-                        ? {
-                            duration: 0.3,
-                            delay: index * 0.05,
-                            ease: "easeOut",
-                            type: "spring",
-                            stiffness: 200,
-                            damping: 20,
-                          }
-                        : {}
-                    }
-                    style={{ display: "inline-block" }}
-                  >
-                    {char === " " ? "\u00A0" : char}
-                  </motion.span>
-                )
-              })}
-            <span className="ml-3">{timeWithAMPM.split(" ")[1]}</span>
-          </motion.h1>
-        </AnimatePresence>
-      </motion.div>
-    </div>
+function DesktopTimeWidget() {
+  const { animateIntro } = useAnimationsSignals()
+  const reduceMotion = useReducedMotion()
+  const [now, setNow] = useState(() => new Date())
+  const lastMinute = useRef(now.getMinutes())
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const next = new Date()
+      if (next.getMinutes() === lastMinute.current) return
+      lastMinute.current = next.getMinutes()
+      setNow(next)
+    }, 1000)
+    return () => clearInterval(timer)
+  }, [])
+
+  const [clock, meridiem] = formatTime(now).split(" ")
+  const hidden = { opacity: 0, y: reduceMotion ? 0 : 12 }
+
+  return (
+    <motion.div
+      className="absolute right-4 bottom-3 flex flex-col items-end gap-0.5 text-right select-none sm:top-11 sm:right-14 sm:bottom-auto"
+      initial={hidden}
+      animate={animateIntro ? { opacity: 1, y: 0 } : hidden}
+      transition={{ duration: 0.6, ease: EASE_OUT }}
+    >
+      <span className="font-serif text-lg leading-6 text-lilac italic [text-shadow:0_2px_12px_rgba(8,7,20,0.6)] sm:text-[30px] sm:leading-9">
+        {formatDate(now)}
+      </span>
+      <div className="flex items-start gap-1.5 sm:gap-2">
+        <span
+          aria-label={formatTime(now)}
+          className="flex text-[56px] leading-14 font-extralight tracking-[-0.045em] text-moon-bright tabular-nums [text-shadow:0_4px_30px_rgba(8,7,20,0.55)] sm:text-8.5xl sm:leading-28"
+        >
+          {clock.split("").map((char, index) => (
+            <Digit key={index} char={char} />
+          ))}
+        </span>
+        <span className="pt-2.5 text-xs leading-4 font-medium tracking-[0.14em] text-haze sm:pt-5.5 sm:text-[13px]">
+          {meridiem}
+        </span>
+      </div>
+    </motion.div>
   )
 }
 

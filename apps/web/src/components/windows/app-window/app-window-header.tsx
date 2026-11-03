@@ -6,12 +6,20 @@ import {
 import { useDispatch } from "react-redux"
 import { Dimensions2D } from "."
 import useMousePosition from "@/hooks/use-mouse-position"
-import { motion, Point } from "framer-motion"
+import { Point } from "framer-motion"
+import cn from "classnames"
 import AppWindowHeaderButton from "./app-window-header-button"
 import { useEventListener } from "usehooks-ts"
 import useAppWindowControls from "@/hooks/use-app-window-data"
 import useGlobalWindowsControls from "@/hooks/use-global-windows-controls"
 import useMediaQuery from "@/hooks/use-media-query"
+import {
+  CloseIcon,
+  LockIcon,
+  MaximizeIcon,
+  MinimizeIcon,
+  RestoreIcon,
+} from "@/components/ui/icons"
 
 interface AppWindowHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   processName?: string
@@ -50,6 +58,7 @@ const AppWindowHeader = ({
   hiddenButtons,
   disableMaximize = false,
   disableMinimize = false,
+  isDisabled,
   setInitialPosition,
   setIsMovingWindowFromMaximizedToMinimized,
   onWindowMoveStart,
@@ -119,39 +128,91 @@ const AppWindowHeader = ({
     setMaximized(newMaximizedState)
   }
 
+  const titleFaded = !isFocused || isDisabled
+
   return (
-    <motion.div
-      className="window-header flex text-center justify-end min-h-[30px] h-[30px] text-white bg-linear-to-r from-ctp-blue-950 to-ctp-mauve-900/60 min-w-max"
+    <div
+      className={cn(
+        "window-header flex h-11 min-h-11 min-w-max shrink-0 items-center justify-between border-b pr-2 pl-4 select-none",
+        "transition-colors duration-200 ease-out-strong",
+        isFocused
+          ? "border-white/7 bg-chrome/92"
+          : "border-white/6 bg-chrome-dim/90",
+      )}
       onMouseDown={onMouseDown}
       onDoubleClick={onDoubleClick}
     >
       {processName !== undefined || processIcon !== undefined ? (
-        <div className="h-full pointer-events-none px-2.5 flex items-center justify-center mr-auto font-segoe-ui-light text-xs select-none min-w-fit">
-          <img src={processIcon} className="max-w-4 max-h-5" />
-          <p className="mx-2.5 text-white font-thin">{processName}</p>
+        <div
+          className={cn(
+            "pointer-events-none mr-4 flex min-w-fit items-center gap-2.5 transition-opacity duration-200 ease-out-strong",
+            { "opacity-60": titleFaded },
+          )}
+        >
+          {processIcon && (
+            <img
+              src={processIcon}
+              alt=""
+              className="max-h-4.5 max-w-4.5 rounded-[5px]"
+            />
+          )}
+          <span className="text-[13px] leading-4 font-semibold text-moon">
+            {processName}
+          </span>
         </div>
-      ) : null}
-      <div className="w-fit flex flex-row-reverse items-center p-0 h-full">
-        {!hiddenButtons.includes("close") && (
-          <AppWindowHeaderButton onClick={CloseApplication} type="danger">
-            ✕
-          </AppWindowHeaderButton>
+      ) : (
+        <span />
+      )}
+
+      <div className="flex items-center gap-3">
+        {isDisabled && (
+          <div className="pointer-events-none flex h-6 items-center gap-1.5 rounded-full bg-melon/14 pr-2.5 pl-2">
+            <LockIcon className="size-3 text-[#ff8fa6]" />
+            <span className="text-xs leading-4 font-medium whitespace-nowrap text-[#ffb3c2]">
+              Finish the dialog first
+            </span>
+          </div>
         )}
-        {!hiddenButtons.includes("maximize") && (
-          <AppWindowHeaderButton
-            onClick={MaximizeWindow}
-            className="hidden sm:flex"
-          >
-            <span className="block aspect-square w-2.5 border border-solid"></span>
-          </AppWindowHeaderButton>
-        )}
-        {!hiddenButtons.includes("minimize") && (
-          <AppWindowHeaderButton onClick={onDismissButton}>
-            <span className="block aspect-square w-2.5 h-px bg-white" />
-          </AppWindowHeaderButton>
-        )}
+        <div
+          className={cn(
+            "flex items-center gap-0.5 transition-opacity duration-200 ease-out-strong",
+            isDisabled ? "opacity-35" : !isFocused && "opacity-45",
+          )}
+        >
+          {!hiddenButtons.includes("minimize") && (
+            <AppWindowHeaderButton
+              onClick={onDismissButton}
+              label="Minimize"
+              className="window-dismiss-button"
+            >
+              <MinimizeIcon className="size-3" />
+            </AppWindowHeaderButton>
+          )}
+          {!hiddenButtons.includes("maximize") && (
+            <AppWindowHeaderButton
+              onClick={MaximizeWindow}
+              label={maximized ? "Restore" : "Maximize"}
+              className="hidden sm:flex"
+            >
+              {maximized ? (
+                <RestoreIcon className="size-3" />
+              ) : (
+                <MaximizeIcon className="size-3" />
+              )}
+            </AppWindowHeaderButton>
+          )}
+          {!hiddenButtons.includes("close") && (
+            <AppWindowHeaderButton
+              onClick={CloseApplication}
+              label="Close"
+              type="danger"
+            >
+              <CloseIcon className="size-3" />
+            </AppWindowHeaderButton>
+          )}
+        </div>
       </div>
-    </motion.div>
+    </div>
   )
 }
 

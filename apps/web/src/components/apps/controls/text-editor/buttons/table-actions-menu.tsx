@@ -160,7 +160,7 @@ const TableActionsMenu = ({
           />
 
           {/* Dropdown Menu */}
-          <div className="absolute top-full left-0 mt-1 bg-ctp-surface0 border border-ctp-surface1 rounded-lg shadow-lg z-20 min-w-[200px] max-h-[400px] overflow-y-auto">
+          <div className="absolute top-full left-0 mt-1 bg-ctp-surface0 border border-ctp-surface1 rounded-lg shadow-lg z-20 min-w-50 max-h-100 overflow-y-auto">
             {tableActions.map((action, index) => (
               <button
                 key={index}

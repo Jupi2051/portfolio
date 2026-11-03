@@ -1,35 +1,41 @@
-import cn from "classnames";
+import cn from "classnames"
 
 const AppWindowHeaderButton = ({
   children,
   onClick,
   className,
+  label,
   type = "normal",
   disabled = false,
 }: {
-  children?: React.ReactNode;
-  onClick?: () => void;
-  className?: string;
-  type?: "normal" | "danger";
-  disabled?: boolean;
+  children?: React.ReactNode
+  onClick?: () => void
+  className?: string
+  label: string
+  type?: "normal" | "danger"
+  disabled?: boolean
 }) => {
   return (
-    <span
-      className={cn(
-        "px-4 text-center flex items-center cursor-default bg-transparent transition-all duration-200 ease-in-out border-white h-full select-none",
-        {
-          "hover:bg-white/10 hover:active:bg-white/20 hover:active:transition-none":
-            type === "normal",
-          "hover:bg-red-700 hover:active:bg-red-800": type === "danger",
-          "opacity-50 cursor-not-allowed": disabled,
-        },
-        className
-      )}
+    <button
+      type="button"
+      aria-label={label}
+      title={label}
+      disabled={disabled}
       onClick={onClick}
+      onDoubleClick={(event) => event.stopPropagation()}
+      className={cn(
+        "flex h-7 w-8 cursor-default items-center justify-center rounded-lg text-lilac outline-none",
+        "transition-[background-color,color,scale] duration-150 ease-out-strong active:scale-[0.94] active:duration-100",
+        "focus-visible:bg-white/9 disabled:cursor-not-allowed disabled:opacity-50",
+        type === "danger"
+          ? "hover:bg-melon hover:text-white active:bg-[#f04a6d]"
+          : "hover:bg-white/9 active:bg-white/14",
+        className,
+      )}
     >
       {children}
-    </span>
-  );
-};
+    </button>
+  )
+}
 
-export default AppWindowHeaderButton;
+export default AppWindowHeaderButton

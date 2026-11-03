@@ -84,7 +84,7 @@ export default function VicoApprovedSketchesColumn({
                   <p className="line-clamp-2 font-capirola text-xs font-medium text-ctp-text">
                     {sketch.title}
                   </p>
-                  <p className="truncate text-[10px] text-ctp-subtext1">
+                  <p className="truncate text-2xs text-ctp-subtext1">
                     {sketch.author}
                   </p>
                   <div className="flex gap-1.5">
@@ -99,7 +99,7 @@ export default function VicoApprovedSketchesColumn({
                         "hover:bg-ctp-teal/20 disabled:cursor-not-allowed disabled:opacity-60",
                       )}
                     >
-                      <FontAwesomeIcon icon={faCrop} className="text-[10px]" />
+                      <FontAwesomeIcon icon={faCrop} className="text-2xs" />
                       Crop
                     </button>
                     <button

@@ -145,7 +145,7 @@ export default function VicoToolbar({
         aria-hidden
       />
 
-      <label className="flex min-w-0 basis-full items-center gap-2 sm:basis-auto sm:flex-1 sm:max-w-[240px]">
+      <label className="flex min-w-0 basis-full items-center gap-2 sm:basis-auto sm:flex-1 sm:max-w-60">
         <span className="flex shrink-0 items-baseline gap-1 whitespace-nowrap text-xs text-ctp-subtext1">
           <span>Brush</span>
           <span className="inline-block w-15 text-end tabular-nums text-ctp-overlay2">
@@ -212,7 +212,7 @@ export default function VicoToolbar({
             />
           </label>
 
-          <label className="flex min-w-0 flex-1 flex-col gap-0.5 sm:min-w-23 sm:max-w-[120px]">
+          <label className="flex min-w-0 flex-1 flex-col gap-0.5 sm:min-w-23 sm:max-w-30">
             <span className="text-[0.65rem] font-medium uppercase tracking-wide text-ctp-subtext0">
               Alpha {Math.round(rgba.a * 100)}%
             </span>

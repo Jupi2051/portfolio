@@ -43,6 +43,9 @@ export interface TerminalProps {
   onScrollToBottom?: () => void
 }
 
+/** Echoed before each command in the scrollback: `jupi@desk ~ $`. */
+const PROMPT_ANSI = "\x1b[34mjupi@desk\x1b[0m \x1b[90m~ $\x1b[0m"
+
 const Terminal = () => {
   // Default history initialization
   const defaultHistory = [
@@ -153,7 +156,7 @@ const Terminal = () => {
       const { command, args } = parseCommand(cmd)
       const commandName = command.toLowerCase()
 
-      setHistory((prev) => [...prev, `${currentPath}>${cmd}`])
+      setHistory((prev) => [...prev, `${PROMPT_ANSI} ${cmd}`])
 
       if (cmd.trim()) {
         setCommandHistory((prev) => [...prev, cmd])
@@ -194,7 +197,7 @@ const Terminal = () => {
         }
       } else {
         outputToTerminal(
-          `'${command}' is not recognized as an internal or external command,\noperable program or batch file.`,
+          `\x1b[31mcommand not found:\x1b[0m ${command} \x1b[90m— try 'help'\x1b[0m`,
         )
         outputToTerminal("")
       }

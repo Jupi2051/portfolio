@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="wrSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5557D6"/><stop offset="1" stop-color="#AE9EFF"/></linearGradient>
+    <linearGradient id="wrBody" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#D6D1FF"/></linearGradient>
+    <linearGradient id="wrFlame" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD98A"/><stop offset="1" stop-color="#FF5D7E"/></linearGradient>
+    <linearGradient id="wrFin" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF97AE"/><stop offset="1" stop-color="#FF5D7E"/></linearGradient>
+  </defs>
+  <g transform="translate(214 304) rotate(-9)">
+    <rect x="-160" y="-120" width="320" height="240" rx="44" fill="url(#wrSky)"/>
+    <path d="M -82.5 -81.6 A 30 30 0 1 0 -51.1 -38.8 A 27 27 0 0 1 -82.5 -81.6 Z" fill="#FFF1C9"/>
+    <circle cx="10" cy="-76" r="4" fill="#FFFFFF"/>
+    <circle cx="60" cy="-30" r="3" fill="#FFFFFF" fill-opacity="0.8"/>
+    <circle cx="-14" cy="-24" r="3" fill="#FFFFFF" fill-opacity="0.7"/>
+    <circle cx="118" cy="-88" r="3.5" fill="#FFFFFF"/>
+    <path d="M-160 60 C -104 14 -44 30 8 62 C 62 22 122 12 160 40 L 160 76 A 44 44 0 0 1 116 120 L -116 120 A 44 44 0 0 1 -160 76 Z" fill="#4344B4"/>
+    <path d="M-160 76 C -90 58 24 76 153 100 A 44 44 0 0 1 116 120 L -116 120 A 44 44 0 0 1 -160 76 Z" fill="#2E2F8A"/>
+    <rect x="-160" y="-120" width="320" height="240" rx="44" stroke="#F6F4FF" stroke-width="14"/>
+  </g>
+  <g transform="translate(340 196) rotate(40)">
+    <path d="M-26 52 C -24 100 -6 128 0 152 C 6 128 24 100 26 52 Z" fill="url(#wrFlame)"/>
+    <path d="M-13 52 C -12 84 -3 100 0 114 C 3 100 12 84 13 52 Z" fill="#FFF1C9"/>
+    <path d="M-40 6 C -68 22 -82 50 -78 78 C -66 66 -52 60 -38 58 Z" fill="url(#wrFin)"/>
+    <path d="M40 6 C 68 22 82 50 78 78 C 66 66 52 60 38 58 Z" fill="url(#wrFin)"/>
+    <path d="M0 -132 C 44 -100 52 -30 44 56 L -44 56 C -52 -30 -44 -100 0 -132 Z" fill="url(#wrBody)" stroke="#C3BDF7" stroke-width="3"/>
+    <path d="M0 -132 C 22 -116 34 -96 40 -74 L -40 -74 C -34 -96 -22 -116 0 -132 Z" fill="url(#wrFin)"/>
+    <rect x="-44" y="42" width="88" height="16" rx="7" fill="#C9C4FF"/>
+    <circle cx="0" cy="-26" r="25" fill="#F6F4FF" stroke="#C3BDF7" stroke-width="3"/>
+    <circle cx="0" cy="-26" r="17" fill="#8C8EFF"/>
+    <circle cx="-6" cy="-32" r="5" fill="#FFFFFF" fill-opacity="0.85"/>
+  </g>
+  <path transform="translate(96 120) scale(1.15)" d="M0 -24 C 3 -6 6 -3 24 0 C 6 3 3 6 0 24 C -3 6 -6 3 -24 0 C -6 -3 -3 -6 0 -24 Z" fill="#FFD98A"/>
+  <path transform="translate(462 214) scale(0.6)" d="M0 -24 C 3 -6 6 -3 24 0 C 6 3 3 6 0 24 C -3 6 -6 3 -24 0 C -6 -3 -3 -6 0 -24 Z" fill="#FFF1C9"/>
+  <path transform="translate(440 400) scale(0.9)" d="M0 -24 C 3 -6 6 -3 24 0 C 6 3 3 6 0 24 C -3 6 -6 3 -24 0 C -6 -3 -3 -6 0 -24 Z" fill="#FFD98A"/>
+</svg>

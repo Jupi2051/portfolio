@@ -155,7 +155,7 @@ function Chloe(props: PropTypes) {
           <AnimatePresence>
             {currentMessage % 2 === 0 ? (
               <motion.p
-                className="flex flex-col px-2 py-4 -mt-3 items-center justify-center aspect-[18/14] w-52 text-ctp-lavender-500 font-thin font-capirola leading-none -tracking-tighter text-center select-none"
+                className="flex flex-col px-2 py-4 -mt-3 items-center justify-center aspect-18/14 w-52 text-ctp-lavender-500 font-thin font-capirola leading-none tracking-wider text-center select-none"
                 variants={SpeechVariant}
                 initial="initial"
                 exit="exit"
@@ -166,7 +166,7 @@ function Chloe(props: PropTypes) {
               </motion.p>
             ) : (
               <motion.p
-                className="flex flex-col px-2 py-4 -mt-3 items-center justify-center aspect-[18/14] w-52 text-ctp-lavender-500 font-thin font-capirola leading-none -tracking-tighter text-center select-none absolute top-0 left-0"
+                className="flex flex-col px-2 py-4 -mt-3 items-center justify-center aspect-18/14 w-52 text-ctp-lavender-500 font-thin font-capirola leading-none tracking-wider text-center select-none absolute top-0 left-0"
                 variants={SpeechVariant}
                 initial="initial"
                 exit="exit"

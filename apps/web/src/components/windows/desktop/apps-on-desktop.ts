@@ -15,6 +15,8 @@ export type DesktopIconData = {
   }
   Selected: boolean
   AppComponent: DesktopAppsList
+  /** Square artwork (avatars, photos) that should fill its tile edge to edge. */
+  IconFill?: boolean
   customTaskbarIcon?: string
   processData?: any
   URLSavable?: boolean
@@ -84,6 +86,7 @@ export let DesktopIcons: DesktopIconData[] = [
     id: 16,
     Name: "Gaia",
     IconPath: "Imgs/DesktopApps/Jenni.png",
+    IconFill: true,
     Style: {},
     Selected: false,
     AppComponent: DesktopAppsList.Gaia,
@@ -92,6 +95,7 @@ export let DesktopIcons: DesktopIconData[] = [
     id: 17,
     Name: "Vico",
     IconPath: "Imgs/Apps/Photos.jpg",
+    IconFill: true,
     Style: {},
     Selected: false,
     AppComponent: DesktopAppsList.Vico,
@@ -169,7 +173,7 @@ export let DesktopIcons: DesktopIconData[] = [
   {
     id: 18,
     Name: "Wallpapers Rocket",
-    IconPath: "Imgs/DesktopApps/WallpapersRocket.png",
+    IconPath: "Imgs/DesktopApps/WallpapersRocket.svg",
     Style: {},
     Selected: false,
     AppComponent: DesktopAppsList.WallpapersRocket,

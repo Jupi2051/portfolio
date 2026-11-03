@@ -7,7 +7,7 @@ const AppLoading = () => {
   const { processIcon } = useApplicationData();
 
   return (
-    <motion.div className="w-full h-full bg-black flex flex-col items-center justify-center gap-10 z-50">
+    <motion.div className="w-full h-full bg-panel flex flex-col items-center justify-center gap-10 z-50">
       <div className="relative flex items-center justify-center">
         <OrbitLoader className="z-0" size="w-20" />
         <img
@@ -19,7 +19,7 @@ const AppLoading = () => {
       <WavyText
         replay={true}
         text="Loading"
-        className="text-white text-2xl font-bold"
+        className="font-serif text-3xl italic text-moon"
       />
     </motion.div>
   );

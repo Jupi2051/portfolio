@@ -83,7 +83,7 @@ const TerminalWindow: React.FC<TerminalProps> = ({
 
       <form
         onSubmit={onSubmit}
-        className="px-6 py-0 relative bottom-[15px] min-w-0"
+        className="px-6 py-0 relative bottom-3.75 min-w-0"
         style={{
           opacity: isCommandRunning && !isWaitingForInput ? 0 : 1,
         }}

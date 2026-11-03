@@ -1,10 +1,11 @@
-import WallpaperCard, {
-  type WallpaperCardItem,
-} from "@/components/apps/wallpapers-rocket/wallpaper-card"
+import { LayoutGroup } from "framer-motion"
+import WallpaperPrint, {
+  type WallpaperPrintItem,
+} from "@/components/apps/wallpapers-rocket/wallpaper-print"
 import type { WallpaperKey } from "@/hooks/use-background"
 
 type WallpaperGalleryProps = {
-  wallpapers: WallpaperCardItem[]
+  wallpapers: WallpaperPrintItem[]
   activeKey: WallpaperKey
   onSelect: (key: WallpaperKey) => void
 }
@@ -15,19 +16,19 @@ function WallpaperGallery({
   onSelect,
 }: WallpaperGalleryProps) {
   return (
-    <section className="w-full space-y-4 text-left">
-      <h2 className="text-sm font-semibold text-ctp-text">All wallpapers</h2>
-      <div className="flex flex-wrap justify-start gap-4 pb-1">
-        {wallpapers.map((item) => (
-          <WallpaperCard
+    <LayoutGroup>
+      <section className="grid grid-cols-1 gap-x-10 gap-y-8 pt-1.5 @2xl/appwindow:grid-cols-2">
+        {wallpapers.map((item, index) => (
+          <WallpaperPrint
             key={item.key}
             item={item}
+            index={index}
             isActive={activeKey === item.key}
             onSelect={onSelect}
           />
         ))}
-      </div>
-    </section>
+      </section>
+    </LayoutGroup>
   )
 }
 
