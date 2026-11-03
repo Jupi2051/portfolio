@@ -5,28 +5,49 @@ import LoadingScreen from "@/components/intro"
 import useApplicationURLParams from "./hooks/use-application-url-params"
 import useAnimationsSignals from "./hooks/use-animations-signals"
 
+const INTRO_DURATION_MS = 3000
+/**
+ * How long after the intro starts fading the desktop begins its entrance.
+ * The fade takes 450ms (see components/intro), so 0 starts it immediately and
+ * 450 waits for the fade to fully finish.
+ */
+const DESKTOP_REVEAL_DELAY_MS = 200
+
 function app() {
   const urlParams = useApplicationURLParams()
-  const { animateIntro, setAnimateIntroDone } = useAnimationsSignals()
+  const { setAnimateIntroDone } = useAnimationsSignals()
+  // Deep links skip the intro entirely.
+  const [showIntro, setShowIntro] = useState(urlParams.length === 0)
+
+  const endIntro = () => {
+    setShowIntro(false)
+    setTimeout(() => setAnimateIntroDone(true), DESKTOP_REVEAL_DELAY_MS)
+  }
 
   useEffect(() => {
-    if (urlParams.length > 0) {
+    if (!showIntro) {
       setAnimateIntroDone(true)
       return
     }
 
-    setTimeout(() => setAnimateIntroDone(true), 3000)
+    const timer = setTimeout(endIntro, INTRO_DURATION_MS)
+    return () => clearTimeout(timer)
   }, [])
 
   return (
-    <AnimatePresence>
+    <>
       <div className={"App"}>
-        <Surface key={"surfaces"} />
+        <Surface />
       </div>
-      {!animateIntro && (
-        <LoadingScreen key={"loading-screen"} setLoaded={setAnimateIntroDone} />
-      )}
-    </AnimatePresence>
+      <AnimatePresence>
+        {showIntro && (
+          <LoadingScreen
+            key="loading-screen"
+            setLoaded={endIntro}
+          />
+        )}
+      </AnimatePresence>
+    </>
   )
 }
 

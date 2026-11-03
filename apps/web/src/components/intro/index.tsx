@@ -1,43 +1,34 @@
-import { motion } from "framer-motion"
+import { motion, useReducedMotion } from "framer-motion"
 import Julogo from "@/components/apps/about-me/jupi-logo"
-import OrbitLoader from "@/components/ui/orbit-loader"
+import { EASE_OUT } from "@/lib/motion"
 
-const Intro = ({ setLoaded }: { setLoaded: (loaded: boolean) => void }) => {
+const Intro = ({ setLoaded }: { setLoaded: () => void }) => {
+  const reduceMotion = useReducedMotion()
+
   return (
     <motion.div
-      className="absolute inset-0 w-screen h-dvh text-white overflow-hidden select-none z-50 bg-black cursor-pointer"
-      onClick={() => setLoaded(true)}
-      exit={{
-        opacity: 0,
-        transition: { delay: 0.3, ease: "easeOut" },
-      }}
+      className="absolute inset-0 z-50 h-dvh w-screen cursor-pointer overflow-hidden bg-ink-deep text-white select-none"
+      onClick={setLoaded}
+      // One short, decisive fade so the desktop can take over right after.
+      exit={{ opacity: 0, transition: { duration: 0.45, ease: EASE_OUT } }}
     >
       <motion.div
-        className="w-full h-full flex items-center justify-center bg-linear-to-br bg-black"
-        transition={{ delay: 0.5, ease: "easeInOut" }}
-        initial={{ scale: 1.2, opacity: 0, filter: "blur(10px)" }}
+        className="flex h-full w-full items-center justify-center bg-[radial-gradient(circle_at_50%_45%,rgba(140,142,255,0.14)_0%,rgba(14,13,26,0)_55%)]"
+        initial={{ scale: reduceMotion ? 1 : 1.08, opacity: 0, filter: "blur(8px)" }}
         animate={{ scale: 1, opacity: 1, filter: "blur(0px)" }}
         exit={{
-          scale: 2,
-          filter: "blur(10px)",
-          transition: { delay: 0, ease: "easeOut" },
+          scale: reduceMotion ? 1 : 1.15,
+          filter: "blur(6px)",
+          transition: { duration: 0.45, ease: EASE_OUT },
         }}
+        transition={{ delay: 0.3, duration: 0.8, ease: EASE_OUT }}
       >
-        <div className="flex items-center justify-center flex-col gap-20 relative">
-          <div className="relative">
-            <Julogo
-              className="w-18 absolute top-1/2 left-1/2 -translate-1/2"
-              Size={210}
-              skipEnterAnimation={true}
-            />
-            <OrbitLoader className="absolute top-1/2" moonClassName="w-4!" />
-          </div>
-          {/* <WavyText
-            text="Welcome"
-            replay={true}
-            className="text-4xl px-2 font-caveat absolute top-full translate-y-full pt-2"
-            delay={0.8}
-          /> */}
+        <div className="relative">
+          <Julogo
+            className="absolute top-1/2 left-1/2 w-18 -translate-1/2"
+            Size={210}
+            skipEnterAnimation={true}
+          />
         </div>
       </motion.div>
     </motion.div>
