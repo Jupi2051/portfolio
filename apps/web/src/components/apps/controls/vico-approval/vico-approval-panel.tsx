@@ -139,7 +139,7 @@ export default function VicoApprovalPanel() {
                         key={sketch.id}
                         src={getVicoSketchWebpUrl(sketch.imageId, sketchImageCacheBust)}
                         alt={sketch.title}
-                        className="size-10 rounded-[9px] border border-white/12 bg-paper object-cover"
+                        className="size-10 rounded-[9px] border border-white/12 bg-ink-deep object-cover"
                       />
                     ))}
                   </div>

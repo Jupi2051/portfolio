@@ -22,7 +22,7 @@ export default function VicoSketchCard({ sketch, cacheBust, actions }: Props) {
       transition={{ duration: 0.22, ease: EASE_OUT }}
       className="flex flex-col overflow-hidden rounded-2xl border border-white/8 bg-white/3"
     >
-      <div className="flex aspect-4/3 items-center justify-center bg-paper">
+      <div className="flex aspect-4/3 items-center justify-center bg-ink-deep">
         <img
           src={getVicoSketchWebpUrl(sketch.imageId, cacheBust)}
           alt={sketch.title}

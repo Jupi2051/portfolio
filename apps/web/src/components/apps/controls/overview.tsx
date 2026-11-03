@@ -111,7 +111,7 @@ export default function ControlsOverview({
                       key={imageId}
                       src={getVicoSketchWebpUrl(imageId)}
                       alt=""
-                      className="size-12 rounded-xl border-2 border-panel bg-paper object-contain"
+                      className="size-12 rounded-xl border-2 border-panel bg-ink-deep object-contain"
                     />
                   ))}
                 </div>
