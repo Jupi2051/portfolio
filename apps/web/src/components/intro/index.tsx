@@ -1,5 +1,6 @@
 import { motion, useReducedMotion } from "framer-motion"
 import Julogo from "@/components/apps/about-me/jupi-logo"
+import OrbitLoader from "@/components/ui/orbit-loader"
 import { EASE_OUT } from "@/lib/motion"
 
 const Intro = ({ setLoaded }: { setLoaded: () => void }) => {
@@ -29,6 +30,7 @@ const Intro = ({ setLoaded }: { setLoaded: () => void }) => {
             Size={210}
             skipEnterAnimation={true}
           />
+          <OrbitLoader className="absolute top-1/2" moonClassName="w-4!" />
         </div>
       </motion.div>
     </motion.div>
