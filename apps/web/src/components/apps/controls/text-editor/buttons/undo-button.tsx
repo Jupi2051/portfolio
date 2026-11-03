@@ -15,7 +15,7 @@ const UndoButton = ({ editor, className = "" }: UndoButtonProps) => {
       type="button"
       onClick={() => editor.chain().focus().undo().run()}
       disabled={!editor.can().undo()}
-      className={`p-2 rounded hover:bg-ctp-surface1 disabled:opacity-50 disabled:cursor-not-allowed text-ctp-text transition-colors ${className}`}
+      className={`flex h-8 min-w-8 cursor-pointer items-center justify-center gap-1 rounded-lg px-2 text-[13px] text-haze transition-colors duration-150 ease-out-strong hover:bg-white/8 hover:text-moon disabled:cursor-not-allowed disabled:opacity-40 ${className}`}
       title="Undo"
     >
       <FontAwesomeIcon icon={faUndo} />

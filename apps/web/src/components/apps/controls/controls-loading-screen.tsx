@@ -1,35 +1,17 @@
-import { motion } from "framer-motion";
+import { motion } from "framer-motion"
+import { EASE_OUT } from "@/lib/motion"
 
 export default function ControlsLoadingScreen() {
   return (
-    <div style={{ width: "100%", height: "100%", border: "none" }}>
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <motion.h1
-          className="text-6xl font-bold text-ctp-pink"
-          style={{ fontFamily: "Caveat, cursive" }}
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{
-            opacity: 1,
-            scale: 1,
-            rotate: [0, 5, -5, 0],
-          }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        >
-          Loading
-        </motion.h1>
-      </div>
-    </div>
-  );
+    <motion.div
+      className="flex h-full w-full items-center justify-center gap-2.5 bg-panel text-sm text-haze"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      // Delay so fast loads never flash a spinner.
+      transition={{ duration: 0.2, delay: 0.15, ease: EASE_OUT }}
+    >
+      <span className="size-4 animate-spin rounded-full border-2 border-holo border-t-transparent" />
+      Loading…
+    </motion.div>
+  )
 }

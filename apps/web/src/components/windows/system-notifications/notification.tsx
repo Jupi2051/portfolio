@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { NotificationItem } from "./types";
 
 const TYPE_ACCENT: Record<string, string> = {
-  success: "bg-[#9be3b4]",
+  success: "bg-mint",
   error: "bg-melon",
   warning: "bg-spark",
   info: "bg-holo",

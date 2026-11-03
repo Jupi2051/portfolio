@@ -1,6 +1,8 @@
 export type ControlsPanel =
-  | "home"
+  | "overview"
   | "articles"
   | "vico"
   | "rivals-randomizer"
-  | "valorant-randomizer";
+  | "valorant-randomizer"
+
+export type NavigateToPanel = (panel: ControlsPanel) => void

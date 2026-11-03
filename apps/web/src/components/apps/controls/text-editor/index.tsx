@@ -14,6 +14,9 @@ import TableHeader from "@tiptap/extension-table-header";
 import { createLowlight } from "lowlight";
 import TextEditorMainMenu from "./text-editor-main-menu";
 import TextEditorBubbleMenu from "./text-editor-bubble-menu";
+import type { ReactNode } from "react";
+import cn from "classnames";
+import { proseClassName } from "@/components/apps/blog/blog-article";
 import "@catppuccin/highlightjs/css/catppuccin-frappe.css";
 import "./tiptap-styles.css";
 
@@ -77,6 +80,8 @@ const CustomCodeBlockLowlight = CodeBlockLowlight.extend({
 type propTypes = {
   value: string;
   setValue: (text: string) => void;
+  /** Rendered above the document inside the scroll area (title / description inputs). */
+  header?: ReactNode;
 };
 
 function TextEditor(props: propTypes) {
@@ -96,7 +101,7 @@ function TextEditor(props: propTypes) {
         multicolor: true,
       }),
       Placeholder.configure({
-        placeholder: "Start writing your content...",
+        placeholder: "Start writing…",
       }),
       CustomCodeBlockLowlight.configure({
         lowlight: createLowlight(),
@@ -120,8 +125,7 @@ function TextEditor(props: propTypes) {
     },
     editorProps: {
       attributes: {
-        class:
-          "prose prose-invert max-w-none focus:outline-none px-4 py-3 min-h-50",
+        class: cn(proseClassName, "min-h-60 focus:outline-none"),
       },
     },
   });
@@ -131,9 +135,10 @@ function TextEditor(props: propTypes) {
   }
 
   return (
-    <div className="w-full bg-ctp-base border border-ctp-surface0 rounded-lg">
+    <div className="flex h-full min-h-0 w-full flex-col">
       <TextEditorMainMenu editor={editor} />
-      <div className="border-t border-ctp-surface0">
+      <div className="min-h-0 flex-1 overflow-y-auto px-6 py-7 [scrollbar-color:rgba(255,255,255,0.14)_transparent] scrollbar-thin @2xl/appwindow:px-10 @2xl/appwindow:py-8">
+        {props.header}
         <EditorContent editor={editor} />
         <TextEditorBubbleMenu editor={editor} />
       </div>

@@ -1,375 +1,250 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import cn from "classnames";
+import { useEffect, useRef, useState } from "react"
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
+import cn from "classnames"
+import { ArrowRightIcon, PinIcon } from "@/components/ui/icons"
+import { enterTransition, exitTransition } from "@/lib/motion"
+import BoardMessage from "./board-message"
+import {
+  NOTE_COLORS,
+  NOTE_MESSAGE_MAX,
+  NOTE_MESSAGE_MIN,
+  NOTE_NAME_MAX,
+  NOTE_THEMES,
+  type NoteColor,
+} from "./note-colors"
 
 interface PinFormProps {
-  onSubmit?: (data: { name: string; message: string; color: string }) => void;
-  onCancel?: () => void;
-  type: "create" | "edit";
+  onSubmit?: (data: { name: string; message: string; color: string }) => void
+  onCancel?: () => void
+  /** "edit" while the note is following the cursor waiting to be placed. */
+  type: "create" | "edit"
 }
 
-type ColorOption =
-  | "white"
-  | "black"
-  | "blue"
-  | "green"
-  | "red"
-  | "pink"
-  | "yellow"
-  | "gray"
-  | "purple";
+const EMPTY_FORM = { name: "", message: "", color: "pink" as NoteColor }
+
+const floatingButton =
+  "flex h-11.5 cursor-pointer items-center gap-2 rounded-[14px] px-4.5 text-sm font-semibold transition-[background-color,scale] duration-150 ease-out-strong active:scale-[0.97]"
 
 const PinForm = ({ onSubmit, onCancel, type = "create" }: PinFormProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    message: "",
-    color: "blue" as ColorOption,
-  });
+  const reduceMotion = useReducedMotion()
+  const [isOpen, setIsOpen] = useState(false)
+  const [formData, setFormData] = useState(EMPTY_FORM)
+  const previousType = useRef(type)
 
-  const colorOptions: ColorOption[] = [
-    "white",
-    "black",
-    "blue",
-    "green",
-    "red",
-    "pink",
-    "yellow",
-    "gray",
-    "purple",
-  ];
+  // Once a placed note lands (edit → create) start the next one fresh.
+  useEffect(() => {
+    if (previousType.current === "edit" && type === "create") setFormData(EMPTY_FORM)
+    previousType.current = type
+  }, [type])
+
+  const name = formData.name.trim()
+  const message = formData.message.trim()
+  const isValid =
+    name.length > 0 &&
+    message.length >= NOTE_MESSAGE_MIN &&
+    message.length <= NOTE_MESSAGE_MAX
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (formData.name.trim() && formData.message.trim()) {
-      onSubmit?.(formData);
-      setFormData({ name: "", message: "", color: "blue" });
-      setIsOpen(false);
-    }
-  };
-
-  const handleColorSelect = (color: ColorOption) => {
-    setFormData((prev) => ({ ...prev, color }));
-  };
+    e.preventDefault()
+    if (!isValid) return
+    onSubmit?.({ ...formData, name, message })
+    setIsOpen(false)
+  }
 
   const handleCancel = () => {
-    onCancel?.();
-    setFormData({ name: "", message: "", color: "blue" });
-    setIsOpen(false);
-  };
+    onCancel?.()
+    setFormData(EMPTY_FORM)
+    setIsOpen(false)
+  }
 
-  const getColorClasses = (color: ColorOption) => {
-    switch (color) {
-      case "blue":
-        return "bg-blue-100/80";
-      case "white":
-        return "bg-white/80";
-      case "black":
-        return "bg-black/95 border-gray-700";
-      case "green":
-        return "bg-green-100/80";
-      case "red":
-        return "bg-red-100/80";
-      case "pink":
-        return "bg-pink-100/80";
-      case "yellow":
-        return "bg-yellow-100/80";
-      case "gray":
-        return "bg-gray-100/80";
-      case "purple":
-        return "bg-linear-to-br from-ctp-mauve/20 to-ctp-mauve/30 border-ctp-mauve/40";
-      default:
-        return "bg-blue-100/80";
-    }
-  };
-
-  const getColorButtonClasses = (color: ColorOption) => {
-    switch (color) {
-      case "blue":
-        return "bg-blue-500 hover:bg-blue-600";
-      case "white":
-        return "bg-white border-2 border-gray-300 hover:bg-gray-100";
-      case "black":
-        return "bg-black hover:bg-gray-800";
-      case "green":
-        return "bg-green-500 hover:bg-green-600";
-      case "red":
-        return "bg-red-500 hover:bg-red-600";
-      case "pink":
-        return "bg-pink-500 hover:bg-pink-600";
-      case "yellow":
-        return "bg-yellow-500 hover:bg-yellow-600";
-      case "gray":
-        return "bg-gray-500 hover:bg-gray-600";
-      case "purple":
-        return "bg-ctp-mauve hover:bg-ctp-mauve/80";
-      default:
-        return "bg-blue-500 hover:bg-blue-600";
-    }
-  };
-
-  const getSubmitButtonClasses = (color: ColorOption) => {
-    switch (color) {
-      case "blue":
-        return "bg-blue-500 hover:bg-blue-600 text-white";
-      case "white":
-        return "bg-white hover:bg-gray-100 text-gray-800";
-      case "black":
-        return "bg-gray-600 hover:bg-gray-500 text-white";
-      case "green":
-        return "bg-green-500 hover:bg-green-600 text-white";
-      case "red":
-        return "bg-red-500 hover:bg-red-600 text-white";
-      case "pink":
-        return "bg-pink-500 hover:bg-pink-600 text-white";
-      case "yellow":
-        return "bg-yellow-500 hover:bg-yellow-600 text-gray-800";
-      case "gray":
-        return "bg-gray-500 hover:bg-gray-600 text-white";
-      case "purple":
-        return "bg-ctp-mauve hover:bg-ctp-mauve/80 text-ctp-base";
-      default:
-        return "bg-blue-500 hover:bg-blue-600 text-white";
-    }
-  };
+  const hidden = { opacity: 0, y: reduceMotion ? 0 : 8, scale: 0.97 }
 
   return (
     <>
-      {/* Button Container */}
-      <div className="absolute bottom-4 right-4 @xl/appwindow:bottom-9 @xl/appwindow:right-9 flex gap-2 @xl/appwindow:gap-3">
-        {/* Cancel Button - only show in edit mode */}
-        {type === "edit" && (
-          <button
-            onClick={handleCancel}
-            className="bg-gray-600 backdrop-blur-sm px-4 py-2 @xl/appwindow:px-8 @xl/appwindow:py-4 rounded-xl @xl/appwindow:rounded-2xl shadow-xl hover:shadow-2xl group border-2 @xl/appwindow:border-4 border-white/90 hover:border-white cursor-pointer active:bg-gray-500 active:shadow-md transition-all duration-300 hover:cursor-pointer hover:bg-gray-500"
-          >
-            <span className="text-white text-lg @xl/appwindow:text-2xl font-caveat font-bold group-hover:text-gray-100 transition-colors duration-300">
+      <div
+        className="absolute right-4 bottom-4 z-40 flex gap-2 @xl/appwindow:right-5 @xl/appwindow:bottom-5"
+        data-prevent-drag-scroll
+      >
+        {type === "edit" ? (
+          <>
+            <button
+              type="button"
+              onClick={handleCancel}
+              className={cn(
+                floatingButton,
+                "border border-white/12 bg-ink/70 font-medium text-lilac backdrop-blur-xl hover:bg-ink/85",
+              )}
+            >
               Cancel
-            </span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsOpen(true)}
+              className={cn(
+                floatingButton,
+                "border border-white/12 bg-ink/70 font-medium text-lilac backdrop-blur-xl hover:bg-ink/85",
+              )}
+            >
+              Edit note
+            </button>
+          </>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setIsOpen(true)}
+            className={cn(
+              floatingButton,
+              "bg-holo text-ink-deep shadow-[0_14px_30px_rgba(6,5,16,0.5),0_0_0_4px_rgba(140,142,255,0.18)] hover:bg-holo-soft",
+            )}
+          >
+            <PinIcon className="size-4" />
+            Pin a note
           </button>
         )}
-        {/* Open Form Button */}
-        <button
-          onClick={() => setIsOpen(true)}
-          className="bg-ctp-mauve backdrop-blur-sm px-4 py-2 @xl/appwindow:px-8 @xl/appwindow:py-4 rounded-xl @xl/appwindow:rounded-2xl shadow-xl hover:shadow-2xl group border-2 @xl/appwindow:border-4 border-white/90 hover:border-white cursor-pointer active:bg-ctp-mauve/80 active:shadow-md transition-all duration-300 hover:cursor-pointer"
-        >
-          <span className="text-white text-lg @xl/appwindow:text-2xl font-caveat font-bold group-hover:text-gray-100 transition-colors duration-300">
-            {type === "create" ? "Pin your own!" : "Edit!"}
-          </span>
-        </button>
       </div>
 
-      {/* Overlay and Form */}
       <AnimatePresence>
         {isOpen && (
-          <>
-            {/* Overlay */}
+          <motion.div
+            key="compose"
+            className="absolute inset-0 z-50 flex items-center justify-center p-4"
+            data-prevent-drag-scroll
+            exit={{ opacity: 1, transition: exitTransition }}
+            onKeyDown={(event) => {
+              if (event.key === "Escape") setIsOpen(false)
+            }}
+          >
             <motion.div
+              className="absolute inset-0 bg-[rgba(10,9,22,0.55)] backdrop-blur-xs"
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.1 }}
-              className={cn(
-                "absolute inset-0 bg-black/50 backdrop-blur-sm z-50 pointer-events-auto",
-                {
-                  "pointer-events-none": !isOpen,
-                }
-              )}
+              animate={{ opacity: 1, transition: enterTransition }}
+              exit={{ opacity: 0, transition: exitTransition }}
               onClick={() => setIsOpen(false)}
             />
-
-            {/* Form */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8, y: 50 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.8, y: 50 }}
-              transition={{
-                type: "spring",
-                stiffness: 500,
-                damping: 25,
-                duration: 0.1,
-              }}
-              className="absolute inset-0 flex items-center justify-center z-50 pointer-events-none"
+            <motion.form
+              onSubmit={handleSubmit}
+              role="dialog"
+              aria-label="Leave a note"
+              className="relative flex max-h-full w-full max-w-170 overflow-hidden rounded-3xl border border-white/12 bg-[rgba(20,19,36,0.9)] shadow-[0_30px_80px_rgba(6,5,16,0.6)] backdrop-blur-2xl"
+              initial={hidden}
+              animate={{ opacity: 1, y: 0, scale: 1, transition: enterTransition }}
+              exit={{ ...hidden, transition: exitTransition }}
             >
-              <div
-                className={cn(
-                  "relative w-full max-w-sm @xl/appwindow:max-w-md mx-3 @xl/appwindow:mx-4 p-4 @xl/appwindow:p-6 rounded-xl @xl/appwindow:rounded-2xl shadow-2xl backdrop-blur-sm border-2 border-white/20 pointer-events-auto",
-                  getColorClasses(formData.color)
-                )}
-                onClick={(e) => e.stopPropagation()}
-              >
-                {/* Close Button */}
-                <button
-                  onClick={() => setIsOpen(false)}
-                  className={cn(
-                    "absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-200 cursor-pointer hover:cursor-pointer",
-                    formData.color === "black" || formData.color === "purple"
-                      ? "bg-gray-700/50 hover:bg-gray-600/50"
-                      : "bg-white/20 hover:bg-white/30"
-                  )}
-                >
-                  <svg
-                    className={cn(
-                      "w-5 h-5",
-                      formData.color === "black" || formData.color === "purple"
-                        ? "text-gray-300"
-                        : "text-gray-700"
-                    )}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-
-                {/* Form Header */}
-                <h2
-                  className={cn(
-                    "text-xl @xl/appwindow:text-2xl font-bold mb-4 @xl/appwindow:mb-6 font-caveat",
-                    formData.color === "black" || formData.color === "purple"
-                      ? "text-white"
-                      : "text-gray-800"
-                  )}
-                >
-                  Create a Pin
+              <div className="flex w-full flex-col gap-4.5 overflow-y-auto px-7 pt-6.5 pb-6 @2xl/appwindow:w-90 @2xl/appwindow:shrink-0">
+                <h2 className="font-serif text-[32px] leading-9 text-moon-bright italic">
+                  Leave a note
                 </h2>
 
-                <form
-                  onSubmit={handleSubmit}
-                  className="space-y-4 @xl/appwindow:space-y-6"
-                >
-                  {/* Name Input */}
-                  <div>
-                    <label
-                      htmlFor="name"
-                      className={cn(
-                        "block text-sm font-medium mb-2",
-                        formData.color === "black" ||
-                          formData.color === "purple"
-                          ? "text-gray-300"
-                          : "text-gray-700"
-                      )}
-                    >
-                      Name
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      value={formData.name}
-                      onChange={(e) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          name: e.target.value,
-                        }))
-                      }
-                      className={cn(
-                        "w-full px-3 py-2 @xl/appwindow:px-4 @xl/appwindow:py-3 rounded-lg @xl/appwindow:rounded-xl border-2 backdrop-blur-sm transition-all duration-200 focus:outline-none text-sm @xl/appwindow:text-base",
-                        formData.color === "black" ||
-                          formData.color === "purple"
-                          ? "border-gray-600 bg-gray-800/50 text-white placeholder-gray-400 focus:border-gray-500 focus:bg-gray-800/70"
-                          : "border-white/30 bg-white/50 text-gray-800 placeholder-gray-500 focus:border-white/50 focus:bg-white/70"
-                      )}
-                      placeholder="Enter your name..."
-                      required
-                    />
-                  </div>
+                <label className="flex flex-col gap-1.75">
+                  <span className="text-[13px] leading-4 font-medium text-lilac">
+                    Your name
+                  </span>
+                  <input
+                    autoFocus
+                    value={formData.name}
+                    maxLength={NOTE_NAME_MAX}
+                    onChange={(e) =>
+                      setFormData((prev) => ({ ...prev, name: e.target.value }))
+                    }
+                    placeholder="What should we call you?"
+                    className="h-10 rounded-[11px] border border-white/12 bg-white/5 px-3 text-sm text-moon outline-none placeholder:text-haze-dim focus:border-holo-soft/70 focus:shadow-[0_0_0_4px_rgba(140,142,255,0.12)]"
+                  />
+                </label>
 
-                  {/* Message Input */}
-                  <div>
-                    <label
-                      htmlFor="message"
-                      className={cn(
-                        "block text-sm font-medium mb-2",
-                        formData.color === "black" ||
-                          formData.color === "purple"
-                          ? "text-gray-300"
-                          : "text-gray-700"
-                      )}
-                    >
+                <label className="flex flex-col gap-1.75">
+                  <span className="flex items-baseline justify-between">
+                    <span className="text-[13px] leading-4 font-medium text-lilac">
                       Message
-                    </label>
-                    <textarea
-                      id="message"
-                      value={formData.message}
-                      onChange={(e) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          message: e.target.value,
-                        }))
-                      }
-                      rows={3}
+                    </span>
+                    <span
                       className={cn(
-                        "w-full px-3 py-2 @xl/appwindow:px-4 @xl/appwindow:py-3 rounded-lg @xl/appwindow:rounded-xl border-2 backdrop-blur-sm transition-all duration-200 resize-none focus:outline-none text-sm @xl/appwindow:text-base",
-                        formData.color === "black" ||
-                          formData.color === "purple"
-                          ? "border-gray-600 bg-gray-800/50 text-white placeholder-gray-400 focus:border-gray-500 focus:bg-gray-800/70"
-                          : "border-white/30 bg-white/50 text-gray-800 placeholder-gray-500 focus:border-white/50 focus:bg-white/70"
-                      )}
-                      placeholder="Write your message..."
-                      required
-                    />
-                  </div>
-
-                  {/* Color Selection */}
-                  <div>
-                    <label
-                      className={cn(
-                        "block text-sm font-medium mb-2 @xl/appwindow:mb-3 text-ctp-text",
-                        {
-                          "text-white":
-                            formData.color === "black" ||
-                            formData.color === "purple",
-                          "text-gray-700":
-                            formData.color !== "black" &&
-                            formData.color !== "purple",
-                        }
+                        "font-mono text-[11px] leading-3.5 tabular-nums",
+                        message.length > 0 && message.length < NOTE_MESSAGE_MIN
+                          ? "text-[#ff8fa6]"
+                          : "text-haze-dim",
                       )}
                     >
-                      Choose Color
-                    </label>
-                    <div className="flex flex-wrap gap-2 @xl/appwindow:gap-3">
-                      {colorOptions.map((color) => (
+                      {formData.message.length} / {NOTE_MESSAGE_MAX}
+                    </span>
+                  </span>
+                  <textarea
+                    value={formData.message}
+                    maxLength={NOTE_MESSAGE_MAX}
+                    rows={3}
+                    onChange={(e) =>
+                      setFormData((prev) => ({ ...prev, message: e.target.value }))
+                    }
+                    placeholder="Say hi, leave a doodle in words…"
+                    className="resize-none rounded-[11px] border border-white/12 bg-white/5 px-3 py-2.5 text-sm leading-5 text-moon outline-none placeholder:text-haze-dim focus:border-holo-soft/70 focus:shadow-[0_0_0_4px_rgba(140,142,255,0.12)]"
+                  />
+                </label>
+
+                <div className="flex flex-col gap-2.25">
+                  <span className="text-[13px] leading-4 font-medium text-lilac">
+                    Paper
+                  </span>
+                  <div className="flex flex-wrap gap-2" role="radiogroup">
+                    {NOTE_COLORS.map((color) => {
+                      const selected = formData.color === color
+                      return (
                         <button
                           key={color}
                           type="button"
-                          onClick={() => handleColorSelect(color)}
+                          role="radio"
+                          aria-checked={selected}
+                          aria-label={NOTE_THEMES[color].label}
+                          title={NOTE_THEMES[color].label}
+                          onClick={() => setFormData((prev) => ({ ...prev, color }))}
                           className={cn(
-                            "w-8 h-8 @xl/appwindow:w-10 @xl/appwindow:h-10 rounded-full transition-all duration-200 border-2 cursor-pointer hover:cursor-pointer",
-                            getColorButtonClasses(color),
-                            formData.color === color
-                              ? "ring-2 @xl/appwindow:ring-4 ring-white/50 ring-offset-1 @xl/appwindow:ring-offset-2 ring-offset-transparent scale-110"
-                              : "hover:scale-105"
+                            "size-6.5 cursor-pointer rounded-full transition-[scale,box-shadow] duration-150 ease-out-strong hover:scale-110",
+                            selected
+                              ? "border-2 border-panel shadow-[0_0_0_2px_#a9aaff]"
+                              : "border border-white/20",
                           )}
-                          title={color}
+                          style={{ backgroundColor: NOTE_THEMES[color].paper }}
                         />
-                      ))}
-                    </div>
+                      )
+                    })}
                   </div>
+                </div>
 
-                  {/* Submit Button */}
+                <div className="mt-auto flex gap-2 pt-1">
+                  <button
+                    type="button"
+                    onClick={() => setIsOpen(false)}
+                    className="h-10.5 cursor-pointer rounded-xl border border-white/12 px-4 text-sm font-medium text-lilac transition-colors duration-150 ease-out-strong hover:bg-white/6"
+                  >
+                    Cancel
+                  </button>
                   <button
                     type="submit"
-                    className={cn(
-                      "w-full font-bold py-2 px-4 @xl/appwindow:py-3 @xl/appwindow:px-6 rounded-lg @xl/appwindow:rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl active:scale-95 cursor-pointer hover:cursor-pointer text-sm @xl/appwindow:text-base",
-                      getSubmitButtonClasses(formData.color)
-                    )}
+                    disabled={!isValid}
+                    className="flex h-10.5 flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl bg-holo text-sm font-semibold text-ink-deep transition-[background-color,scale,opacity] duration-150 ease-out-strong hover:bg-holo-soft active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
                   >
-                    Pin It!
+                    Pick a spot
+                    <ArrowRightIcon className="size-3.75" />
                   </button>
-                </form>
+                </div>
               </div>
-            </motion.div>
-          </>
+
+              <div className="relative hidden flex-1 items-center justify-center border-l border-white/8 bg-[url(/Imgs/Apps/Backgrounds/pinboard-texture.jpg)] bg-cover bg-center p-6 @2xl/appwindow:flex">
+                <span className="absolute top-4.5 left-4.5 text-[11px] leading-3.5 font-semibold tracking-[0.14em] text-haze uppercase">
+                  Preview
+                </span>
+                <BoardMessage
+                  preview
+                  seed="preview"
+                  name={name || "You"}
+                  content={message || "Your note will look like this."}
+                  color={formData.color}
+                />
+              </div>
+            </motion.form>
+          </motion.div>
         )}
       </AnimatePresence>
     </>
-  );
-};
+  )
+}
 
-export default PinForm;
+export default PinForm

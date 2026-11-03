@@ -1,31 +1,37 @@
-import { useApplicationData } from "@/context/app-context";
-import useGlobalWindowsControls from "@/hooks/use-global-windows-controls";
+import { useApplicationData } from "@/context/app-context"
+import useGlobalWindowsControls from "@/hooks/use-global-windows-controls"
+import { primaryButtonClassName } from "./controls-panel-header"
 
 const SuccessNotification = () => {
-  const app = useApplicationData();
-  const { closeApplication } = useGlobalWindowsControls();
+  const app = useApplicationData()
+  const { closeApplication } = useGlobalWindowsControls()
   const { processData } = useApplicationData<{
     notificationData: {
-      title: string;
-    };
-  }>();
+      title: string
+    }
+  }>()
 
   return (
-    <div className="flex flex-col items-center gap-2 p-4 w-full h-full bg-ctp-base">
-      <div className="flex items-center gap-2 text-white">
-        <img src="/Imgs/Chloe/Excited.webp" className="w-16" alt="Success" />
-        <p className="font-capirola text-2xl">
+    <div className="flex size-full flex-col justify-between gap-3 bg-panel p-5">
+      <div className="flex items-center gap-3.5">
+        <img
+          src="/Imgs/Chloe/Excited.webp"
+          alt=""
+          className="h-16 w-12 shrink-0 object-contain"
+        />
+        <p className="text-[15px] leading-5.5 font-medium text-moon">
           {processData?.notificationData.title}
         </p>
       </div>
       <button
-        className="bg-ctp-surface0 py-2 px-4 w-full font-lato text-ctp-text border-2 cursor-pointer border-transparent hover:border-ctp-lavender-300 duration-200 transition-colors rounded-md self-end"
+        type="button"
+        className={`${primaryButtonClassName} w-full`}
         onClick={() => closeApplication(app.AppId)}
       >
-        Awesome
+        Got it
       </button>
     </div>
-  );
-};
+  )
+}
 
-export default SuccessNotification;
+export default SuccessNotification

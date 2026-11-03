@@ -48,15 +48,15 @@ const CodeBlockSelector = ({
       <button
         type="button"
         onClick={() => editor.chain().focus().setCodeBlock().run()}
-        className={`p-2 rounded hover:bg-ctp-surface1 text-ctp-text transition-colors ${
-          editor.isActive("codeBlock") ? "bg-ctp-surface2" : ""
+        className={`flex h-8 min-w-8 cursor-pointer items-center justify-center gap-1 rounded-lg px-2 text-[13px] text-haze transition-colors duration-150 ease-out-strong hover:bg-white/8 hover:text-moon ${
+          editor.isActive("codeBlock") ? "bg-holo/18 text-[#c9c9ff]" : ""
         }`}
         title="Code Block"
       >
         <FontAwesomeIcon icon={faCode} />
       </button>
       <div
-        className="absolute top-full z-50 left-0 mt-1 p-2 bg-ctp-surface0 border border-ctp-surface1 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 max-h-60 overflow-y-auto hide-scrollbar"
+        className="absolute top-full z-50 left-0 mt-1 p-2 rounded-xl border border-white/12 bg-[rgba(20,19,36,0.96)] shadow-[0_16px_40px_rgba(6,5,16,0.5)] backdrop-blur-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-[opacity,visibility] duration-150 max-h-60 overflow-y-auto hide-scrollbar"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         <div className="space-y-1">
@@ -82,7 +82,7 @@ const CodeBlockSelector = ({
                     .run();
                 }
               }}
-              className="w-full text-left px-2 py-1 rounded hover:bg-ctp-surface1 text-ctp-text text-sm transition-colors"
+              className="w-full cursor-pointer rounded-lg px-2.5 py-1.5 text-left text-[13px] text-lilac transition-colors duration-150 hover:bg-white/8 hover:text-moon"
               title={language.name}
             >
               {language.name}

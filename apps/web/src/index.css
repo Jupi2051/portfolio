@@ -5,6 +5,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap");
 @import "@fontsource-variable/geist";
 @import "@fontsource-variable/geist-mono";
+@import "@fontsource-variable/caveat";
 @import "@fontsource/instrument-serif/400.css";
 @import "@fontsource/instrument-serif/400-italic.css";
 @import "tailwindcss";
@@ -120,6 +121,7 @@
   --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "Geist Mono Variable", ui-monospace, monospace;
   --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-handwriting: "Caveat Variable", "Caveat", cursive;
 
   --color-ink: #12111f;
   --color-ink-deep: #0e0d1a;
@@ -138,6 +140,11 @@
   --color-melon: #ff5d7e;
   --color-spark: #ffd98a;
   --color-paper: #f6f4ff;
+  --color-raised: #201e36;
+  --color-raised-2: #2a2843;
+  --color-raised-3: #36344f;
+  --color-mint: #9be3b4;
+  --color-aqua: #8fd8e8;
 
   /* Strong curves (Emil Kowalski) — never ease-in on UI */
   --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);

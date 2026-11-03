@@ -24,7 +24,7 @@ export function useArticlePublishFlow() {
   const onPublish = () => {
     if (!titleContent || !descriptionContent || !articleTextContent) {
       summonNotificationWindow({
-        title: "Oops! Looks like you forgot to fill something in!",
+        title: "Add a title, a description and some writing before publishing.",
       });
       return;
     }
@@ -43,12 +43,12 @@ export function useArticlePublishFlow() {
           setDescriptionContent("");
           setArticleTextContent("");
           summonNotificationWindow({
-            title: "Yay! Your article is ready to shine! ✨",
+            title: "Published — it's live on the blog.",
           });
         },
         onError: (error) => {
           summonNotificationWindow({
-            title: `Oh no! Something went wrong: ${error.message}`,
+            title: `Couldn't publish: ${error.message}`,
           });
         },
         onSettled: () => {},

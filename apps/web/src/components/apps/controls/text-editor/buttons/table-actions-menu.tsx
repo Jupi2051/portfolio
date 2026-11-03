@@ -144,7 +144,7 @@ const TableActionsMenu = ({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="p-2 rounded hover:bg-ctp-surface1 text-ctp-text transition-colors flex items-center gap-1"
+        className="flex h-8 min-w-8 cursor-pointer items-center justify-center gap-1 rounded-lg px-2 text-[13px] text-haze transition-colors duration-150 ease-out-strong hover:bg-white/8 hover:text-moon"
         title="Table Actions"
       >
         <FontAwesomeIcon icon={faTable} />
@@ -160,7 +160,7 @@ const TableActionsMenu = ({
           />
 
           {/* Dropdown Menu */}
-          <div className="absolute top-full left-0 mt-1 bg-ctp-surface0 border border-ctp-surface1 rounded-lg shadow-lg z-20 min-w-50 max-h-100 overflow-y-auto">
+          <div className="absolute top-full left-0 mt-1 rounded-xl border border-white/12 bg-[rgba(20,19,36,0.96)] shadow-[0_16px_40px_rgba(6,5,16,0.5)] backdrop-blur-xl z-20 min-w-50 max-h-100 overflow-y-auto">
             {tableActions.map((action, index) => (
               <button
                 key={index}
@@ -170,8 +170,8 @@ const TableActionsMenu = ({
                   setIsOpen(false);
                 }}
                 disabled={action.disabled}
-                className={`w-full px-3 py-2 text-left text-sm hover:bg-ctp-surface1 text-ctp-text transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed ${
-                  index === 0 ? "border-b border-ctp-surface1" : ""
+                className={`w-full px-3 py-2 text-left text-sm hover:bg-white/8 text-moon transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed ${
+                  index === 0 ? "border-b border-raised-2" : ""
                 }`}
               >
                 <FontAwesomeIcon icon={action.icon} className="w-4" />

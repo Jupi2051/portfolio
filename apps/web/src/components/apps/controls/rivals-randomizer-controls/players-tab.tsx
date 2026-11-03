@@ -8,6 +8,8 @@ import PlayerRosterRow from "./player-roster-row"
 import PlayerStatsEditor from "./player-stats-editor"
 import ConstraintsDropZone from "./constraints-drop-zone"
 import BalancingSettings from "./balancing-settings"
+import { RefreshIcon, StarIcon } from "@/components/ui/icons"
+import { secondaryButtonClassName } from "../controls-panel-header"
 import { rivalsHeroIconUrl } from "./image-urls"
 import type { RivalsPlayerRow } from "./types"
 
@@ -103,7 +105,7 @@ export default function PlayersTab() {
 
   function renderRow(player: RivalsPlayerRow) {
     return (
-      <div key={player.id} className="flex flex-col gap-1">
+      <div key={player.id} className="flex flex-col">
         <PlayerRosterRow
           player={player}
           expanded={expandedId === player.id}
@@ -133,10 +135,10 @@ export default function PlayersTab() {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="flex flex-wrap items-start justify-between gap-3">
         <AddPlayerForm />
         <div className="flex flex-col items-end gap-1">
-          <div className="flex flex-wrap justify-end gap-2">
+          <div className="flex flex-wrap justify-end gap-1.5">
             <button
               type="button"
               onClick={() => {
@@ -144,9 +146,10 @@ export default function PlayersTab() {
                 syncHeroes.mutate()
               }}
               disabled={syncHeroes.isPending}
-              className="cursor-pointer rounded-lg border border-ctp-surface1 bg-ctp-mantle px-3 py-1.5 text-xs font-medium text-ctp-subtext1 transition hover:bg-ctp-surface0 hover:text-ctp-text disabled:cursor-not-allowed disabled:opacity-60"
+              className={secondaryButtonClassName}
             >
-              {syncHeroes.isPending ? "Updating characters..." : "Update game characters list"}
+              <StarIcon className="size-3.5" />
+              {syncHeroes.isPending ? "Updating heroes…" : "Update heroes"}
             </button>
             <button
               type="button"
@@ -155,16 +158,17 @@ export default function PlayersTab() {
                 refreshAllPlayers.mutate()
               }}
               disabled={refreshAllPlayers.isPending}
-              className="cursor-pointer rounded-lg border border-ctp-surface1 bg-ctp-mantle px-3 py-1.5 text-xs font-medium text-ctp-subtext1 transition hover:bg-ctp-surface0 hover:text-ctp-text disabled:cursor-not-allowed disabled:opacity-60"
+              className={secondaryButtonClassName}
             >
-              {refreshAllPlayers.isPending
-                ? "Updating profiles..."
-                : "Update all discord profiles"}
+              <RefreshIcon
+                className={`size-3.5 ${refreshAllPlayers.isPending ? "animate-spin" : ""}`}
+              />
+              {refreshAllPlayers.isPending ? "Syncing…" : "Sync Discord"}
             </button>
           </div>
-          {syncMessage ? <span className="text-xs text-ctp-subtext0">{syncMessage}</span> : null}
+          {syncMessage ? <span className="text-xs text-haze-dim">{syncMessage}</span> : null}
           {refreshAllMessage ? (
-            <span className="text-xs text-ctp-subtext0">{refreshAllMessage}</span>
+            <span className="text-xs text-haze-dim">{refreshAllMessage}</span>
           ) : null}
         </div>
       </div>
@@ -172,37 +176,47 @@ export default function PlayersTab() {
       <BalancingSettings />
 
       {playersQuery.isLoading ? (
-        <p className="text-sm text-ctp-subtext0">Loading players...</p>
+        <div className="grid gap-4 @2xl/appwindow:grid-cols-[1.45fr_1fr]">
+          <div className="h-72 animate-pulse rounded-2xl bg-white/4" />
+          <div className="h-72 animate-pulse rounded-2xl bg-white/4" />
+        </div>
       ) : players.length === 0 ? (
-        <p className="text-sm text-ctp-subtext0">
-          No players yet. Add one by Discord ID above.
+        <p className="rounded-2xl border border-dashed border-white/12 px-6 py-10 text-center text-sm text-haze">
+          No players yet — add one by Discord ID above.
         </p>
       ) : (
         <DndContext onDragEnd={handleDragEnd}>
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid items-start gap-4 @2xl/appwindow:grid-cols-[1.45fr_1fr]">
             <ConstraintsDropZone
-              id="roster"
-              title="All players"
-              subtitle="Drag into the pool, or use the checkbox"
-              accentClass="border-ctp-surface2"
+              id="pool"
+              title="In the pool"
+              subtitle={`${pool.length} / ${MAX_ACTIVE_PLAYERS}`}
+              accentClass="text-holo-soft"
             >
-              {roster.length === 0 ? (
-                <p className="px-1 text-xs text-ctp-subtext0">Everyone is in the pool.</p>
+              {pool.length === 0 ? (
+                <p className="px-2.5 py-3 text-xs text-haze-dim">
+                  Drag players here to activate them.
+                </p>
               ) : (
-                roster.map(renderRow)
+                pool.map(renderRow)
               )}
             </ConstraintsDropZone>
 
             <ConstraintsDropZone
-              id="pool"
-              title={`Pool (${pool.length}/${MAX_ACTIVE_PLAYERS})`}
-              subtitle="The 12 the randomizer draws from"
-              accentClass="border-ctp-lavender"
+              id="roster"
+              title="Bench"
+              subtitle={String(roster.length)}
+              accentClass="text-haze-dim"
             >
-              {pool.length === 0 ? (
-                <p className="px-1 text-xs text-ctp-subtext0">Drag players here to activate them.</p>
+              {roster.length === 0 ? (
+                <p className="px-2.5 py-3 text-xs text-haze-dim">Everyone is in the pool.</p>
               ) : (
-                pool.map(renderRow)
+                roster.map(renderRow)
+              )}
+              {roster.length > 0 && (
+                <p className="mx-1 mt-2 rounded-[10px] border border-dashed border-holo-soft/35 py-3 text-center text-xs text-holo-soft">
+                  Drag into the pool to activate
+                </p>
               )}
             </ConstraintsDropZone>
           </div>

@@ -482,12 +482,12 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
       </AnimatePresence>
       <motion.div
         className={cn(
-          "absolute top-0 left-0 isolate overflow-hidden border",
+          "absolute top-0 left-0 isolate overflow-hidden",
           "transition-[border-color,box-shadow] duration-200 ease-out-strong",
           isMinimized ? "pointer-events-none" : "pointer-events-auto",
-          Maximized
-            ? "rounded-none border-transparent"
-            : "rounded-2xl",
+          // Maximised windows drop the border entirely — a transparent 1px
+          // border still insets the content and lets the wallpaper peek through.
+          Maximized ? "rounded-none" : "rounded-2xl border",
           !Maximized &&
             (isDisabled
               ? "border-melon/55 shadow-[0_18px_44px_rgba(6,5,16,0.42),0_0_0_4px_rgba(255,93,126,0.12)]"

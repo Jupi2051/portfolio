@@ -39,7 +39,7 @@ export default function MainPicker({ agents, selectedId, disabled, onChange }: P
 
   return (
     <div className="flex flex-col gap-2">
-      <p className="text-[0.65rem] text-ctp-subtext0">
+      <p className="text-[0.65rem] text-haze-dim">
         {selectedAgent ? `Main: ${selectedAgent.name}` : "No main selected."}
       </p>
 
@@ -49,7 +49,7 @@ export default function MainPicker({ agents, selectedId, disabled, onChange }: P
           value={search}
           onChange={(event) => setSearch(event.target.value)}
           placeholder="Search agents..."
-          className="w-full rounded-md border border-ctp-surface1 bg-ctp-base px-2 py-1 text-xs text-ctp-text outline-none focus:border-ctp-red"
+          className="w-full rounded-lg border border-white/10 bg-white/4 px-2.5 py-1.5 text-xs text-moon outline-none placeholder:text-haze-dim focus:border-holo-soft/70"
         />
       ) : null}
 
@@ -65,7 +65,7 @@ export default function MainPicker({ agents, selectedId, disabled, onChange }: P
               disabled={disabled}
               onClick={() => toggleAgent(agent.id)}
               className={`h-9 w-9 shrink-0 cursor-pointer overflow-hidden rounded-md ring-2 transition disabled:cursor-not-allowed disabled:opacity-40 ${
-                isSelected ? "ring-ctp-red" : "ring-transparent hover:ring-ctp-surface2"
+                isSelected ? "ring-melon" : "ring-transparent hover:ring-raised-3"
               }`}
             >
               <img

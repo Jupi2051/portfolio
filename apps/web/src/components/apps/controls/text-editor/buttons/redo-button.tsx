@@ -15,7 +15,7 @@ const RedoButton = ({ editor, className = "" }: RedoButtonProps) => {
       type="button"
       onClick={() => editor.chain().focus().redo().run()}
       disabled={!editor.can().redo()}
-      className={`p-2 rounded hover:bg-ctp-surface1 disabled:opacity-50 disabled:cursor-not-allowed text-ctp-text transition-colors ${className}`}
+      className={`flex h-8 min-w-8 cursor-pointer items-center justify-center gap-1 rounded-lg px-2 text-[13px] text-haze transition-colors duration-150 ease-out-strong hover:bg-white/8 hover:text-moon disabled:cursor-not-allowed disabled:opacity-40 ${className}`}
       title="Redo"
     >
       <FontAwesomeIcon icon={faRedo} />

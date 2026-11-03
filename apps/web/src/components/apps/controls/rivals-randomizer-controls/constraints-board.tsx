@@ -55,12 +55,12 @@ export default function ConstraintsBoard() {
   const hasLayout = zonePlayers.sideA.length > 0 || zonePlayers.sideB.length > 0
 
   if (playersQuery.isLoading) {
-    return <p className="text-sm text-ctp-subtext0">Loading players...</p>
+    return <p className="text-sm text-haze-dim">Loading players...</p>
   }
 
   if (activePlayers.length === 0) {
     return (
-      <p className="text-sm text-ctp-subtext0">
+      <p className="text-sm text-haze-dim">
         Activate players in the Players tab to start building constraints.
       </p>
     )
@@ -68,7 +68,7 @@ export default function ConstraintsBoard() {
 
   return (
     <div className="flex flex-col gap-3">
-      <p className="text-xs text-ctp-subtext0">
+      <p className="text-xs text-haze-dim">
         Drag active players onto a side: players on the same side must play together,
         players on opposite sides must be split up.
       </p>
@@ -78,7 +78,7 @@ export default function ConstraintsBoard() {
           id="unassigned"
           title="Unassigned"
           subtitle="Not constrained by this layout"
-          accentClass="border-ctp-surface2"
+          accentClass="text-haze-dim"
         >
           {zonePlayers.unassigned.map((player) => (
             <PlayerChip key={player.id} id={player.id} name={player.displayName} />
@@ -90,7 +90,7 @@ export default function ConstraintsBoard() {
             id="sideA"
             title="Side A"
             subtitle="Must play together"
-            accentClass="border-ctp-blue"
+            accentClass="text-holo-soft"
           >
             {zonePlayers.sideA.map((player) => (
               <PlayerChip key={player.id} id={player.id} name={player.displayName} />
@@ -100,7 +100,7 @@ export default function ConstraintsBoard() {
             id="sideB"
             title="Side B"
             subtitle="Must play together, split from Side A"
-            accentClass="border-ctp-red"
+            accentClass="text-[#ff8fa6]"
           >
             {zonePlayers.sideB.map((player) => (
               <PlayerChip key={player.id} id={player.id} name={player.displayName} />
@@ -114,17 +114,17 @@ export default function ConstraintsBoard() {
           type="button"
           onClick={handleSave}
           disabled={!hasLayout || applySides.isPending}
-          className="cursor-pointer rounded-lg bg-ctp-lavender px-4 py-1.5 text-sm font-medium text-ctp-crust transition hover:bg-ctp-mauve disabled:cursor-not-allowed disabled:opacity-60"
+          className="flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-[10px] bg-holo px-3.5 text-[13px] font-semibold text-ink-deep transition-[background-color,scale] duration-150 ease-out-strong hover:bg-holo-soft active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {applySides.isPending ? "Saving..." : "Save layout as constraints"}
         </button>
         {applySides.data ? (
-          <span className="text-xs text-ctp-subtext0">
+          <span className="text-xs text-haze-dim">
             Saved {applySides.data.constraintCount} constraint(s).
           </span>
         ) : null}
         {applySides.isError ? (
-          <span className="text-xs text-ctp-red">{applySides.error.message}</span>
+          <span className="text-xs text-[#ffb3c2]">{applySides.error.message}</span>
         ) : null}
       </div>
     </div>

@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import cn from "classnames";
 import { useMutation } from "@tanstack/react-query";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCrop } from "@fortawesome/free-solid-svg-icons";
+import { CropIcon } from "@/components/ui/icons";
+import { primaryButtonClassName, secondaryButtonClassName } from "../controls-panel-header";
 import VicoImageCropper, {
   type VicoImageCropperHandle,
 } from "@/components/apps/vico/shared/vico-image-cropper";
@@ -91,7 +91,7 @@ export default function VicoSketchCropModal({
 
   return (
     <div
-      className="absolute inset-0 z-50 overflow-y-auto overflow-x-hidden overscroll-contain bg-ctp-crust/70 backdrop-blur-sm"
+      className="absolute inset-0 z-50 overflow-y-auto overflow-x-hidden overscroll-contain bg-[rgba(10,9,22,0.55)] backdrop-blur-xs"
       role="dialog"
       aria-modal="true"
       aria-labelledby="vico-crop-modal-title"
@@ -100,30 +100,30 @@ export default function VicoSketchCropModal({
       <div className="flex min-h-full items-center justify-center p-4">
         <div
           className={cn(
-            "flex w-full max-w-lg flex-col overflow-hidden rounded-xl border border-ctp-surface1 bg-ctp-mantle shadow-xl ring-1 ring-black/20",
+            "flex w-full max-w-lg flex-col overflow-hidden rounded-3xl border border-white/12 bg-[rgba(20,19,36,0.94)] shadow-[0_30px_80px_rgba(6,5,16,0.6)] backdrop-blur-2xl",
             "max-h-[min(90vh,720px,calc(100dvh-2rem))] min-h-0",
           )}
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="shrink-0 border-b border-ctp-surface1 px-4 py-3">
+          <div className="shrink-0 px-6 pt-5.5 pb-3">
             <h2
               id="vico-crop-modal-title"
-              className="font-capirola text-lg font-medium text-ctp-text"
+              className="font-serif text-[28px] leading-8 text-moon-bright italic"
             >
               Crop image
             </h2>
-            <p className="mt-0.5 line-clamp-2 text-xs text-ctp-subtext0">
+            <p className="mt-1 line-clamp-2 text-[13px] text-haze">
               {title}
             </p>
           </div>
 
-          <div className="min-h-0 flex-1 overflow-y-auto p-4">
+          <div className="min-h-0 flex-1 overflow-y-auto px-6 py-2">
             {dimsError ? (
-              <p className="rounded-lg border border-ctp-red/40 bg-ctp-red/10 px-3 py-2 text-sm text-ctp-red">
+              <p className="rounded-xl bg-melon/10 px-3.5 py-2.5 text-[13px] text-[#ffb3c2]">
                 {dimsError}
               </p>
             ) : !dims ? (
-              <p className="text-sm text-ctp-subtext0">Loading image…</p>
+              <p className="text-sm text-haze-dim">Loading image…</p>
             ) : (
               <VicoImageCropper
                 ref={cropperRef}
@@ -136,17 +136,17 @@ export default function VicoSketchCropModal({
             )}
 
             {localError ? (
-              <p className="mt-3 rounded-lg border border-ctp-red/40 bg-ctp-red/10 px-3 py-2 text-sm text-ctp-red">
+              <p className="mt-3 rounded-xl bg-melon/10 px-3.5 py-2.5 text-[13px] text-[#ffb3c2]">
                 {localError}
               </p>
             ) : null}
           </div>
 
-          <div className="flex shrink-0 flex-wrap justify-end gap-2 border-t border-ctp-surface1 bg-ctp-base/50 px-4 py-3">
+          <div className="flex shrink-0 flex-wrap justify-end gap-2 px-6 pt-3 pb-5.5">
             <button
               type="button"
               disabled={cropMutation.isPending}
-              className="rounded-lg border border-ctp-surface1 bg-ctp-mantle px-4 py-2 text-sm font-medium text-ctp-subtext1 transition hover:bg-ctp-surface0 hover:text-ctp-text disabled:opacity-50"
+              className={secondaryButtonClassName}
               onClick={onClose}
             >
               Cancel
@@ -159,10 +159,10 @@ export default function VicoSketchCropModal({
                 !dims ||
                 !!dimsError
               }
-              className="inline-flex items-center gap-2 rounded-lg border border-ctp-teal/50 bg-ctp-teal/20 px-4 py-2 text-sm font-medium text-ctp-teal transition hover:bg-ctp-teal/30 disabled:cursor-not-allowed disabled:opacity-50"
+              className={primaryButtonClassName}
               onClick={handleSave}
             >
-              <FontAwesomeIcon icon={faCrop} className="text-sm" />
+              <CropIcon className="size-3.5" />
               {cropMutation.isPending ? "Saving…" : "Save crop"}
             </button>
           </div>

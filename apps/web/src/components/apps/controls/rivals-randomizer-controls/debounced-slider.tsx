@@ -56,7 +56,7 @@ export default function DebouncedSlider({
   }
 
   return (
-    <label className="flex items-center gap-2 text-xs text-ctp-subtext1">
+    <label className="flex items-center gap-2 text-xs text-haze">
       {icon ? <img src={icon} alt="" className="h-4 w-4 shrink-0 object-contain" /> : null}
       <span className="w-14 shrink-0">{label}</span>
       <input
@@ -67,7 +67,7 @@ export default function DebouncedSlider({
         value={localValue}
         disabled={disabled}
         onChange={(event) => handleChange(Number(event.target.value))}
-        className="flex-1 accent-ctp-lavender"
+        className="flex-1 accent-holo"
       />
       <span className="w-9 shrink-0 text-right tabular-nums">{localValue.toFixed(2)}</span>
     </label>

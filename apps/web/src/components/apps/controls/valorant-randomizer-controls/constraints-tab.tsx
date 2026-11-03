@@ -24,29 +24,29 @@ export default function ConstraintsTab() {
   return (
     <div className="flex flex-col gap-5">
       <Suspense
-        fallback={<p className="text-sm text-ctp-subtext0">Loading drag & drop board...</p>}
+        fallback={<p className="text-sm text-haze-dim">Loading drag & drop board...</p>}
       >
         <ConstraintsBoard />
       </Suspense>
 
       <div className="flex flex-col gap-2">
-        <p className="font-jockey-one text-sm tracking-wide text-ctp-text">
+        <p className="text-xs leading-4 font-semibold tracking-[0.14em] text-haze uppercase">
           All constraints
         </p>
         {constraintsQuery.isLoading ? (
-          <p className="text-sm text-ctp-subtext0">Loading constraints...</p>
+          <p className="text-sm text-haze-dim">Loading constraints...</p>
         ) : constraints.length === 0 ? (
-          <p className="text-sm text-ctp-subtext0">No constraints yet.</p>
+          <p className="text-sm text-haze-dim">No constraints yet.</p>
         ) : (
           <ul className="flex flex-col gap-2">
             {constraints.map((constraint) => (
               <li
                 key={constraint.id}
-                className="flex items-center justify-between rounded-lg border border-ctp-surface1 bg-ctp-mantle px-3 py-2 text-sm"
+                className="flex items-center justify-between rounded-xl border border-white/8 bg-white/3 px-3.5 py-2.5 text-sm"
               >
-                <span className="text-ctp-text">
+                <span className="text-moon">
                   {constraint.playerA.displayName} & {constraint.playerB.displayName}
-                  <span className="ml-2 text-xs text-ctp-subtext0">
+                  <span className="ml-2 text-xs text-haze-dim">
                     {TYPE_LABELS[constraint.type as "MUST_PAIR" | "MUST_SPLIT"]}
                   </span>
                 </span>
@@ -54,7 +54,7 @@ export default function ConstraintsTab() {
                   type="button"
                   onClick={() => removeConstraint.mutate({ id: constraint.id })}
                   disabled={removeConstraint.isPending}
-                  className="cursor-pointer rounded-lg border border-ctp-red/40 bg-ctp-base px-2.5 py-1 text-xs text-ctp-red transition hover:bg-ctp-red/10"
+                  className="flex h-7.5 cursor-pointer items-center rounded-lg border border-melon/30 px-2.5 text-xs font-medium text-[#ff8fa6] transition-colors duration-150 ease-out-strong hover:bg-melon hover:text-white"
                 >
                   Remove
                 </button>

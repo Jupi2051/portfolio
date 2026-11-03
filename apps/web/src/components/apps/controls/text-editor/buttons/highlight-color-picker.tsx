@@ -26,12 +26,12 @@ const HighlightColorPicker = ({
     <div className={`relative group ${className}`}>
       <button
         type="button"
-        className="p-2 rounded hover:bg-ctp-surface1 text-ctp-text transition-colors"
+        className="flex h-8 min-w-8 cursor-pointer items-center justify-center gap-1 rounded-lg px-2 text-[13px] text-haze transition-colors duration-150 ease-out-strong hover:bg-white/8 hover:text-moon"
         title="Highlight"
       >
         <FontAwesomeIcon icon={faHighlighter} />
       </button>
-      <div className="absolute top-full left-0 mt-1 -mx-10 p-2 bg-ctp-surface0 border border-ctp-surface1 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
+      <div className="absolute top-full left-0 mt-1 -mx-10 p-2 rounded-xl border border-white/12 bg-[rgba(20,19,36,0.96)] shadow-[0_16px_40px_rgba(6,5,16,0.5)] backdrop-blur-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-[opacity,visibility] duration-150 z-10">
         <div className="grid grid-cols-3 gap-1">
           {highlights.map((color) => (
             <button
@@ -44,7 +44,7 @@ const HighlightColorPicker = ({
                   .toggleHighlight({ color: color.value })
                   .run()
               }
-              className="w-6 h-6 rounded border border-ctp-surface1 hover:scale-110 transition-transform"
+              className="size-6 cursor-pointer rounded-md border border-white/14 transition-transform duration-150 ease-out-strong hover:scale-110"
               style={{ backgroundColor: color.value }}
               title={color.name}
             />

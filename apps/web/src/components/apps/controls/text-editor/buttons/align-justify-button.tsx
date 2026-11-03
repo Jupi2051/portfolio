@@ -17,8 +17,8 @@ const AlignJustifyButton = ({
     <button
       type="button"
       onClick={() => editor.chain().focus().setTextAlign("justify").run()}
-      className={`p-2 rounded hover:bg-ctp-surface1 text-ctp-text transition-colors ${
-        editor.isActive({ textAlign: "justify" }) ? "bg-ctp-surface2" : ""
+      className={`flex h-8 min-w-8 cursor-pointer items-center justify-center gap-1 rounded-lg px-2 text-[13px] text-haze transition-colors duration-150 ease-out-strong hover:bg-white/8 hover:text-moon ${
+        editor.isActive({ textAlign: "justify" }) ? "bg-holo/18 text-[#c9c9ff]" : ""
       } ${className}`}
       title="Justify"
     >

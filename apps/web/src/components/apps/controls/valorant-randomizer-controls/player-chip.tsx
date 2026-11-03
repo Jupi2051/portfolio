@@ -18,12 +18,12 @@ export default function PlayerChip({ id, name }: Props) {
         transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : undefined,
         opacity: isDragging ? 0.4 : 1,
       }}
-      className="flex cursor-grab items-center gap-2 rounded-lg border border-ctp-surface1 bg-ctp-base px-2 py-1.5 text-xs text-ctp-text shadow-sm select-none active:cursor-grabbing"
+      className="flex cursor-grab items-center gap-2 rounded-[10px] border border-white/10 bg-raised px-2 py-1.5 text-xs font-medium text-moon shadow-[0_4px_10px_rgba(6,5,16,0.3)] select-none active:cursor-grabbing"
     >
       <img
         src={valorantPlayerAvatarUrl(id)}
         alt=""
-        className="h-6 w-6 shrink-0 rounded-md object-cover"
+        className="size-6 shrink-0 rounded-full object-cover"
         draggable={false}
       />
       <span className="truncate">{name}</span>

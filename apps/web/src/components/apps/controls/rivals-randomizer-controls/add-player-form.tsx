@@ -1,6 +1,8 @@
 import { useState } from "react"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useTRPC } from "@/lib/trpc/trpc"
+import { PlusIcon } from "@/components/ui/icons"
+import { primaryButtonClassName } from "../controls-panel-header"
 
 export default function AddPlayerForm() {
   const trpc = useTRPC()
@@ -24,22 +26,25 @@ export default function AddPlayerForm() {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-wrap items-center gap-2">
-      <input
-        type="text"
-        value={discordId}
-        onChange={(event) => setDiscordId(event.target.value)}
-        placeholder="Discord user ID"
-        className="rounded-lg border border-ctp-surface1 bg-ctp-base px-3 py-1.5 text-sm text-ctp-text outline-none focus:border-ctp-lavender"
-      />
+      <label className="flex h-9 w-60 items-center gap-2 rounded-[10px] border border-white/10 bg-white/4 px-3 transition-[border-color,box-shadow] duration-150 ease-out-strong focus-within:border-holo-soft/70 focus-within:shadow-[0_0_0_4px_rgba(140,142,255,0.12)]">
+        <PlusIcon className="size-3.5 shrink-0 text-haze-dim" />
+        <input
+          type="text"
+          value={discordId}
+          onChange={(event) => setDiscordId(event.target.value)}
+          placeholder="Discord user ID"
+          className="min-w-0 flex-1 bg-transparent text-[13px] text-moon outline-none placeholder:text-haze-dim"
+        />
+      </label>
       <button
         type="submit"
         disabled={addPlayer.isPending || !discordId.trim()}
-        className="cursor-pointer rounded-lg bg-ctp-lavender px-4 py-1.5 text-sm font-medium text-ctp-crust transition hover:bg-ctp-mauve disabled:cursor-not-allowed disabled:opacity-60"
+        className={primaryButtonClassName}
       >
-        {addPlayer.isPending ? "Fetching from Discord..." : "Add player"}
+        {addPlayer.isPending ? "Fetching from Discord…" : "Add player"}
       </button>
       {addPlayer.isError ? (
-        <span className="text-xs text-ctp-red">{addPlayer.error.message}</span>
+        <span className="text-xs text-[#ffb3c2]">{addPlayer.error.message}</span>
       ) : null}
     </form>
   )

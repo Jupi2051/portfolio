@@ -1,8 +1,8 @@
 /* TipTap Editor Styles */
 .ProseMirror {
   outline: none;
-  color: #cdd6f4;
-  font-family: "Segoe UI", sans-serif;
+  color: #cfcdea;
+  font-family: var(--font-sans);
   line-height: 1.6;
   white-space: pre-wrap;
 }
@@ -26,22 +26,22 @@
 }
 
 .ProseMirror .editor-image.selected {
-  outline: 2px solid #89b4fa;
+  outline: 2px solid #a9aaff;
   outline-offset: 2px;
 }
 
 /* Link Styles */
 .ProseMirror .editor-link {
-  color: #89b4fa;
+  color: #a9aaff;
   text-decoration: underline;
-  text-decoration-color: #89b4fa;
+  text-decoration-color: #a9aaff;
   text-underline-offset: 2px;
   transition: all 0.2s ease-in-out;
 }
 
 .ProseMirror .editor-link:hover {
-  color: #74c7ec;
-  text-decoration-color: #74c7ec;
+  color: #f1efff;
+  text-decoration-color: #f1efff;
 }
 
 /* Table Styles */
@@ -52,13 +52,13 @@
   margin: 1rem 0;
   overflow: hidden;
   border-radius: 8px;
-  border: 1px solid #313244;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .ProseMirror table td,
 .ProseMirror table th {
   min-width: 1em;
-  border: 1px solid #313244;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 8px 12px;
   vertical-align: top;
   box-sizing: border-box;
@@ -68,13 +68,13 @@
 .ProseMirror table th {
   font-weight: bold;
   text-align: left;
-  background-color: #313244;
-  color: #cdd6f4;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #cfcdea;
 }
 
 .ProseMirror table td {
-  background-color: #1e1e2e;
-  color: #cdd6f4;
+  background-color: #131225;
+  color: #cfcdea;
 }
 
 .ProseMirror table .selectedCell:after {
@@ -95,7 +95,7 @@
   top: 0;
   bottom: -2px;
   width: 4px;
-  background-color: #89b4fa;
+  background-color: #a9aaff;
   pointer-events: none;
 }
 
@@ -128,7 +128,7 @@
 .ProseMirror h1 {
   font-size: 2rem;
   font-weight: 700;
-  color: #f5c2e7;
+  color: #ff8fa6;
   margin: 1.5rem 0 1rem 0;
   line-height: 1.2;
 }
@@ -136,7 +136,7 @@
 .ProseMirror h2 {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #cba6f7;
+  color: #8c8eff;
   margin: 1.25rem 0 0.75rem 0;
   line-height: 1.3;
 }
@@ -144,7 +144,7 @@
 .ProseMirror h3 {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #89b4fa;
+  color: #a9aaff;
   margin: 1rem 0 0.5rem 0;
   line-height: 1.4;
 }
@@ -152,7 +152,7 @@
 .ProseMirror h4 {
   font-size: 1.125rem;
   font-weight: 600;
-  color: #a6e3a1;
+  color: #9be3b4;
   margin: 0.875rem 0 0.5rem 0;
   line-height: 1.4;
 }
@@ -160,7 +160,7 @@
 .ProseMirror h5 {
   font-size: 1rem;
   font-weight: 600;
-  color: #fab387;
+  color: #ffd98a;
   margin: 0.75rem 0 0.5rem 0;
   line-height: 1.4;
 }
@@ -168,49 +168,49 @@
 .ProseMirror h6 {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #f38ba8;
+  color: #ff5d7e;
   margin: 0.75rem 0 0.5rem 0;
   line-height: 1.4;
 }
 
 .ProseMirror strong {
   font-weight: 700;
-  color: #f5c2e7;
+  color: #ff8fa6;
 }
 
 .ProseMirror em {
   font-style: italic;
-  color: #cba6f7;
+  color: #8c8eff;
 }
 
 .ProseMirror u {
   text-decoration: underline;
-  text-decoration-color: #89b4fa;
+  text-decoration-color: #a9aaff;
 }
 
 .ProseMirror s {
   text-decoration: line-through;
-  text-decoration-color: #f38ba8;
+  text-decoration-color: #ff5d7e;
 }
 
 .ProseMirror code {
-  background-color: #313244;
-  color: #f9e2af;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffd98a;
   padding: 0.125rem 0.25rem;
   border-radius: 0.25rem;
-  font-family: "Consolas", "Monaco", "Courier New", monospace;
+  font-family: var(--font-mono);
   font-size: 0.875em;
 }
 
 .ProseMirror pre {
-  background-color: #1e1e2e;
-  color: #cdd6f4;
+  background-color: #131225;
+  color: #cfcdea;
   padding: 1rem;
   border-radius: 0.5rem;
-  border: 1px solid #313244;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   margin: 1rem 0;
   overflow-x: auto;
-  font-family: "Consolas", "Monaco", "Courier New", monospace;
+  font-family: var(--font-mono);
   font-size: 0.875rem;
   line-height: 1.5;
 }
@@ -226,12 +226,12 @@
 }
 
 .ProseMirror blockquote {
-  border-left: 4px solid #89b4fa;
-  background-color: #313244;
+  border-left: 4px solid #a9aaff;
+  background-color: rgba(255, 255, 255, 0.1);
   padding: 0.75rem 1rem;
   margin: 1rem 0;
   border-radius: 0 0.375rem 0.375rem 0;
-  color: #bac2de;
+  color: #b9b6da;
   font-style: italic;
 }
 
@@ -249,11 +249,11 @@
 
 .ProseMirror li {
   margin: 0.25rem 0;
-  color: #cdd6f4;
+  color: #cfcdea;
 }
 
 .ProseMirror li::marker {
-  color: #89b4fa;
+  color: #a9aaff;
 }
 
 .ProseMirror ul ul {
@@ -275,13 +275,13 @@
 
 .ProseMirror hr {
   border: none;
-  border-top: 2px solid #313244;
+  border-top: 2px solid rgba(255, 255, 255, 0.1);
   margin: 2rem 0;
 }
 
 .ProseMirror mark {
-  background-color: #f9e2af;
-  color: #1e1e2e;
+  background-color: #ffd98a;
+  color: #131225;
   padding: 0.125rem 0.25rem;
   border-radius: 0.25rem;
 }
@@ -303,7 +303,7 @@
 .ProseMirror p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
   float: left;
-  color: #6c7086;
+  color: #8f8cb3;
   pointer-events: none;
   height: 0;
 }
@@ -327,129 +327,129 @@
 }
 
 /* Custom highlight colors */
-.ProseMirror mark[data-color="#f9e2af"] {
-  background-color: #f9e2af;
-  color: #1e1e2e;
+.ProseMirror mark[data-color="#ffd98a"] {
+  background-color: #ffd98a;
+  color: #131225;
 }
 
-.ProseMirror mark[data-color="#a6e3a1"] {
-  background-color: #a6e3a1;
-  color: #1e1e2e;
+.ProseMirror mark[data-color="#9be3b4"] {
+  background-color: #9be3b4;
+  color: #131225;
 }
 
-.ProseMirror mark[data-color="#89b4fa"] {
-  background-color: #89b4fa;
-  color: #1e1e2e;
+.ProseMirror mark[data-color="#a9aaff"] {
+  background-color: #a9aaff;
+  color: #131225;
 }
 
-.ProseMirror mark[data-color="#cba6f7"] {
-  background-color: #cba6f7;
-  color: #1e1e2e;
+.ProseMirror mark[data-color="#8c8eff"] {
+  background-color: #8c8eff;
+  color: #131225;
 }
 
-.ProseMirror mark[data-color="#f5c2e7"] {
-  background-color: #f5c2e7;
-  color: #1e1e2e;
+.ProseMirror mark[data-color="#ff8fa6"] {
+  background-color: #ff8fa6;
+  color: #131225;
 }
 
-.ProseMirror mark[data-color="#f38ba8"] {
-  background-color: #f38ba8;
-  color: #1e1e2e;
+.ProseMirror mark[data-color="#ff5d7e"] {
+  background-color: #ff5d7e;
+  color: #131225;
 }
 
 /* Custom text colors - TipTap Color extension */
-.ProseMirror span[data-color="#f38ba8"] {
-  color: #f38ba8 !important;
+.ProseMirror span[data-color="#ff5d7e"] {
+  color: #ff5d7e !important;
 }
 
-.ProseMirror span[data-color="#fab387"] {
-  color: #fab387 !important;
+.ProseMirror span[data-color="#ffd98a"] {
+  color: #ffd98a !important;
 }
 
-.ProseMirror span[data-color="#f9e2af"] {
-  color: #f9e2af !important;
+.ProseMirror span[data-color="#ffd98a"] {
+  color: #ffd98a !important;
 }
 
-.ProseMirror span[data-color="#a6e3a1"] {
-  color: #a6e3a1 !important;
+.ProseMirror span[data-color="#9be3b4"] {
+  color: #9be3b4 !important;
 }
 
-.ProseMirror span[data-color="#89b4fa"] {
-  color: #89b4fa !important;
+.ProseMirror span[data-color="#a9aaff"] {
+  color: #a9aaff !important;
 }
 
-.ProseMirror span[data-color="#cba6f7"] {
-  color: #cba6f7 !important;
+.ProseMirror span[data-color="#8c8eff"] {
+  color: #8c8eff !important;
 }
 
-.ProseMirror span[data-color="#f5c2e7"] {
-  color: #f5c2e7 !important;
+.ProseMirror span[data-color="#ff8fa6"] {
+  color: #ff8fa6 !important;
 }
 
-.ProseMirror span[data-color="#cdd6f4"] {
-  color: #cdd6f4 !important;
+.ProseMirror span[data-color="#cfcdea"] {
+  color: #cfcdea !important;
 }
 
 /* Fallback for inline styles */
-.ProseMirror span[style*="color: #f38ba8"] {
-  color: #f38ba8 !important;
+.ProseMirror span[style*="color: #ff5d7e"] {
+  color: #ff5d7e !important;
 }
 
-.ProseMirror span[style*="color: #fab387"] {
-  color: #fab387 !important;
+.ProseMirror span[style*="color: #ffd98a"] {
+  color: #ffd98a !important;
 }
 
-.ProseMirror span[style*="color: #f9e2af"] {
-  color: #f9e2af !important;
+.ProseMirror span[style*="color: #ffd98a"] {
+  color: #ffd98a !important;
 }
 
-.ProseMirror span[style*="color: #a6e3a1"] {
-  color: #a6e3a1 !important;
+.ProseMirror span[style*="color: #9be3b4"] {
+  color: #9be3b4 !important;
 }
 
-.ProseMirror span[style*="color: #89b4fa"] {
-  color: #89b4fa !important;
+.ProseMirror span[style*="color: #a9aaff"] {
+  color: #a9aaff !important;
 }
 
-.ProseMirror span[style*="color: #cba6f7"] {
-  color: #cba6f7 !important;
+.ProseMirror span[style*="color: #8c8eff"] {
+  color: #8c8eff !important;
 }
 
-.ProseMirror span[style*="color: #f5c2e7"] {
-  color: #f5c2e7 !important;
+.ProseMirror span[style*="color: #ff8fa6"] {
+  color: #ff8fa6 !important;
 }
 
-.ProseMirror span[style*="color: #cdd6f4"] {
-  color: #cdd6f4 !important;
+.ProseMirror span[style*="color: #cfcdea"] {
+  color: #cfcdea !important;
 }
 
 /* Ensure TipTap color extension works properly */
 .ProseMirror .text-red-400 {
-  color: #f38ba8 !important;
+  color: #ff5d7e !important;
 }
 
 .ProseMirror .text-orange-400 {
-  color: #fab387 !important;
+  color: #ffd98a !important;
 }
 
 .ProseMirror .text-yellow-400 {
-  color: #f9e2af !important;
+  color: #ffd98a !important;
 }
 
 .ProseMirror .text-green-400 {
-  color: #a6e3a1 !important;
+  color: #9be3b4 !important;
 }
 
 .ProseMirror .text-blue-400 {
-  color: #89b4fa !important;
+  color: #a9aaff !important;
 }
 
 .ProseMirror .text-purple-400 {
-  color: #cba6f7 !important;
+  color: #8c8eff !important;
 }
 
 .ProseMirror .text-pink-400 {
-  color: #f5c2e7 !important;
+  color: #ff8fa6 !important;
 }
 
 /* Code block language styling - supports both class and attribute */
@@ -463,8 +463,8 @@
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
-  background-color: #313244;
-  color: #6c7086;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #8f8cb3;
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
   font-size: 0.75rem;

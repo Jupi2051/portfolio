@@ -28,7 +28,7 @@ const TextEditorBubbleMenu = ({ editor }: { editor: Editor }) => {
   return (
     <BubbleMenu
       editor={editor}
-      className="flex items-center gap-1 p-2 bg-ctp-surface0 border border-ctp-surface1 rounded-lg shadow-lg"
+      className="flex items-center gap-1 p-2 rounded-xl border border-white/12 bg-[rgba(20,19,36,0.96)] shadow-[0_16px_40px_rgba(6,5,16,0.5)] backdrop-blur-xl"
     >
       {/* Text Formatting */}
       <div className="flex gap-1">
@@ -40,7 +40,7 @@ const TextEditorBubbleMenu = ({ editor }: { editor: Editor }) => {
         <LinkButton editor={editor} />
       </div>
 
-      <div className="w-px h-6 bg-ctp-surface1 mx-1" />
+      <div className="mx-1 h-5 w-px bg-white/10" />
 
       {/* Text Alignment */}
       <div className="flex gap-1">
@@ -50,7 +50,7 @@ const TextEditorBubbleMenu = ({ editor }: { editor: Editor }) => {
         <AlignJustifyButton editor={editor} />
       </div>
 
-      <div className="w-px h-6 bg-ctp-surface1 mx-1" />
+      <div className="mx-1 h-5 w-px bg-white/10" />
 
       {/* Lists */}
       <div className="flex gap-1">
@@ -60,7 +60,7 @@ const TextEditorBubbleMenu = ({ editor }: { editor: Editor }) => {
         <CodeBlockSelector editor={editor} />
       </div>
 
-      <div className="w-px h-6 bg-ctp-surface1 mx-1" />
+      <div className="mx-1 h-5 w-px bg-white/10" />
 
       {/* Text Colors */}
       <div className="flex gap-1">
@@ -75,7 +75,7 @@ const TextEditorBubbleMenu = ({ editor }: { editor: Editor }) => {
       {/* Image Controls - Only show when an image is selected */}
       {editor.isActive("image") && (
         <>
-          <div className="w-px h-6 bg-ctp-surface1 mx-1" />
+          <div className="mx-1 h-5 w-px bg-white/10" />
           <div className="flex gap-1">
             <button
               onClick={() => {
@@ -85,7 +85,7 @@ const TextEditorBubbleMenu = ({ editor }: { editor: Editor }) => {
                   editor.chain().focus().setImage({ src, alt: newAlt }).run();
                 }
               }}
-              className="p-2 rounded hover:bg-ctp-surface1 text-ctp-text transition-colors"
+              className="flex h-8 min-w-8 cursor-pointer items-center justify-center gap-1 rounded-lg px-2 text-[13px] text-haze transition-colors duration-150 ease-out-strong hover:bg-white/8 hover:text-moon"
               title="Edit Alt Text"
               type="button"
             >
@@ -99,7 +99,7 @@ const TextEditorBubbleMenu = ({ editor }: { editor: Editor }) => {
                   editor.chain().focus().setImage({ src: newSrc.trim() }).run();
                 }
               }}
-              className="p-2 rounded hover:bg-ctp-surface1 text-ctp-text transition-colors"
+              className="flex h-8 min-w-8 cursor-pointer items-center justify-center gap-1 rounded-lg px-2 text-[13px] text-haze transition-colors duration-150 ease-out-strong hover:bg-white/8 hover:text-moon"
               title="Change Image URL"
               type="button"
             >
@@ -107,7 +107,7 @@ const TextEditorBubbleMenu = ({ editor }: { editor: Editor }) => {
             </button>
             <button
               onClick={() => editor.chain().focus().deleteNode("image").run()}
-              className="p-2 rounded hover:bg-ctp-surface1 text-ctp-text transition-colors"
+              className="flex h-8 min-w-8 cursor-pointer items-center justify-center gap-1 rounded-lg px-2 text-[13px] text-haze transition-colors duration-150 ease-out-strong hover:bg-white/8 hover:text-moon"
               title="Delete Image"
               type="button"
             >
@@ -120,7 +120,7 @@ const TextEditorBubbleMenu = ({ editor }: { editor: Editor }) => {
       {/* Tables */}
       {editor.isActive("table") && (
         <>
-          <div className="w-px h-6 bg-ctp-surface1 mx-1" />
+          <div className="mx-1 h-5 w-px bg-white/10" />
           <div className="flex gap-1">
             <TableActionsMenu editor={editor} />
           </div>

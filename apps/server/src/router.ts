@@ -7,6 +7,7 @@ import { terminalRouter } from "./modules/terminal/router"
 import { vicoRouter } from "./modules/vico/router"
 import { rivalsRandomizerRouter } from "./modules/rivals-randomizer/router"
 import { valorantRandomizerRouter } from "./modules/valorant-randomizer/router"
+import { controlsRouter } from "./modules/controls/router"
 
 export const appRouter = router({
   blog: blogRouter,
@@ -16,6 +17,7 @@ export const appRouter = router({
   vico: vicoRouter,
   rivalsRandomizer: rivalsRandomizerRouter,
   valorantRandomizer: valorantRandomizerRouter,
+  controls: controlsRouter,
 })
 
 export type AppRouter = typeof appRouter

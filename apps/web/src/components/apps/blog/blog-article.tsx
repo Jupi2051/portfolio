@@ -13,7 +13,7 @@ export type BlogArticleType = {
  * Article body is TipTap HTML, so it's styled with Tailwind Typography
  * (`prose`) tuned to the Hologram palette rather than a hand-written sheet.
  */
-const proseClassName = cn(
+export const proseClassName = cn(
   "prose prose-invert max-w-160",
   "prose-p:text-[15px] prose-p:leading-6.5 prose-p:text-[#cfcdea]",
   "prose-li:text-[15px] prose-li:leading-6.5 prose-li:text-[#cfcdea] prose-li:marker:text-holo",

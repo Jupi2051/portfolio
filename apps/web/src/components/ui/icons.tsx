@@ -87,6 +87,86 @@ export const CheckIcon = (props: IconProps) => (
   </svg>
 )
 
+export const SignOutIcon = (props: IconProps) => (
+  <svg viewBox="0 0 24 24" strokeWidth={1.9} {...strokeDefaults} {...props}>
+    <path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4" />
+    <path d="M10 16l-4-4 4-4M6 12h10" />
+  </svg>
+)
+
+export const ArrowRightIcon = (props: IconProps) => (
+  <svg viewBox="0 0 24 24" strokeWidth={2.2} {...strokeDefaults} {...props}>
+    <path d="M5 12h14M13 6l6 6-6 6" />
+  </svg>
+)
+
+export const RefreshIcon = (props: IconProps) => (
+  <svg viewBox="0 0 24 24" strokeWidth={2} {...strokeDefaults} {...props}>
+    <path d="M20 11a8 8 0 0 0-14.3-4.9L4 8M4 4v4h4M4 13a8 8 0 0 0 14.3 4.9L20 16M20 20v-4h-4" />
+  </svg>
+)
+
+export const StarIcon = (props: IconProps) => (
+  <svg viewBox="0 0 24 24" strokeWidth={2} {...strokeDefaults} {...props}>
+    <path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z" />
+  </svg>
+)
+
+export const PlusIcon = (props: IconProps) => (
+  <svg viewBox="0 0 24 24" strokeWidth={2} {...strokeDefaults} {...props}>
+    <path d="M12 5v14M5 12h14" />
+  </svg>
+)
+
+export const CropIcon = (props: IconProps) => (
+  <svg viewBox="0 0 24 24" strokeWidth={1.9} {...strokeDefaults} {...props}>
+    <path d="M6 2v14a2 2 0 0 0 2 2h14" />
+    <path d="M18 22V8a2 2 0 0 0-2-2H2" />
+  </svg>
+)
+
+export const TrashIcon = (props: IconProps) => (
+  <svg viewBox="0 0 24 24" strokeWidth={1.9} {...strokeDefaults} {...props}>
+    <path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3" />
+  </svg>
+)
+
+export const EyeIcon = (props: IconProps) => (
+  <svg viewBox="0 0 24 24" strokeWidth={1.8} {...strokeDefaults} {...props}>
+    <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" />
+    <circle cx="12" cy="12" r="3" />
+  </svg>
+)
+
+export const EyeOffIcon = (props: IconProps) => (
+  <svg viewBox="0 0 24 24" strokeWidth={1.8} {...strokeDefaults} {...props}>
+    <path d="M3 3l18 18M10.6 5.1A10.6 10.6 0 0 1 12 5c6.4 0 10 7 10 7a17.5 17.5 0 0 1-3.2 4M6.6 6.6C3.9 8.4 2 12 2 12s3.6 7 10 7a9.7 9.7 0 0 0 5.4-1.6M9.9 9.9a3 3 0 0 0 4.2 4.2" />
+  </svg>
+)
+
+export const PinIcon = (props: IconProps) => (
+  <svg viewBox="0 0 24 24" strokeWidth={2.2} {...strokeDefaults} {...props}>
+    <path d="M12 17v5M9 3h6l-1 6 3 3v2H7v-2l3-3z" />
+  </svg>
+)
+
+export const MoveIcon = (props: IconProps) => (
+  <svg viewBox="0 0 24 24" strokeWidth={1.9} {...strokeDefaults} {...props}>
+    <path d="M12 3v18M3 12h18M12 3l-3 3M12 3l3 3M12 21l-3-3M12 21l3-3M3 12l3-3M3 12l3 3M21 12l-3-3M21 12l-3 3" />
+  </svg>
+)
+
+export const GripIcon = (props: IconProps) => (
+  <svg viewBox="0 0 12 16" fill="currentColor" {...props}>
+    <circle cx="3.5" cy="3" r="1.4" />
+    <circle cx="8.5" cy="3" r="1.4" />
+    <circle cx="3.5" cy="8" r="1.4" />
+    <circle cx="8.5" cy="8" r="1.4" />
+    <circle cx="3.5" cy="13" r="1.4" />
+    <circle cx="8.5" cy="13" r="1.4" />
+  </svg>
+)
+
 export const MenuIcon = (props: IconProps) => (
   <svg viewBox="0 0 24 24" strokeWidth={1.8} {...strokeDefaults} {...props}>
     <path d="M4 7h16M4 12h16M4 17h10" />

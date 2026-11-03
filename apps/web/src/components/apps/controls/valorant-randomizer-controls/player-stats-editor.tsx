@@ -34,8 +34,8 @@ export default function PlayerStatsEditor({
   isRemoving,
 }: Props) {
   return (
-    <div className="flex flex-col gap-3 border-t border-ctp-surface1 p-3">
-      <div className="h-14 w-full overflow-hidden rounded-lg bg-ctp-surface0">
+    <div className="mx-1.5 mb-1.5 flex flex-col gap-3 rounded-xl border border-white/8 bg-panel-sunken p-3">
+      <div className="h-14 w-full overflow-hidden rounded-[10px] bg-raised">
         <img
           src={valorantPlayerBannerUrl(player.id)}
           alt=""
@@ -66,8 +66,8 @@ export default function PlayerStatsEditor({
             onCommit={(skillLevel) => onUpdate({ skillLevel })}
           />
 
-          <div className="rounded-lg border border-ctp-surface1 p-2">
-            <p className="mb-1.5 text-xs font-medium text-ctp-subtext1">Main</p>
+          <div className="rounded-[10px] border border-white/8 p-2">
+            <p className="mb-1.5 text-xs font-medium text-haze">Main</p>
             <MainPicker
               agents={agents}
               selectedId={player.mainAgent?.id ?? null}
@@ -82,7 +82,7 @@ export default function PlayerStatsEditor({
             type="button"
             onClick={onRefresh}
             disabled={isRefreshing}
-            className="cursor-pointer rounded-lg border border-ctp-surface1 bg-ctp-mantle px-3 py-1 text-xs text-ctp-subtext1 transition hover:bg-ctp-surface0 hover:text-ctp-text"
+            className="flex h-8 cursor-pointer items-center justify-center rounded-[9px] border border-white/10 px-3 text-xs font-medium text-lilac transition-colors duration-150 ease-out-strong hover:bg-white/6"
           >
             Refresh
           </button>
@@ -90,7 +90,7 @@ export default function PlayerStatsEditor({
             type="button"
             onClick={onRemove}
             disabled={isRemoving}
-            className="cursor-pointer rounded-lg border border-ctp-red/40 bg-ctp-mantle px-3 py-1 text-xs text-ctp-red transition hover:bg-ctp-red/10"
+            className="flex h-8 cursor-pointer items-center justify-center rounded-[9px] border border-melon/30 px-3 text-xs font-medium text-[#ff8fa6] transition-colors duration-150 ease-out-strong hover:bg-melon hover:text-white"
           >
             Remove
           </button>
