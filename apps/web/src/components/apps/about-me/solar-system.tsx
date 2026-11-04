@@ -21,11 +21,13 @@ const planetsPopUp: Variants = {
   visible: { opacity: 1, transition: { delay: 2.8, duration: 1 } },
 };
 
+// The glow's blur is static (set in CSS); only opacity animates. Animating
+// the blur radius itself (it used to go 100px -> 10px) re-rasterised four
+// huge blurs every frame and choked mobile GPUs.
 const planetsVisual: Variants = {
-  hidden: { opacity: 1, filter: "blur(100px)" },
+  hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    filter: "blur(10px)",
     transition: { delay: 2.8, duration: 1.5 },
   },
 };

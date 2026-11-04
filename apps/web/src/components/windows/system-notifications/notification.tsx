@@ -68,6 +68,7 @@ export default function Notification({
       transition={{ duration: 0.25, ease: EASE_OUT }}
       className={cn(
         "pointer-events-auto relative mx-auto w-full cursor-pointer touch-manipulation overflow-hidden rounded-2xl border border-white/12 bg-ink/72 backdrop-blur-xl select-none",
+        "pointer-coarse:bg-ink/92 pointer-coarse:backdrop-blur-none",
         "shadow-[0_16px_40px_rgba(6,5,16,0.45)] transition-[border-color] duration-150 ease-out-strong hover:border-white/20",
         isMobile ? "mb-2 max-w-xs p-3" : "mb-3 max-w-sm p-4",
       )}

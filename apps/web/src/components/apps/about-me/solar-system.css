@@ -43,6 +43,7 @@
     z-index: -1;
     transform: translate(-50%, -50%);
     background-color: rgba(207, 207, 207, 0.637);
+    filter: blur(10px);
 }
 
 .solar-moon-container {

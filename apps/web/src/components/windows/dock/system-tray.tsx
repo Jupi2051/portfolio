@@ -15,6 +15,7 @@ function SystemTray({ className }: { className?: string }) {
     <div
       className={cn(
         "h-13 items-center gap-3.5 rounded-[18px] border border-white/12 bg-ink/58 pr-4.5 pl-4 backdrop-blur-xl select-none",
+        "pointer-coarse:bg-ink/90 pointer-coarse:backdrop-blur-none",
         "shadow-[0_16px_40px_rgba(8,7,20,0.4)]",
         className,
       )}

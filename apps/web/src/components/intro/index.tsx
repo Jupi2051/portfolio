@@ -15,11 +15,13 @@ const Intro = ({ setLoaded }: { setLoaded: () => void }) => {
     >
       <motion.div
         className="flex h-full w-full items-center justify-center bg-[radial-gradient(circle_at_50%_45%,rgba(140,142,255,0.14)_0%,rgba(14,13,26,0)_55%)]"
-        initial={{ scale: reduceMotion ? 1 : 1.08, opacity: 0, filter: "blur(8px)" }}
-        animate={{ scale: 1, opacity: 1, filter: "blur(0px)" }}
+        // Transform + opacity only: a full-screen animated blur here ran
+        // while the desktop was loading behind it and dropped frames on phones.
+        initial={{ scale: reduceMotion ? 1 : 1.08, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
         exit={{
           scale: reduceMotion ? 1 : 1.15,
-          filter: "blur(6px)",
+          opacity: 0,
           transition: { duration: 0.45, ease: EASE_OUT },
         }}
         transition={{ delay: 0.3, duration: 0.8, ease: EASE_OUT }}

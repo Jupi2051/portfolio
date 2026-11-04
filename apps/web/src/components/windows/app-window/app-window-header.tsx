@@ -5,7 +5,6 @@ import {
 } from "@/storage/slices/desktop"
 import { useDispatch } from "react-redux"
 import { Dimensions2D } from "."
-import useMousePosition from "@/hooks/use-mouse-position"
 import { Point } from "framer-motion"
 import cn from "classnames"
 import AppWindowHeaderButton from "./app-window-header-button"
@@ -68,7 +67,6 @@ const AppWindowHeader = ({
   const dispatch = useDispatch()
   const { isFocused } = useAppWindowControls(AppId)
   const { unFocusAllWindows, closeApplication } = useGlobalWindowsControls()
-  const CursorLocation = useMousePosition()
 
   const onDismissButton = () => {
     dispatch(setMinimizedState({ id: AppId, state: true }))
@@ -102,8 +100,8 @@ const AppWindowHeader = ({
       if (ClickedElement.classList.contains("window-header")) {
         dispatch(
           setMouseMovementOffset({
-            x: NewLocation.x - (CursorLocation.x ?? 0),
-            y: NewLocation.y - (CursorLocation.y ?? 0),
+            x: NewLocation.x - event.clientX,
+            y: NewLocation.y - event.clientY,
           }),
         )
         setInitialPosition?.(NewLocation)

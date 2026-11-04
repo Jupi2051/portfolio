@@ -37,7 +37,7 @@ function BoardMessage({
   const mainDivRef = useRef<HTMLDivElement>(null)
   const boardRefCurrent = boardRef?.current
   const mainDivRefCurrent = mainDivRef.current
-  const mousePosition = useMousePosition()
+  const mousePosition = useMousePosition(isMoving)
   const theme = noteTheme(color)
   const tilt = isMoving ? -1 : noteTilt(seed ?? `${name}${content}`)
 

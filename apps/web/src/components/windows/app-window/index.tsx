@@ -128,7 +128,10 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
   const [offsetFromMaximizedToMinimized, SetOffsetFromMaximizedToMinimized] =
     useState(0)
 
-  const CursorLocation = useMousePosition()
+  // Only re-render on mouse move while this window is being dragged.
+  const CursorLocation = useMousePosition(
+    MoveWindow || isMovingWindowFromMaximizedToMinimized,
+  )
   const CursorOffset = useSelector(
     (x: RootState) => x.desktopState.mouseMovementOffset,
   )
@@ -296,16 +299,12 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
       x: Maximized ? 0 : NewLocation.x,
       y: Maximized ? 0 : NewLocation.y,
       zIndex: zIndexFront,
-      width: Maximized ? "100%" : "auto",
-      height: Maximized ? "100%" : "auto",
     },
     minimized: {
       x: reduceMotion ? (Maximized ? 0 : NewLocation.x) : minimizedX,
       y: reduceMotion ? (Maximized ? 0 : NewLocation.y) : minimizedY,
       scale: reduceMotion ? 1 : 0.5,
       opacity: 0,
-      width: Maximized ? "100%" : "auto",
-      height: Maximized ? "100%" : "auto",
       zIndex: zIndexFront,
     },
     exit: {
@@ -483,7 +482,12 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
       <motion.div
         className={cn(
           "absolute top-0 left-0 isolate overflow-hidden",
-          "transition-[border-color,box-shadow] duration-200 ease-out-strong",
+          // Size snaps instantly; scale/opacity carry the motion. Animating
+          // width/height would re-layout the page every frame.
+          Maximized ? "w-full h-full" : "w-auto h-auto",
+          // Only the border colour tweens — an animated box-shadow repaints
+          // the whole window every frame.
+          "transition-[border-color] duration-200 ease-out-strong",
           isMinimized ? "pointer-events-none" : "pointer-events-auto",
           // Maximised windows drop the border entirely — a transparent 1px
           // border still insets the content and lets the wallpaper peek through.
@@ -502,8 +506,6 @@ function AppWindow({ AppId, processName, processIcon, children }: PropType) {
         transition={{
           duration: 0.22,
           ease: EASE_OUT,
-          width: { duration: 0.125 },
-          height: { duration: 0.125 },
           zIndex: { duration: 0 },
           // Drag and resize write x/y every frame — those must not tween.
           x:

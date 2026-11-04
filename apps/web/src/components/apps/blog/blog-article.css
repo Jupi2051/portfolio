@@ -60,7 +60,7 @@
   border-radius: 0 0 0.5rem 0.5rem;
 
   /* Subtle animation */
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), text-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .article-content h1:hover {
@@ -96,7 +96,7 @@
     transparent 100%
   );
 
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .article-content h2:hover {
@@ -126,7 +126,7 @@
     transparent 100%
   );
 
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .article-content h3:hover {
@@ -212,7 +212,6 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 
   /* Smooth transitions */
-  transition: all 0.2s ease;
 }
 
 .article-content p:first-child {
@@ -238,7 +237,7 @@
   border-radius: 0.25rem;
 
   /* Smooth transitions */
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .article-content a::after {
@@ -246,7 +245,7 @@
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 0;
+  width: 100%;
   height: 2px;
   background: linear-gradient(
     90deg,
@@ -255,7 +254,9 @@
   ); /* ctp-mauve */
   border-radius: 1px;
 
-  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .article-content a:hover {
@@ -265,7 +266,7 @@
 }
 
 .article-content a:hover::after {
-  width: 100%;
+  transform: scaleX(1);
 }
 
 /* ========================================
@@ -285,7 +286,7 @@
   position: relative;
 
   /* Smooth transitions */
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 
 .article-content ul li::before {
@@ -362,7 +363,7 @@
   padding-left: 2rem;
   position: relative;
 
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 
 .article-content ol li::before {
@@ -381,7 +382,7 @@
   font-size: 0.8rem;
   font-weight: 600;
 
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .article-content ol li:hover {
@@ -411,7 +412,6 @@
   border: 1px solid #585b70; /* ctp-surface2 */
 
   /* Smooth transitions */
-  transition: all 0.2s ease;
 }
 
 /* Code blocks */
@@ -432,7 +432,6 @@
     0 2px 4px -1px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 
   /* Smooth transitions */
-  transition: all 0.3s ease;
 }
 
 .article-content pre code {
@@ -484,7 +483,7 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 
   /* Smooth transitions */
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .article-content blockquote:hover {
@@ -536,7 +535,7 @@
   border-bottom: 2px solid #89b4fa; /* ctp-blue */
   border-radius: 0 0 2px 2px;
 
-  transition: all 0.2s ease;
+  transition: border-bottom-color 0.2s ease, background-color 0.2s ease;
 }
 
 .article-content u:hover {
@@ -552,7 +551,7 @@
   text-decoration-thickness: 2px;
   opacity: 0.7;
 
-  transition: all 0.2s ease;
+  transition: opacity 0.2s ease, background-color 0.2s ease;
 }
 
 .article-content s:hover {
@@ -576,7 +575,7 @@
   /* Cutesy border */
   border: 1px solid #fab387; /* ctp-peach */
 
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .article-content mark:hover {
@@ -601,7 +600,7 @@
     0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 0 0 1px #45475a; /* ctp-surface1 */
 
   /* Smooth transitions */
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .article-content img:hover {

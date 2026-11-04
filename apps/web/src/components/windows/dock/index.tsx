@@ -63,6 +63,8 @@ function Dock({ className }: { className?: string }) {
         transition={enterTransition}
         className={cn(
           "flex h-14 items-center border border-white/12 bg-ink/58 p-1.5 backdrop-blur-xl sm:h-17 sm:p-2",
+          // Backdrop blur is very costly on phone GPUs; go opaque on touch.
+          "pointer-coarse:bg-ink/90 pointer-coarse:backdrop-blur-none",
           "shadow-[0_20px_50px_rgba(8,7,20,0.45),inset_0_1px_0_rgba(255,255,255,0.06)]",
         )}
       >

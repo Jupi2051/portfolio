@@ -64,7 +64,6 @@
   top: 34%;
   right: 20%;
   transform: rotate(-32.2deg);
-  transition: all ease 1s;
 }
 
 .third-line {
@@ -75,7 +74,6 @@
   top: 30.8%;
   right: 0%;
   transform: rotate(-32deg);
-  transition: all ease 1s;
 }
 
 .storm {

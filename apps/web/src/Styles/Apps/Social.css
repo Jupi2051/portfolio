@@ -96,7 +96,7 @@
     color: white;
     border-radius: 0.5em;
     font-size: 2em;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, background-color 0.3s ease, border-radius 0.3s ease;
 }
 
 .submit-message:hover {

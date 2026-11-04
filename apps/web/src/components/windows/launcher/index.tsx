@@ -66,7 +66,7 @@ function LauncherPanel({ onClose }: { onClose: () => void }) {
   return (
     <>
       <motion.div
-        className="absolute inset-0 bg-[rgba(10,9,22,0.38)] backdrop-blur-[3px]"
+        className="absolute inset-0 bg-[rgba(10,9,22,0.5)]"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, transition: enterTransition }}
         exit={{ opacity: 0, transition: exitTransition }}
@@ -77,7 +77,8 @@ function LauncherPanel({ onClose }: { onClose: () => void }) {
         aria-label="Launcher"
         className={cn(
           "absolute bottom-19 left-1/2 flex w-170 max-w-[calc(100vw-16px)] -translate-x-1/2 origin-bottom flex-col overflow-hidden sm:bottom-25",
-          "rounded-[28px] border border-white/12 bg-[rgba(20,19,36,0.72)] backdrop-blur-[32px]",
+          "rounded-[28px] border border-white/12 bg-[rgba(20,19,36,0.78)] backdrop-blur-[16px]",
+          "pointer-coarse:bg-[rgba(20,19,36,0.95)] pointer-coarse:backdrop-blur-none",
           "shadow-[0_30px_80px_rgba(6,5,16,0.55),inset_0_1px_0_rgba(255,255,255,0.06)]",
         )}
         initial={hidden}

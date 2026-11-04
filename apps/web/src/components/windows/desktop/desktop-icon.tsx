@@ -106,7 +106,7 @@ function DesktopIcon(Props: PropTypes) {
         "Desktop-Icon-Container group relative flex h-27.5 w-25 flex-col items-center gap-2 rounded-2xl border px-1 pt-2.5 pb-1.5 select-none isolate outline-none",
         "transition-[background-color,border-color] duration-150 ease-out-strong focus-visible:border-holo-soft/60",
         Props.Selected
-          ? "z-999 border-holo/38 bg-holo/16 backdrop-blur-[10px]"
+          ? "z-999 border-holo/38 bg-holo/16 backdrop-blur-[10px] pointer-coarse:bg-holo/28 pointer-coarse:backdrop-blur-none"
           : "border-transparent",
       )}
       data-id={Props.id}

@@ -22,7 +22,7 @@ function AppTileIcon({ src, fill, selected, className }: AppTileIconProps) {
         "group-active:scale-[0.96] group-active:duration-100",
         fill
           ? "border-white/16 bg-ink"
-          : "border-white/12 bg-ink/55 backdrop-blur-[18px]",
+          : "border-white/12 bg-ink/55 backdrop-blur-[18px] pointer-coarse:bg-ink/88 pointer-coarse:backdrop-blur-none",
         selected &&
           "border-holo-soft/55! shadow-[0_8px_24px_rgba(8,7,20,0.35),0_0_0_4px_rgba(140,142,255,0.12)]!",
         className,

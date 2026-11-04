@@ -56,7 +56,7 @@
     "classnames": "^2.5.1",
     "croppie": "^2.6.5",
     "date-fns": "^4.4.0",
-    "framer-motion": "^13.2.0",
+    "framer-motion": "^14.9.0",
     "html-react-parser": "^6.1.7",
     "i": "^0.3.7",
     "lowlight": "^3.3.0",
