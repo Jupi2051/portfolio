@@ -26,3 +26,5 @@ dist-ssr
 .env
 dev.db
 dist-types
+.claude
+skills-lock.json
