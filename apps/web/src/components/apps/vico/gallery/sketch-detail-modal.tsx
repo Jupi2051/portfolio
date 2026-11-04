@@ -1,4 +1,6 @@
-import cn from "classnames"
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
+import { CloseIcon } from "@/components/ui/icons"
+import { enterTransition, exitTransition } from "@/lib/motion"
 import { useEscapeKey } from "../shared/use-escape-key"
 
 export type VicoSketchDetail = {
@@ -20,62 +22,74 @@ export default function VicoSketchDetailModal({
   imageUrl,
   onClose,
 }: Props) {
+  const reduceMotion = useReducedMotion()
   useEscapeKey(!!sketch, onClose)
 
-  if (!sketch || !imageUrl) return null
-
-  const created = new Date(sketch.createdAt)
+  const hidden = { opacity: 0, y: reduceMotion ? 0 : 8, scale: 0.97 }
 
   return (
-    <div
-      className="absolute inset-0 z-60 flex items-center justify-center bg-ctp-crust/80 p-4 backdrop-blur-sm"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="vico-detail-title"
-      onClick={onClose}
-    >
-      <div
-        className={cn(
-          "flex max-h-[min(92vh,900px)] w-full max-w-2xl flex-col overflow-hidden rounded-xl border border-ctp-surface1 bg-ctp-mantle shadow-xl ring-1 ring-black/25",
-        )}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="border-b border-ctp-surface1 px-4 py-3">
-          <h2
-            id="vico-detail-title"
-            className="font-capirola text-lg font-semibold text-ctp-text"
-          >
-            {sketch.title}
-          </h2>
-          <p className="mt-1 text-sm text-ctp-subtext1">
-            by <span className="text-ctp-lavender">{sketch.author}</span>
-            <span className="mx-2 text-ctp-overlay0">·</span>
-            <time dateTime={sketch.createdAt}>
-              {created.toLocaleDateString(undefined, {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-              })}
-            </time>
-          </p>
-        </div>
-        <div className="min-h-0 flex-1 overflow-y-auto bg-ctp-crust">
-          <img
-            src={imageUrl}
-            alt=""
-            className="mx-auto max-h-[min(70vh,640px)] w-full rounded-lg object-contain shadow-inner"
-          />
-        </div>
-        <div className="border-t border-ctp-surface1 bg-ctp-base/60 px-4 py-3">
-          <button
-            type="button"
-            className="w-full cursor-pointer rounded-lg border border-ctp-surface1 bg-ctp-mantle px-4 py-2 text-sm font-medium text-ctp-subtext1 transition hover:bg-ctp-surface0 hover:text-ctp-text"
+    <AnimatePresence>
+      {sketch && imageUrl ? (
+        <motion.div
+          key={sketch.id}
+          className="absolute inset-0 z-60 flex items-center justify-center p-4"
+          exit={{ opacity: 1, transition: exitTransition }}
+        >
+          <motion.div
+            className="absolute inset-0 bg-[rgba(10,9,22,0.6)]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1, transition: enterTransition }}
+            exit={{ opacity: 0, transition: exitTransition }}
             onClick={onClose}
+          />
+          <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="vico-detail-title"
+            className="relative flex max-h-full w-full max-w-xl flex-col overflow-hidden rounded-3xl border border-white/12 bg-[rgba(20,19,36,0.96)] shadow-[0_30px_80px_rgba(6,5,16,0.6)]"
+            initial={hidden}
+            animate={{ opacity: 1, y: 0, scale: 1, transition: enterTransition }}
+            exit={{ ...hidden, transition: exitTransition }}
           >
-            Close
-          </button>
-        </div>
-      </div>
-    </div>
+            <div className="flex items-start justify-between gap-4 px-6 pt-5.5 pb-4">
+              <div className="flex min-w-0 flex-col gap-1">
+                <h2
+                  id="vico-detail-title"
+                  className="font-serif text-[30px] leading-8.5 text-moon-bright italic wrap-anywhere"
+                >
+                  {sketch.title}
+                </h2>
+                <p className="text-sm leading-5 text-haze">
+                  by <span className="font-medium text-holo-soft">{sketch.author}</span>
+                  <span className="mx-1.5">·</span>
+                  <time dateTime={sketch.createdAt}>
+                    {new Date(sketch.createdAt).toLocaleDateString(undefined, {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    })}
+                  </time>
+                </p>
+              </div>
+              <button
+                type="button"
+                aria-label="Close"
+                onClick={onClose}
+                className="flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-[10px] border border-white/10 text-lilac transition-[background-color] duration-150 ease-out-strong hover:bg-white/6"
+              >
+                <CloseIcon className="size-3.5" />
+              </button>
+            </div>
+            <div className="mx-6 mb-6 flex min-h-0 flex-1 items-center justify-center overflow-hidden rounded-2xl border border-white/8 bg-ink-deep bg-[radial-gradient(rgba(255,255,255,0.07)_1px,transparent_1px)] bg-size-[16px_16px]">
+              <img
+                src={imageUrl}
+                alt={sketch.title}
+                className="max-h-[min(60vh,560px)] w-full object-contain p-5"
+              />
+            </div>
+          </motion.div>
+        </motion.div>
+      ) : null}
+    </AnimatePresence>
   )
 }

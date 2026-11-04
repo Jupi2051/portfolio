@@ -10,7 +10,7 @@ function Vico() {
   const app = useApplicationData();
 
   return (
-    <div className="relative flex h-full min-h-70 flex-col bg-ctp-base text-ctp-text">
+    <div className="relative flex h-full min-h-70 flex-col bg-panel text-moon">
       {view === "draw" ? (
         <VicoDrawView
           parentProcessId={app.AppId}

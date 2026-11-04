@@ -80,7 +80,7 @@ export function useAtramentSketch(
   const [, bump] = useReducer((n: number) => n + 1, 0)
 
   const [mode, setModeState] = useState<SketchToolMode>(MODE_DRAW)
-  const [color, setColorState] = useState("#cba6f7")
+  const [color, setColorState] = useState("#f1efff")
   const [brushWeight, setBrushWeightState] = useState(8)
   const brushWeightRef = useRef(brushWeight)
   brushWeightRef.current = brushWeight

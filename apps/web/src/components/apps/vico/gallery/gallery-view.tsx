@@ -1,9 +1,8 @@
 import { useState } from "react"
 import cn from "classnames"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faPen } from "@fortawesome/free-solid-svg-icons"
 import { useTRPC } from "@/lib/trpc/trpc"
 import { useQuery } from "@tanstack/react-query"
+import { PencilIcon } from "@/components/ui/icons"
 import { getVicoSketchWebpUrl } from "./public-image-url"
 import VicoSketchDetailModal, {
   type VicoSketchDetail,
@@ -13,102 +12,120 @@ type Props = {
   onGoDraw: () => void
 }
 
+const shortDate = (iso: string) =>
+  new Date(iso).toLocaleDateString(undefined, { month: "short", day: "numeric" })
+
 export default function VicoGalleryView({ onGoDraw }: Props) {
   const trpc = useTRPC()
   const listQuery = useQuery(trpc.vico.list.queryOptions())
   const [selected, setSelected] = useState<VicoSketchDetail | null>(null)
 
-  const sketchesWithImages =
+  const sketches =
     listQuery.data?.filter((s): s is typeof s & { imageId: string } =>
       Boolean(s.imageId),
     ) ?? []
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col bg-ctp-base text-ctp-text">
-      <div className="min-h-0 flex-1 overflow-y-auto p-4">
-        {listQuery.isLoading ? (
-          <div className="flex h-40 items-center justify-center text-sm text-ctp-subtext0">
-            Loading sketches…
-          </div>
-        ) : listQuery.isError ? (
-          <p className="rounded-lg border border-ctp-red/40 bg-ctp-red/10 px-3 py-2 text-sm text-ctp-red">
-            Could not load the gallery. Try again later.
-          </p>
-        ) : sketchesWithImages.length === 0 ? (
-          <div className="flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-ctp-surface1 bg-ctp-mantle/50 px-6 py-16 text-center">
-            <p className="max-w-sm text-sm text-ctp-subtext1">
-              No approved sketches yet. Be the first to draw and publish one.
+    <div className="relative flex min-h-0 flex-1 flex-col bg-panel text-moon">
+      {/* Glow lives on the scroller (scrolling with it) so it fades out
+          instead of ending in a hard line under the header. */}
+      <div className="min-h-0 flex-1 overflow-y-auto bg-[radial-gradient(ellipse_70%_100%_at_10%_0%,rgba(140,142,255,0.14)_0%,rgba(23,22,42,0)_100%)] bg-size-[100%_300px] bg-local bg-no-repeat">
+        <header className="flex flex-wrap items-end justify-between gap-5 px-5 pt-7 pb-5 @xl/appwindow:px-8">
+          <div className="flex flex-col gap-1">
+            <h1 className="font-serif text-[44px] leading-11.5 tracking-[-0.01em] text-moon-bright italic">
+              Vico
+            </h1>
+            <p className="text-sm leading-5 text-haze">
+              Little drawings left by visitors
+              {sketches.length > 0 ? (
+                <>
+                  {" · "}
+                  <span className="font-semibold text-holo-soft">
+                    {sketches.length} {sketches.length === 1 ? "sketch" : "sketches"}
+                  </span>
+                </>
+              ) : null}
             </p>
-            <button
-              type="button"
-              onClick={onGoDraw}
-              className="cursor-pointer rounded-lg border border-ctp-lavender/50 bg-ctp-lavender/15 px-4 py-2 text-sm font-medium text-ctp-lavender transition hover:bg-ctp-lavender/25"
-            >
-              Start drawing
-            </button>
           </div>
-        ) : (
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
-            {sketchesWithImages.map((sketch) => {
-              const url = getVicoSketchWebpUrl(sketch.imageId)
-              const detail: VicoSketchDetail = {
-                id: sketch.id,
-                title: sketch.title,
-                author: sketch.author,
-                createdAt: sketch.createdAt,
-                imageId: sketch.imageId,
-              }
-              return (
-                <button
-                  key={sketch.id}
-                  type="button"
-                  className={cn(
-                    "group relative aspect-square cursor-pointer overflow-hidden rounded-xl border border-ctp-surface1 bg-ctp-crust text-left shadow-sm outline-none transition",
-                    "focus-visible:ring-2 focus-visible:ring-ctp-lavender/60 focus-visible:ring-offset-2 focus-visible:ring-offset-ctp-base",
-                  )}
-                  onClick={() => setSelected(detail)}
-                >
-                  <img
-                    src={url}
-                    alt=""
-                    className="h-full w-full object-cover transition duration-200 group-hover:scale-[1.02]"
-                    loading="lazy"
-                  />
-                  <div
-                    className="pointer-events-none absolute inset-0 bg-black/0 transition duration-200 group-hover:bg-black/55"
-                    aria-hidden
-                  />
-                  <div className="pointer-events-none absolute inset-x-0 bottom-0 z-1 bg-linear-to-t from-black/85 via-black/35 to-transparent px-3 pb-3 pt-10">
-                    <span className="line-clamp-2 font-capirola text-xs font-semibold text-ctp-text drop-shadow-md">
-                      {sketch.title}
-                    </span>
-                    <span className="mt-0.5 block truncate text-[11px] text-ctp-subtext0 drop-shadow-md">
-                      {sketch.author}
-                    </span>
-                  </div>
-                </button>
-              )
-            })}
-          </div>
-        )}
-      </div>
+          <DrawButton onClick={onGoDraw} />
+        </header>
 
-      <div className="shrink-0 border-t border-ctp-surface1 bg-ctp-mantle px-4 py-3">
-        <div className="flex flex-col items-center gap-3">
-          <p className="w-full text-center text-sm text-ctp-subtext1">
-            Draw something and share it with the world :D
-          </p>
-          <button
-            type="button"
-            onClick={onGoDraw}
-            className={cn(
-              "inline-flex cursor-pointer items-center gap-2 rounded-lg border-2 border-ctp-lavender bg-ctp-lavender px-4 py-2.5 text-sm font-semibold text-ctp-crust shadow-md transition",
-              "hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ctp-lavender/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ctp-mantle",
-            )}
-          >
-            <FontAwesomeIcon icon={faPen} className="text-base" />
-            Draw your own
-          </button>
+        <div className="px-5 pb-7 @xl/appwindow:px-8">
+          {listQuery.isLoading ? (
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-3">
+              {Array.from({ length: 8 }, (_, i) => (
+                <div
+                  key={i}
+                  className="aspect-square animate-pulse rounded-2xl border border-white/8 bg-ink-deep"
+                />
+              ))}
+            </div>
+          ) : listQuery.isError ? (
+            <p
+              role="alert"
+              className="rounded-xl border border-melon/35 bg-melon/10 px-4 py-3 text-sm text-[#FF8FA6]"
+            >
+              Couldn't load the gallery. Try again in a bit.
+            </p>
+          ) : sketches.length === 0 ? (
+            <div className="flex flex-col items-center gap-4 rounded-2xl border border-dashed border-white/12 px-6 py-16 text-center">
+              <p className="font-serif text-[26px] leading-8 text-moon-bright italic">
+                The walls are still bare
+              </p>
+              <p className="max-w-xs text-sm leading-5 text-haze">
+                No sketches have been approved yet. Be the first to leave one.
+              </p>
+            </div>
+          ) : (
+            <ul className="grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-3">
+              {sketches.map((sketch) => (
+                <li key={sketch.id}>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setSelected({
+                        id: sketch.id,
+                        title: sketch.title,
+                        author: sketch.author,
+                        createdAt: sketch.createdAt,
+                        imageId: sketch.imageId,
+                      })
+                    }
+                    className={cn(
+                      "group relative flex aspect-square w-full cursor-pointer items-center justify-center overflow-hidden rounded-2xl border border-white/8 bg-ink-deep text-left outline-none",
+                      "transition-[border-color,translate] duration-200 ease-out-strong hover:-translate-y-0.5 hover:border-holo-soft/45",
+                      "focus-visible:border-holo-soft/70 focus-visible:shadow-[0_0_0_4px_rgba(140,142,255,0.18)]",
+                    )}
+                  >
+                    <img
+                      src={getVicoSketchWebpUrl(sketch.imageId)}
+                      alt={sketch.title}
+                      loading="lazy"
+                      draggable={false}
+                      className="size-full object-contain p-4"
+                    />
+                    {/* Caption rises in on hover; always shown on touch. */}
+                    <span
+                      aria-hidden
+                      className={cn(
+                        "pointer-events-none absolute inset-x-0 bottom-0 flex flex-col gap-0.5 bg-[linear-gradient(0deg,rgba(10,9,22,0.92)_0%,rgba(10,9,22,0.55)_45%,rgba(10,9,22,0)_100%)] px-3.5 pt-12 pb-3",
+                        "translate-y-1 opacity-0 transition-[opacity,translate] duration-200 ease-out-strong",
+                        "group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100",
+                        "pointer-coarse:translate-y-0 pointer-coarse:opacity-100",
+                      )}
+                    >
+                      <span className="truncate text-sm leading-4.5 font-semibold text-moon-bright">
+                        {sketch.title}
+                      </span>
+                      <span className="truncate text-xs leading-4 text-haze">
+                        {sketch.author} · {shortDate(sketch.createdAt)}
+                      </span>
+                    </span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
 
@@ -118,5 +135,22 @@ export default function VicoGalleryView({ onGoDraw }: Props) {
         onClose={() => setSelected(null)}
       />
     </div>
+  )
+}
+
+function DrawButton({ onClick }: { onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(
+        "flex h-10.5 cursor-pointer items-center gap-2 rounded-xl bg-holo pr-4 pl-3.5 text-sm leading-4.5 font-semibold text-ink-deep shadow-[0_10px_24px_rgba(140,142,255,0.25)] outline-none",
+        "transition-[background-color,scale] duration-150 ease-out-strong hover:bg-holo-soft active:scale-[0.97]",
+        "focus-visible:shadow-[0_0_0_4px_rgba(140,142,255,0.3)]",
+      )}
+    >
+      <PencilIcon className="size-4" />
+      Draw your own
+    </button>
   )
 }

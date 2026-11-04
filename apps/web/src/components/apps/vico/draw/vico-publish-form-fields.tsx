@@ -1,11 +1,19 @@
+import cn from "classnames"
+
 type Props = {
-  title: string;
-  author: string;
-  onTitleChange: (value: string) => void;
-  onAuthorChange: (value: string) => void;
-  disabled: boolean;
-  errorMessage: string | null;
-};
+  title: string
+  author: string
+  onTitleChange: (value: string) => void
+  onAuthorChange: (value: string) => void
+  disabled: boolean
+  errorMessage: string | null
+}
+
+const inputClass = cn(
+  "h-10 rounded-[11px] border border-white/12 bg-white/5 px-3 text-sm text-moon outline-none placeholder:text-haze-dim",
+  "transition-[border-color,box-shadow] duration-150 ease-out-strong",
+  "focus:border-holo-soft/70 focus:bg-white/6 focus:shadow-[0_0_0_4px_rgba(140,142,255,0.12)] disabled:opacity-50",
+)
 
 export default function VicoPublishFormFields({
   title,
@@ -17,43 +25,40 @@ export default function VicoPublishFormFields({
 }: Props) {
   return (
     <>
-      <div className="flex flex-col gap-3">
-        <label className="flex flex-col gap-1">
-          <span className="text-xs font-medium uppercase tracking-wide text-ctp-subtext0">
-            Title
-          </span>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => onTitleChange(e.target.value)}
-            disabled={disabled}
-            placeholder="My drawing"
-            className="rounded-lg border border-ctp-surface1 bg-ctp-base px-3 py-2 text-sm text-ctp-text outline-none transition placeholder:text-ctp-overlay0 focus:border-ctp-lavender focus:ring-2 focus:ring-ctp-lavender/30 disabled:opacity-50"
-          />
-        </label>
-        <label className="flex flex-col gap-1">
-          <span className="text-xs font-medium uppercase tracking-wide text-ctp-subtext0">
-            Author
-          </span>
-          <input
-            type="text"
-            value={author}
-            onChange={(e) => onAuthorChange(e.target.value)}
-            disabled={disabled}
-            placeholder="Your name"
-            className="rounded-lg border border-ctp-surface1 bg-ctp-base px-3 py-2 text-sm text-ctp-text outline-none transition placeholder:text-ctp-overlay0 focus:border-ctp-lavender focus:ring-2 focus:ring-ctp-lavender/30 disabled:opacity-50"
-          />
-        </label>
-      </div>
+      <label className="flex flex-col gap-1.75">
+        <span className="text-[13px] leading-4 font-medium text-lilac">Title</span>
+        <input
+          autoFocus
+          type="text"
+          value={title}
+          maxLength={80}
+          onChange={(e) => onTitleChange(e.target.value)}
+          disabled={disabled}
+          placeholder="Moon cat"
+          className={inputClass}
+        />
+      </label>
+      <label className="flex flex-col gap-1.75">
+        <span className="text-[13px] leading-4 font-medium text-lilac">Your name</span>
+        <input
+          type="text"
+          value={author}
+          maxLength={40}
+          onChange={(e) => onAuthorChange(e.target.value)}
+          disabled={disabled}
+          placeholder="What should we call you?"
+          className={inputClass}
+        />
+      </label>
 
       {errorMessage ? (
         <p
-          className="mt-3 rounded-lg border border-ctp-red/40 bg-ctp-red/10 px-3 py-2 text-sm text-ctp-red"
           role="alert"
+          className="rounded-xl border border-melon/35 bg-melon/10 px-3 py-2.5 text-[13px] leading-4.5 text-[#ff8fa6]"
         >
           {errorMessage}
         </p>
       ) : null}
     </>
-  );
+  )
 }

@@ -203,3 +203,57 @@ export const GitHubIcon = (props: IconProps) => (
     <path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9V21c0 .3.2.6.7.5A10 10 0 0 0 12 2z" />
   </svg>
 )
+
+export const PencilIcon = (props: IconProps) => (
+  <svg viewBox="0 0 24 24" strokeWidth={2.1} {...strokeDefaults} {...props}>
+    <path d="M4 20h4L19 9l-4-4L4 16z" />
+    <path d="M13.5 6.5l4 4" />
+  </svg>
+)
+
+export const CameraIcon = (props: IconProps) => (
+  <svg viewBox="0 0 24 24" strokeWidth={2.1} {...strokeDefaults} {...props}>
+    <path d="M4 8h3l2-3h6l2 3h3v11H4z" />
+    <circle cx="12" cy="13" r="3.5" />
+  </svg>
+)
+
+export const ArrowLeftIcon = (props: IconProps) => (
+  <svg viewBox="0 0 24 24" strokeWidth={2.2} {...strokeDefaults} {...props}>
+    <path d="M19 12H5M11 6l-6 6 6 6" />
+  </svg>
+)
+
+export const ArrowUpIcon = (props: IconProps) => (
+  <svg viewBox="0 0 24 24" strokeWidth={2.3} {...strokeDefaults} {...props}>
+    <path d="M12 19V5M6 11l6-6 6 6" />
+  </svg>
+)
+
+export const UndoIcon = (props: IconProps) => (
+  <svg viewBox="0 0 24 24" strokeWidth={1.9} {...strokeDefaults} {...props}>
+    <path d="M9 14L4 9l5-5" />
+    <path d="M4 9h10a6 6 0 0 1 0 12h-3" />
+  </svg>
+)
+
+export const RedoIcon = (props: IconProps) => (
+  <svg viewBox="0 0 24 24" strokeWidth={1.9} {...strokeDefaults} {...props}>
+    <path d="M15 14l5-5-5-5" />
+    <path d="M20 9H10a6 6 0 0 0 0 12h3" />
+  </svg>
+)
+
+export const EraserIcon = (props: IconProps) => (
+  <svg viewBox="0 0 24 24" strokeWidth={1.9} {...strokeDefaults} {...props}>
+    <path d="M8 20h12M5.5 14.5l8-8a2 2 0 0 1 2.8 0l2.2 2.2a2 2 0 0 1 0 2.8L11 19H8.5L5.5 16a1 1 0 0 1 0-1.5z" />
+    <path d="M9 11l4 4" />
+  </svg>
+)
+
+export const FillIcon = (props: IconProps) => (
+  <svg viewBox="0 0 24 24" strokeWidth={1.9} {...strokeDefaults} {...props}>
+    <path d="M5 11l7-7 7 7-7 7z" />
+    <path d="M5 11h14M20 15s2 2.5 2 3.8a2 2 0 0 1-4 0c0-1.3 2-3.8 2-3.8z" />
+  </svg>
+)

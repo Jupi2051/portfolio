@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import cn from "classnames";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faImages } from "@fortawesome/free-solid-svg-icons";
+import { ArrowLeftIcon } from "@/components/ui/icons";
 import useSystemNotification from "@/components/apps/notification/use-system-notification";
 import SuccessNotification from "@/components/apps/controls/notification";
 import VicoBrushCursor from "./vico-brush-cursor";
@@ -28,9 +27,6 @@ export default function VicoDrawView({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const captureRef = useRef<VicoPublishCapture | null>(null);
 
-  const [brushPointer, setBrushPointer] = useState<{ x: number; y: number } | null>(
-    null,
-  );
   const [publishOpen, setPublishOpen] = useState(false);
   const [capture, setCapture] = useState<VicoPublishCapture | null>(null);
   const [galleryLeaveConfirmOpen, setGalleryLeaveConfirmOpen] = useState(false);
@@ -66,8 +62,7 @@ export default function VicoDrawView({
   }, []);
 
   const showBrushFootprint =
-    brushPointer != null &&
-    (sketch.mode === sketch.MODE_DRAW || sketch.mode === sketch.MODE_ERASE);
+    sketch.mode === sketch.MODE_DRAW || sketch.mode === sketch.MODE_ERASE;
 
   const closePublishModal = useCallback(() => {
     setPublishOpen(false);
@@ -150,7 +145,7 @@ export default function VicoDrawView({
     <div
       ref={rootRef}
       tabIndex={-1}
-      className="relative flex h-full min-h-0 flex-col bg-ctp-base text-ctp-text outline-none focus-visible:ring-2 focus-visible:ring-ctp-lavender/40 focus-visible:ring-offset-2 focus-visible:ring-offset-ctp-base"
+      className="relative flex h-full min-h-0 flex-col bg-panel text-moon outline-none"
       onPointerDownCapture={(ev) => {
         if (isTextLikeInput(ev.target)) return;
         rootRef.current?.focus({ preventScroll: true });
@@ -169,61 +164,33 @@ export default function VicoDrawView({
         onLeave={onConfirmLeaveStudio}
       />
 
-      <div className="flex shrink-0 items-center border-b border-ctp-surface1 bg-ctp-mantle px-3 py-2">
-        <span className="font-capirola text-sm font-medium text-ctp-subtext1">
-          Studio
-        </span>
-      </div>
-
-      <VicoToolbar
-        mode={sketch.mode}
-        setMode={sketch.setMode}
-        color={sketch.color}
-        setColor={sketch.setColor}
-        brushWeight={sketch.brushWeight}
-        setBrushWeight={sketch.setBrushWeight}
-        brushWeightMin={sketch.VICO_BRUSH_WEIGHT_MIN}
-        brushWeightMax={sketch.VICO_BRUSH_WEIGHT_MAX}
-        undo={sketch.undo}
-        redo={sketch.redo}
-        clearAll={sketch.clearAll}
-        canUndo={sketch.canUndo}
-        canRedo={sketch.canRedo}
-        MODE_DRAW={sketch.MODE_DRAW}
-        MODE_ERASE={sketch.MODE_ERASE}
-        MODE_FILL={sketch.MODE_FILL}
-      />
-      <div
-        ref={containerRef}
-        className="relative min-h-0 flex-1 bg-ctp-mantle"
-        onPointerMove={(e) => {
-          const rect = e.currentTarget.getBoundingClientRect();
-          setBrushPointer({
-            x: e.clientX - rect.left,
-            y: e.clientY - rect.top,
-          });
-        }}
-        onPointerLeave={() => setBrushPointer(null)}
-      >
-        <div className="absolute bottom-4 right-4 z-20 flex items-center gap-3">
+      <header className="flex h-14 shrink-0 items-center justify-between gap-3 border-b border-white/6 pr-4 pl-3.5">
+        <div className="flex min-w-0 items-center gap-3">
           <button
             type="button"
-            title="Open gallery"
-            aria-label="Open gallery"
             onClick={onGalleryButtonClick}
             className={cn(
-              "flex h-14 w-14 shrink-0 cursor-pointer items-center justify-center rounded-full border-2 border-ctp-surface1 bg-ctp-base text-ctp-lavender shadow-lg transition",
-              "hover:border-ctp-lavender/40 hover:bg-ctp-surface0 hover:shadow-xl",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ctp-lavender/50 focus-visible:ring-offset-2 focus-visible:ring-offset-ctp-mantle",
+              "flex h-8.5 shrink-0 cursor-pointer items-center gap-1.5 rounded-[10px] border border-white/10 pr-3 pl-2.25 text-[13px] leading-4 font-medium text-lilac outline-none",
+              "transition-[background-color,border-color] duration-150 ease-out-strong hover:bg-white/6 focus-visible:border-holo-soft/60",
             )}
           >
-            <FontAwesomeIcon icon={faImages} className="text-2xl" />
+            <ArrowLeftIcon className="size-3.5" />
+            Gallery
           </button>
-          <VicoCaptureButton
-            onClick={() => void onCaptureClick()}
-            isCapturing={canvasCapture.isPending}
-          />
+          <h1 className="truncate font-serif text-2xl leading-7 text-moon-bright italic">
+            Studio
+          </h1>
         </div>
+        <VicoCaptureButton
+          onClick={() => void onCaptureClick()}
+          isCapturing={canvasCapture.isPending}
+        />
+      </header>
+
+      <div
+        ref={containerRef}
+        className="relative min-h-0 flex-1 overflow-hidden bg-ink-deep bg-[radial-gradient(rgba(255,255,255,0.07)_1px,transparent_1px)] bg-size-[22px_22px]"
+      >
         <canvas
           ref={canvasRef}
           className={cn(
@@ -232,11 +199,28 @@ export default function VicoDrawView({
           )}
         />
         <VicoBrushCursor
-          x={brushPointer?.x ?? 0}
-          y={brushPointer?.y ?? 0}
-          visible={showBrushFootprint}
+          containerRef={containerRef}
+          enabled={showBrushFootprint}
           diameterPx={sketch.brushWeight}
           accentColor={sketch.color}
+        />
+        <VicoToolbar
+          mode={sketch.mode}
+          setMode={sketch.setMode}
+          color={sketch.color}
+          setColor={sketch.setColor}
+          brushWeight={sketch.brushWeight}
+          setBrushWeight={sketch.setBrushWeight}
+          brushWeightMin={sketch.VICO_BRUSH_WEIGHT_MIN}
+          brushWeightMax={sketch.VICO_BRUSH_WEIGHT_MAX}
+          undo={sketch.undo}
+          redo={sketch.redo}
+          clearAll={sketch.clearAll}
+          canUndo={sketch.canUndo}
+          canRedo={sketch.canRedo}
+          MODE_DRAW={sketch.MODE_DRAW}
+          MODE_ERASE={sketch.MODE_ERASE}
+          MODE_FILL={sketch.MODE_FILL}
         />
       </div>
     </div>

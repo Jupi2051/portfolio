@@ -1,16 +1,17 @@
-import type { CSSProperties } from "react"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import {
-  faEraser,
-  faFillDrip,
-  faPaintBrush,
-  faRedo,
-  faTrash,
-  faUndo,
-} from "@fortawesome/free-solid-svg-icons"
+import { useRef, useState, type CSSProperties, type ReactNode } from "react"
 import cn from "classnames"
+import { AnimatePresence, motion } from "framer-motion"
+import { useOnClickOutside } from "usehooks-ts"
+import {
+  EraserIcon,
+  FillIcon,
+  PencilIcon,
+  RedoIcon,
+  TrashIcon,
+  UndoIcon,
+} from "@/components/ui/icons"
+import { enterTransition, exitTransition } from "@/lib/motion"
 import type { SketchToolMode } from "../shared/use-atrament-sketch"
-import type { IconDefinition } from "@fortawesome/fontawesome-svg-core"
 import {
   hex6AndAlphaToRgba,
   matchesOpaquePreset,
@@ -19,23 +20,26 @@ import {
   rgbaToHex6,
 } from "../shared/vico-color"
 
-const PRESET_COLORS = [
-  "#cba6f7",
-  "#89b4fa",
-  "#a6e3a1",
-  "#f9e2af",
-  "#fab387",
-  "#f38ba8",
-  "#181825",
+/** moon · holo · melon · spark · mint · aqua */
+export const VICO_PRESET_COLORS = [
+  "#f1efff",
+  "#8c8eff",
+  "#ff5d7e",
+  "#ffd98a",
+  "#9be3b4",
+  "#8fd8e8",
 ]
 
+const RAINBOW =
+  "conic-gradient(from 0deg, #ff5d7e 0%, #ffd98a 16.67%, #9be3b4 33.33%, #8fd8e8 50%, #8c8eff 66.67%, #c9a7ff 83.33%, #ff5d7e 100%)"
+
 const TRANSPARENCY_GRID: CSSProperties = {
-  backgroundColor: "#313244",
+  backgroundColor: "#2a2843",
   backgroundImage: `
-    linear-gradient(45deg, #45475a 25%, transparent 25%),
-    linear-gradient(-45deg, #45475a 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, #45475a 75%),
-    linear-gradient(-45deg, transparent 75%, #45475a 75%)
+    linear-gradient(45deg, #36344f 25%, transparent 25%),
+    linear-gradient(-45deg, #36344f 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #36344f 75%),
+    linear-gradient(-45deg, transparent 75%, #36344f 75%)
   `,
   backgroundSize: "8px 8px",
   backgroundPosition: "0 0, 0 4px, 4px -4px, -4px 0px",
@@ -60,6 +64,24 @@ type Props = {
   MODE_FILL: SketchToolMode
 }
 
+const iconButton = cn(
+  "flex size-9.5 shrink-0 cursor-pointer items-center justify-center rounded-[11px] border border-transparent text-lilac outline-none",
+  "transition-[background-color,border-color,color,scale] duration-150 ease-out-strong hover:bg-white/6 active:scale-[0.94]",
+  "focus-visible:border-holo-soft/60",
+  "disabled:cursor-default disabled:text-[#6f6c94] disabled:hover:bg-transparent disabled:active:scale-100",
+)
+
+const Divider = ({ wideOnly = false }: { wideOnly?: boolean }) => (
+  <div
+    className={cn(
+      "mx-1 h-6.5 w-px shrink-0 bg-white/12",
+      // In the narrow two-row layout these would dangle at row edges.
+      wideOnly && "hidden @xl/appwindow:block",
+    )}
+    aria-hidden
+  />
+)
+
 export default function VicoToolbar({
   mode,
   setMode,
@@ -79,158 +101,226 @@ export default function VicoToolbar({
   MODE_FILL,
 }: Props) {
   const rgba = parseColorToRgba(color)
+  const isCustomColor = !VICO_PRESET_COLORS.some((c) =>
+    matchesOpaquePreset(color, c),
+  )
 
-  const toolBtn = (m: SketchToolMode, icon: IconDefinition, label: string) => (
+  const [pickerOpen, setPickerOpen] = useState(false)
+  const pickerRef = useRef<HTMLDivElement>(null)
+  useOnClickOutside(pickerRef as React.RefObject<HTMLElement>, () =>
+    setPickerOpen(false),
+  )
+
+  const tool = (m: SketchToolMode, label: string, icon: ReactNode) => (
     <button
       type="button"
       title={label}
       aria-label={label}
       aria-pressed={mode === m}
-      className={cn(
-        "flex h-9 w-9 items-center justify-center rounded-md border text-sm transition-colors",
-        mode === m
-          ? "border-ctp-lavender bg-ctp-surface0 text-ctp-lavender"
-          : "border-ctp-surface1 bg-ctp-mantle text-ctp-subtext1 hover:bg-ctp-surface0",
-      )}
       onClick={() => setMode(m)}
+      className={cn(
+        iconButton,
+        mode === m &&
+          "border-holo-soft/45! bg-holo/20! text-[#c9c9ff]!",
+      )}
     >
-      <FontAwesomeIcon icon={icon} className="text-base" />
+      {icon}
     </button>
   )
 
+  // Dot preview grows with the brush, capped to its 18px slot.
+  const dotSize = Math.round(
+    4 + ((brushWeight - brushWeightMin) / (brushWeightMax - brushWeightMin)) * 14,
+  )
+
   return (
-    <div className="flex flex-wrap items-center gap-2 border-b border-ctp-surface1 bg-ctp-base px-3 py-2">
-      <div className="flex items-center gap-1">
+    <div
+      ref={pickerRef}
+      className="absolute bottom-4.5 left-1/2 z-20 w-max max-w-[calc(100%-24px)] -translate-x-1/2"
+    >
+      <AnimatePresence>
+        {pickerOpen ? (
+          <motion.div
+            className="absolute right-12 bottom-full mb-2.5 flex w-56 origin-bottom-right flex-col gap-3 rounded-2xl border border-white/12 bg-ink/95 p-3.5 shadow-[0_20px_50px_rgba(6,5,16,0.55)]"
+            initial={{ opacity: 0, y: 6, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1, transition: enterTransition }}
+            exit={{ opacity: 0, y: 6, scale: 0.97, transition: exitTransition }}
+          >
+            <div className="flex items-center gap-3">
+              <label
+                className="relative size-10 shrink-0 cursor-pointer overflow-hidden rounded-xl border border-white/16"
+                style={TRANSPARENCY_GRID}
+              >
+                <span
+                  className="pointer-events-none absolute inset-0"
+                  style={{ backgroundColor: color }}
+                  aria-hidden
+                />
+                <input
+                  type="color"
+                  value={rgbaToHex6(rgba)}
+                  onChange={(e) =>
+                    setColor(hex6AndAlphaToRgba(e.target.value, rgba.a))
+                  }
+                  className="absolute inset-0 size-full cursor-pointer opacity-0"
+                  aria-label="Pick a custom color"
+                />
+              </label>
+              <div className="flex min-w-0 flex-col">
+                <span className="text-[13px] leading-4 font-medium text-moon">
+                  Custom color
+                </span>
+                <span className="font-mono text-[11px] leading-4 text-haze uppercase">
+                  {rgbaToHex6(rgba)}
+                </span>
+              </div>
+            </div>
+            <label className="flex flex-col gap-1.5">
+              <span className="flex justify-between text-xs leading-4 text-haze">
+                Opacity
+                <span className="font-mono text-[11px] text-lilac">
+                  {Math.round(rgba.a * 100)}%
+                </span>
+              </span>
+              <input
+                type="range"
+                min={0}
+                max={100}
+                value={Math.round(rgba.a * 100)}
+                onChange={(e) =>
+                  setColor(rgbaToCss({ ...rgba, a: Number(e.target.value) / 100 }))
+                }
+                className="h-1 w-full cursor-pointer accent-holo"
+                aria-label="Brush opacity"
+              />
+            </label>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+
+      <div
+        role="toolbar"
+        aria-label="Drawing tools"
+        className={cn(
+          // Narrow windows: two rows (history · tools · clear / brush · colors).
+          "flex flex-wrap items-center justify-center gap-1 rounded-[20px] border border-white/12 bg-ink/72 px-2 py-1.5",
+          "@xl/appwindow:h-15 @xl/appwindow:flex-nowrap @xl/appwindow:py-0",
+          "shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_20px_50px_rgba(6,5,16,0.55)] backdrop-blur-[24px]",
+          "pointer-coarse:bg-ink/95 pointer-coarse:backdrop-blur-none",
+        )}
+      >
         <button
           type="button"
-          title="Undo"
+          title="Undo (Ctrl+Z)"
           aria-label="Undo"
           disabled={!canUndo}
-          className={cn(
-            "flex h-9 w-9 items-center justify-center rounded-md border border-ctp-surface1 bg-ctp-mantle text-ctp-subtext1 transition-colors",
-            canUndo ? "hover:bg-ctp-surface0" : "opacity-40",
-          )}
           onClick={undo}
+          className={iconButton}
         >
-          <FontAwesomeIcon icon={faUndo} />
+          <UndoIcon className="size-4.25" />
         </button>
         <button
           type="button"
-          title="Redo"
+          title="Redo (Ctrl+Shift+Z)"
           aria-label="Redo"
           disabled={!canRedo}
-          className={cn(
-            "flex h-9 w-9 items-center justify-center rounded-md border border-ctp-surface1 bg-ctp-mantle text-ctp-subtext1 transition-colors",
-            canRedo ? "hover:bg-ctp-surface0" : "opacity-40",
-          )}
           onClick={redo}
+          className={iconButton}
         >
-          <FontAwesomeIcon icon={faRedo} />
+          <RedoIcon className="size-4.25" />
         </button>
-      </div>
 
-      <div
-        className="mx-1 hidden h-6 w-px bg-ctp-surface1 sm:block"
-        aria-hidden
-      />
+        <Divider />
 
-      <div className="flex items-center gap-1">
-        {toolBtn(MODE_DRAW, faPaintBrush, "Draw")}
-        {toolBtn(MODE_ERASE, faEraser, "Erase")}
-        {toolBtn(MODE_FILL, faFillDrip, "Fill")}
-      </div>
+        {tool(MODE_DRAW, "Draw", <PencilIcon className="size-4.25" strokeWidth={1.9} />)}
+        {tool(MODE_ERASE, "Erase", <EraserIcon className="size-4.25" />)}
+        {tool(MODE_FILL, "Fill", <FillIcon className="size-4.25" />)}
 
-      <div
-        className="mx-1 hidden h-6 w-px bg-ctp-surface1 sm:block"
-        aria-hidden
-      />
+        <Divider wideOnly />
 
-      <label className="flex min-w-0 basis-full items-center gap-2 sm:basis-auto sm:flex-1 sm:max-w-60">
-        <span className="flex shrink-0 items-baseline gap-1 whitespace-nowrap text-xs text-ctp-subtext1">
-          <span>Brush</span>
-          <span className="inline-block w-15 text-end tabular-nums text-ctp-overlay2">
-            {(brushWeight / 2).toFixed(brushWeight % 2 === 0 ? 0 : 1)}px
-          </span>
-        </span>
-        <input
-          type="range"
-          title={`Brush radius (stroke width ÷ 2). Scroll on the canvas to resize.`}
-          aria-label="Brush radius"
-          className="h-1 min-w-0 flex-1 cursor-pointer accent-ctp-lavender"
-          min={brushWeightMin}
-          max={brushWeightMax}
-          step={1}
-          value={brushWeight}
-          onChange={(e) => setBrushWeight(Number(e.target.value))}
-        />
-      </label>
+        <div className="order-1 h-0 basis-full @xl/appwindow:hidden" aria-hidden />
 
-      <div
-        className="mx-1 hidden h-6 w-px bg-ctp-surface1 sm:block"
-        aria-hidden
-      />
-
-      <div className="flex flex-wrap items-center gap-2">
-        {PRESET_COLORS.map((c) => (
-          <button
-            key={c}
-            type="button"
-            title={`Color ${c}`}
-            aria-label={`Select color ${c}`}
-            style={{ backgroundColor: c }}
-            className={cn(
-              "h-7 w-7 rounded-full border-2 shadow-inner transition-transform",
-              matchesOpaquePreset(color, c)
-                ? "border-ctp-lavender scale-110"
-                : "border-ctp-surface2 hover:scale-105",
-            )}
-            onClick={() => setColor(c)}
-          />
-        ))}
-
-        <div
-          className="flex min-w-0 basis-full items-center gap-2 rounded-md border border-ctp-surface1 bg-ctp-mantle px-2 py-1 sm:basis-auto"
-          title="Custom color and opacity"
+        <label
+          className="order-2 flex shrink-0 items-center gap-2.5 px-1.5 @xl/appwindow:order-none"
+          title="Brush size — scroll on the canvas to resize"
         >
-          <label
-            className="relative h-8 w-8 shrink-0 cursor-pointer overflow-hidden rounded-full ring-1 ring-inset ring-ctp-surface2"
-            style={TRANSPARENCY_GRID}
-          >
+          <span className="flex size-4.5 shrink-0 items-center justify-center" aria-hidden>
             <span
-              className="pointer-events-none absolute inset-0 rounded-full"
-              style={{ backgroundColor: color }}
-              aria-hidden
+              className="rounded-full"
+              style={{ width: dotSize, height: dotSize, backgroundColor: color }}
             />
-            <input
-              type="color"
-              value={rgbaToHex6(rgba)}
-              onChange={(e) => {
-                setColor(hex6AndAlphaToRgba(e.target.value, rgba.a))
-              }}
-              className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
-              aria-label="Pick custom color (hue/saturation/value)"
-            />
-          </label>
+          </span>
+          <input
+            type="range"
+            aria-label="Brush size"
+            min={brushWeightMin}
+            max={brushWeightMax}
+            step={1}
+            value={brushWeight}
+            onChange={(e) => setBrushWeight(Number(e.target.value))}
+            className="h-1 w-18 shrink-0 cursor-pointer accent-holo @xl/appwindow:w-24"
+          />
+          <span className="w-9 shrink-0 text-right font-mono text-[11px] leading-3.5 text-haze tabular-nums">
+            {brushWeight}px
+          </span>
+        </label>
 
-          <label className="flex min-w-0 flex-1 flex-col gap-0.5 sm:min-w-23 sm:max-w-30">
-            <span className="text-[0.65rem] font-medium uppercase tracking-wide text-ctp-subtext0">
-              Alpha {Math.round(rgba.a * 100)}%
-            </span>
-            <input
-              type="range"
-              min={0}
-              max={100}
-              value={Math.round(rgba.a * 100)}
-              onChange={(e) => {
-                setColor(
-                  rgbaToCss({ ...rgba, a: Number(e.target.value) / 100 }),
-                )
-              }}
-              className="h-1 w-full cursor-pointer accent-ctp-lavender"
-              aria-label="Brush opacity"
-            />
-          </label>
+        <Divider wideOnly />
+
+        <div className="order-2 flex shrink-0 items-center gap-1.5 px-1 @xl/appwindow:order-none">
+          {VICO_PRESET_COLORS.map((c) => {
+            const active = matchesOpaquePreset(color, c)
+            return (
+              <button
+                key={c}
+                type="button"
+                aria-label={`Color ${c}`}
+                aria-pressed={active}
+                onClick={() => setColor(c)}
+                className={cn(
+                  "size-5.5 shrink-0 cursor-pointer rounded-full outline-none transition-[scale] duration-150 ease-out-strong hover:scale-110 active:scale-95",
+                  active && "border-2 border-ink",
+                )}
+                style={{
+                  backgroundColor: c,
+                  boxShadow: active ? `0 0 0 2px ${c}` : undefined,
+                }}
+              />
+            )
+          })}
+          <button
+            type="button"
+            aria-label="Custom color"
+            aria-expanded={pickerOpen}
+            aria-pressed={isCustomColor}
+            onClick={() => setPickerOpen((open) => !open)}
+            className={cn(
+              "relative flex size-5.5 shrink-0 cursor-pointer items-center justify-center rounded-full border border-white/30 bg-origin-border outline-none transition-[scale] duration-150 ease-out-strong hover:scale-110 active:scale-95",
+              isCustomColor && "shadow-[0_0_0_2px_#ffffff80]",
+            )}
+            style={{ backgroundImage: RAINBOW }}
+          >
+            {isCustomColor ? (
+              <span
+                className="size-2.5 rounded-full border border-ink"
+                style={{ backgroundColor: color }}
+                aria-hidden
+              />
+            ) : null}
+          </button>
         </div>
+
+        <Divider />
+
+        <button
+          type="button"
+          title="Clear canvas"
+          aria-label="Clear canvas"
+          onClick={clearAll}
+          className={cn(iconButton, "text-[#ff8fa6] hover:bg-melon/12")}
+        >
+          <TrashIcon className="size-4" />
+        </button>
       </div>
     </div>
   )
