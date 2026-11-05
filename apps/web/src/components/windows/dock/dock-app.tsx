@@ -1,30 +1,52 @@
-import { useState } from "react"
-import { motion } from "framer-motion"
+import {
+  motion,
+  useAnimate,
+  useReducedMotion,
+  type Transition,
+} from "framer-motion"
 import { useDispatch } from "react-redux"
 import cn from "classnames"
 import { setMinimizedState } from "@/storage/slices/desktop"
 import useAppWindowData from "@/hooks/use-app-window-data"
 import useGlobalWindowsControls from "@/hooks/use-global-windows-controls"
-import { EASE_OUT, pressTransition } from "@/lib/motion"
+import { pressTransition } from "@/lib/motion"
 
 type DockAppProps = {
   Icon: string
   AppId: number
 }
 
-const ICON_NUDGE = {
-  // Minimising dips the icon, restoring lifts it — a one-off nudge, not a loop.
-  restore: { y: [0, -3, 0] },
-  minimize: { y: [0, 3, 0] },
-  idle: { y: 0 },
+/** Minimising dips the icon, restoring lifts it — a one-off hop, not a loop. */
+const HOP_DISTANCE = { minimize: 4, restore: -4 }
+
+const HOP_TRANSITION: Transition = {
+  duration: 0.34,
+  times: [0, 0.42, 1],
+  // Decelerate into the apex, then ease back down: speed is zero at the top,
+  // so the hop reads as one arc rather than two separate movements.
+  ease: [
+    [0.33, 1, 0.68, 1],
+    [0.45, 0, 0.55, 1],
+  ],
 }
 
 function DockApp({ Icon, AppId }: DockAppProps) {
   const { isMinimized, isFocused, focusWindow, bringWindowToFront } =
     useAppWindowData(AppId)
   const { unFocusAllWindows } = useGlobalWindowsControls()
-  const [nudge, setNudge] = useState<keyof typeof ICON_NUDGE>("idle")
+  const [iconRef, animate] = useAnimate<HTMLImageElement>()
+  const reduceMotion = useReducedMotion()
   const dispatch = useDispatch()
+
+  const hop = (direction: keyof typeof HOP_DISTANCE) => {
+    if (reduceMotion) return
+    // `null` starts from the current position, so a click mid-hop can't snap.
+    animate(
+      iconRef.current,
+      { y: [null, HOP_DISTANCE[direction], 0] },
+      HOP_TRANSITION,
+    )
+  }
 
   const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
@@ -32,7 +54,6 @@ function DockApp({ Icon, AppId }: DockAppProps) {
     if (!isMinimized && !isFocused) {
       bringWindowToFront()
       focusWindow()
-      setNudge("idle")
       return
     }
 
@@ -45,7 +66,7 @@ function DockApp({ Icon, AppId }: DockAppProps) {
       bringWindowToFront()
     }
 
-    setNudge(nextMinimized ? "minimize" : "restore")
+    hop(nextMinimized ? "minimize" : "restore")
   }
 
   return (
@@ -63,27 +84,32 @@ function DockApp({ Icon, AppId }: DockAppProps) {
           : "border-transparent hover:bg-white/6",
       )}
     >
-      <motion.img
+      {/* will-change: the dock is centred, so icons can land on a half pixel.
+          Keeping the layer promoted avoids a visible shift when the hop hands
+          off to the GPU at its start and end. */}
+      <img
+        ref={iconRef}
         src={Icon}
         alt=""
         draggable={false}
-        className="pointer-events-none max-h-7 max-w-7 rounded-[7px] sm:max-h-8 sm:max-w-8"
-        variants={ICON_NUDGE}
-        animate={nudge}
-        transition={{ duration: 0.3, ease: EASE_OUT }}
-        onAnimationComplete={() => setNudge("idle")}
+        className="pointer-events-none max-h-7 max-w-7 rounded-[7px] will-change-transform sm:max-h-8 sm:max-w-8"
       />
-      <motion.span
-        className="pointer-events-none absolute -bottom-1 left-1/2 h-0.75 -translate-x-1/2 rounded-full sm:-bottom-1.25"
-        initial={false}
-        animate={{
-          width: isFocused ? 14 : 4,
-          backgroundColor: isFocused ? "#ff5d7e" : "#b9b6da",
-          boxShadow: isFocused
-            ? "0 0 8px rgba(255,93,126,0.7)"
-            : "0 0 0px rgba(255,93,126,0)",
-        }}
-        transition={{ duration: 0.2, ease: EASE_OUT }}
+      {/* Open-app dot, with the focused pill growing out of it. Only scale and
+          opacity animate, so this never repaints under the dock's blur. */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute -bottom-1 left-1/2 h-0.75 w-1 -translate-x-1/2 rounded-full bg-haze sm:-bottom-1.25"
+      />
+      <span
+        aria-hidden
+        className={cn(
+          "pointer-events-none absolute -bottom-1 left-1/2 h-0.75 w-3.5 -translate-x-1/2 rounded-full bg-melon shadow-[0_0_8px_rgba(255,93,126,0.7)] sm:-bottom-1.25",
+          // The fade is much shorter than the stretch so the growth stays
+          // visible; entering settles with a slight overshoot, leaving doesn't.
+          isFocused
+            ? "scale-x-100 opacity-100 [transition:scale_380ms_cubic-bezier(0.34,1.45,0.64,1),opacity_120ms_ease-out]"
+            : "scale-x-[0.2857] opacity-0 [transition:scale_280ms_cubic-bezier(0.45,0,0.55,1),opacity_160ms_ease-in_120ms]",
+        )}
       />
     </motion.button>
   )
